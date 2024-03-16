@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, ... }:
 {
 
   programs.neovim = {
@@ -13,4 +13,14 @@
 # ".config/nvim".source = ./config;
 #
 # };
+
+ home.packages = with pkgs; [
+      # CC
+      gcc
+      gnumake
+      cmake
+      autoconf
+      automake
+      libtool
+  ];
 }
