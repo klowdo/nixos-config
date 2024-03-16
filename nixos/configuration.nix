@@ -73,7 +73,12 @@
     auto-optimise-store = true;
   };
 
- nix.hyprland.enable = true;
+programs.hyprland = {
+    # Install the packages from nixpkgs
+    enable = true;
+    # Whether to enable XWayland
+    xwayland.enable = true;
+  };
 
   # Enable networking
   networking.networkmanager.enable = true;

@@ -59,7 +59,7 @@
   # Add stuff for your user as you see fit:
   # programs.neovim.enable = true;
   home.packages = with pkgs; [  lazygit ranger ];
-
+programs.kitty.enable = true;
   # Enable home-manager and git
   programs.home-manager.enable = true;
   programs.git ={
