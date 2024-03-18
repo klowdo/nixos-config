@@ -1,12 +1,11 @@
 # This is your home-manager configuration file
 # Use this to configure your home environment (it replaces ~/.config/nixpkgs/home.nix)
-{
-  inputs,
-  outputs,
-  lib,
-  config,
-  pkgs,
-  ...
+{ inputs
+, outputs
+, lib
+, config
+, pkgs
+, ...
 }: {
   # You can import other home-manager modules here
   imports = [
@@ -17,9 +16,13 @@
     # inputs.nix-colors.homeManagerModules.default
 
     # You can also split up your configuration and import pieces of it here:
-     ./nvim/default.nix
-     ./kitty.nix
-     ./fonts.nix
+    ./nvim/default.nix
+    ./kitty.nix
+    ./fonts.nix
+    ./direnv.nix
+    ./zoxide.nix
+    ./bat.nix
+    ./zsh/default.nix
   ];
 
   nixpkgs = {
@@ -52,23 +55,60 @@
   home = {
     username = "klowdo";
     homeDirectory = "/home/klowdo";
+    sessionVariables = {
+      SHELL = "zsh";
+    };
+
     shellAliases = {
-	swich-home =  "home-manager switch --flake .#klowdo@dellicious";
-	switch-config = "sudo nixos-rebuild switch --flake .#dellicious";
+      swich-home = "home-manager switch --flake .#klowdo@dellicious";
+      switch-config = "sudo nixos-rebuild switch --flake .#dellicious";
     };
   };
 
   # Add stuff for your user as you see fit:
   # programs.neovim.enable = true;
-  home.packages = with pkgs; [  lazygit ranger ];
-programs.kitty.enable = true;
+  home.packages = with pkgs; [
+    lazygit
+    ranger
+    rustc
+    cargo
+    #  rustup
+    #
+    #   # Packages that don't have custom configs go here
+
+    # TODO: spaces before comment are removed by nixpkgs-fmt
+    # See: https://github.com/nix-community/nixpkgs-fmt/issues/305
+    # borgbackup # backups
+    btop # resource monitor
+    coreutils # basic gnu utils
+    # curl
+    eza # ls replacement
+    fd # tree style ls
+    findutils # find
+    fzf # fuzzy search
+    jq # JSON pretty printer and manipulator
+    nix-tree # nix package tree viewer
+    ncdu # TUI disk usage
+    pciutils
+    pfetch # system info
+    pre-commit # git hooks
+    p7zip # compression & encryption
+    ripgrep # better grep
+    usbutils
+    tree # cli dir tree viewer
+    unzip # zip extraction
+    unrar # rar extraction
+    wget # downloader
+    zip # zip compressio
+  ];
+  programs.kitty.enable = true;
   # Enable home-manager and git
   programs.home-manager.enable = true;
-  programs.git ={
-  enable = true;
-   userName  = "Felix Svensson";
+  programs.git = {
+    enable = true;
+    userName = "Felix Svensson";
     userEmail = "klowdo.fs@gmail.com";
- aliases = {
+    aliases = {
       ci = "commit";
       co = "checkout";
       st = "status";
