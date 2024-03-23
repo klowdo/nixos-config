@@ -72,6 +72,18 @@
     auto-optimise-store = true;
   };
 
+  nix = {
+    gc = {
+      automatic = true;
+      dates = "weekly";
+
+      randomizedDelaySec = "14m";
+      # Keep the last 5 generations
+      options = "--delete-older-than +5";
+    };
+  };
+
+
   programs.hyprland = {
     # Install the packages from nixpkgs
     enable = true;
