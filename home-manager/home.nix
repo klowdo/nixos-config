@@ -23,6 +23,7 @@
     ./zoxide.nix
     ./bat.nix
     ./zsh/default.nix
+    ./desktops
   ];
 
   nixpkgs = {
