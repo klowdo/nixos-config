@@ -2,7 +2,7 @@
   imports = [
     # Packages with custom configs go here
 
-    ./hyprland
+    # ./hyprland
     ./gnome
 
     ########## Utilities ##########

@@ -58,6 +58,7 @@
     homeDirectory = "/home/klowdo";
     sessionVariables = {
       SHELL = "zsh";
+      FLAKE = "/home/klowdo/.dotfiles/";
     };
 
     shellAliases = {
@@ -69,6 +70,9 @@
   # Add stuff for your user as you see fit:
   # programs.neovim.enable = true;
   home.packages = with pkgs; [
+    dotnet-sdk_8
+    jetbrains.rider
+    google-chrome
     alacritty
     spotify
     lazygit
@@ -103,6 +107,7 @@
     unrar # rar extraction
     wget # downloader
     zip # zip compressio
+    nh # nix-helper
   ];
   programs.kitty.enable = true;
   # Enable home-manager and git

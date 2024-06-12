@@ -8,4 +8,4 @@ fi
 
 # sudo nixos-rebuild --impure --flake .#$HOST switch
 # sudo nixos-rebuild switch --flake .#$HOST
-home-manager switch --flake .#klowdo@$HOST
+home-manager switch --flake .#klowdo@$HOST --show-trace
