@@ -1,6 +1,7 @@
 { config, pkgs, lib, home-manager, ... }:
 
 {
+  imports = [./dconf.nix];
   home.packages = with pkgs; [
     gnome.dconf-editor
     # gnome.gnome-terminal
@@ -27,9 +28,9 @@
     '';
   };
 
-  dconf.settings = { };
+  # dconf.settings = { };
 
-  # dconf.settings = {
+  dconf.settings = {
   #   "org/gnome/desktop/input-sources" = {
   #     xkb-options = [ "caps:super" ];
   #   };
@@ -86,26 +87,26 @@
   #     palette-name = "Nord";
   #     style = "JetBrainsMono Nerd Font 14";
   #   };
-  #   "org/gnome/shell" = {
-  #     disable-user-extensions = false;
-  #     disabled-extensions = [
-  #       "disabled"
-  #       "ubuntu-dock@ubuntu.com"
-  #       "ding@rastersoft.com"
-  #     ];
-  #     enabled-extensions = [
-  #       "caffeine@patapon.info"
-  #       "gsconnect@andyholmes.github.io"
-  #       "just-perfection-desktop@just-perfection"
-  #       "native-window-placement@gnome-shell-extensions.gcampax.github.com"
-  #       "pop-shell@system76.com"
-  #       "user-theme@gnome-shell-extensions.gcampax.github.com"
-  #     ];
-  #     favorite-apps = [ "firefox.desktop" "alacritty.desktop" ];
-  #     had-bluetooth-devices-setup = true;
-  #     remember-mount-password = false;
-  #     welcome-dialog-last-shown-version = "42.4";
-  #   };
+    "org/gnome/shell" = {
+      disable-user-extensions = false;
+      disabled-extensions = [
+        "disabled"
+        "ubuntu-dock@ubuntu.com"
+        "ding@rastersoft.com"
+      ];
+      enabled-extensions = [
+        "caffeine@patapon.info"
+        "gsconnect@andyholmes.github.io"
+        "just-perfection-desktop@just-perfection"
+        "native-window-placement@gnome-shell-extensions.gcampax.github.com"
+        "pop-shell@system76.com"
+        "user-theme@gnome-shell-extensions.gcampax.github.com"
+      ];
+      favorite-apps = [ "firefox.desktop" "alacritty.desktop" ];
+      had-bluetooth-devices-setup = true;
+      remember-mount-password = false;
+      # welcome-dialog-last-shown-version = "42.4";
+    };
   #   "org/gnome/shell/keybindings" = {
   #     switch-to-application-1 = "disabled";
   #     switch-to-application-2 = "disabled";
@@ -148,22 +149,22 @@
   #     workspace-popup = false;
   #     workspaces-in-app-grid = true;
   #   };
-  #   "org/gnome/desktop/interface" = {
-  #     clock-show-seconds = false;
-  #     clock-show-weekday = true;
-  #     color-scheme = "prefer-dark";
-  #     enable-hot-corners = false;
-  #     font-antialiasing = "grayscale";
-  #     font-hinting = "slight";
-  #     gtk-theme = "Nordic";
-  #     toolkit-accessibility = true;
-  #   };
-  #   "org/gnome/desktop/wm/keybindings" = {
+    "org/gnome/desktop/interface" = {
+      clock-show-seconds = false;
+      clock-show-weekday = true;
+      color-scheme = "prefer-dark";
+      enable-hot-corners = false;
+      # font-antialiasing = "grayscale";
+      font-hinting = "slight";
+      # gtk-theme = "Nordic";
+      toolkit-accessibility = true;
+    };
+    "org/gnome/desktop/wm/keybindings" = {
   #     activate-window-menu = [ "disabled" ];
   #     toggle-message-tray = [ "disabled" ];
   #     close = [ "<Super>q" ];
-  #     maximize = [ "<Super>m" ];
-  #     minimize = [ "<Super>comma" ];
+      maximize = [ "<Super>m" ];
+      minimize = [ "disabled" ];
   #     # move-to-monitor-down = [ "disabled" ];
   #     # move-to-monitor-left = [ "disabled" ];
   #     # move-to-monitor-right = [ "disabled" ];
@@ -182,9 +183,9 @@
   #     switch-to-workspace-right = [ "<Super>bracketright" ];
   #     # switch-input-source = [ "disabled" ];
   #     # switch-input-source-backward = [ "disabled" ];
-  #     toggle-maximized = [ "<Super>Up" ];
-  #     unmaximize = [ "disabled" ];
-  #   };
+      toggle-maximized = [ "<Super>Up" ];
+      unmaximize = [ "<Super>m" ];
+    };
   #   "org/gnome/desktop/wm/preferences" = {
   #     button-layout = "close,minimize,maximize:appmenu";
   #     num-workspaces = 10;
@@ -274,11 +275,11 @@
   #       "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom8/"
   #     ];
   #   };
-  #   "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0" = {
-  #     name = "terminal super";
-  #     command = "alacritty";
-  #     binding = "<Super>Return";
-  #   };
+    "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0" = {
+      name = "terminal super";
+      command = "alacritty";
+      binding = "<Super>t";
+    };
   #   "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1" = {
   #     name = "terminal ctrl_alt";
   #     command = "alacritty";
@@ -319,7 +320,18 @@
   #     command = "bash -c 'notify-send \"$(date \"+%T\")\"'";
   #     name = "datepop";
   #   };
-  # };
+    "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom9" = {
+      binding = "<Super>b";
+      command = "chrome";
+      name = "chrome";
+    };
+
+    # "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom10" = {
+    #   binding = "<Shift><Control>d";
+    #   command = "bash -c 'notify-send \"$(date \"+%T\")\"'";
+    #   name = "datepop";
+    # };
+  };
   # End dconf.settings
 }
 

@@ -3,6 +3,7 @@
     # Packages with custom configs go here
 
     # ./hyprland
+    ./i3
     ./gnome
 
     ########## Utilities ##########
