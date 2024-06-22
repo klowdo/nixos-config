@@ -58,7 +58,6 @@
     homeDirectory = "/home/klowdo";
     sessionVariables = {
       SHELL = "zsh";
-      FLAKE = "/home/klowdo/.dotfiles/";
     };
 
     shellAliases = {
@@ -107,7 +106,6 @@
     unrar # rar extraction
     wget # downloader
     zip # zip compressio
-    nh # nix-helper
   ];
   programs.kitty.enable = true;
   # Enable home-manager and git
@@ -127,5 +125,5 @@
   systemd.user.startServices = "sd-switch";
 
   # https://nixos.wgit branch -M mainiki/wiki/FAQ/When_do_I_update_stateVersion
-  home.stateVersion = "23.11";
+  home.stateVersion = "24.05";
 }

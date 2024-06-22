@@ -25,7 +25,7 @@
     # ./nvidia.nix
   ];
 
-  boot.kernelPackages = pkgs.pkgs.linuxPackages_6_7;
+  boot.kernelPackages = pkgs.pkgs.linuxPackages_6_9;
 
   nixpkgs = {
     # You can add overlays here
@@ -84,6 +84,14 @@
       options = "--delete-older-than +5";
     };
   };
+
+  environment.sessionVariables = {
+    FLAKE = "/home/klowdo/.dotfiles/";
+  };
+  environment.systemPackages = with pkgs; [
+    nh
+  ];
+
 
 
   programs.hyprland = {
