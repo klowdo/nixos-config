@@ -27,6 +27,8 @@
 
   boot.kernelPackages = pkgs.pkgs.linuxPackages_6_9;
 
+
+
   nixpkgs = {
     # You can add overlays here
     overlays = [
@@ -90,16 +92,69 @@
   };
   environment.systemPackages = with pkgs; [
     nh
+       gsettings-desktop-schemas
+    swaynotificationcenter
+    wlr-randr
+    ydotool
+    # hyprland-share-picker
+      pyprland
+    hyprpicker
+    hyprcursor
+    hyprlock
+    hypridle
+    hyprpaper
+
+    # wezterm
+    cool-retro-term
+    wl-clipboard
+    hyprland-protocols
+    hyprpicker
+    swayidle
+    swaylock
+    xdg-desktop-portal-hyprland
+    hyprpaper
+    wofi
+    firefox-wayland
+    swww
+    grim
   ];
 
 
-
-  programs.hyprland = {
-    # Install the packages from nixpkgs
-    enable = true;
-    # Whether to enable XWayland
-    xwayland.enable = true;
-  };
+ programs = {
+    hyprland = {
+      enable = true;
+      xwayland = {
+        # hidpi = true;
+        enable = true;
+      };
+    };
+    waybar = {
+      enable = true;
+      package = pkgs.waybar.overrideAttrs (oldAttrs: {
+        mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];
+      });
+    };
+    thunar = {
+      enable = true;
+      plugins = with pkgs.xfce; [
+        thunar-archive-plugin
+        thunar-volman
+      ];
+    };
+    };
+  # programs.waybar = {
+  #     enable = true;
+  #     package = pkgs.waybar.overrideAttrs (oldAttrs: {
+  #       mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];
+  #     });
+  #   };
+  #   programs.thunar = {
+  #     enable = true;
+  #     plugins = with pkgs.xfce; [
+  #       thunar-archive-plugin
+  #       thunar-volman
+  #     ];
+  #   };
 
   # Enable networking
   networking.networkmanager.enable = true;
@@ -122,11 +177,22 @@
     LC_TIME = "sv_SE.UTF-8";
   };
 
+# i3 
+#
+services.xserver = {
+  # enable = true;
+  windowManager.i3.enable = true;
+  };
+  services.displayManager = {
+    defaultSession = "none+i3";
+  };
+
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 
   # Enable the GNOME Desktop Environment.
   services.xserver.displayManager.gdm.enable = true;
+  services.xserver.displayManager.gdm.wayland = true;
   services.xserver.desktopManager.gnome.enable = true;
 
   # Configure keymap in X11
@@ -135,6 +201,7 @@
     xkbVariant = "";
   };
 
+  # environment.pathsToLink = [ "/libexec" ]; # links /libexec from derivations to /run/current-system/sw 
   # Enable CUPS to print documents.
   services.printing.enable = true;
 

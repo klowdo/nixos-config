@@ -1,7 +1,7 @@
 { pkgs, lib, ... }: {
   imports = [
     # custom key binds
-    # ./binds.nix
+    ./binds.nix
     ../services/dunst.nix
   ];
 
