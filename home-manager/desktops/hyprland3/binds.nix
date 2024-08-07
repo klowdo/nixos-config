@@ -42,6 +42,16 @@
           k = up;
           j = down;
         };
+        
+        mainMod = "SUPER";
+        menu = "wofi --show drun";
+
+        # browser = google-chrome-stable
+
+        # browser = "${config.programs.go.package}/bin/swaylock";
+        # $terminal = kitty
+        # $fileManager = dolphin
+        # $menu = wofi --show drun
 
         #swaylock = "${config.programs.swaylock.package}/bin/swaylock";
         #playerctl = "${config.services.playerctld.package}/bin/playerctl";
@@ -59,7 +69,7 @@
         #notify-send = "${pkgs.libnotify}/bin/notify-send";
 
         #gtk-launch = "${pkgs.gtk3}/bin/gtk-launch";
-        #xdg-mime = "${pkgs.xdg-utils}/bin/xdg-mime";
+        #rdg-mime = "${pkgs.xdg-utils}/bin/xdg-mime";
         #defaultApp = type: "${gtk-launch} $(${xdg-mime} query default ${type})";
 
         #terminal = config.home.sessionVariables.TERM;
@@ -68,10 +78,20 @@
       in
       [
         #################### Program Launch ####################
-        "SHIFTALT,Return,exec,kitty"
+        # "$browser = google-chrome-stable"
+        # "$terminal = kitty"
+        # "$fileManager = dolphin"
+        # "$menu = wofi --show drun"
+        "${mainMod}, B, exec, google-chrome-stable"
+         "${mainMod}, T, exec,kitty"
+        "${mainMod}, Q, killactive,"
+        "${mainMod}, R, exec, ${menu}"
+
+
+
 
         #################### Basic Bindings ####################
-        "SHIFTALT,q,killactive"
+        # ",q,killactive"
         "SUPERSHIFT,e,exit"
 
         "SUPER,s,togglesplit"

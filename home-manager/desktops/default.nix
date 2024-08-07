@@ -2,9 +2,11 @@
   imports = [
     # Packages with custom configs go here
 
-    # ./hyprland
+    ./hyprland3
+    # ./waybar.nix
     # ./i3
     ./gnome
+  
 
     ########## Utilities ##########
     #    ./services/dunst.nix # Notification daemon

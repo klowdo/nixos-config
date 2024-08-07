@@ -3,6 +3,7 @@
     # custom key binds
     ./binds.nix
     ../services/dunst.nix
+    ./waybar.nix
   ];
 
   # NOTE: xdg portal package is currently set in /hosts/common/optional/hyprland.nix
@@ -36,39 +37,39 @@
         # "QT_QPA_PLATFORM,wayland"
       ];
 
-      #   general = {
-      #     gaps_in = 8;
-      #     gaps_out = 5;
-      #     border_size = 3;
-      #     cursor_inactive_timeout = 4;
-      #   };
-      #
-      #   input = {
-      #   kb_layout = "us";
-      #     # mouse = {
-      #     #   acceleration = 1.0;
-      #     #   naturalScroll = true;
-      #     # };
-      #   };
-      #
-      #   decoration = {
-      #     active_opacity = 0.94;
-      #     inactive_opacity = 0.75;
-      #     fullscreen_opacity = 1.0;
-      #     # rounding = 7;
-      #     blur = {
-      #     enabled = false;
-      #     size = 5;
-      #     passes = 3;
-      #     new_optimizations = true;
-      #     ignore_opacity = true;
-      #   };
-      #   drop_shadow = false;
-      #   shadow_range = 12;
-      #   shadow_offset = "3 3";
-      #   "col.shadow" = "0x44000000";
-      #   "col.shadow_inactive" = "0x66000000";
-      # };
+        general = {
+          gaps_in = 8;
+          gaps_out = 5;
+          border_size = 3;
+          cursor_inactive_timeout = 4;
+        };
+
+        input = {
+        kb_layout = "us";
+          # mouse = {
+          #   acceleration = 1.0;
+          #   naturalScroll = true;
+          # };
+        };
+
+        decoration = {
+          active_opacity = 0.94;
+          inactive_opacity = 0.75;
+          fullscreen_opacity = 1.0;
+          rounding = 7;
+          blur = {
+          enabled = false;
+          size = 5;
+          passes = 3;
+          new_optimizations = true;
+          ignore_opacity = true;
+        };
+        drop_shadow = false;
+        shadow_range = 12;
+        shadow_offset = "3 3";
+        "col.shadow" = "0x44000000";
+        "col.shadow_inactive" = "0x66000000";
+      };
 
       # exec-once = ''${startupScript}/path'';
     };

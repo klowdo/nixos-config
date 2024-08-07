@@ -135,6 +135,7 @@
     wget # downloader
     zip # zip compressio
     unzip
+    slack
 nodejs_22
      (pkgs.python3.withPackages (python-pkgs: [
       # select Python packages here
