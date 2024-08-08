@@ -15,6 +15,7 @@
 
     # TODO: Add any other flake you might need
     hardware.url = "github:nixos/nixos-hardware";
+    stylix.url = "github:danth/stylix";
 
     hyprlock = {
       url = "github:hyprwm/hyprlock";
@@ -80,6 +81,7 @@
           modules = [
             # > Our main nixos configuration file <
             ./nixos/configuration.nix
+            inputs.stylix.nixosModules.stylix
           ];
         };
       };

@@ -28,6 +28,7 @@
   boot.kernelPackages = pkgs.pkgs.linuxPackages_6_9;
 
 
+  stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-macchiato.yaml";
 
   nixpkgs = {
     # You can add overlays here
@@ -86,6 +87,7 @@
       options = "--delete-older-than +5";
     };
   };
+
 
   environment.sessionVariables = {
     FLAKE = "/home/klowdo/.dotfiles/";
