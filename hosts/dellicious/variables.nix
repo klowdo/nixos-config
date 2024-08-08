@@ -14,4 +14,3 @@
   terminal = "kitty"; # Set Default System Terminal
   keyboardLayout = "us";
 }
-

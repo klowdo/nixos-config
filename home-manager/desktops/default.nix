@@ -6,7 +6,6 @@
     # ./waybar.nix
     # ./i3
     ./gnome
-  
 
     ########## Utilities ##########
     #    ./services/dunst.nix # Notification daemon

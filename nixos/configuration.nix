@@ -1,11 +1,12 @@
 # This is your system's configuration file.
 # Use this to configure your system environment (it replaces /etc/nixos/configuration.nix)
-{ inputs
-, outputs
-, lib
-, config
-, pkgs
-, ...
+{
+  inputs,
+  outputs,
+  lib,
+  config,
+  pkgs,
+  ...
 }: {
   # You can import other NixOS modules here
   imports = [
@@ -27,33 +28,31 @@
 
   boot.kernelPackages = pkgs.pkgs.linuxPackages_6_9;
 
-
   stylix = {
     enable = true;
     base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-macchiato.yaml";
     image = ../lib/Sunrise.jpg;
-      fonts = {
-        monospace = {
-          package = pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" ]; };
-          name = "JetBrainsMono Nerd Font Mono";
-        };
-        sansSerif = {
-          package = pkgs.montserrat;
-          name = "Montserrat";
-        };
-        serif = {
-          package = pkgs.montserrat;
-          name = "Montserrat";
-        };
-        sizes = {
-          applications = 12;
-          terminal = 15;
-          desktop = 11;
-          popups = 12;
-        };
+    fonts = {
+      monospace = {
+        package = pkgs.nerdfonts.override {fonts = ["JetBrainsMono"];};
+        name = "JetBrainsMono Nerd Font Mono";
       };
-
+      sansSerif = {
+        package = pkgs.montserrat;
+        name = "Montserrat";
+      };
+      serif = {
+        package = pkgs.montserrat;
+        name = "Montserrat";
+      };
+      sizes = {
+        applications = 12;
+        terminal = 15;
+        desktop = 11;
+        popups = 12;
+      };
     };
+  };
 
   nixpkgs = {
     # You can add overlays here
@@ -82,18 +81,18 @@
 
   # This will add each flake input as a registry
   # To make nix3 commands consistent with your flake
-  nix.registry = (lib.mapAttrs (_: flake: { inherit flake; })) ((lib.filterAttrs (_: lib.isType "flake")) inputs);
+  nix.registry = (lib.mapAttrs (_: flake: {inherit flake;})) ((lib.filterAttrs (_: lib.isType "flake")) inputs);
 
   # This will additionally add your inputs to the system's legacy channels
   # Making legacy nix commands consistent as well, awesome!
-  nix.nixPath = [ "/etc/nix/path" ];
+  nix.nixPath = ["/etc/nix/path"];
   environment.etc =
     lib.mapAttrs'
-      (name: value: {
-        name = "nix/path/${name}";
-        value.source = value.flake;
-      })
-      config.nix.registry;
+    (name: value: {
+      name = "nix/path/${name}";
+      value.source = value.flake;
+    })
+    config.nix.registry;
 
   nix.settings = {
     # Enable flakes and new 'nix' command
@@ -113,23 +112,40 @@
     };
   };
 
-
   environment.sessionVariables = {
     FLAKE = "/home/klowdo/.dotfiles/";
   };
   environment.systemPackages = with pkgs; [
     nh
-       gsettings-desktop-schemas
+    eza
+    gsettings-desktop-schemas
     swaynotificationcenter
     wlr-randr
     ydotool
     # hyprland-share-picker
-      pyprland
+    pyprland
     hyprpicker
     hyprcursor
     hyprlock
     hypridle
     hyprpaper
+
+    ydotool
+    duf
+    ncdu
+    wl-clipboard
+    pciutils
+
+    unzip
+    unrar
+
+    ninja
+    brightnessctl
+    virt-viewer
+    swappy
+    appimage-run
+
+    brave
 
     # wezterm
     cool-retro-term
@@ -144,10 +160,11 @@
     firefox-wayland
     swww
     grim
+
+    pavucontrol
   ];
 
-
- programs = {
+  programs = {
     hyprland = {
       enable = true;
       xwayland = {
@@ -158,7 +175,7 @@
     waybar = {
       enable = true;
       package = pkgs.waybar.overrideAttrs (oldAttrs: {
-        mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];
+        mesonFlags = oldAttrs.mesonFlags ++ ["-Dexperimental=true"];
       });
     };
     thunar = {
@@ -168,7 +185,7 @@
         thunar-volman
       ];
     };
-    };
+  };
   # programs.waybar = {
   #     enable = true;
   #     package = pkgs.waybar.overrideAttrs (oldAttrs: {
@@ -204,11 +221,11 @@
     LC_TIME = "sv_SE.UTF-8";
   };
 
-# i3 
-#
-services.xserver = {
-  # enable = true;
-  windowManager.i3.enable = true;
+  # i3
+  #
+  services.xserver = {
+    # enable = true;
+    windowManager.i3.enable = true;
   };
   services.displayManager = {
     defaultSession = "hyprland";
@@ -228,7 +245,16 @@ services.xserver = {
     xkbVariant = "";
   };
 
-  # environment.pathsToLink = [ "/libexec" ]; # links /libexec from derivations to /run/current-system/sw 
+  # Extra Logitech Support
+  # hardware.logitech.wireless.enable = false;
+  # hardware.logitech.wireless.enableGraphical = false;
+
+  # Bluetooth Support
+  hardware.bluetooth.enable = true;
+  hardware.bluetooth.powerOnBoot = true;
+  services.blueman.enable = true;
+
+  # environment.pathsToLink = [ "/libexec" ]; # links /libexec from derivations to /run/current-system/sw
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
@@ -267,7 +293,7 @@ services.xserver = {
       openssh.authorizedKeys.keys = [
         # TODO: Add your SSH public key(s) here, if you plan on using SSH to connect
       ];
-      extraGroups = [ "networkmanager" "wheel" ];
+      extraGroups = ["networkmanager" "wheel"];
     };
   };
 

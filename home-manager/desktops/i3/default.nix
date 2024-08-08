@@ -1,10 +1,10 @@
-{pkgs, ...}:{
+{pkgs, ...}: {
   xsession.windowManager.i3 = {
     enable = true;
-     package = pkgs.i3-gaps;
+    package = pkgs.i3-gaps;
 
     config = {
-       modifier = "Mod4";
+      modifier = "Mod4";
       gaps = {
         inner = 10;
         outer = 5;
@@ -24,13 +24,13 @@
     bars = {
       top = {
         blocks = [
-         {
-           block = "time";
-           interval = 60;
-           format = "%a %d/%m %k:%M %p";
-         }
-       ];
+          {
+            block = "time";
+            interval = 60;
+            format = "%a %d/%m %k:%M %p";
+          }
+        ];
       };
     };
   };
-  }
+}

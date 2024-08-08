@@ -1,4 +1,9 @@
-{ home-manager, hyprlock, pkgs, username, ... }: {
-  imports = [ hyprlock.homeManagerModules.hyprlock ];
-
+{
+  home-manager,
+  hyprlock,
+  pkgs,
+  username,
+  ...
+}: {
+  imports = [hyprlock.homeManagerModules.hyprlock];
 }

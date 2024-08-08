@@ -1,6 +1,6 @@
-{ pkgs, ... }:
-let
-  tmux-super-fingers = pkgs.tmuxPlugins.mkTmuxPlugin
+{pkgs, ...}: let
+  tmux-super-fingers =
+    pkgs.tmuxPlugins.mkTmuxPlugin
     {
       pluginName = "tmux-super-fingers";
       version = "unstable-2023-01-06";
@@ -11,21 +11,19 @@ let
         sha256 = "sha256-cPZCV8xk9QpU49/7H8iGhQYK6JwWjviL29eWabuqruc=";
       };
     };
-in
-{
+in {
   programs.tmux = {
     enable = true;
     shell = "${pkgs.fish}/bin/fish";
     terminal = "tmux-256color";
     historyLimit = 100000;
-    plugins = with pkgs;
-      [
-        {
-          plugin = tmux-super-fingers;
-          extraConfig = "set -g @super-fingers-key f";
-        }
-        tmuxPlugins.better-mouse-mode
-      ];
+    plugins = with pkgs; [
+      {
+        plugin = tmux-super-fingers;
+        extraConfig = "set -g @super-fingers-key f";
+      }
+      tmuxPlugins.better-mouse-mode
+    ];
     extraConfig = ''
     '';
   };

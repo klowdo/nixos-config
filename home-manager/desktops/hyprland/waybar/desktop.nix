@@ -1,4 +1,8 @@
-{ home-manager, username, ... }: {
+{
+  home-manager,
+  username,
+  ...
+}: {
   home-manager.users.${username} = _: {
     home.file = {
       ".config/waybar/config.jsonc".text = ''
@@ -67,7 +71,7 @@
         		"format-calendar-weeks": "<span color='#94e2d5'><b>W{:%U}</b></span>",
         		"format-calendar-weekdays": "<span color='#f9e2af'><b>{}</b></span>",
         		"interval": 60
-        	},    
+        	},
         	"backlight": {
         	"device": "intel_backlight",
         	"format": "<span color='#2da14c'>{icon}</span> {percent}%",
@@ -97,13 +101,13 @@
         			]
         		},
         		"on-click": "pavucontrol"
-        	}, 
+        	},
         	"bluetooth": {
         	"format": "<span color='#0056A3'></span> {status}",
         	"format-disabled": "", // an empty format will hide the module
         	"format-connected": "<span color='#0056A3'></span> {num_connections}",
         	"tooltip-format": "{device_enumerate}",
-        	"tooltip-format-enumerate-connected": "{device_alias}   {device_address}"      
+        	"tooltip-format-enumerate-connected": "{device_alias}   {device_address}"
         	},
         	"network": {
         		"interface": "wlp*",
@@ -235,7 +239,6 @@
         	color: #00ba69;
         }
       '';
-
     };
   };
 }

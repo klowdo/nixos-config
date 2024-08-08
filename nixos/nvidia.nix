@@ -1,7 +1,9 @@
-{ inputs, lib, ... }:
 {
+  inputs,
+  lib,
+  ...
+}: {
   imports = [
-
     inputs.hardware.nixosModules.common-gpu-nvidia.disable
   ];
 

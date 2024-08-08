@@ -1,5 +1,10 @@
-{ pkgs, home-manager, username, ... }: {
-  environment.systemPackages = with pkgs; [ wofi ];
+{
+  pkgs,
+  home-manager,
+  username,
+  ...
+}: {
+  environment.systemPackages = with pkgs; [wofi];
 
   home-manager.users.${username} = {
     home.file = {
@@ -51,9 +56,9 @@
         	border: 3px solid #006400;
         	color: #fff;
         	font-weight: bold;
-        	background-color: transparent; 
-        	background-image: url('/home/${username}/.config/backgrounds/scifi_landscape.jpg'); 
-        	background-size: cover; 
+        	background-color: transparent;
+        	background-image: url('/home/${username}/.config/backgrounds/scifi_landscape.jpg');
+        	background-size: cover;
         	background-repeat: no-repeat;
         	outline: none;
         	border-radius: 16px;

@@ -1,5 +1,10 @@
-{ pkgs, home-manager, username, ... }: {
-  environment.systemPackages = with pkgs; [ swaylock ];
+{
+  pkgs,
+  home-manager,
+  username,
+  ...
+}: {
+  environment.systemPackages = with pkgs; [swaylock];
   # Unlock with Swaylock
   security = {
     pam = {

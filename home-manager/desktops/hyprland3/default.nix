@@ -1,4 +1,8 @@
-{ pkgs, lib, ... }: {
+{
+  pkgs,
+  lib,
+  ...
+}: {
   imports = [
     # custom key binds
     ./binds.nix
@@ -37,27 +41,27 @@
         # "QT_QPA_PLATFORM,wayland"
       ];
 
-        general = {
-          gaps_in = 8;
-          gaps_out = 5;
-          border_size = 3;
-          cursor_inactive_timeout = 4;
-        };
+      general = {
+        gaps_in = 8;
+        gaps_out = 5;
+        border_size = 3;
+        cursor_inactive_timeout = 4;
+      };
 
-        input = {
+      input = {
         kb_layout = "us";
-          # mouse = {
-          #   acceleration = 1.0;
-          #   naturalScroll = true;
-          # };
-        };
+        # mouse = {
+        #   acceleration = 1.0;
+        #   naturalScroll = true;
+        # };
+      };
 
-        decoration = {
-          active_opacity = 0.94;
-          inactive_opacity = 0.75;
-          fullscreen_opacity = 1.0;
-          rounding = 7;
-          blur = {
+      decoration = {
+        active_opacity = 0.94;
+        inactive_opacity = 0.75;
+        fullscreen_opacity = 1.0;
+        rounding = 7;
+        blur = {
           enabled = false;
           size = 5;
           passes = 3;

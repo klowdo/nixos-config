@@ -1,14 +1,11 @@
 # Generated via dconf2nix: https://github.com/gvolpe/dconf2nix
-{ lib, ... }:
-
-with lib.hm.gvariant;
-
-{
+{lib, ...}:
+with lib.hm.gvariant; {
   dconf.settings = {
     "com/github/amezin/ddterm" = {
       custom-font = "FiraCode Nerd Font Medium 11";
       detect-urls-voip = true;
-      palette = [ "rgb(23,20,33)" "rgb(192,28,40)" "rgb(38,162,105)" "rgb(162,115,76)" "rgb(18,72,139)" "rgb(163,71,186)" "rgb(42,161,179)" "rgb(208,207,204)" "rgb(94,92,100)" "rgb(246,97,81)" "rgb(51,218,122)" "rgb(233,173,12)" "rgb(42,123,222)" "rgb(192,97,203)" "rgb(51,199,222)" "rgb(255,255,255)" ];
+      palette = ["rgb(23,20,33)" "rgb(192,28,40)" "rgb(38,162,105)" "rgb(162,115,76)" "rgb(18,72,139)" "rgb(163,71,186)" "rgb(42,161,179)" "rgb(208,207,204)" "rgb(94,92,100)" "rgb(246,97,81)" "rgb(51,218,122)" "rgb(233,173,12)" "rgb(42,123,222)" "rgb(192,97,203)" "rgb(51,199,222)" "rgb(255,255,255)"];
       panel-icon-type = "none";
       use-system-font = false;
       window-maximize = false;
@@ -16,7 +13,7 @@ with lib.hm.gvariant;
     };
 
     "com/github/donadigo/eddy" = {
-      mime-types = [ "application/vnd.debian.binary-package" "application/x-deb" ];
+      mime-types = ["application/vnd.debian.binary-package" "application/x-deb"];
       window-x = 0;
       window-y = 32;
     };
@@ -27,12 +24,12 @@ with lib.hm.gvariant;
     };
 
     "io/elementary/appcenter/settings" = {
-      cached-drivers = [ "nvidia-driver-550-open" "nvidia-driver-535-open" "nvidia-driver-550" "nvidia-driver-535-server-open" "nvidia-driver-545-open" "nvidia-driver-535-server" ];
+      cached-drivers = ["nvidia-driver-550-open" "nvidia-driver-535-open" "nvidia-driver-550" "nvidia-driver-535-server-open" "nvidia-driver-545-open" "nvidia-driver-535-server"];
       last-refresh-time = mkInt64 1718256758;
       window-height = 692;
       window-maximized = false;
-      window-position = mkTuple [ 1156 740 ];
-      window-size = mkTuple [ 1270 2112 ];
+      window-position = mkTuple [1156 740];
+      window-size = mkTuple [1270 2112];
       window-width = 1140;
     };
 
@@ -52,13 +49,13 @@ with lib.hm.gvariant;
     };
 
     "org/gnome/Totem" = {
-      active-plugins = [ "recent" "autoload-subtitles" "apple-trailers" "vimeo" "open-directory" "movie-properties" "skipto" "screenshot" "variable-rate" "screensaver" "save-file" "mpris" "rotation" ];
+      active-plugins = ["recent" "autoload-subtitles" "apple-trailers" "vimeo" "open-directory" "movie-properties" "skipto" "screenshot" "variable-rate" "screensaver" "save-file" "mpris" "rotation"];
       subtitle-encoding = "UTF-8";
     };
 
     "org/gnome/baobab/ui" = {
       active-chart = "rings";
-      window-size = mkTuple [ 2548 1052 ];
+      window-size = mkTuple [2548 1052];
       window-state = 87168;
     };
 
@@ -66,8 +63,8 @@ with lib.hm.gvariant;
       first-run = false;
       view = "icon-view";
       window-maximized = false;
-      window-position = [ 1156 40 ];
-      window-size = [ 1140 1392 ];
+      window-position = [1156 40];
+      window-size = [1140 1392];
     };
 
     "org/gnome/calculator" = {
@@ -82,15 +79,15 @@ with lib.hm.gvariant;
       source-units = "degree";
       target-currency = "";
       target-units = "radian";
-      window-position = mkTuple [ 1924 40 ];
+      window-position = mkTuple [1924 40];
       word-size = 64;
     };
 
     "org/gnome/calendar" = {
       active-view = "month";
       window-maximized = false;
-      window-position = mkTuple [ 1286 40 ];
-      window-size = mkTuple [ 1270 2112 ];
+      window-position = mkTuple [1286 40];
+      window-size = mkTuple [1270 2112];
     };
 
     "org/gnome/cheese" = {
@@ -107,19 +104,19 @@ with lib.hm.gvariant;
     };
 
     "org/gnome/desktop/app-folders/folders/Pop-Office" = {
-      apps = [ "libreoffice-calc.desktop" "libreoffice-draw.desktop" "libreoffice-impress.desktop" "libreoffice-math.desktop" "libreoffice-startcenter.desktop" "libreoffice-writer.desktop" ];
+      apps = ["libreoffice-calc.desktop" "libreoffice-draw.desktop" "libreoffice-impress.desktop" "libreoffice-math.desktop" "libreoffice-startcenter.desktop" "libreoffice-writer.desktop"];
       name = "Office";
       translate = true;
     };
 
     "org/gnome/desktop/app-folders/folders/Pop-System" = {
-      apps = [ "gnome-language-selector.desktop" "gnome-session-properties.desktop" "gnome-system-monitor.desktop" "im-config.desktop" "nm-connection-editor.desktop" "nvidia-settings.desktop" "org.gnome.baobab.desktop" "org.gnome.DiskUtility.desktop" "org.gnome.PowerStats.desktop" "org.gnome.seahorse.Application.desktop" "software-properties-gnome.desktop" "system76-driver.desktop" "system76-firmware.desktop" ];
+      apps = ["gnome-language-selector.desktop" "gnome-session-properties.desktop" "gnome-system-monitor.desktop" "im-config.desktop" "nm-connection-editor.desktop" "nvidia-settings.desktop" "org.gnome.baobab.desktop" "org.gnome.DiskUtility.desktop" "org.gnome.PowerStats.desktop" "org.gnome.seahorse.Application.desktop" "software-properties-gnome.desktop" "system76-driver.desktop" "system76-firmware.desktop"];
       name = "System";
       translate = true;
     };
 
     "org/gnome/desktop/app-folders/folders/Pop-Utility" = {
-      apps = [ "com.github.donadigo.eddy.desktop" "com.system76.Popsicle.desktop" "gucharmap.desktop" "info.desktop" "org.gnome.eog.desktop" "org.gnome.Evince.desktop" "org.gnome.Extensions.desktop" "org.gnome.FileRoller.desktop" "org.gnome.font-viewer.desktop" "org.gnome.Screenshot.desktop" "org.gnome.Totem.desktop" "pop-cosmic-applications.desktop" "pop-cosmic-launcher.desktop" "pop-cosmic-workspaces.desktop" "simple-scan.desktop" "yelp.desktop" ];
+      apps = ["com.github.donadigo.eddy.desktop" "com.system76.Popsicle.desktop" "gucharmap.desktop" "info.desktop" "org.gnome.eog.desktop" "org.gnome.Evince.desktop" "org.gnome.Extensions.desktop" "org.gnome.FileRoller.desktop" "org.gnome.font-viewer.desktop" "org.gnome.Screenshot.desktop" "org.gnome.Totem.desktop" "pop-cosmic-applications.desktop" "pop-cosmic-launcher.desktop" "pop-cosmic-workspaces.desktop" "simple-scan.desktop" "yelp.desktop"];
       name = "Utilities";
       translate = true;
     };
@@ -139,10 +136,10 @@ with lib.hm.gvariant;
 
     "org/gnome/desktop/input-sources" = {
       current = mkUint32 0;
-      mru-sources = [ (mkTuple [ "xkb" "us" ]) (mkTuple [ "xkb" "se" ]) ];
+      mru-sources = [(mkTuple ["xkb" "us"]) (mkTuple ["xkb" "se"])];
       per-window = false;
-      sources = [ (mkTuple [ "xkb" "us" ]) (mkTuple [ "xkb" "se" ]) ];
-      xkb-options = [ "caps:none" ];
+      sources = [(mkTuple ["xkb" "us"]) (mkTuple ["xkb" "se"])];
+      xkb-options = ["caps:none"];
     };
 
     "org/gnome/desktop/interface" = {
@@ -155,7 +152,7 @@ with lib.hm.gvariant;
     };
 
     "org/gnome/desktop/notifications" = {
-      application-children = [ "org-gnome-nautilus" "org-gnome-fileroller" "jetbrains-toolbox" "firefox" "gnome-power-panel" "io-elementary-appcenter" "gnome-control-center" "flatpak-installer" "org-gnome-networkdisplays" "io-github-mrvladus-list" "com-spotify-client" "org-gnome-geary" "org-telegram-desktop" "org-gnome-font-viewer" "org-gnome-fontmanager" "jetbrains-rider" "code" "org-gnome-shell-extensions-gsconnect" "org-gnome-eog" "org-gnome-gedit" "xdg-desktop-portal-gnome" "com-slack-slack" "com-github-donadigo-eddy" "postman-postman" "org-gnome-totem" "com-ozmartians-vidcutter" "vlc" "org-gnome-calendar" "jetbrains-rider-1" "com-google-chrome" "org-gnome-chromegnomeshell" "org-gnome-extensions-desktop" "org-gnome-terminal" "org-gnome-calculator" "gnome-network-panel" "io-snapcraft-sessionagent" "jetbrains-fleet" "org-gnome-diskutility" "org-gnome-baobab" "mqtt-explorer-mqtt-explorer" "virt-manager" "solaar" "jetbrains-datagrip" "org-gnome-tweaks" "org-kicad-pcbnew" "dev-k8slens-openlens" "webcamoid" "rider-2aff1f2a-983e-41a3-9fd8-d2b96098bec1" "jetbrains-rider-6202c539-6fd8-45b8-9de6-d0e2c024b3a5" "org-gnome-shell-portalhelper" "1password" "org-gnome-shell-extensions" "com-alacritty-alacritty" "org-gnome-boxes" "com-discordapp-discord" "jetbrains-rider-18faf9d9-8e34-472a-9000-9da4581d2a5b" "org-gnome-evince" "jetbrains-rider-b2653b50-dd82-477c-aacc-84af85e435d5" ];
+      application-children = ["org-gnome-nautilus" "org-gnome-fileroller" "jetbrains-toolbox" "firefox" "gnome-power-panel" "io-elementary-appcenter" "gnome-control-center" "flatpak-installer" "org-gnome-networkdisplays" "io-github-mrvladus-list" "com-spotify-client" "org-gnome-geary" "org-telegram-desktop" "org-gnome-font-viewer" "org-gnome-fontmanager" "jetbrains-rider" "code" "org-gnome-shell-extensions-gsconnect" "org-gnome-eog" "org-gnome-gedit" "xdg-desktop-portal-gnome" "com-slack-slack" "com-github-donadigo-eddy" "postman-postman" "org-gnome-totem" "com-ozmartians-vidcutter" "vlc" "org-gnome-calendar" "jetbrains-rider-1" "com-google-chrome" "org-gnome-chromegnomeshell" "org-gnome-extensions-desktop" "org-gnome-terminal" "org-gnome-calculator" "gnome-network-panel" "io-snapcraft-sessionagent" "jetbrains-fleet" "org-gnome-diskutility" "org-gnome-baobab" "mqtt-explorer-mqtt-explorer" "virt-manager" "solaar" "jetbrains-datagrip" "org-gnome-tweaks" "org-kicad-pcbnew" "dev-k8slens-openlens" "webcamoid" "rider-2aff1f2a-983e-41a3-9fd8-d2b96098bec1" "jetbrains-rider-6202c539-6fd8-45b8-9de6-d0e2c024b3a5" "org-gnome-shell-portalhelper" "1password" "org-gnome-shell-extensions" "com-alacritty-alacritty" "org-gnome-boxes" "com-discordapp-discord" "jetbrains-rider-18faf9d9-8e34-472a-9000-9da4581d2a5b" "org-gnome-evince" "jetbrains-rider-b2653b50-dd82-477c-aacc-84af85e435d5"];
     };
 
     "org/gnome/desktop/notifications/application/1password" = {
@@ -438,7 +435,7 @@ with lib.hm.gvariant;
 
     "org/gnome/desktop/wm/preferences" = {
       button-layout = "appmenu:minimize,close";
-      workspace-names = [ "1" ];
+      workspace-names = ["1"];
     };
 
     "org/gnome/eog/ui" = {
@@ -451,7 +448,7 @@ with lib.hm.gvariant;
     };
 
     "org/gnome/evince/default" = {
-      window-ratio = mkTuple [ 1.9150651794113691 1.6534226561664827 ];
+      window-ratio = mkTuple [1.9150651794113691 1.6534226561664827];
     };
 
     "org/gnome/evolution-data-server" = {
@@ -477,7 +474,7 @@ with lib.hm.gvariant;
     "org/gnome/file-roller/file-selector" = {
       show-hidden = false;
       sidebar-size = 156;
-      window-size = mkTuple [ 780 734 ];
+      window-size = mkTuple [780 734];
     };
 
     "org/gnome/file-roller/listing" = {
@@ -504,12 +501,12 @@ with lib.hm.gvariant;
       is-maximized = false;
       language-filter-list = [];
       selected-category = "0";
-      window-position = mkTuple [ 8 560 ];
-      window-size = mkTuple [ 852 465 ];
+      window-position = mkTuple [8 560];
+      window-size = mkTuple [852 465];
     };
 
     "org/gnome/gedit/plugins" = {
-      active-plugins = [ "filebrowser" "docinfo" "modelines" "openlinks" "spell" "sort" ];
+      active-plugins = ["filebrowser" "docinfo" "modelines" "openlinks" "spell" "sort"];
     };
 
     "org/gnome/gedit/plugins/filebrowser" = {
@@ -530,18 +527,18 @@ with lib.hm.gvariant;
       bottom-panel-size = 140;
       side-panel-active-page = "GeditWindowDocumentsPanel";
       side-panel-size = 200;
-      size = mkTuple [ 1494 2065 ];
+      size = mkTuple [1494 2065];
       state = 87168;
     };
 
     "org/gnome/gnome-system-monitor" = {
-      cpu-colors = [ (mkTuple [ (mkUint32 0) "#e6194B" ]) (mkTuple [ 1 "#f58231" ]) (mkTuple [ 2 "#ffe119" ]) (mkTuple [ 3 "#bfef45" ]) (mkTuple [ 4 "#3cb44b" ]) (mkTuple [ 5 "#42d4f4" ]) (mkTuple [ 6 "#4363d8" ]) (mkTuple [ 7 "#911eb4" ]) (mkTuple [ 8 "#f032e6" ]) (mkTuple [ 9 "#fabebe" ]) (mkTuple [ 10 "#ffd8b1" ]) (mkTuple [ 11 "#fffac8" ]) (mkTuple [ 12 "#aaffc3" ]) (mkTuple [ 13 "#469990" ]) (mkTuple [ 14 "#000075" ]) (mkTuple [ 15 "#e6beff" ]) (mkTuple [ 16 "#a4fe7999f332" ]) (mkTuple [ 17 "#7999f3328182" ]) (mkTuple [ 18 "#f3327999952a" ]) (mkTuple [ 19 "#7999b8a6f332" ]) ];
+      cpu-colors = [(mkTuple [(mkUint32 0) "#e6194B"]) (mkTuple [1 "#f58231"]) (mkTuple [2 "#ffe119"]) (mkTuple [3 "#bfef45"]) (mkTuple [4 "#3cb44b"]) (mkTuple [5 "#42d4f4"]) (mkTuple [6 "#4363d8"]) (mkTuple [7 "#911eb4"]) (mkTuple [8 "#f032e6"]) (mkTuple [9 "#fabebe"]) (mkTuple [10 "#ffd8b1"]) (mkTuple [11 "#fffac8"]) (mkTuple [12 "#aaffc3"]) (mkTuple [13 "#469990"]) (mkTuple [14 "#000075"]) (mkTuple [15 "#e6beff"]) (mkTuple [16 "#a4fe7999f332"]) (mkTuple [17 "#7999f3328182"]) (mkTuple [18 "#f3327999952a"]) (mkTuple [19 "#7999b8a6f332"])];
       current-tab = "processes";
       maximized = false;
       network-total-in-bits = false;
       show-dependencies = true;
       show-whose-processes = "user";
-      window-state = mkTuple [ 1270 2112 1286 40 ];
+      window-state = mkTuple [1270 2112 1286 40];
     };
 
     "org/gnome/gnome-system-monitor/disktreenew" = {
@@ -551,7 +548,7 @@ with lib.hm.gvariant;
 
     "org/gnome/mutter" = {
       edge-tiling = false;
-      experimental-features = [ "x11-randr-fractional-scaling" ];
+      experimental-features = ["x11-randr-fractional-scaling"];
     };
 
     "org/gnome/nautilus/list-view" = {
@@ -565,7 +562,7 @@ with lib.hm.gvariant;
     };
 
     "org/gnome/nautilus/window-state" = {
-      initial-size = mkTuple [ 1750 2112 ];
+      initial-size = mkTuple [1750 2112];
       maximized = false;
       sidebar-width = 219;
       start-with-sidebar = true;
@@ -606,17 +603,17 @@ with lib.hm.gvariant;
     };
 
     "org/gnome/shell" = {
-      command-history = [ "r" ];
-      disabled-extensions = [ "freon@UshakovVasilii_Github.yahoo.com" "cosmic-dock@system76.com" "dell-command-configure-menu@vsimkus.github.io" ];
-      enabled-extensions = [ "ding@rastersoft.com" "pop-cosmic@system76.com" "pop-shell@system76.com" "system76-power@system76.com" "ubuntu-appindicators@ubuntu.com" "cosmic-workspaces@system76.com" "popx11gestures@system76.com" "ddterm@amezin.github.com" "clipboard-indicator@tudmotu.com" "caffeine@patapon.info" "gsconnect@andyholmes.github.io" "extension-list@tu.berry" "places-menu@gnome-shell-extensions.gcampax.github.com" "display-scale-switcher@knokelmaat.gitlab.com" "bluetooth-quick-connect@bjarosze.gmail.com" "space-bar@luchrioh" "user-theme@gnome-shell-extensions.gcampax.github.com" "wireguard-indicator@atareao.es" "draw-on-your-screen2@zhrexl.github.com" "sound-output-device-chooser@kgshank.net" "mediacontrols@cliffniff.github.com" "tailscale-status@maxgallup.github.com" ];
-      favorite-apps = [ "pop-cosmic-launcher.desktop" "firefox.desktop" "org.gnome.Nautilus.desktop" "org.gnome.Terminal.desktop" "io.elementary.appcenter.desktop" "io.elementary.installer.desktop" "gnome-control-center.desktop" ];
+      command-history = ["r"];
+      disabled-extensions = ["freon@UshakovVasilii_Github.yahoo.com" "cosmic-dock@system76.com" "dell-command-configure-menu@vsimkus.github.io"];
+      enabled-extensions = ["ding@rastersoft.com" "pop-cosmic@system76.com" "pop-shell@system76.com" "system76-power@system76.com" "ubuntu-appindicators@ubuntu.com" "cosmic-workspaces@system76.com" "popx11gestures@system76.com" "ddterm@amezin.github.com" "clipboard-indicator@tudmotu.com" "caffeine@patapon.info" "gsconnect@andyholmes.github.io" "extension-list@tu.berry" "places-menu@gnome-shell-extensions.gcampax.github.com" "display-scale-switcher@knokelmaat.gitlab.com" "bluetooth-quick-connect@bjarosze.gmail.com" "space-bar@luchrioh" "user-theme@gnome-shell-extensions.gcampax.github.com" "wireguard-indicator@atareao.es" "draw-on-your-screen2@zhrexl.github.com" "sound-output-device-chooser@kgshank.net" "mediacontrols@cliffniff.github.com" "tailscale-status@maxgallup.github.com"];
+      favorite-apps = ["pop-cosmic-launcher.desktop" "firefox.desktop" "org.gnome.Nautilus.desktop" "org.gnome.Terminal.desktop" "io.elementary.appcenter.desktop" "io.elementary.installer.desktop" "gnome-control-center.desktop"];
       had-bluetooth-devices-setup = true;
       # welcome-dialog-last-shown-version = "42.5";
     };
 
     "org/gnome/shell/extensions/atareao/wireguard-indicator" = {
       nmcli = true;
-      services = [ "home|wg-quick@home" ];
+      services = ["home|wg-quick@home"];
       sudo = true;
     };
 
@@ -659,18 +656,18 @@ with lib.hm.gvariant;
     };
 
     "org/gnome/shell/extensions/gsconnect" = {
-      devices = [ "dcdc55ee_7f94_4e46_9535_b4c363a33659" ];
+      devices = ["dcdc55ee_7f94_4e46_9535_b4c363a33659"];
       enabled = true;
       id = "5182ea21-69ab-48e2-a80f-23e24aadb1f6";
       name = "pop-os-dell";
     };
 
     "org/gnome/shell/extensions/gsconnect/device/_f796356c_424b_415c_9fb3_9ee7c7a0815f_" = {
-      incoming-capabilities = [ "kdeconnect.battery" "kdeconnect.battery.request" "kdeconnect.bigscreen.stt" "kdeconnect.clipboard" "kdeconnect.clipboard.connect" "kdeconnect.connectivity_report" "kdeconnect.contacts.response_uids_timestamps" "kdeconnect.contacts.response_vcards" "kdeconnect.findmyphone.request" "kdeconnect.lock" "kdeconnect.lock.request" "kdeconnect.mousepad.echo" "kdeconnect.mousepad.keyboardstate" "kdeconnect.mousepad.request" "kdeconnect.mpris" "kdeconnect.mpris.request" "kdeconnect.notification" "kdeconnect.notification.request" "kdeconnect.photo" "kdeconnect.ping" "kdeconnect.presenter" "kdeconnect.runcommand" "kdeconnect.runcommand.request" "kdeconnect.sftp" "kdeconnect.share.request" "kdeconnect.sms.attachment_file" "kdeconnect.sms.messages" "kdeconnect.systemvolume" "kdeconnect.systemvolume.request" "kdeconnect.telephony" ];
+      incoming-capabilities = ["kdeconnect.battery" "kdeconnect.battery.request" "kdeconnect.bigscreen.stt" "kdeconnect.clipboard" "kdeconnect.clipboard.connect" "kdeconnect.connectivity_report" "kdeconnect.contacts.response_uids_timestamps" "kdeconnect.contacts.response_vcards" "kdeconnect.findmyphone.request" "kdeconnect.lock" "kdeconnect.lock.request" "kdeconnect.mousepad.echo" "kdeconnect.mousepad.keyboardstate" "kdeconnect.mousepad.request" "kdeconnect.mpris" "kdeconnect.mpris.request" "kdeconnect.notification" "kdeconnect.notification.request" "kdeconnect.photo" "kdeconnect.ping" "kdeconnect.presenter" "kdeconnect.runcommand" "kdeconnect.runcommand.request" "kdeconnect.sftp" "kdeconnect.share.request" "kdeconnect.sms.attachment_file" "kdeconnect.sms.messages" "kdeconnect.systemvolume" "kdeconnect.systemvolume.request" "kdeconnect.telephony"];
       last-connection = "lan://10.101.5.95:1716";
       name = "dhultqvist-spotify";
-      outgoing-capabilities = [ "kdeconnect.battery" "kdeconnect.battery.request" "kdeconnect.bigscreen.stt" "kdeconnect.clipboard" "kdeconnect.clipboard.connect" "kdeconnect.connectivity_report.request" "kdeconnect.contacts.request_all_uids_timestamps" "kdeconnect.contacts.request_vcards_by_uid" "kdeconnect.findmyphone.request" "kdeconnect.lock" "kdeconnect.lock.request" "kdeconnect.mousepad.keyboardstate" "kdeconnect.mousepad.request" "kdeconnect.mpris" "kdeconnect.mpris.request" "kdeconnect.notification" "kdeconnect.notification.action" "kdeconnect.notification.reply" "kdeconnect.notification.request" "kdeconnect.photo.request" "kdeconnect.ping" "kdeconnect.runcommand" "kdeconnect.runcommand.request" "kdeconnect.sftp.request" "kdeconnect.share.request" "kdeconnect.share.request.update" "kdeconnect.sms.request" "kdeconnect.sms.request_attachment" "kdeconnect.sms.request_conversation" "kdeconnect.sms.request_conversations" "kdeconnect.systemvolume" "kdeconnect.systemvolume.request" "kdeconnect.telephony.request_mute" ];
-      supported-plugins = [ "battery" "clipboard" "findmyphone" "mousepad" "mpris" "notification" "photo" "ping" "runcommand" "share" "systemvolume" ];
+      outgoing-capabilities = ["kdeconnect.battery" "kdeconnect.battery.request" "kdeconnect.bigscreen.stt" "kdeconnect.clipboard" "kdeconnect.clipboard.connect" "kdeconnect.connectivity_report.request" "kdeconnect.contacts.request_all_uids_timestamps" "kdeconnect.contacts.request_vcards_by_uid" "kdeconnect.findmyphone.request" "kdeconnect.lock" "kdeconnect.lock.request" "kdeconnect.mousepad.keyboardstate" "kdeconnect.mousepad.request" "kdeconnect.mpris" "kdeconnect.mpris.request" "kdeconnect.notification" "kdeconnect.notification.action" "kdeconnect.notification.reply" "kdeconnect.notification.request" "kdeconnect.photo.request" "kdeconnect.ping" "kdeconnect.runcommand" "kdeconnect.runcommand.request" "kdeconnect.sftp.request" "kdeconnect.share.request" "kdeconnect.share.request.update" "kdeconnect.sms.request" "kdeconnect.sms.request_attachment" "kdeconnect.sms.request_conversation" "kdeconnect.sms.request_conversations" "kdeconnect.systemvolume" "kdeconnect.systemvolume.request" "kdeconnect.telephony.request_mute"];
+      supported-plugins = ["battery" "clipboard" "findmyphone" "mousepad" "mpris" "notification" "photo" "ping" "runcommand" "share" "systemvolume"];
       type = "desktop";
     };
 
@@ -690,12 +687,12 @@ with lib.hm.gvariant;
 
     "org/gnome/shell/extensions/gsconnect/device/dcdc55ee_7f94_4e46_9535_b4c363a33659" = {
       certificate-pem = "-----BEGIN CERTIFICATE-----nMIIDHzCCAgegAwIBAgIBATANBgkqhkiG9w0BAQsFADBTMS0wKwYDVQQDDCRkY2RjnNTVlZV83Zjk0XzRlNDZfOTUzNV9iNGMzNjNhMzM2NTkxFDASBgNVBAsMC0tERSBDnb25uZWN0MQwwCgYDVQQKDANLREUwHhcNMjIwNTE1MjIwMDAwWhcNMzIwNTE1MjIwnMDAwWjBTMS0wKwYDVQQDDCRkY2RjNTVlZV83Zjk0XzRlNDZfOTUzNV9iNGMzNjNhnMzM2NTkxFDASBgNVBAsMC0tERSBDb25uZWN0MQwwCgYDVQQKDANLREUwggEiMA0GnCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQClMeXsEpN1uRuRVnIPAkSSKGzJHVl8nmpWXeIMXcwgr94/X9LJT8EauraKOo2XiPyH3OFiBXMeYvvE3U3XR3amiIrRqOXnbnpFts+/iIodDJAbGgJVXu2e2/MYeurZnMfzzngSquy8GBXH4mQvli6ZicBB7MhDG7nNbJIONi8xzwFIfcqDgAEsVH7ReW6ebplQuwZjbKsxLA2A3FqOdoSXppEjK4DYSPRn5V7loT/7xh1wxXXMTiP0bsxi4BN+yLXhSfaOt9OfDYOCJL+o2IbNnPRuis9cwnW1ndrXz4raNmPNQGt+TuYFenV2jAVRE2rheMciTaHNHgpUYQRYOutjmw12fAgMBAAEwnDQYJKoZIhvcNAQELBQADggEBAIhTrenRmV8fxZtoqrRGi2ntQPQTt4YJizADRavRnC2bncs9cb5fZdCJwoW5avdhzHpTXOziQ3TO8okZlFJFzSFgxpW7Ov5udGrvkin3GnKWKWRkIFSDZoX/nmxSX1HrmRs6Gi41GGARzJwicVlv2hM72NWbrMJ88iUdDBbGuGnF1LQRv0RGrlYhlQUk15LjeQjmrIS/YiB5wdIJzWWY5/IT8+1C5Ao+GXqk5ptV6GLnI5KlZ99w6Xep5sMD/L835xMPI8QcB7ZSvtI5e2eIumKM/EQn/AfH2IQNGLwWIKTlnZXwVkGcLMMsURXOzSUt4KmATSPvewqOsXOufAsyCUixL7s8=n-----END CERTIFICATE-----n";
-      incoming-capabilities = [ "kdeconnect.battery" "kdeconnect.bigscreen.stt" "kdeconnect.clipboard" "kdeconnect.clipboard.connect" "kdeconnect.contacts.request_all_uids_timestamps" "kdeconnect.contacts.request_vcards_by_uid" "kdeconnect.findmyphone.request" "kdeconnect.mousepad.keyboardstate" "kdeconnect.mousepad.request" "kdeconnect.mpris" "kdeconnect.mpris.request" "kdeconnect.notification" "kdeconnect.notification.action" "kdeconnect.notification.reply" "kdeconnect.notification.request" "kdeconnect.photo.request" "kdeconnect.ping" "kdeconnect.runcommand" "kdeconnect.sftp.request" "kdeconnect.share.request" "kdeconnect.share.request.update" "kdeconnect.sms.request" "kdeconnect.sms.request_attachment" "kdeconnect.sms.request_conversation" "kdeconnect.sms.request_conversations" "kdeconnect.systemvolume" "kdeconnect.telephony.request" "kdeconnect.telephony.request_mute" ];
+      incoming-capabilities = ["kdeconnect.battery" "kdeconnect.bigscreen.stt" "kdeconnect.clipboard" "kdeconnect.clipboard.connect" "kdeconnect.contacts.request_all_uids_timestamps" "kdeconnect.contacts.request_vcards_by_uid" "kdeconnect.findmyphone.request" "kdeconnect.mousepad.keyboardstate" "kdeconnect.mousepad.request" "kdeconnect.mpris" "kdeconnect.mpris.request" "kdeconnect.notification" "kdeconnect.notification.action" "kdeconnect.notification.reply" "kdeconnect.notification.request" "kdeconnect.photo.request" "kdeconnect.ping" "kdeconnect.runcommand" "kdeconnect.sftp.request" "kdeconnect.share.request" "kdeconnect.share.request.update" "kdeconnect.sms.request" "kdeconnect.sms.request_attachment" "kdeconnect.sms.request_conversation" "kdeconnect.sms.request_conversations" "kdeconnect.systemvolume" "kdeconnect.telephony.request" "kdeconnect.telephony.request_mute"];
       last-connection = "lan://192.168.1.214:1716";
       name = "SM-G998B";
-      outgoing-capabilities = [ "kdeconnect.battery" "kdeconnect.bigscreen.stt" "kdeconnect.clipboard" "kdeconnect.clipboard.connect" "kdeconnect.connectivity_report" "kdeconnect.contacts.response_uids_timestamps" "kdeconnect.contacts.response_vcards" "kdeconnect.findmyphone.request" "kdeconnect.mousepad.echo" "kdeconnect.mousepad.keyboardstate" "kdeconnect.mousepad.request" "kdeconnect.mpris" "kdeconnect.mpris.request" "kdeconnect.notification" "kdeconnect.notification.request" "kdeconnect.photo" "kdeconnect.ping" "kdeconnect.presenter" "kdeconnect.runcommand.request" "kdeconnect.sftp" "kdeconnect.share.request" "kdeconnect.sms.attachment_file" "kdeconnect.sms.messages" "kdeconnect.systemvolume.request" "kdeconnect.telephony" ];
+      outgoing-capabilities = ["kdeconnect.battery" "kdeconnect.bigscreen.stt" "kdeconnect.clipboard" "kdeconnect.clipboard.connect" "kdeconnect.connectivity_report" "kdeconnect.contacts.response_uids_timestamps" "kdeconnect.contacts.response_vcards" "kdeconnect.findmyphone.request" "kdeconnect.mousepad.echo" "kdeconnect.mousepad.keyboardstate" "kdeconnect.mousepad.request" "kdeconnect.mpris" "kdeconnect.mpris.request" "kdeconnect.notification" "kdeconnect.notification.request" "kdeconnect.photo" "kdeconnect.ping" "kdeconnect.presenter" "kdeconnect.runcommand.request" "kdeconnect.sftp" "kdeconnect.share.request" "kdeconnect.sms.attachment_file" "kdeconnect.sms.messages" "kdeconnect.systemvolume.request" "kdeconnect.telephony"];
       paired = true;
-      supported-plugins = [ "battery" "clipboard" "connectivity_report" "contacts" "findmyphone" "mousepad" "mpris" "notification" "photo" "ping" "presenter" "runcommand" "sftp" "share" "sms" "systemvolume" "telephony" ];
+      supported-plugins = ["battery" "clipboard" "connectivity_report" "contacts" "findmyphone" "mousepad" "mpris" "notification" "photo" "ping" "presenter" "runcommand" "sftp" "share" "sms" "systemvolume" "telephony"];
       type = "phone";
     };
 
@@ -724,20 +721,20 @@ with lib.hm.gvariant;
 
     "org/gnome/shell/extensions/gsconnect/messaging" = {
       window-maximized = false;
-      window-size = mkTuple [ 484 465 ];
+      window-size = mkTuple [484 465];
     };
 
     "org/gnome/shell/extensions/gsconnect/preferences" = {
       window-maximized = false;
-      window-size = mkTuple [ 734 465 ];
+      window-size = mkTuple [734 465];
     };
 
     "org/gnome/shell/extensions/mediacontrols" = {
-      backlist-apps = [ "chrome" "youtube" ];
+      backlist-apps = ["chrome" "youtube"];
       extension-position = "center";
-      mouse-actions = [ "toggle_play" "toggle_menu" "none" "none" "none" "none" "none" "none" ];
-      seperator-chars = [ "|" "|" ];
-      track-label = [ "track" "-" "artist" ];
+      mouse-actions = ["toggle_play" "toggle_menu" "none" "none" "none" "none" "none" "none"];
+      seperator-chars = ["|" "|"];
+      track-label = ["track" "-" "artist"];
     };
 
     "org/gnome/shell/extensions/pop-cosmic" = {
@@ -800,11 +797,11 @@ with lib.hm.gvariant;
       sort-directories-first = false;
       sort-order = "descending";
       type-format = "category";
-      window-size = mkTuple [ 1200 1052 ];
+      window-size = mkTuple [1200 1052];
     };
 
     "org/gtk/settings/color-chooser" = {
-      selected-color = mkTuple [ true 1.0 1.0 1.0 1.0 ];
+      selected-color = mkTuple [true 1.0 1.0 1.0 1.0];
     };
 
     "org/gtk/settings/file-chooser" = {
@@ -819,8 +816,8 @@ with lib.hm.gvariant;
       sort-directories-first = true;
       sort-order = "descending";
       type-format = "category";
-      window-position = mkTuple [ 1216 596 ];
-      window-size = mkTuple [ 1407 953 ];
+      window-position = mkTuple [1216 596];
+      window-size = mkTuple [1407 953];
     };
 
     "org/virt-manager/virt-manager" = {
@@ -835,12 +832,12 @@ with lib.hm.gvariant;
     };
 
     "org/virt-manager/virt-manager/connections" = {
-      autoconnect = [ "qemu:///system" ];
-      uris = [ "qemu:///system" ];
+      autoconnect = ["qemu:///system"];
+      uris = ["qemu:///system"];
     };
 
     "org/virt-manager/virt-manager/conns/qemu:system" = {
-      window-size = mkTuple [ 1270 2112 ];
+      window-size = mkTuple [1270 2112];
     };
 
     "org/virt-manager/virt-manager/details" = {
@@ -853,8 +850,8 @@ with lib.hm.gvariant;
     };
 
     "org/virt-manager/virt-manager/urls" = {
-      isos = [ "/home/klowdo/Vms/archlinux.qcow2" "/home/klowdo/Downloads/Arch-Linux-x86_64-basic-20240215.214390.qcow2" "/home/klowdo/Downloads/pop-os_22.04_amd64_intel_37.iso" "/home/klowdo/Downloads/nixos-gnome-23.11.2596.c1be43e8e837-x86_64-linux.iso" "/home/klowdo/Downloads/Parrot-htb-5.3_amd64.iso" "/home/klowdo/Downloads/manjaro-sway-22.1.2-231001-linux61.iso" "/home/klowdo/Downloads/ubuntu-23.04-desktop-amd64.iso" "/home/klowdo/Downloads/debian-12.1.0-amd64-netinst.iso" "/home/klowdo/Documents/arcolinuxb-hyprland-v23.03.01-x86_64.iso" "/home/klowdo/Documents/archcraft-2023.01.20-x86_64.iso" ];
-      urls = [ "https://iso.pop-os.org/22.04/amd64/intel/37/pop-os_22.04_amd64_intel_37.iso" ];
+      isos = ["/home/klowdo/Vms/archlinux.qcow2" "/home/klowdo/Downloads/Arch-Linux-x86_64-basic-20240215.214390.qcow2" "/home/klowdo/Downloads/pop-os_22.04_amd64_intel_37.iso" "/home/klowdo/Downloads/nixos-gnome-23.11.2596.c1be43e8e837-x86_64-linux.iso" "/home/klowdo/Downloads/Parrot-htb-5.3_amd64.iso" "/home/klowdo/Downloads/manjaro-sway-22.1.2-231001-linux61.iso" "/home/klowdo/Downloads/ubuntu-23.04-desktop-amd64.iso" "/home/klowdo/Downloads/debian-12.1.0-amd64-netinst.iso" "/home/klowdo/Documents/arcolinuxb-hyprland-v23.03.01-x86_64.iso" "/home/klowdo/Documents/archcraft-2023.01.20-x86_64.iso"];
+      urls = ["https://iso.pop-os.org/22.04/amd64/intel/37/pop-os_22.04_amd64_intel_37.iso"];
     };
 
     "org/virt-manager/virt-manager/vmlist-fields" = {
@@ -865,98 +862,97 @@ with lib.hm.gvariant;
     "org/virt-manager/virt-manager/vms/073ed75485d74f18a45dec0c6871f59d" = {
       autoconnect = 1;
       scaling = 1;
-      vm-window-size = mkTuple [ 1270 1052 ];
+      vm-window-size = mkTuple [1270 1052];
     };
 
     "org/virt-manager/virt-manager/vms/1789b6a177ab4a7cae079eadd25fd8be" = {
       autoconnect = 1;
       scaling = 1;
-      vm-window-size = mkTuple [ 2548 2112 ];
+      vm-window-size = mkTuple [2548 2112];
     };
 
     "org/virt-manager/virt-manager/vms/2271bdb84bcf466db9d9de24b4af5b6f" = {
       autoconnect = 1;
       scaling = 1;
-      vm-window-size = mkTuple [ 1270 1052 ];
+      vm-window-size = mkTuple [1270 1052];
     };
 
     "org/virt-manager/virt-manager/vms/25e6e760e6ba4f04934751ef801724b7" = {
       autoconnect = 1;
       scaling = 1;
-      vm-window-size = mkTuple [ 1140 692 ];
+      vm-window-size = mkTuple [1140 692];
     };
 
     "org/virt-manager/virt-manager/vms/277061c36cae4b78a24cd36cb000094d" = {
       autoconnect = 1;
       scaling = 1;
-      vm-window-size = mkTuple [ 1270 1052 ];
+      vm-window-size = mkTuple [1270 1052];
     };
 
     "org/virt-manager/virt-manager/vms/2820c5b48f3d41d0a1f840483b03c14c" = {
       autoconnect = 1;
       scaling = 1;
-      vm-window-size = mkTuple [ 566 692 ];
+      vm-window-size = mkTuple [566 692];
     };
 
     "org/virt-manager/virt-manager/vms/36ddaa0ee1fb476b90a13395bb901658" = {
       autoconnect = 1;
       scaling = 1;
-      vm-window-size = mkTuple [ 948 572 ];
+      vm-window-size = mkTuple [948 572];
     };
 
     "org/virt-manager/virt-manager/vms/4a9c8bbbd7474ccea6f8df88a1a4a295" = {
       autoconnect = 1;
       scaling = 1;
-      vm-window-size = mkTuple [ 2548 1052 ];
+      vm-window-size = mkTuple [2548 1052];
     };
 
     "org/virt-manager/virt-manager/vms/77542286771b4b7297441e2374a5edfd" = {
       autoconnect = 1;
       scaling = 1;
-      vm-window-size = mkTuple [ 948 572 ];
+      vm-window-size = mkTuple [948 572];
     };
 
     "org/virt-manager/virt-manager/vms/8ba926c9b5074fa8a0aa8ec3919471a1" = {
       autoconnect = 1;
       scaling = 1;
-      vm-window-size = mkTuple [ 2548 1052 ];
+      vm-window-size = mkTuple [2548 1052];
     };
 
     "org/virt-manager/virt-manager/vms/bed6c3af87e04db39e9b732e7c2ea689" = {
       autoconnect = 1;
       scaling = 1;
-      vm-window-size = mkTuple [ 1920 1168 ];
+      vm-window-size = mkTuple [1920 1168];
     };
 
     "org/virt-manager/virt-manager/vms/c2ad65ce4cdd4e2ca497c580d73949a4" = {
       autoconnect = 1;
       scaling = 1;
-      vm-window-size = mkTuple [ 948 572 ];
+      vm-window-size = mkTuple [948 572];
     };
 
     "org/virt-manager/virt-manager/vms/dcbba66847384d3badf1f34086425e3d" = {
       autoconnect = 1;
       scaling = 1;
-      vm-window-size = mkTuple [ 1270 1052 ];
+      vm-window-size = mkTuple [1270 1052];
     };
 
     "org/virt-manager/virt-manager/vms/e087627aa3664e72ab146a2512c473e8" = {
       autoconnect = 1;
       scaling = 1;
-      vm-window-size = mkTuple [ 631 1052 ];
+      vm-window-size = mkTuple [631 1052];
     };
 
     "org/virt-manager/virt-manager/vms/f78aa234aaca4d61b1fba22b5bfb8de1" = {
       autoconnect = 1;
       scaling = 1;
-      vm-window-size = mkTuple [ 2548 2112 ];
+      vm-window-size = mkTuple [2548 2112];
     };
 
     "org/virt-manager/virt-manager/vms/f9493a3f039a4251934ab1b113e5a815" = {
       autoconnect = 1;
       scaling = 1;
-      vm-window-size = mkTuple [ 631 1052 ];
+      vm-window-size = mkTuple [631 1052];
     };
-
   };
 }
