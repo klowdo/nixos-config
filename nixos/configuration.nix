@@ -211,7 +211,7 @@ services.xserver = {
   windowManager.i3.enable = true;
   };
   services.displayManager = {
-    defaultSession = "none+i3";
+    defaultSession = "hyprland";
   };
 
   # Enable the X11 windowing system.
