@@ -39,6 +39,7 @@
     nixpkgs,
     home-manager,
     nixpkgs-unstable,
+    stylix,
     ...
   } @ inputs: let
     inherit (self) outputs;
@@ -53,6 +54,13 @@
     # This is a function that generates an attribute by calling a function you
     # pass to it, with each system as an argument
     forAllSystems = nixpkgs.lib.genAttrs systems;
+
+    specialArgs = {
+      inherit
+        inputs
+        outputs
+        ;
+    };
   in {
     # Your custom packages
     # Accessible through 'nix build', 'nix shell', etc
@@ -74,28 +82,31 @@
     # Available through 'nixos-rebuild --flake .#your-hostname'
     nixosConfigurations = {
       dellicious = nixpkgs.lib.nixosSystem {
+        # inherit specialArgs;
         specialArgs = {inherit inputs outputs;};
         modules = [
           # > Our main nixos configuration file <
+          stylix.nixosModules.stylix
+          home-manager.nixosModules.home-manager
+          {home-manager.extraSpecialArgs = specialArgs;}
           ./nixos/configuration.nix
-          inputs.stylix.nixosModules.stylix
         ];
       };
     };
 
     # Standalone home-manager configuration entrypoint
     # Available through 'home-manager --flake .#your-username@your-hostname'
-    homeConfigurations = {
-      "klowdo@dellicious" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
-        extraSpecialArgs = {inherit inputs outputs;};
-        modules = [
-          # > Our main home-manager configuration file <
-          ./home-manager/home.nix
-
-          # inputs.stylix.nixosModules.stylix
-        ];
-      };
-    };
+    # homeConfigurations = {
+    #   "klowdo@dellicious" = home-manager.lib.homeManagerConfiguration {
+    #     pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
+    #     extraSpecialArgs = {inherit inputs outputs;};
+    #     modules = [
+    #       # > Our main home-manager configuration file <
+    #       ./home-manager/home.nix
+    #
+    #       # inputs.stylix.nixosModules.stylix
+    #     ];
+    #   };
+    # };
   };
 }

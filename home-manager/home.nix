@@ -25,7 +25,7 @@
     ./bat.nix
     ./zsh/default.nix
     ./desktops
-    # ./wlogout/default.nix
+    ./wlogout/default.nix
   ];
 
   nixpkgs = {

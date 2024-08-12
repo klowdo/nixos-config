@@ -12,7 +12,7 @@
   imports = [
     # If you want to use modules your own flake exports (from modules/nixos):
     # outputs.nixosModules.example
-
+    inputs.home-manager.nixosModules.home-manager
     # Or modules from other flakes (such as nixos-hardware):
     inputs.hardware.nixosModules.common-cpu-intel
     inputs.hardware.nixosModules.common-pc-laptop
@@ -51,6 +51,19 @@
         desktop = 11;
         popups = 12;
       };
+    };
+  };
+
+  home-manager = {
+    extraSpecialArgs = {inherit inputs outputs
+
+  lib
+  config
+  pkgs;
+
+    };
+    users = {
+      "klowdo" = import ../home-manager/home.nix;
     };
   };
 
