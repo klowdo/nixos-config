@@ -32,6 +32,12 @@
     # Shameless plug: looking for a way to nixify your themes and make
     # everything match nicely? Try nix-colors!
     # nix-colors.url = "github:misterio77/nix-colors";
+
+    nixvim = {
+      url = "github:nix-community/nixvim/nixos-24.05";
+
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
@@ -88,6 +94,17 @@
           # > Our main nixos configuration file <
           stylix.nixosModules.stylix
           ./nixos/configuration.nix
+
+          # home-manager.nixosModules.home-manager
+          # {
+          #   home-manager.extraSpecialArgs = {
+          #     inherit inputs outputs;
+          #   };
+          #   # home-manager.useGlobalPkgs = true;
+          #   home-manager.useUserPackages = true;
+          #   home-manager.backupFileExtension = "backup";
+          #   home-manager.users.klowdo = import ./home-manager/home.nix;
+          # }
         ];
       };
     };

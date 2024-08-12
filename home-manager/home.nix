@@ -13,6 +13,8 @@
     # If you want to use modules your own flake exports (from modules/home-manager):
     # outputs.homeManagerModules.example
 
+    inputs.nixvim.homeManagerModules.nixvim
+
     # Or modules exported from other flakes (such as nix-colors):
     # inputs.nix-colors.homeManagerModules.default
 
@@ -22,7 +24,7 @@
     ./fonts.nix
     ./direnv.nix
     ./zoxide.nix
-    # ./bat.nix
+     ./bat.nix
     ./zsh/default.nix
     ./desktops
     # ./wlogout/default.nix
