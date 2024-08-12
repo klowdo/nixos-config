@@ -71,8 +71,8 @@
         drop_shadow = false;
         shadow_range = 12;
         shadow_offset = "3 3";
-        "col.shadow" = "0x44000000";
-        "col.shadow_inactive" = "0x66000000";
+        # "col.shadow" = "0x44000000";
+        # "col.shadow_inactive" = "0x66000000";
       };
 
       # exec-once = ''${startupScript}/path'';

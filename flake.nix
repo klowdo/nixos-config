@@ -87,8 +87,6 @@
         modules = [
           # > Our main nixos configuration file <
           stylix.nixosModules.stylix
-          home-manager.nixosModules.home-manager
-          {home-manager.extraSpecialArgs = specialArgs;}
           ./nixos/configuration.nix
         ];
       };

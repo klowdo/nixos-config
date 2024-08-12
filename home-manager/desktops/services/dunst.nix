@@ -38,7 +38,7 @@
         format = "%I %s %p\n%b";
 
         #TODO dynamic fonts
-        font = "Droid Sans 9";
+        # font = "Droid Sans 9";
 
         # Options are "left", "center", and "right".
         alignment = "left";
@@ -132,7 +132,7 @@
         #  * foreground: use the same color as the foreground;
         #  * frame: use the same color as the frame;
         #  * anything else will be interpreted as a X color.
-        separator_color = "#454947";
+        # separator_color = "#454947";
 
         # Print a notification on startup.
         # This is mainly for error detection, since dbus (re-)starts dunst
@@ -150,7 +150,7 @@
         origin = "top-right";
 
         #TODO dynamic theme colours
-        frame_color = "#dc7f41";
+        # frame_color = "#dc7f41";
 
         # Browser for opening urls in context menu.
         browser = "firefox";
@@ -159,7 +159,7 @@
       frame = {
         width = 2;
         #TODO dynamic colours
-        color = "#dc7f41";
+        # color = "#dc7f41";
       };
 
       shortcuts = {
@@ -183,22 +183,22 @@
 
       urgency_low = {
         #TODO dynamic colours
-        background = "#1e1e20";
-        foreground = "#c5c8c6";
+        # background = "#1e1e20";
+        # foreground = "#c5c8c6";
         timeout = 10;
       };
 
       urgency_normal = {
         #TODO dynamic colours
-        background = "#1e1e20";
-        foreground = "#c5c8c6";
+        # background = "#1e1e20";
+        # foreground = "#c5c8c6";
         timeout = 10;
       };
 
       urgency_critical = {
         #TODO dynamic colours
-        background = "#1e1e20";
-        foreground = "#c5c8c6";
+        # background = "#1e1e20";
+        # foreground = "#c5c8c6";
         timeout = 0;
       };
     };

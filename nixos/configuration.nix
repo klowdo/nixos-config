@@ -55,13 +55,7 @@
   };
 
   home-manager = {
-    extraSpecialArgs = {inherit inputs outputs
-
-  lib
-  config
-  pkgs;
-
-    };
+    extraSpecialArgs = {inherit inputs outputs;};
     users = {
       "klowdo" = import ../home-manager/home.nix;
     };

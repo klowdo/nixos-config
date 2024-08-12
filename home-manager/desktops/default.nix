@@ -5,7 +5,7 @@
     ./hyprland3
     # ./waybar.nix
     # ./i3
-    ./gnome
+    #./gnome
 
     ########## Utilities ##########
     #    ./services/dunst.nix # Notification daemon
