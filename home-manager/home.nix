@@ -13,13 +13,12 @@
     # If you want to use modules your own flake exports (from modules/home-manager):
     # outputs.homeManagerModules.example
 
-    inputs.nixvim.homeManagerModules.nixvim
 
     # Or modules exported from other flakes (such as nix-colors):
     # inputs.nix-colors.homeManagerModules.default
 
     # You can also split up your configuration and import pieces of it here:
-    ./nvim/default.nix
+    #./nvim/default.nix
     ./kitty.nix
     ./fonts.nix
     ./direnv.nix
@@ -27,6 +26,7 @@
     ./bat.nix
     ./zsh/default.nix
     ./desktops
+    ../nixvim/nixvim.nix
     # ./wlogout/default.nix
   ];
 
