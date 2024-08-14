@@ -45,7 +45,10 @@
         gaps_in = 8;
         gaps_out = 5;
         border_size = 3;
-        cursor_inactive_timeout = 4;
+      };
+
+      cursor = {
+        inactive_timeout = 4;
       };
 
       input = {
