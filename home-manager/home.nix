@@ -24,7 +24,7 @@
     ./fonts.nix
     ./direnv.nix
     ./zoxide.nix
-     ./bat.nix
+    ./bat.nix
     ./zsh/default.nix
     ./desktops
     # ./wlogout/default.nix
