@@ -8,6 +8,7 @@
     ./binds.nix
     ../services/dunst.nix
     ./waybar.nix
+    # ./hyprlock.nix
   ];
 
   # NOTE: xdg portal package is currently set in /hosts/common/optional/hyprland.nix
@@ -17,7 +18,6 @@
   # xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
 
   wayland.windowManager.hyprland = {
-
     enable = true;
     # systemd = {
     #   enable = true;
@@ -42,13 +42,12 @@
         # "QT_QPA_PLATFORM,wayland"
       ];
 
-
-# trigger when the switch is turning off
-    bindl = [
-    ", switch:off:Lid Switch,exec,hyprctl keyword monitor \"eDP-1,3456x2160, 0x0, 1.5\""
-    # trigger when the switch is turning on
-    ", switch:on:Lid Switch,exec,hyprctl keyword monitor \"eDP-1, disable\""
-    ];
+      # trigger when the switch is turning off
+      bindl = [
+        ", switch:off:Lid Switch,exec,hyprctl keyword monitor \"eDP-1,3456x2160, 0x0, 1.5\""
+        # trigger when the switch is turning on
+        ", switch:on:Lid Switch,exec,hyprctl keyword monitor \"eDP-1, disable\""
+      ];
 
       general = {
         gaps_in = 8;

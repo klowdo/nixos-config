@@ -53,6 +53,7 @@
       # $terminal = kitty
       # $fileManager = dolphin
       # $menu = wofi --show drun
+      hyprlock = "${config.programs.hyprlock.package}/bin/hyprlock";
       #swaylock = "${config.programs.swaylock.package}/bin/swaylock";
       #playerctl = "${config.services.playerctld.package}/bin/playerctl";
       #playerctld = "${config.services.playerctld.package}/bin/playerctld";
@@ -74,6 +75,10 @@
       #editor = defaultApp "text/plain";
     in
       [
+        #################### Computer Mange ####################
+
+        "${mainMod}, L, exec, ${hyprlock}"
+
         #################### Program Launch ####################
         # "$browser = google-chrome-stable"
         # "$terminal = kitty"

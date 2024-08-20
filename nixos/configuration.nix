@@ -24,10 +24,10 @@
     # ./hardware-cusomize.nix
     # ./nvidia.nix
     ../modules/nixos/stylix.nix
+    ../home-manager/wlogout/default.nix
   ];
 
   boot.kernelPackages = pkgs.pkgs.linuxPackages_6_9;
-
 
   nixpkgs = {
     # You can add overlays here
@@ -138,6 +138,8 @@
 
     pavucontrol
   ];
+
+  security.pam.services.hyprlock = {};
 
   programs = {
     hyprland = {
