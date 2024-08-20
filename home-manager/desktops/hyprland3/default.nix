@@ -17,6 +17,7 @@
   # xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
 
   wayland.windowManager.hyprland = {
+
     enable = true;
     # systemd = {
     #   enable = true;
@@ -40,6 +41,14 @@
         "WLR_RENDERER_ALLOW_SOFTWARE,1"
         # "QT_QPA_PLATFORM,wayland"
       ];
+
+
+# trigger when the switch is turning off
+    bindl = [
+    ", switch:off:Lid Switch,exec,hyprctl keyword monitor \"eDP-1,3456x2160, 0x0, 1.5\""
+    # trigger when the switch is turning on
+    ", switch:on:Lid Switch,exec,hyprctl keyword monitor \"eDP-1, disable\""
+    ];
 
       general = {
         gaps_in = 8;
