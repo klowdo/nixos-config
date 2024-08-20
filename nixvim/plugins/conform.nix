@@ -6,13 +6,15 @@
     extraPackages = with pkgs; [
       # Used to format Lua code
       stylua
+      nixfmt
+      alejandra
     ];
 
     # Autoformat
     # https://nix-community.github.io/nixvim/plugins/conform-nvim.html
     plugins.conform-nvim = {
       enable = true;
-      notifyOnError = false;
+      notifyOnError = true;
       formatOnSave = ''
         function(bufnr)
           -- Disable "format_on_save lsp_fallback" for lanuages that don't
@@ -27,6 +29,8 @@
       '';
       formattersByFt = {
         lua = ["stylua"];
+        nix = [["alejandra" "nixfmt"]];
+
         # Conform can also run multiple formatters sequentially
         # python = [ "isort "black" ];
         #
@@ -46,9 +50,7 @@
             require('conform').format { async = true, lsp_fallback = true }
           end
         '';
-        options = {
-          desc = "[F]ormat buffer";
-        };
+        options = {desc = "[F]ormat buffer";};
       }
     ];
   };
