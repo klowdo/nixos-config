@@ -12,7 +12,6 @@
   imports = [
     # If you want to use modules your own flake exports (from modules/nixos):
     # outputs.nixosModules.example
-    inputs.home-manager.nixosModules.home-manager
     # Or modules from other flakes (such as nixos-hardware):
     inputs.hardware.nixosModules.common-cpu-intel
     inputs.hardware.nixosModules.common-pc-laptop
@@ -24,42 +23,11 @@
     ./hardware-configuration.nix
     # ./hardware-cusomize.nix
     # ./nvidia.nix
+    ../modules/nixos/stylix.nix
   ];
 
   boot.kernelPackages = pkgs.pkgs.linuxPackages_6_9;
 
-  stylix = {
-    enable = true;
-    base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-macchiato.yaml";
-    image = ../lib/Sunrise.jpg;
-    fonts = {
-      monospace = {
-        package = pkgs.nerdfonts.override {fonts = ["JetBrainsMono"];};
-        name = "JetBrainsMono Nerd Font Mono";
-      };
-      sansSerif = {
-        package = pkgs.montserrat;
-        name = "Montserrat";
-      };
-      serif = {
-        package = pkgs.montserrat;
-        name = "Montserrat";
-      };
-      sizes = {
-        applications = 12;
-        terminal = 15;
-        desktop = 11;
-        popups = 12;
-      };
-    };
-  };
-
-  home-manager = {
-    extraSpecialArgs = {inherit inputs outputs;};
-    users = {
-      "klowdo" = import ../home-manager/home.nix;
-    };
-  };
 
   nixpkgs = {
     # You can add overlays here
