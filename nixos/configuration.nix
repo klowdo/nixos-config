@@ -27,7 +27,7 @@
     ../home-manager/wlogout/default.nix
   ];
 
-  boot.kernelPackages = pkgs.pkgs.linuxPackages_6_9;
+  boot.kernelPackages = pkgs.pkgs.linuxPackages_6_10;
 
   nixpkgs = {
     # You can add overlays here
