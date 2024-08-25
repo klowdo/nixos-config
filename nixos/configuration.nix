@@ -24,7 +24,7 @@
     # ./hardware-cusomize.nix
     # ./nvidia.nix
     ../modules/nixos/stylix.nix
-    ../home-manager/wlogout/default.nix
+    ../hosts/common/global/desktop/cosmic
   ];
 
   boot.kernelPackages = pkgs.pkgs.linuxPackages_6_10;
