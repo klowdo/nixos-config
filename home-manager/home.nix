@@ -26,7 +26,7 @@
     ./zsh/default.nix
     ./desktops
     ../nixvim/nixvim.nix
-    # ./wlogout/default.nix
+    ./wlogout/default.nix
 
     ../modules/home-manager/stylix.nix
   ];
