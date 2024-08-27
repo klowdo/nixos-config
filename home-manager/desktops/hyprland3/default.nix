@@ -42,6 +42,9 @@
         # "QT_QPA_PLATFORM,wayland"
       ];
 
+      monitor = [
+        "eDP-1,3456x2160, 0x0, 1.5"
+      ];
       # trigger when the switch is turning off
       bindl = [
         ", switch:off:Lid Switch,exec,hyprctl keyword monitor \"eDP-1,3456x2160, 0x0, 1.5\""
