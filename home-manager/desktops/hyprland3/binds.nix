@@ -95,6 +95,7 @@
 
         "SUPER,s,togglesplit"
         "SUPER,f,fullscreen,1"
+        "SUPER,m,fullscreen,1"
         "SUPERSHIFT,f,fullscreen,0"
         "SUPERSHIFT,space,togglefloating"
 
