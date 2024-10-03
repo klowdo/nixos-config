@@ -12,3 +12,9 @@ nix flake lock --update #{INPUT_NAME}
 ```
 sudo nixos-install --flake #HOSTNAME
 ```
+
+### age nix setup
+
+```
+nix run github:ryantm/agenix -- e secret1.age
+```

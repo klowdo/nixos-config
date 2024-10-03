@@ -37,7 +37,7 @@
     # Shameless plug: looking for a way to nixify your themes and make
     # everything match nicely? Try nix-colors!
     # nix-colors.url = "github:misterio77/nix-colors";
-
+    agenix.url = "github:ryantm/agenix";
     nixvim = {
       url = "github:nix-community/nixvim/nixos-24.05";
 
@@ -49,6 +49,7 @@
     { self
     , nixpkgs
     , home-manager
+    , agenix
     , nixpkgs-unstable
     , stylix
     , ...
