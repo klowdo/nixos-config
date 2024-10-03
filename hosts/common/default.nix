@@ -1,6 +1,7 @@
 # Common configuration for all hosts
 # Creds https://code.m3tam3re.com/m3tam3re/nixcfg
-{ lib
+{ pkgs
+, lib
 , inputs
 , outputs
 , ...
@@ -56,6 +57,9 @@
       (lib.mapAttrs (_: flake: { inherit flake; }))
         ((lib.filterAttrs (_: lib.isType "flake")) inputs);
     nixPath = [ "/etc/nix/path" ];
+
   };
+
+  users.defaultUserShell = pkgs.zsh;
 }
 
