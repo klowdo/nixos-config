@@ -1,7 +1,7 @@
 { config, ... }: {
   imports = [
     ./home.nix
-    ../features/cli
+    ../features
     ../common
   ];
 
@@ -11,6 +11,8 @@
       neofetch.enable = true;
       fzf.enable = true;
     };
+    desktop = {
+      wayland.enable = true;
     };
   };
 }
