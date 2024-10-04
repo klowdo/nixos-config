@@ -135,7 +135,7 @@
           extraSpecialArgs = { inherit inputs outputs; };
           modules = [
             # > Our main home-manager configuration file <
-            ./home-manager/home.nix
+            ./home/klowdo/dellicious.nix
           ];
         };
         "klowdo@virt-nix" = home-manager.lib.homeManagerConfiguration {
