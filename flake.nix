@@ -10,8 +10,10 @@
     # Also see the 'unstable-packages' overlay at 'overlays/default.nix'.
 
     # Home manager
-    home-manager.url = "github:nix-community/home-manager/release-24.05";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    home-manager = {
+      url = "github:nix-community/home-manager/release-24.05";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # TODO: Add any other flake you might need
     hardware.url = "github:nixos/nixos-hardware";
@@ -29,18 +31,23 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    hyprland-contrib = {
+      url = "github:hyprwm/contrib";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     nixos-cosmic = {
       url = "github:lilyinstarlight/nixos-cosmic";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    spicetify-nix = {
+      url = "github:Gerg-L/spicetify-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
-    # Shameless plug: looking for a way to nixify your themes and make
-    # everything match nicely? Try nix-colors!
-    # nix-colors.url = "github:misterio77/nix-colors";
-
+    agenix.url = "github:ryantm/agenix";
     nixvim = {
       url = "github:nix-community/nixvim/nixos-24.05";
-
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -49,6 +56,7 @@
     self,
     nixpkgs,
     home-manager,
+    agenix,
     nixpkgs-unstable,
     stylix,
     ...
@@ -98,19 +106,18 @@
         modules = [
           # > Our main nixos configuration file <
 
-          stylix.nixosModules.stylix
-          ./nixos/configuration.nix
+          # stylix.nixosModules.stylix
+          # ./nixos/configuration.nix
+          ./hosts/dellicious
+        ];
+      };
 
-          # home-manager.nixosModules.home-manager
-          # {
-          #   home-manager.extraSpecialArgs = {
-          #     inherit inputs outputs;
-          #   };
-          #   # home-manager.useGlobalPkgs = true;
-          #   home-manager.useUserPackages = true;
-          #   home-manager.backupFileExtension = "backup";
-          #   home-manager.users.klowdo = import ./home-manager/home.nix;
-          # }
+      virt-nix = nixpkgs.lib.nixosSystem {
+        # inherit specialArgs;
+        specialArgs = {inherit inputs outputs;};
+        modules = [
+          # > Our main nixos configuration file <
+          ./hosts/virt-nix
         ];
       };
     };
@@ -123,7 +130,14 @@
         extraSpecialArgs = {inherit inputs outputs;};
         modules = [
           # > Our main home-manager configuration file <
-          ./home-manager/home.nix
+          ./home/klowdo/dellicious.nix
+        ];
+      };
+      "klowdo@virt-nix" = home-manager.lib.homeManagerConfiguration {
+        pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
+        extraSpecialArgs = {inherit inputs outputs;};
+        modules = [
+          ./home/klowdo/virt-nix.nix
         ];
       };
     };

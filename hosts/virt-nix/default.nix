@@ -32,30 +32,13 @@
 # Please also change your hostname accordingly:
 #:w
 # networking.hostName = "nixos"; # Define your hostname.
-{outputs, ...}: {
+{
   imports = [
     ../common
     ./configuration.nix
-    # ./services
+    ./services
     ./secrets.nix
   ];
 
-  extraServices = {
-    podman.enable = true;
-    # hyprlock.enable = true;
-    swaylock.enable = true;
-    tpl.enable = true;
-  };
-
-  nixpkgs = {
-    overlays = [
-      outputs.overlays.additions
-      outputs.overlays.modifications
-      outputs.overlays.stable-packages
-    ];
-    config = {
-      allowUnfree = true;
-      allowUnfreePredicate = _: true;
-    };
-  };
+  extraServices.podman.enable = true;
 }
