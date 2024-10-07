@@ -30,5 +30,6 @@
         popups = 12;
       };
     };
+    targets.bat.enable = false;
   };
 }

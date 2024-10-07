@@ -9,7 +9,7 @@ with lib; let
   cfg = config.features.development.languages.dotnet;
   dotnet-combined = with pkgs.unstable.dotnetCorePackages;
     (combinePackages [
-      sdk_8_0
+      sdk_8_0_3xx
       sdk_9_0
     ])
     .overrideAttrs (finalAttrs: previousAttrs: {
