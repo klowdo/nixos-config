@@ -4,7 +4,9 @@
   lib,
   pkgs,
   ...
-}: {
+}: let
+  flakeInputs = lib.filterAttrs (_: lib.isType "flake") inputs;
+in {
   imports = [
     ../../nixvim/nixvim.nix
   ];
@@ -74,6 +76,7 @@
     grim
 
     pavucontrol
+    zellij-ps
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -119,6 +122,8 @@
   #
   home.sessionVariables = {
     FLAKE = "/home/${config.home.username}/.dotfiles/";
+    NIX_PATH = lib.concatStringsSep ":" (lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs);
+    PROJECT_FOLDERS = "/home/${config.home.username}/dev/";
   };
 
   # Nicely reload system units when changing configs
