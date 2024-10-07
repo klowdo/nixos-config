@@ -1,9 +1,10 @@
-{ config
-, pkgs
-, inputs
-, ...
+{
+  config,
+  pkgs,
+  inputs,
+  ...
 }: {
-  users.users.m3tam3re = {
+  users.users.klwodo = {
     initialHashedPassword = "$y$j9T$/nxF1ltBc38vOPhGNfjHE.$tf6BVIXMkWkgUFXciZu/g1QVH/Zd5eSH5oIjMK5Xd95";
     isNormalUser = true;
     description = "klowdo";
@@ -22,7 +23,7 @@
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPkGJ4oiQKSQc/stxvyBo1sgsNgKiH6/9EYQz7p9n8iX klowdo.fs@gmail.com"
     ];
-    packages = [ inputs.home-manager.packages.${pkgs.system}.default ];
+    packages = [inputs.home-manager.packages.${pkgs.system}.default];
   };
   home-manager.users.klowdo =
     import ../../../home/klowdo/${config.networking.hostName}.nix;
