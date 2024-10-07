@@ -1,13 +1,16 @@
-{ config
-, lib
-, ...
+{
+  config,
+  lib,
+  ...
 }:
 with lib; let
   cfg = config.features.desktop.hyprland;
-in
-{
+in {
   options.features.desktop.hyprland.enable = mkEnableOption "hyprland config";
 
+  imports = [
+    ./hypr
+  ];
   config = mkIf cfg.enable {
     wayland.windowManager.hyprland = {
       enable = true;
@@ -88,7 +91,7 @@ in
           preserve_split = true;
         };
 
-        master = { };
+        master = {};
 
         gestures = {
           workspace_swipe = false;
@@ -129,6 +132,24 @@ in
         "$mainMod" = "SUPER";
 
         bind = [
+          ################# Audio & Brightness ###################
+          ", xf86audioraisevolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"
+          ", xf86audiolowervolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
+          ", XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+
+          ", XF86AudioPlay, exec, playerctl play-pause"
+          ", XF86AudioPause, exec, playerctl play-pause"
+          ", XF86AudioNext, exec, playerctl next"
+          ", XF86AudioPrev, exec, playerctl previous"
+
+          # Keyboard backlight
+          ", keyboard_brightness_up_shortcut, exec, brightnessctl -d *::kbd_backlight set +33%"
+          ", keyboard_brightness_down_shortcut, exec, brightnessctl -d *::kbd_backlight set 33%-"
+
+          # Screen brightness
+          ", XF86MonBrightnessUp, exec, brightnessctl s +5%"
+          ", XF86MonBrightnessDown, exec, brightnessctl s 5%-"
+          #################### Basic Bindings ####################
           "$mainMod, return, exec, kitty -e zellij-ps"
           "$mainMod, t, exec, kitty -e zsh -c 'neofetch; exec zsh'"
           "$mainMod SHIFT, e, exec, kitty -e zellij_nvim"

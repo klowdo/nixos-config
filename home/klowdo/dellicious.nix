@@ -1,4 +1,4 @@
-j config, ... }: {
+{config, ...}: {
   imports = [
     ./home.nix
     ./dotfiles
@@ -47,4 +47,3 @@ j config, ... }: {
     };
   };
 }
-

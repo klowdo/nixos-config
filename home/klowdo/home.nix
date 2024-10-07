@@ -30,6 +30,7 @@
     lazygit
     nh
     eza
+    spotify
     gsettings-desktop-schemas
     swaynotificationcenter
     wlr-randr
@@ -47,6 +48,7 @@
     ncdu
     wl-clipboard
     pciutils
+    tmux
 
     unzip
     unrar
