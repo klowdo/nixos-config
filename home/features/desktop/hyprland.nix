@@ -52,13 +52,13 @@ in {
           gaps_in = 5;
           gaps_out = 5;
           border_size = 1;
-          "col.active_border" = "rgba(9742b5ee) rgba(9742b5ee) 45deg";
-          "col.inactive_border" = "rgba(595959aa)";
+          # "col.active_border" = "rgba(9742b5ee) rgba(9742b5ee) 45deg";
+          # "col.inactive_border" = "rgba(595959aa)";
           layout = "dwindle";
         };
 
         decoration = {
-          "col.shadow" = "rgba(1E202966)";
+          # "col.shadow" = "rgba(1E202966)";
           drop_shadow = true;
           shadow_range = 60;
           shadow_offset = "1 2";
@@ -164,7 +164,7 @@ in {
           "$mainMod, Escape, exec, wlogout -p layer-shell"
           "$mainMod, Space, togglefloating"
           "$mainMod, q, killactive"
-          "$mainMod, M, exit"
+          "$mainMod, M, fullscreen"
           "$mainMod, F, fullscreen"
           "$mainMod, V, togglefloating"
           "$mainMod, D, exec, wofi --show drun --allow-images"
