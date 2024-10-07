@@ -50,7 +50,10 @@
     LC_TELEPHONE = "sv_SE.UTF-8";
     LC_TIME = "sv_SE.UTF-8";
   };
-
+  programs.thunar = {
+    enable = true;
+    plugins = with pkgs.xfce; [thunar-archive-plugin thunar-volman];
+  };
   programs.hyprland = {
     enable = true;
     xwayland.enable = true;
@@ -86,16 +89,6 @@
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
-
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.klowdo = {
-    isNormalUser = true;
-    description = "Felix Svensson";
-    extraGroups = ["networkmanager" "wheel"];
-    packages = with pkgs; [
-      #  thunderbird
-    ];
-  };
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
