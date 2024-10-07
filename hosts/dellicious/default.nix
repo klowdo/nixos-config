@@ -36,7 +36,7 @@
   imports = [
     ../common
     ./configuration.nix
-    ./services
+    # ./services
     ./secrets.nix
   ];
 

@@ -1,26 +1,26 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-
-{ config, pkgs, ... }:
-
 {
-  imports =
-    [
-      # waiting for https://github.com/NixOS/nixos-hardware/pull/881
-      # should be xps 9530
-      nixos-hardware.nixosModules.dell-xps-15-9520
-      inputs.hardware.nixosModules.common-cpu-intel
-      # inputs.hardware.nixosModules.common-pc-laptop
-      # inputs.hardware.nixosModules.common-pc-laptop-ssd
-      # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-      # ./hardware-cusomize.nix
-      # ./nvidia.nix
-      # ../modules/nixos/stylix.nix
-    ];
+  inputs,
+  pkgs,
+  ...
+}: {
+  imports = [
+    # waiting for https://github.com/NixOS/nixos-hardware/pull/881
+    # should be xps 9530
+    inputs.hardware.nixosModules.dell-xps-15-9520
+    # inputs.hardware.nixosModules.common-cpu-intel
+    # inputs.hardware.nixosModules.common-pc-laptop
+    # inputs.hardware.nixosModules.common-pc-laptop-ssd
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+    # ./hardware-cusomize.nix
+    # ./nvidia.nix
+    # ../modules/nixos/stylix.nix
+  ];
 
-  # Kernel 
+  # Kernel
   boot.kernelPackages = pkgs.pkgs.linuxPackages_6_10;
 
   # Bootloader.
@@ -28,7 +28,7 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   networking.hostName = "dellicious"; # Define your hostname.
-  networking.wireless.enable = true; # Enables wireless support via wpa_supplicant.
+  # networking.wireless.enable = true; # Enables wireless support via wpa_supplicant.
 
   # Enable networking
   networking.networkmanager.enable = true;
@@ -91,12 +91,11 @@
   users.users.klowdo = {
     isNormalUser = true;
     description = "Felix Svensson";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = ["networkmanager" "wheel"];
     packages = with pkgs; [
       #  thunderbird
     ];
   };
-
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
@@ -119,14 +118,12 @@
   hardware.bluetooth.powerOnBoot = true;
   services.blueman.enable = true;
 
-
   # Enable the OpenSSH daemon.
   services.openssh = {
     enable = true;
     settings.PermitRootLogin = "no";
     allowSFTP = true;
   };
-
 
   system.stateVersion = "24.05";
 }

@@ -1,6 +1,13 @@
-{ config, lib, pkgs, ... }:
-
 {
+  config,
+  inputs,
+  lib,
+  pkgs,
+  ...
+}: {
+  imports = [
+    ../../nixvim/nixvim.nix
+  ];
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   home.username = lib.mkDefault "${config.home.username}";
@@ -20,22 +27,52 @@
   home.packages = with pkgs; [
     kitty
     wofi
-    # # Adds the 'hello' command to your environment. It prints a friendly
-    # # "Hello, world!" when run.
-    # pkgs.hello
+    lazygit
+    nh
+    eza
+    gsettings-desktop-schemas
+    swaynotificationcenter
+    wlr-randr
+    ydotool
+    # hyprland-share-picker
+    pyprland
+    hyprpicker
+    hyprcursor
+    hyprlock
+    hypridle
+    hyprpaper
 
-    # # It is sometimes useful to fine-tune packages, for example, by applying
-    # # overrides. You can do that directly here, just don't forget the
-    # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
-    # # fonts?
-    # (pkgs.nerdfonts.override { fonts = [ "FantasqueSansMono" ]; })
+    ydotool
+    duf
+    ncdu
+    wl-clipboard
+    pciutils
 
-    # # You can also create simple shell scripts directly inside your
-    # # configuration. For example, this adds a command 'my-hello' to your
-    # # environment:
-    # (pkgs.writeShellScriptBin "my-hello" ''
-    #   echo "Hello, ${config.home.username}!"
-    # '')
+    unzip
+    unrar
+
+    ninja
+    brightnessctl
+    virt-viewer
+    swappy
+    appimage-run
+
+    brave
+
+    # wezterm
+    cool-retro-term
+    wl-clipboard
+    hyprland-protocols
+    hyprpicker
+    swayidle
+    swaylock
+    xdg-desktop-portal-hyprland
+    hyprpaper
+    firefox-wayland
+    swww
+    grim
+
+    pavucontrol
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -51,6 +88,17 @@
     #   org.gradle.console=verbose
     #   org.gradle.daemon.idletimeout=3600000
     # '';
+  };
+  # program.firefox.enable = true;
+  programs.git = {
+    enable = true;
+    userName = "Felix Svensson";
+    userEmail = "klowdo.fs@gmail.com";
+    aliases = {
+      ci = "commit";
+      co = "checkout";
+      st = "status";
+    };
   };
 
   # Home Manager can also manage your environment variables through
@@ -69,8 +117,11 @@
   #  /etc/profiles/per-user/m3tam3re/etc/profile.d/hm-session-vars.sh
   #
   home.sessionVariables = {
-    # EDITOR = "emacs";
+    FLAKE = "/home/${config.home.username}/.dotfiles/";
   };
+
+  # Nicely reload system units when changing configs
+  systemd.user.startServices = "sd-switch";
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
