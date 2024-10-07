@@ -17,6 +17,9 @@
       hyprland.enable = true;
       fonts.enable = true;
     };
+    media = {
+      spicetify.enable = true;
+    };
   };
 
   wayland.windowManager.hyprland = {
