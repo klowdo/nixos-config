@@ -41,4 +41,5 @@
   ];
 
   extraServices.podman.enable = true;
+  extraServices.hyprlock.enable = true;
 }
