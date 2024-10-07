@@ -40,6 +40,9 @@
     ./secrets.nix
   ];
 
-  extraServices.podman.enable = true;
-  extraServices.hyprlock.enable = true;
+  extraServices = {
+    podman.enable = true;
+    # hyprlock.enable = true;
+    swaylock.enable = true;
+  };
 }

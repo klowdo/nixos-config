@@ -1,11 +1,11 @@
-{ config
-, lib
-, ...
+{
+  config,
+  lib,
+  ...
 }:
 with lib; let
   cfg = config.features.cli.zsh;
-in
-{
+in {
   options.features.cli.zsh.enable = mkEnableOption "enable extended zsh configuration";
 
   config = mkIf cfg.enable {
@@ -27,7 +27,7 @@ in
       };
 
       loginExtra = ''
-          set -x NIX_PATH nixpkgs=channel:nixos-unstable
+          set -x NIX_PATH nixpkgs=channel:nixos-stable
           set -x NIX_LOG info
           set -x TERMINAL kitty
 
@@ -35,7 +35,6 @@ in
             exec Hyprland &> /dev/null
         fi
       '';
-
     };
   };
 }

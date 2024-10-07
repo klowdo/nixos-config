@@ -1,6 +1,6 @@
 {...}: {
   imports = [
     ./hypridle.nix
-    ./hyprlock.nix
+    # ./hyprlock.nix
   ];
 }
