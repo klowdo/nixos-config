@@ -52,6 +52,7 @@ in {
     tmux
     zellij
 
+    btop
     unzip
     unrar
 
@@ -92,6 +93,17 @@ in {
     #   org.gradle.console=verbose
     #   org.gradle.daemon.idletimeout=3600000
     # '';
+  };
+
+  programs = {
+    direnv = {
+      enable = true;
+      enableBashIntegration = true; # see note on other shells below
+      enableZshIntegration = true;
+      nix-direnv.enable = true;
+    };
+
+    bash.enable = true; # see note on other shells below
   };
   # program.firefox.enable = true;
   programs.git = {

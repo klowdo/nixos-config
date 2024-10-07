@@ -1,5 +1,5 @@
 {...}: {
   imports = [
-    ./dotnet.nix
+    ./rider.nix
   ];
 }

@@ -1,95 +1,42 @@
 # { pkgs, lib, config, inputs, ... }:
-#
-# let
-#   pkgs-stable = import inputs.nixpkgs-stable { system = pkgs.stdenv.system; };
-#   dotnet-combined = (with pkgs.dotnetCorePackages; combinePackages [
-#     sdk_8_0
-#   ]).overrideAttrs (finalAttrs: previousAttrs: {
-#     # This is needed to install workload in $HOME
-#     # https://discourse.nixos.org/t/dotnet-maui-workload/20370/2
-#     postBuild = (previousAttrs.postBuild or '''') + ''
-#        for i in $out/sdk/*
-#        do
-#          i=$(basename $i)
-#          length=$(printf "%s" "$i" | wc -c)
-#          substring=$(printf "%s" "$i" | cut -c 1-$(expr $length - 2))
-#          i="$substring""00"
-#          mkdir -p $out/metadata/workloads/''${i/-*}
-#          touch $out/metadata/workloads/''${i/-*}/userlocal
-#       done
-#
-#       mkdir -p $out/home
-#       export HOME=$out/home
-#       export DOTNET_ROOT=$out 
-#       $out/dotnet workload install aspire
-#     '';
-#   });
-# in
-# rec
-# {
-#
-#   home.sessionVariables = {
-#     DOTNET_ROOT = "${dotnet-combined}";
-#   };
-#
-#   home.packages = [
-#     dotnet-combined
-#   ];
-#   # env.GREET = "avalonia";
-#   # env.DOTNET_ROOT = "${dotnet-combined}";
-#   # languages.dotnet.enable = true;
-#   # languages.dotnet.package = dotnet-combined;
-#   # packages = [
-#   #   pkgs.git
-#   #   pkgs.omnisharp-roslyn
-#   # ];
-#
-#
-# }
-
-
-{ config
-, lib
-, pkgs
-, ...
+{
+  config,
+  lib,
+  pkgs,
+  ...
 }:
 with lib; let
-  cfg = config.features.languages.dotnet;
-  dotnet-combined = (with pkgs.dotnetCorePackages; combinePackages [
-    sdk_8_0
-  ]).overrideAttrs (finalAttrs: previousAttrs: {
-    # This is needed to install workload in $HOME
-    # https://discourse.nixos.org/t/dotnet-maui-workload/20370/2
-    postBuild = (previousAttrs.postBuild or '''') + ''
-       for i in $out/sdk/*
-       do
-         i=$(basename $i)
-         length=$(printf "%s" "$i" | wc -c)
-         substring=$(printf "%s" "$i" | cut -c 1-$(expr $length - 2))
-         i="$substring""00"
-         mkdir -p $out/metadata/workloads/''${i/-*}
-         touch $out/metadata/workloads/''${i/-*}/userlocal
-      done
-
-      mkdir -p $out/home
-      export HOME=$out/home
-      export DOTNET_ROOT=$out 
-      $out/dotnet workload install aspire
-    '';
-  });
-in
-{
-  options.features.languages.dotnet.enable =
-    mkEnableOption "install dotnet sdk and workload";
-
+  cfg = config.features.development.languages.dotnet;
+  dotnet-combined = with pkgs.unstable.dotnetCorePackages;
+    (combinePackages [
+      sdk_8_0
+      sdk_9_0
+    ])
+    .overrideAttrs (finalAttrs: previousAttrs: {
+      # This is needed to install workload in $HOME
+      # https://discourse.nixos.org/t/dotnet-maui-workload/20370/2
+      postBuild =
+        (previousAttrs.postBuild or '''')
+        + ''
+           for i in $out/sdk/*
+           do
+             i=$(basename $i)
+             length=$(printf "%s" "$i" | wc -c)
+             substring=$(printf "%s" "$i" | cut -c 1-$(expr $length - 2))
+             i="$substring""00"
+             mkdir -p $out/metadata/workloads/''${i/-*}
+             touch $out/metadata/workloads/''${i/-*}/userlocal
+          done
+        '';
+    });
+in {
+  options.features.development.languages.dotnet.enable = mkEnableOption "enable dotnet lang sdk";
   config = mkIf cfg.enable {
-    home.sessionVariables = {
-      DOTNET_ROOT = "${dotnet-combined}";
-      GREET = "hello";
-    };
-
     home.packages = [
       dotnet-combined
     ];
+    home.sessionVariables = {
+      DOTNET_ROOT = "${dotnet-combined}";
+    };
   };
 }
