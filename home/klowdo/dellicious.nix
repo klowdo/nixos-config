@@ -17,9 +17,6 @@
       hyprland.enable = true;
       fonts.enable = true;
     };
-    media = {
-      spicetify.enable = true;
-    };
   };
 
   wayland.windowManager.hyprland = {
@@ -34,6 +31,7 @@
           sensitivity = -0.5;
         }
       ];
+
       monitor = [
         "DP-1,3456x2160@60,0x0,1"
         "DP-1,1920x1080@60,0x0,1"
