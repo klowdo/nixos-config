@@ -43,6 +43,7 @@ in {
     hyprlock
     hypridle
     hyprpaper
+    slack
 
     ydotool
     duf
