@@ -4,10 +4,10 @@
   inputs,
   ...
 }: {
-  users.users.klwodo = {
+  users.users.klowdo = {
     initialHashedPassword = "$y$j9T$/nxF1ltBc38vOPhGNfjHE.$tf6BVIXMkWkgUFXciZu/g1QVH/Zd5eSH5oIjMK5Xd95";
     isNormalUser = true;
-    description = "klowdo";
+    description = "Felix Svensson";
     extraGroups = [
       "wheel"
       "networkmanager"
