@@ -1,4 +1,4 @@
-{config, ...}: {
+j config, ... }: {
   imports = [
     ./home.nix
     ./dotfiles
@@ -31,16 +31,9 @@
           sensitivity = -0.5;
         }
       ];
-
       monitor = [
-        "eDP-1,3456x2160, 0x0, 1.5"
-        "DP-4 ,5120x2160@60,3456x0,1"
-      ];
-      # trigger when the switch is turning off
-      bindl = [
-        ", switch:off:Lid Switch,exec,hyprctl keyword monitor \"eDP-1,3456x2160, 0x0, 1.5\""
-        # trigger when the switch is turning on
-        ", switch:on:Lid Switch,exec,hyprctl keyword monitor \"eDP-1, disable\""
+        "DP-1,3456x2160@60,0x0,1"
+        "DP-1,1920x1080@60,0x0,1"
       ];
       workspace = [
         "1, monitor:DP-1, default:true"
@@ -54,3 +47,4 @@
     };
   };
 }
+
