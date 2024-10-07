@@ -1,4 +1,6 @@
-{...}: {
+{...}: let
+  minutes = m: m * 60;
+in {
   services.hypridle = {
     enable = true;
     settings = {
@@ -10,11 +12,11 @@
 
       listener = [
         {
-          timeout = 900;
+          timeout = minutes 5;
           on-timeout = "swaylock";
         }
         {
-          timeout = 1200;
+          timeout = minutes 10;
           on-timeout = "hyprctl dispatch dpms off";
           on-resume = "hyprctl dispatch dpms on";
         }
