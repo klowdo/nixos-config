@@ -1,4 +1,10 @@
-{ config, lib, outputs, pkgs, ... }: {
+{
+  config,
+  lib,
+  outputs,
+  pkgs,
+  ...
+}: {
   nixpkgs = {
     # You can add overlays here
     overlays = [
@@ -6,6 +12,7 @@
       outputs.overlays.additions
       outputs.overlays.modifications
       outputs.overlays.stable-packages
+      outputs.overlays.unstable-packages
 
       # You can also add overlays exported from other flakes:
       # neovim-nightly-overlay.overlays.default
@@ -29,9 +36,8 @@
   nix = {
     package = lib.mkDefault pkgs.nix;
     settings = {
-      experimental-features = [ "nix-command" "flakes" "repl-flake" ];
+      experimental-features = ["nix-command" "flakes" "repl-flake"];
       warn-dirty = false;
     };
   };
 }
-
