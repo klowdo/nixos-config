@@ -10,6 +10,7 @@ in {
 
   imports = [
     ./hypr
+    ./sway
   ];
   config = mkIf cfg.enable {
     wayland.windowManager.hyprland = {

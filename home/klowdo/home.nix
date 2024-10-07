@@ -67,7 +67,6 @@
     hyprland-protocols
     hyprpicker
     swayidle
-    swaylock
     xdg-desktop-portal-hyprland
     hyprpaper
     firefox-wayland
