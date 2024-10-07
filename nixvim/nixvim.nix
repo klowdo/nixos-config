@@ -39,6 +39,7 @@
     # Add your plugins to ./plugins/custom/plugins and import them below
     ./plugins/custom/plugins/lazygit.nix
     ./plugins/custom/plugins/toggleterm.nix
+    ./plugins/custom/plugins/oil.nix
   ];
 
   /*
