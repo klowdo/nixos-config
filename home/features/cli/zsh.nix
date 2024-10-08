@@ -20,6 +20,7 @@ in {
         ls = "eza";
         grep = "rg";
         ps = "procs";
+        lg = "lazygit";
       };
       history = {
         size = 10000;
