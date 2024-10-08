@@ -100,6 +100,9 @@
     kitty
     git
     nh
+    pipewire
+    wireplumber
+    xdg-desktop-portal-hyprland
   ];
 
   # Extra Logitech Support
