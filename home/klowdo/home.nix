@@ -13,8 +13,8 @@ in {
   ];
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
-  home.username = lib.mkDefault "${config.home.username}";
-  home.homeDirectory = lib.mkDefault "/home/${config.home.username}";
+  home.username = lib.mkDefault "klowdo";
+  home.homeDirectory = lib.mkDefault "/home/klowdo";
 
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release
@@ -135,9 +135,9 @@ in {
   #  /etc/profiles/per-user/m3tam3re/etc/profile.d/hm-session-vars.sh
   #
   home.sessionVariables = {
-    FLAKE = "/home/${config.home.username}/.dotfiles/";
+    FLAKE = "/home/klowdo/.dotfiles/";
     NIX_PATH = lib.concatStringsSep ":" (lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs);
-    PROJECT_FOLDERS = "/home/${config.home.username}/dev/";
+    PROJECT_FOLDERS = "/home/klowdo/dev/";
   };
 
   # Nicely reload system units when changing configs
