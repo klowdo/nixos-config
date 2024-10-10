@@ -28,6 +28,7 @@ in {
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = with pkgs; [
+    inputs.hyprland-contrib.packages.x86_64-linux.hdrop # or any other package
     fastfetch
     kitty
     lazygit
