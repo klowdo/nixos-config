@@ -111,6 +111,7 @@
         #################### Basic Bindings ####################
         # ",q,killactive"
         "SUPERSHIFT,e,exit"
+        "$mainMod, Escape, exec, wlogout -p layer-shell"
 
         "SUPER,s,togglesplit"
         "SUPER,f,fullscreen,1"
