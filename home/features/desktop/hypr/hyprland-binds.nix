@@ -47,10 +47,9 @@
       };
 
       mainMod = "SUPER";
-      menu = "wofi --show drun";
+      menu = "wofi --show drun --allow-images";
       # browser = google-chrome-stable
       # browser = "${config.programs.go.package}/bin/swaylock";
-      terminal = "kitty";
       # $fileManager = dolphin
       # $menu = wofi --show drun
       hyprlock = "${config.programs.hyprlock.package}/bin/hyprlock";
@@ -104,7 +103,7 @@
         # "$fileManager = dolphin"
         # "$menu = wofi --show drun"
         "${mainMod}, B, exec, google-chrome-stable"
-        "${mainMod}, T, exec,${terminal}"
+        "${mainMod}, T, exec,$terminal"
         "${mainMod}, Q, killactive,"
         "${mainMod}, R, exec, ${menu}"
 
