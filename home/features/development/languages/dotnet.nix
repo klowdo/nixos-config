@@ -34,9 +34,13 @@ in {
   config = mkIf cfg.enable {
     home.packages = [
       dotnet-combined
+      pkgs.grpc
+      pkgs.protobuf
     ];
     home.sessionVariables = {
       DOTNET_ROOT = "${dotnet-combined}";
+      PROTOBUF_PROTOC = "${pkgs.protobuf}/bin/protoc";
+      GRPC_PROTOC_PLUGIN = "${pkgs.grpc}/bin/grpc_csharp_plugin";
     };
   };
 }
