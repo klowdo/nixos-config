@@ -1,13 +1,17 @@
-{ config
-, lib
-, ...
+{
+  config,
+  lib,
+  ...
 }:
 with lib; let
   cfg = config.features.desktop.hyprland;
-in
-{
+in {
   options.features.desktop.hyprland.enable = mkEnableOption "hyprland config";
 
+  imports = [
+    ./hypr
+    ./sway
+  ];
   config = mkIf cfg.enable {
     wayland.windowManager.hyprland = {
       enable = true;
@@ -27,10 +31,14 @@ in
           "XCURSOR_SIZE,32"
           "WLR_NO_HARDWARE_CURSORS,1"
           "GTK_THEME,Dracula"
+          "AQ_DRM_DEVICES,/dev/dri/card1"
+          "XDG_CURRENT_DESKTOP,Hyprland"
+          "XDG_SESSION_TYPE,wayland"
+          "XDG_SESSION_DESKTOP,Hyprland"
         ];
 
         input = {
-          kb_layout = "de,us";
+          kb_layout = "us";
           kb_variant = "";
           kb_model = "";
           kb_rules = "";
@@ -48,13 +56,13 @@ in
           gaps_in = 5;
           gaps_out = 5;
           border_size = 1;
-          "col.active_border" = "rgba(9742b5ee) rgba(9742b5ee) 45deg";
-          "col.inactive_border" = "rgba(595959aa)";
+          # "col.active_border" = "rgba(9742b5ee) rgba(9742b5ee) 45deg";
+          # "col.inactive_border" = "rgba(595959aa)";
           layout = "dwindle";
         };
 
         decoration = {
-          "col.shadow" = "rgba(1E202966)";
+          # "col.shadow" = "rgba(1E202966)";
           drop_shadow = true;
           shadow_range = 60;
           shadow_offset = "1 2";
@@ -88,12 +96,13 @@ in
           preserve_split = true;
         };
 
-        master = { };
+        master = {};
 
         gestures = {
           workspace_swipe = false;
         };
 
+        # trigger when the switch is turning off
         windowrule = [
           "float, file_progress"
           "float, confirm"
@@ -127,50 +136,76 @@ in
         ];
 
         "$mainMod" = "SUPER";
+        "$editor" = "nvim";
+        "$terminal" = "kitty";
+        "$browser" = "${config.programs.firefox.package}/bin/firefox";
+        "$menu" = "wofi --show drun --allow-images";
+        "$fileManager" = "thunar";
 
-        bind = [
-          "$mainMod, return, exec, kitty -e zellij-ps"
-          "$mainMod, t, exec, kitty -e zsh -c 'neofetch; exec zsh'"
-          "$mainMod SHIFT, e, exec, kitty -e zellij_nvim"
-          "$mainMod, o, exec, thunar"
-          "$mainMod, Escape, exec, wlogout -p layer-shell"
-          "$mainMod, Space, togglefloating"
-          "$mainMod, q, killactive"
-          "$mainMod, M, exit"
-          "$mainMod, F, fullscreen"
-          "$mainMod, V, togglefloating"
-          "$mainMod, D, exec, wofi --show drun --allow-images"
-          "$mainMod SHIFT, S, exec, bemoji"
-          "$mainMod, P, exec, wofi-pass"
-          "$mainMod SHIFT, P, pseudo"
-          "$mainMod, J, togglesplit"
-          "$mainMod, left, movefocus, l"
-          "$mainMod, right, movefocus, r"
-          "$mainMod, up, movefocus, u"
-          "$mainMod, down, movefocus, d"
-          "$mainMod, 1, workspace, 1"
-          "$mainMod, 2, workspace, 2"
-          "$mainMod, 3, workspace, 3"
-          "$mainMod, 4, workspace, 4"
-          "$mainMod, 5, workspace, 5"
-          "$mainMod, 6, workspace, 6"
-          "$mainMod, 7, workspace, 7"
-          "$mainMod, 8, workspace, 8"
-          "$mainMod, 9, workspace, 9"
-          "$mainMod, 0, workspace, 10"
-          "$mainMod SHIFT, 1, movetoworkspace, 1"
-          "$mainMod SHIFT, 2, movetoworkspace, 2"
-          "$mainMod SHIFT, 3, movetoworkspace, 3"
-          "$mainMod SHIFT, 4, movetoworkspace, 4"
-          "$mainMod SHIFT, 5, movetoworkspace, 5"
-          "$mainMod SHIFT, 6, movetoworkspace, 6"
-          "$mainMod SHIFT, 7, movetoworkspace, 7"
-          "$mainMod SHIFT, 8, movetoworkspace, 8"
-          "$mainMod SHIFT, 9, movetoworkspace, 9"
-          "$mainMod SHIFT, 0, movetoworkspace, 10"
-          "$mainMod, mouse_down, workspace, e+1"
-          "$mainMod, mouse_up, workspace, e-1"
-        ];
+        # bind = [
+        #   ################# Audio & Brightness ###################
+        #   ", xf86audioraisevolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"
+        #   ", xf86audiolowervolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
+        #   ", XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+        #
+        #   ", XF86AudioPlay, exec, playerctl play-pause"
+        #   ", XF86AudioPause, exec, playerctl play-pause"
+        #   ", XF86AudioNext, exec, playerctl next"
+        #   ", XF86AudioPrev, exec, playerctl previous"
+        #
+        #   # Keyboard backlight
+        #   ", keyboard_brightness_up_shortcut, exec, brightnessctl -d *::kbd_backlight set +33%"
+        #   ", keyboard_brightness_down_shortcut, exec, brightnessctl -d *::kbd_backlight set 33%-"
+        #
+        #   # Screen brightness
+        #   ", XF86MonBrightnessUp, exec, brightnessctl s +5%"
+        #   ", XF86MonBrightnessDown, exec, brightnessctl s 5%-"
+        #
+        #   # Screen shot # https://wiki.hyprland.org/FAQ/#how-do-i-screenshot
+        #   ", Print, exec, grim -g \"$(slurp -d)\" - | wl-copy"
+        #   #################### Basic Bindings ####################
+        #   "$mainMod, return, exec, kitty -e zellij-ps"
+        #   "$mainMod, t, exec, kitty -e zsh -c 'neofetch; exec zsh'"
+        #   "$mainMod SHIFT, e, exec, kitty -e zellij_nvim"
+        #   "$mainMod, o, exec, thunar"
+        #   "$mainMod, Escape, exec, wlogout -p layer-shell"
+        #   "$mainMod, Space, togglefloating"
+        #   "$mainMod, q, killactive"
+        #   "$mainMod, M, fullscreen"
+        #   "$mainMod, F, fullscreen"
+        #   "$mainMod, V, togglefloating"
+        #   "$mainMod, D, exec, wofi --show drun --allow-images"
+        #   "$mainMod SHIFT, S, exec, bemoji"
+        #   "$mainMod, P, exec, wofi-pass"
+        #   "$mainMod SHIFT, P, pseudo"
+        #   "$mainMod, J, togglesplit"
+        #   "$mainMod, left, movefocus, l"
+        #   "$mainMod, right, movefocus, r"
+        #   "$mainMod, up, movefocus, u"
+        #   "$mainMod, down, movefocus, d"
+        #   "$mainMod, 1, workspace, 1"
+        #   "$mainMod, 2, workspace, 2"
+        #   "$mainMod, 3, workspace, 3"
+        #   "$mainMod, 4, workspace, 4"
+        #   "$mainMod, 5, workspace, 5"
+        #   "$mainMod, 6, workspace, 6"
+        #   "$mainMod, 7, workspace, 7"
+        #   "$mainMod, 8, workspace, 8"
+        #   "$mainMod, 9, workspace, 9"
+        #   "$mainMod, 0, workspace, 10"
+        #   "$mainMod SHIFT, 1, movetoworkspace, 1"
+        #   "$mainMod SHIFT, 2, movetoworkspace, 2"
+        #   "$mainMod SHIFT, 3, movetoworkspace, 3"
+        #   "$mainMod SHIFT, 4, movetoworkspace, 4"
+        #   "$mainMod SHIFT, 5, movetoworkspace, 5"
+        #   "$mainMod SHIFT, 6, movetoworkspace, 6"
+        #   "$mainMod SHIFT, 7, movetoworkspace, 7"
+        #   "$mainMod SHIFT, 8, movetoworkspace, 8"
+        #   "$mainMod SHIFT, 9, movetoworkspace, 9"
+        #   "$mainMod SHIFT, 0, movetoworkspace, 10"
+        #   "$mainMod, mouse_down, workspace, e+1"
+        #   "$mainMod, mouse_up, workspace, e-1"
+        # ];
 
         bindm = [
           "$mainMod, mouse:272, movewindow"
