@@ -55,7 +55,6 @@ in {
     tmux
     zellij
 
-    btop
     unzip
     unrar
 
@@ -118,6 +117,10 @@ in {
       co = "checkout";
       st = "status";
     };
+  };
+
+  programs.btop = {
+    enable = true;
   };
 
   # Home Manager can also manage your environment variables through
