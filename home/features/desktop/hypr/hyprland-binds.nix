@@ -102,8 +102,8 @@
         # "$terminal = kitty"
         # "$fileManager = dolphin"
         # "$menu = wofi --show drun"
-        "${mainMod}, B, exec, google-chrome-stable"
-        "${mainMod}, T, exec,$terminal"
+        "${mainMod}, B, exec, $browser"
+        "${mainMod}, T, exec, $terminal"
         "${mainMod}, Q, killactive,"
         "${mainMod}, R, exec, ${menu}"
 
