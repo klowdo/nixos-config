@@ -93,9 +93,10 @@
 
         # Screen shot # https://wiki.hyprland.org/FAQ/#how-do-i-screenshot
         ", Print, exec, grim -g \"$(slurp -d)\" - | wl-copy"
+
         #################### Computer Mange ####################
 
-        "${mainMod}, L, exec, ${hyprlock}"
+        "SUPERSHIFT,e,exit"
 
         #################### Program Launch ####################
         # "$browser = google-chrome-stable"
@@ -106,10 +107,10 @@
         "${mainMod}, T, exec, $terminal"
         "${mainMod}, Q, killactive,"
         "${mainMod}, R, exec, ${menu}"
+        "${mainMod}, E, exec, $fileManager"
 
         #################### Basic Bindings ####################
         # ",q,killactive"
-        "SUPERSHIFT,e,exit"
         "$mainMod, Escape, exec, wlogout -p layer-shell"
 
         "SUPER,s,togglesplit"
@@ -132,26 +133,27 @@
 
         "SUPER,u,togglespecialworkspace"
         "SUPERSHIFT,u,movetoworkspacesilent,special"
+        # "$mainMod, G, togglefloating"
       ]
       ++
       # Change workspace
       (map
         (
-          n: "ALT,${n},workspace,name:${n}"
+          n: "$mainMod,${n},workspace,name:${n}"
         )
         workspaces)
       ++
       # Move window to workspace
       (map
         (
-          n: "SHIFTALT,${n},movetoworkspacesilent,name:${n}"
+          n: "SHIFTALT,${n},movetoworkspace,name:${n}"
         )
         workspaces)
       ++
       # Move focus
       (lib.mapAttrsToList
         (
-          key: direction: "ALT,${key},movefocus,${direction}"
+          key: direction: "$mainMod,${key},movefocus,${direction}"
         )
         directions)
       ++

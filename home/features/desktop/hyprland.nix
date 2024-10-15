@@ -37,7 +37,6 @@ in {
         env = [
           "XCURSOR_SIZE,32"
           "WLR_NO_HARDWARE_CURSORS,1"
-          "GTK_THEME,Dracula"
           "AQ_DRM_DEVICES,/dev/dri/card1"
           "XDG_CURRENT_DESKTOP,Hyprland"
           "XDG_SESSION_TYPE,wayland"
