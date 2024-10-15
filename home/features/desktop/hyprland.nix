@@ -16,6 +16,13 @@ in {
     wayland.windowManager.hyprland = {
       enable = true;
       settings = {
+        "$mainMod" = "SUPER";
+        "$editor" = "nvim";
+        "$terminal" = "kitty";
+        "$browser" = "${config.programs.firefox.package}/bin/firefox";
+        "$menu" = "wofi --show drun --allow-images";
+        "$fileManager" = "thunar";
+
         xwayland = {
           force_zero_scaling = true;
         };
@@ -134,13 +141,6 @@ in {
           "size 800 600, title:^(Volume Control)$"
           "move 75 44%, title:^(Volume Control)$"
         ];
-
-        "$mainMod" = "SUPER";
-        "$editor" = "nvim";
-        "$terminal" = "kitty";
-        "$browser" = "${config.programs.firefox.package}/bin/firefox";
-        "$menu" = "wofi --show drun --allow-images";
-        "$fileManager" = "thunar";
 
         # bind = [
         #   ################# Audio & Brightness ###################
