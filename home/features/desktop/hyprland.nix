@@ -215,6 +215,8 @@ in {
           "workspace 1,class:(Emacs)"
           "workspace 3,opacity 1.0, class:(brave-browser)"
           "workspace 4,class:(com.obsproject.Studio)"
+          "animation none, class:(jetbrains-rider)"
+          "opaque, class:(jetbrains-rider)"
         ];
       };
     };
