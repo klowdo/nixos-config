@@ -31,6 +31,9 @@
     laptopMonitor = "eDP-1,3456x2160@60,0x0,1.5";
   in {
     settings = {
+      input = {
+        touchpad = {scroll_factor = 0.2;};
+      };
       device = [
         {
           name = "keyboard";
