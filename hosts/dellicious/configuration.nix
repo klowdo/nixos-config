@@ -59,6 +59,23 @@
     xwayland.enable = true;
   };
 
+  # for screensharing
+  xdg = {
+    portal = {
+      enable = true;
+      config = {
+        common.default = ["gtk"];
+        hyprland.default = ["gtk" "hyprland"];
+      };
+      extraPortals = with pkgs; [
+        # xdg-desktop-portal-wlr
+        xdg-desktop-portal-gtk
+        xdg-desktop-portal-hyprland
+      ];
+      gtkUsePortal = true;
+    };
+  };
+
   programs.zsh.enable = true;
 
   # Configure keymap in X11
