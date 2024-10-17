@@ -142,6 +142,7 @@ in {
     FLAKE = "/home/klowdo/.dotfiles/";
     NIX_PATH = lib.concatStringsSep ":" (lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs);
     PROJECT_FOLDERS = "/home/klowdo/dev/";
+    NIXOS_OZONE_WL = "1";
   };
 
   # Nicely reload system units when changing configs
