@@ -10,8 +10,10 @@
     # Also see the 'unstable-packages' overlay at 'overlays/default.nix'.
 
     # Home manager
-    home-manager.url = "github:nix-community/home-manager/release-24.05";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    home-manager = {
+      url = "github:nix-community/home-manager/release-24.05";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # TODO: Add any other flake you might need
     hardware.url = "github:nixos/nixos-hardware";
@@ -43,13 +45,9 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Shameless plug: looking for a way to nixify your themes and make
-    # everything match nicely? Try nix-colors!
-    # nix-colors.url = "github:misterio77/nix-colors";
     agenix.url = "github:ryantm/agenix";
     nixvim = {
       url = "github:nix-community/nixvim/nixos-24.05";
-
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
