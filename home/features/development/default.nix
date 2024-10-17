@@ -1,6 +1,7 @@
-{ pkgs, ... }: {
+{pkgs, ...}: {
   imports = [
     ./languages
+    ./tools
   ];
 
   home.packages = with pkgs; [

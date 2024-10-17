@@ -1,12 +1,14 @@
-{ config
-, lib
-, pkgs
-, ...
+{
+  config,
+  lib,
+  pkgs,
+  ...
 }:
 with lib; let
   cfg = config.features.desktop.wayland;
-in
-{
+  light = "${pkgs.light}/bin/light";
+  pactl = "${pkgs.pulseaudioFull}/bin/pactl";
+in {
   options.features.desktop.wayland.enable = mkEnableOption "wayland extra tools and config";
 
   config = mkIf cfg.enable {
@@ -89,6 +91,10 @@ in
         #network,
         #workspaces,
         #tray,
+        #cpu,
+        #memory,
+        #temperature,
+        #idle_inhibitor,
         #backlight {
             background: #1e1e2e;
             padding: 0px 10px;
@@ -172,6 +178,20 @@ in
             border-right: 0px;
             margin-left: 0px;
         }
+
+          #battery.critical:not(.charging) {
+              background-color: #f53c3c;
+              color: #ffffff;
+              animation-name: blink;
+              animation-duration: 0.5s;
+              animation-timing-function: linear;
+              animation-iteration-count: infinite;
+              animation-direction: alternate;
+          }
+          #temperature.critical {
+              background-color: #eb4d4b;
+          }
+
       '';
       settings = {
         mainbar = {
@@ -182,9 +202,18 @@ in
           passthrough = false;
           gtk-layer-shell = true;
           height = 0;
-          modules-left = [ "clock" "custom/weather" "hyprland/workspaces" ];
-          modules-center = [ "hyprland/window" ];
+          modules-left = ["clock" "custom/weather" "hyprland/workspaces"];
+          modules-center = ["hyprland/window"];
           modules-right = [
+            "idle_inhibitor"
+            "pulseaudio"
+            "network"
+            "cpu"
+            "memory"
+            "temperature"
+            "backlight"
+            "battery"
+            "clock"
             "tray"
           ];
 
@@ -209,10 +238,10 @@ in
               "7" = "";
             };
             persistent_workspaces = {
-              "1" = [ ];
-              "2" = [ ];
-              "3" = [ ];
-              "4" = [ ];
+              "1" = [];
+              "2" = [];
+              "3" = [];
+              "4" = [];
             };
           };
           "custom/weather" = {
@@ -229,6 +258,69 @@ in
           clock = {
             format = " {:%R   %d/%m}";
             tooltip-format = "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>";
+          };
+          idle_inhibitor = {
+            format = "{icon}";
+            format-icons = {
+              activated = "";
+              deactivated = "";
+            };
+          };
+          cpu = {
+            format = "{usage}% ";
+            tooltip = false;
+          };
+          memory = {format = "{}% ";};
+          temperature = {
+            hwmon-path = "/sys/class/hwmon/hwmon3/temp1_input";
+            critical-threshold = 80;
+            format = "{temperatureC}°C {icon}";
+            format-icons = ["" "" ""];
+          };
+          backlight = {
+            format = "{percent}% {icon}";
+            format-icons = ["" ""];
+            on-scroll-up = "${light} -A 1";
+            on-scroll-down = "${light} -U 1";
+          };
+          battery = {
+            states = {
+              good = 90;
+              warning = 30;
+              critical = 15;
+            };
+            format = "{capacity}% {icon}";
+            format-charging = "{capacity}% ";
+            format-plugged = "{capacity}% ";
+            format-alt = "{time} {icon}";
+            format-icons = ["" "" "" "" ""];
+          };
+          network = {
+            format-wifi = "{essid} ({signalStrength}%) ";
+            format-ethernet = "{ifname}: {ipaddr}/{cidr} ";
+            format-linked = "{ifname} (No IP) ";
+            format-disconnected = "Disconnected ⚠";
+            format-alt = "{ifname}: {ipaddr}/{cidr}";
+          };
+          pulseaudio = {
+            format = "{volume}% {icon} {format_source}";
+            format-bluetooth = "{volume}% {icon} {format_source}";
+            format-bluetooth-muted = " {icon} {format_source}";
+            format-muted = " {format_source}";
+            format-source = "{volume}% ";
+            format-source-muted = "";
+            format-icons = {
+              headphones = "";
+              handsfree = "";
+              headset = "";
+              phone = "";
+              portable = "";
+              car = "";
+              default = ["" "" ""];
+            };
+            on-click = "${pactl} set-sink-mute @DEFAULT_SINK@ toggle";
+            on-scroll-up = "${pactl} set-sink-volume @DEFAULT_SINK@ +1%";
+            on-scroll-down = "${pactl} set-sink-volume @DEFAULT_SINK@ -1%";
           };
         };
       };
