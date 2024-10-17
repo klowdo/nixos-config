@@ -13,6 +13,16 @@ in {
     ./sway
   ];
   config = mkIf cfg.enable {
+    home.sessionVariables = {
+      MOZ_ENABLE_WAYLAND = "1";
+      NIXOS_OZONE_WL = "1";
+      T_QPA_PLATFORM = "wayland";
+      GDK_BACKEND = "wayland";
+      WLR_NO_HARDWARE_CURSORS = "1";
+      XDG_CURRENT_DESKTOP = "Hyprland";
+      XDG_SESSION_TYPE = "wayland";
+      XDG_SESSION_DESKTOP = "Hyprland";
+    };
     wayland.windowManager.hyprland = {
       enable = true;
       settings = {
@@ -32,6 +42,7 @@ in {
           "hyprpaper"
           "hypridle"
           "wl-paste -p -t text --watch clipman store -P --histpath=\"~/.local/share/clipman-primary.json\""
+          "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
         ];
 
         env = [
