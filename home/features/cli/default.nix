@@ -31,4 +31,7 @@
     tldr
     zip
   ];
+  programs.lazygit = {
+    enable = true;
+  };
 }
