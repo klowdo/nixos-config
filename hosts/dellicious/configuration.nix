@@ -59,6 +59,12 @@
     xwayland.enable = true;
   };
 
+  # for aspire dotnet
+  programs.nix-ld.enable = true;
+  programs.nix-ld.libraries = with pkgs; [
+    pkgs.mpifileutils
+  ];
+
   # for screensharing
   xdg = {
     portal = {
@@ -119,6 +125,7 @@
     nh
     pipewire
     wireplumber
+    mpifileutils
     xdg-desktop-portal-hyprland
   ];
 
