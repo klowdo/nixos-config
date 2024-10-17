@@ -1,8 +1,9 @@
-{ pkgs, ... }: {
+{pkgs, ...}: {
   imports = [
     ./zsh.nix
     ./fzf.nix
     ./neofetch.nix
+    ./yazi.nix
   ];
 
   programs.zoxide = {
@@ -14,10 +15,10 @@
     enable = true;
     enableZshIntegration = true;
     enableBashIntegration = true;
-    extraOptions = [ "-l" "--icons" "--git" "-a" ];
+    extraOptions = ["-l" "--icons" "--git" "-a"];
   };
 
-  programs.bat = { enable = true; };
+  programs.bat = {enable = true;};
 
   home.packages = with pkgs; [
     coreutils

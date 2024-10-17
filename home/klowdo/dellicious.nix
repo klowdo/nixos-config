@@ -11,6 +11,7 @@
       zsh.enable = true;
       neofetch.enable = true;
       fzf.enable = true;
+      yazi.enable = true;
     };
     desktop = {
       wayland.enable = true;
