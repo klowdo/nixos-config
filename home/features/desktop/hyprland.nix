@@ -55,7 +55,7 @@ in {
         ];
 
         input = {
-          kb_layout = "us,sv";
+          kb_layout = "us,se";
           kb_variant = ",qwerty";
           kb_options = [
             "grp:alt_space_toggle"
