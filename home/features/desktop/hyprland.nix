@@ -57,10 +57,8 @@ in {
         input = {
           kb_layout = "us,sv";
           kb_variant = ",qwerty";
-          kb_model = "";
-          kb_rules = "";
           kb_options = [
-            "grp:alt_shift_toggle"
+            "grp:alt_space_toggle"
             "ctrl:nocaps"
           ];
           follow_mouse = 1;
