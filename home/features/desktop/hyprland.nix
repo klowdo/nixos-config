@@ -55,11 +55,14 @@ in {
         ];
 
         input = {
-          kb_layout = "us";
-          kb_variant = "";
+          kb_layout = "us,sv";
+          kb_variant = ",qwerty";
           kb_model = "";
           kb_rules = "";
-          kb_options = "ctrl:nocaps";
+          kb_options = [
+            "grp:alt_shift_toggle"
+            "ctrl:nocaps"
+          ];
           follow_mouse = 1;
 
           touchpad = {
