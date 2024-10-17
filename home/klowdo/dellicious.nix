@@ -38,7 +38,6 @@
       device = [
         {
           name = "keyboard";
-          kb_layout = "us";
         }
         {
           name = "mouse";
