@@ -5,5 +5,6 @@
     ./swaylock.nix
     ./tpl.nix
     ./auto-cpufreq.nix
+    ./powertop.nix
   ];
 }
