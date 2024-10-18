@@ -46,6 +46,8 @@ in {
     hyprpaper
     slack
 
+    bluetuith
+
     ydotool
     duf
     ncdu
