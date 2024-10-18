@@ -94,6 +94,8 @@
         # Screen shot # https://wiki.hyprland.org/FAQ/#how-do-i-screenshot
         ", Print, exec, grim -g \"$(slurp -d)\" - | wl-copy"
         "SHIFTCTRL, P, exec, grim -g \"$(slurp -d)\" - | wl-copy"
+        #TODO: referece the audio-select bin
+        "$hyper, A, exec, audio-select"
 
         #################### Computer Mange ####################
 

@@ -32,6 +32,7 @@ in {
         "$browser" = "${config.programs.firefox.package}/bin/firefox";
         "$menu" = "wofi --show drun --allow-images";
         "$fileManager" = "thunar";
+        "$hyper" = "CONTROL_SHIFT_ALT_SUPER";
 
         xwayland = {
           force_zero_scaling = true;
