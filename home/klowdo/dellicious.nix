@@ -26,6 +26,9 @@
         dotnet.enable = true;
       };
     };
+    media = {
+      spicetify.enable = true;
+    };
   };
 
   wayland.windowManager.hyprland = let

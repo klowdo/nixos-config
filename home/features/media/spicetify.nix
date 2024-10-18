@@ -8,7 +8,7 @@
 with lib; let
   cfg = config.features.media.spicetify;
 in {
-  options.features.media.spicetify.enable = mkEnableOption "enable fuzzy finder";
+  options.features.media.spicetify.enable = mkEnableOption "enable spotify";
 
   imports = [
     inputs.spicetify-nix.homeManagerModules.default
@@ -25,8 +25,8 @@ in {
         keyboardShortcut
         shuffle # shuffle+ (special characters are sanitized out of extension names)
       ];
-      theme = spicePkgs.themes.catppuccin;
-      colorScheme = "mocha";
+      theme = lib.mkDefault spicePkgs.themes.catppuccin;
+      colorScheme = lib.mkDefault "mocha";
     };
   };
 }
