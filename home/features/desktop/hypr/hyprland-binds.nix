@@ -93,6 +93,7 @@
 
         # Screen shot # https://wiki.hyprland.org/FAQ/#how-do-i-screenshot
         ", Print, exec, grim -g \"$(slurp -d)\" - | wl-copy"
+        "SHIFTCTRL, P, exec, grim -g \"$(slurp -d)\" - | wl-copy"
 
         #################### Computer Mange ####################
 
