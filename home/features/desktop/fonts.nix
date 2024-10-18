@@ -1,12 +1,12 @@
-{ config
-, lib
-, pkgs
-, ...
+{
+  config,
+  lib,
+  pkgs,
+  ...
 }:
 with lib; let
   cfg = config.features.desktop.fonts;
-in
-{
+in {
   options.features.desktop.fonts.enable =
     mkEnableOption "install additional fonts for desktop apps";
 
@@ -19,5 +19,6 @@ in
       font-awesome_5
       noto-fonts
     ];
+    fonts.fontconfig.enable = true;
   };
 }

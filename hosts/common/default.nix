@@ -1,10 +1,11 @@
 # Common configuration for all hosts
 # Creds https://code.m3tam3re.com/m3tam3re/nixcfg
-{ pkgs
-, lib
-, inputs
-, outputs
-, ...
+{
+  pkgs,
+  lib,
+  inputs,
+  outputs,
+  ...
 }: {
   imports = [
     ./extraServices
@@ -13,7 +14,7 @@
   ];
   home-manager = {
     useUserPackages = true;
-    extraSpecialArgs = { inherit inputs outputs; };
+    extraSpecialArgs = {inherit inputs outputs;};
   };
 
   nixpkgs = {
@@ -23,6 +24,7 @@
       outputs.overlays.additions
       outputs.overlays.modifications
       outputs.overlays.stable-packages
+      outputs.overlays.unstable-packages
 
       # You can also add overlays exported from other flakes:
       # neovim-nightly-overlay.overlays.default
@@ -55,12 +57,10 @@
     };
     optimise.automatic = true;
     registry =
-      (lib.mapAttrs (_: flake: { inherit flake; }))
-        ((lib.filterAttrs (_: lib.isType "flake")) inputs);
-    nixPath = [ "/etc/nix/path" ];
-
+      (lib.mapAttrs (_: flake: {inherit flake;}))
+      ((lib.filterAttrs (_: lib.isType "flake")) inputs);
+    nixPath = ["/etc/nix/path"];
   };
 
   users.defaultUserShell = pkgs.zsh;
 }
-
