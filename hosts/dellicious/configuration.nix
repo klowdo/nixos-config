@@ -10,6 +10,7 @@
     # waiting for https://github.com/NixOS/nixos-hardware/pull/881
     # should be xps 9530
     inputs.hardware.nixosModules.dell-xps-15-9520
+    inputs.hardware.nixosModules.common-gpu-nvidia-disable
     # inputs.hardware.nixosModules.common-cpu-intel
     # inputs.hardware.nixosModules.common-pc-laptop
     # inputs.hardware.nixosModules.common-pc-laptop-ssd
