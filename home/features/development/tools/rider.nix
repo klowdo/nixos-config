@@ -8,11 +8,12 @@
 with lib; let
   cfg = config.features.development.tools.rider;
   riderpkg = pkgs.unstable.jetbrains.rider;
+  plugins = pkgs.unstable.jetbrains.plugins;
 in {
   options.features.development.tools.rider.enable = mkEnableOption "enable rider IDE";
   config = mkIf cfg.enable {
     home.packages = [
-      riderpkg
+      (plugins.addPlugins riderpkg ["github-copilot" "ideavim"])
     ];
 
     home.file.".local/share/applications/jetbrains-rider.desktop".text = ''
