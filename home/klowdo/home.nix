@@ -45,8 +45,8 @@ in {
     hypridle
     hyprpaper
     slack
-
     bluetuith
+    ferdium
 
     ydotool
     duf
