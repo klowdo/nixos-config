@@ -66,7 +66,7 @@ choises+="\\nHeadset (Music)"
 choises+="\\nHeadset (Call)"
 choises+="\\nHome Speakers"
 
- choice=$(echo -e "$choises" | wofi -d -p "Audio setup?" --hide-scroll --allow-markup  --width=600 --height=200)
+ choice=$(echo -e "$choises" | wofi -d -p "Audio setup?" --hide-scroll --allow-markup  --width=600 --height=400)
  
 case "$choice" in
 	"Headset (Music)") headsetMusic & ;;
