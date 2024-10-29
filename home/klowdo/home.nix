@@ -8,7 +8,7 @@
   flakeInputs = lib.filterAttrs (_: lib.isType "flake") inputs;
 in {
   imports = [
-    ../../nixvim/nixvim.nix
+    ../features/cli/nixvim/nixvim.nix
     ../../modules/home-manager/stylix.nix
   ];
   # Home Manager needs a bit of information about you and the paths it should
@@ -46,7 +46,6 @@ in {
     hyprpaper
     slack
     bluetuith
-    ferdium
 
     ydotool
     duf
