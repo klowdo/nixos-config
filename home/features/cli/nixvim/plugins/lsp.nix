@@ -74,6 +74,15 @@
       servers = {
         nixd = {
           enable = true;
+          settings = {
+            formatting.command = ["alejandra"];
+            nixpkgs.expr = "import <nixpkgs> { }";
+            options = {
+              #TODO: this should not be hardcoded nix configs
+              nixos.expr = "(builtins.getFlake (builtins.getEnv \"FLAKE\")).nixosConfigurations.dellicious.options";
+              home_manager.expr = "(builtins.getFlake (builtins.getEnv \"FLAKE\")).homeConfigurations.klowdo@dellicious.options";
+            };
+          };
         };
 
         # clangd = {
