@@ -1,12 +1,12 @@
-{ config
-, lib
-, pkgs
-, ...
+{
+  config,
+  lib,
+  pkgs,
+  ...
 }:
 with lib; let
   cfg = config.extraServices.podman;
-in
-{
+in {
   options.extraServices.podman.enable = mkEnableOption "enable podman";
 
   config = mkIf cfg.enable {
@@ -27,6 +27,7 @@ in
     };
     environment.systemPackages = with pkgs; [
       podman-compose
+      lazydocker
     ];
   };
 }
