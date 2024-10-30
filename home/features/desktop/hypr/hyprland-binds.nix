@@ -137,6 +137,9 @@
         "SUPER,u,togglespecialworkspace"
         "SUPERSHIFT,u,movetoworkspacesilent,special"
         # "$mainMod, G, togglefloating"
+        #Move workspaces like popos
+        "SUPERSHIFT, K, workspace, e+1"
+        "SUPERSHIFT, J, workspace, e-1"
       ]
       ++
       # Change workspace
