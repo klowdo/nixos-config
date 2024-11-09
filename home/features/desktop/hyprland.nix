@@ -1,9 +1,17 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }:
 with lib; let
+  start-way-displays = pkgs.writeShellScriptBin "start-way-displays" ''
+    #!/bin/sh
+
+    sleep 1 # give Hyprland a moment to set its defaults
+
+    ${pkgs.way-displays}/bin/way-displays > "/tmp/way-displays.''${XDG_VTNR}.''${USER}.log" 2>&1
+  '';
   cfg = config.features.desktop.hyprland;
 in {
   options.features.desktop.hyprland.enable = mkEnableOption "hyprland config";
@@ -13,6 +21,10 @@ in {
     ./sway
   ];
   config = mkIf cfg.enable {
+    home.packages = [
+      pkgs.way-displays
+    ];
+
     home.sessionVariables = {
       MOZ_ENABLE_WAYLAND = "1";
       NIXOS_OZONE_WL = "1";
@@ -24,6 +36,9 @@ in {
       XDG_SESSION_DESKTOP = "Hyprland";
     };
     wayland.windowManager.hyprland = {
+      source = [
+        "~/.config/hypr/keyboard.conf"
+      ];
       enable = true;
       settings = {
         "$mainMod" = "SUPER";
@@ -44,6 +59,7 @@ in {
           "hypridle"
           "wl-paste -p -t text --watch clipman store -P --histpath=\"~/.local/share/clipman-primary.json\""
           "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
+          "${start-way-displays}/bin/start-way-displays"
         ];
 
         env = [
