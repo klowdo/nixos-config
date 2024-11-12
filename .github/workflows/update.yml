@@ -15,7 +15,8 @@ jobs:
           # seem to universally support flakes
           nix_path: nixpkgs=channel:nixos-unstable
       - uses: DeterminateSystems/magic-nix-cache-action@main
-  
+      - run: git config --global user.email "klowdo.fs@gmail.com"
+      - run: git config --global user.name "GitHub automation"
       - run: nix flake update --commit-lock-file
       - uses: peter-evans/create-pull-request@v6
         with:
