@@ -1,8 +1,5 @@
 name: update
-on:
-  schedule:
-    - cron: '0 2 * * 6'
-  workflow_dispatch:
+on: push
 jobs:
   update:
     name: Update flake inputs
