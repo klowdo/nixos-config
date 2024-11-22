@@ -14,6 +14,7 @@ in {
     inputs.spicetify-nix.homeManagerModules.default
   ];
   config = mkIf cfg.enable {
+    stylix.targets.spicetify.enable = false;
     programs.spicetify = let
       spicePkgs = inputs.spicetify-nix.legacyPackages.${pkgs.system};
     in {

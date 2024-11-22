@@ -31,5 +31,6 @@
       };
     };
     targets.bat.enable = false;
+    targets.hyprland.enable = false;
   };
 }
