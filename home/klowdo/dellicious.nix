@@ -27,7 +27,7 @@
       };
     };
     media = {
-      spicetify.enable = true;
+      spicetify.enable = false;
     };
   };
 
