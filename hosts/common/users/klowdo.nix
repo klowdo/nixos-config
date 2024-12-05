@@ -4,6 +4,7 @@
   inputs,
   ...
 }: {
+  hardware.keyboard.zsa.enable = true;
   users.users.klowdo = {
     initialHashedPassword = "$y$j9T$/nxF1ltBc38vOPhGNfjHE.$tf6BVIXMkWkgUFXciZu/g1QVH/Zd5eSH5oIjMK5Xd95";
     isNormalUser = true;
