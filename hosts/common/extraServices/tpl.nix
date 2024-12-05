@@ -22,8 +22,8 @@ in {
         CPU_MAX_PERF_ON_AC = 80;
         CPU_MIN_PERF_ON_BAT = 0;
         CPU_MAX_PERF_ON_BAT = 20;
-        CPU_SCALING_MIN_FREQ_ON_AC = 400000;
-        CPU_SCALING_MAX_FREQ_ON_AC = 4500000;
+        # CPU_SCALING_MIN_FREQ_ON_AC = 400000;
+        # CPU_SCALING_MAX_FREQ_ON_AC = 4500000;
         # CPU_SCALING_MAX_FREQ_ON_AC=5200000
 
         #Optional helps save long term battery health
