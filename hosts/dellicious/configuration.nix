@@ -128,6 +128,7 @@
     wireplumber
     mpifileutils
     xdg-desktop-portal-hyprland
+    keymapp
   ];
 
   # Extra Logitech Support
