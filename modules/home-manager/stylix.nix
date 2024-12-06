@@ -10,6 +10,11 @@
     enable = true;
     base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-macchiato.yaml";
     image = ../../lib/Sunrise.jpg;
+
+    cursor = {
+      package = pkgs.banana-cursor;
+      name = "Banana";
+    };
     fonts = {
       monospace = {
         package = pkgs.nerdfonts.override {fonts = ["JetBrainsMono"];};
