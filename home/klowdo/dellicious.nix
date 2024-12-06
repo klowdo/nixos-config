@@ -59,15 +59,15 @@
           sensitivity = -0.5;
         }
       ];
-      workspace = [
-        "1, monitor:eDP-1, default:true"
-        "2, monitor:eDP-1"
-        "3, monitor:eDP-1"
-        "4, monitor:eDP-2"
-        "5, monitor:eDP-1"
-        "6, monitor:eDP-2"
-        "7, monitor:eDP-2"
-      ];
+      # workspace = [
+      #   "1, monitor:eDP-1, default:true"
+      #   "2, monitor:eDP-1"
+      #   "3, monitor:eDP-1"
+      #   "4, monitor:eDP-2"
+      #   "5, monitor:eDP-1"
+      #   "6, monitor:eDP-2"
+      #   "7, monitor:eDP-2"
+      # ];
     };
   };
 }
