@@ -36,9 +36,6 @@ in {
       XDG_SESSION_DESKTOP = "Hyprland";
     };
     wayland.windowManager.hyprland = {
-      source = [
-        "~/.config/hypr/keyboard.conf"
-      ];
       enable = true;
       settings = {
         "$mainMod" = "SUPER";
@@ -70,22 +67,6 @@ in {
           "XDG_SESSION_TYPE,wayland"
           "XDG_SESSION_DESKTOP,Hyprland"
         ];
-
-        input = {
-          kb_layout = "us";
-          kb_variant = ",qwerty";
-          kb_options = [
-            "grp:alt_space_toggle"
-            "ctrl:nocaps"
-          ];
-          follow_mouse = 1;
-
-          touchpad = {
-            natural_scroll = true;
-          };
-
-          sensitivity = 0;
-        };
 
         general = {
           gaps_in = 5;
@@ -234,11 +215,6 @@ in {
         #   "$mainMod, mouse_down, workspace, e+1"
         #   "$mainMod, mouse_up, workspace, e-1"
         # ];
-
-        bindm = [
-          "$mainMod, mouse:272, movewindow"
-          "$mainMod, mouse:273, resizewindow"
-        ];
 
         windowrulev2 = [
           "workspace 1,class:(Emacs)"
