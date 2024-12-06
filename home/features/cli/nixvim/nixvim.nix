@@ -40,6 +40,7 @@
     ./plugins/custom/plugins/lazygit.nix
     ./plugins/custom/plugins/toggleterm.nix
     ./plugins/custom/plugins/oil.nix
+    ./plugins/custom/plugins/snacks.nix
   ];
 
   /*
