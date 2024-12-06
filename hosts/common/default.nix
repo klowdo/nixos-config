@@ -10,6 +10,7 @@
   imports = [
     ./extraServices
     ./users
+    ./global
     inputs.home-manager.nixosModules.home-manager
   ];
   home-manager = {
