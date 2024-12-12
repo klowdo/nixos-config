@@ -7,13 +7,14 @@
 with lib; let
   cfg = config.features.development.tools.rider;
   plugins = pkgs.unstable.jetbrains.plugins;
+  # https://github.com/NixOS/nixpkgs/blob/master/pkgs/applications/editors/jetbrains/default.nix
   riderpkg = pkgs.unstable.jetbrains.rider.overrideAttrs (old: {
     src = pkgs.fetchurl {
-      url = "https://download.jetbrains.com/rider/JetBrains.Rider-2024.3.tar.gz";
-      sha256 = "ef9b61c18851b6f3ef2bfa3fe147b34ac191622f65a41f2b53b3a609f9bff360";
+      url = "https://download.jetbrains.com/rider/JetBrains.Rider-2024.3.2.tar.gz";
+      sha256 = "17ia7g9g8f2h0radgbvcpb7d0h3wmk2rf7dz4819crq0annnnwbw";
     };
-    version = "2024.3";
-    build_number = "243.21565.191";
+    version = "2024.3.2";
+    build_number = "243.22562.171";
   });
 in {
   options.features.development.tools.rider.enable = mkEnableOption "enable rider IDE";
