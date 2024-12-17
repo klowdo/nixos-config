@@ -81,6 +81,15 @@ in {
     pavucontrol
     zellij-ps
     git-absorb
+    wofi-pass
+    wofi-emoji
+
+    yubikey-agent
+    yubico-pam
+    yubikey-manager
+    yubioath-flutter
+    pcsclite
+    # pam_u2f
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage

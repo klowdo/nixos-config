@@ -12,6 +12,7 @@
       neofetch.enable = true;
       fzf.enable = true;
       yazi.enable = true;
+      password-store.enable = true;
     };
     desktop = {
       wayland.enable = true;
