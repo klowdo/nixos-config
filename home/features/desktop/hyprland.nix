@@ -114,6 +114,10 @@ in {
           preserve_split = true;
         };
 
+        misc = {
+          vfr = true;
+        };
+
         master = {};
 
         gestures = {
