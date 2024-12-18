@@ -80,7 +80,7 @@ in {
         decoration = {
           # "col.shadow" = "rgba(1E202966)";
           shadow = {
-            enabled = true;
+            enabled = false;
             range = 60;
             offset = "1 2";
             render_power = 3;
@@ -88,12 +88,12 @@ in {
           };
           rounding = 8;
           blur = {
-            enabled = true;
+            enabled = false;
             size = 3;
             passes = 3;
           };
-          active_opacity = 0.9;
-          inactive_opacity = 0.5;
+          active_opacity = 1.0;
+          inactive_opacity = 0.7;
         };
 
         animations = {
