@@ -22,7 +22,7 @@
   ];
 
   # Kernel
-  boot.kernelPackages = pkgs.pkgs.linuxPackages_6_10;
+  boot.kernelPackages = pkgs.pkgs.linuxPackages_6_11;
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -58,6 +58,8 @@
   programs.hyprland = {
     enable = true;
     xwayland.enable = true;
+    portalPackage = inputs.hyprland.packages.${pkgs.system}.xdg-desktop-portal-hyprland;
+    package = inputs.hyprland.packages.${pkgs.system}.hyprland;
   };
 
   # for aspire dotnet
@@ -66,36 +68,19 @@
     pkgs.mpifileutils
   ];
 
-  # for screensharing
-  xdg = {
-    portal = {
-      enable = true;
-      config = {
-        common.default = ["gtk"];
-        hyprland.default = ["gtk" "hyprland"];
-      };
-      extraPortals = with pkgs; [
-        # xdg-desktop-portal-wlr
-        xdg-desktop-portal-gtk
-        xdg-desktop-portal-hyprland
-      ];
-      gtkUsePortal = true;
-    };
-  };
-
   programs.zsh.enable = true;
 
   # Configure keymap in X11
   services.xserver = {
-    layout = "us";
-    xkbVariant = "";
+    xkb = {
+      layout = "us";
+    };
   };
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
   # Enable sound with pipewire.
-  sound.enable = true;
   hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
@@ -128,6 +113,7 @@
     wireplumber
     mpifileutils
     xdg-desktop-portal-hyprland
+    keymapp
   ];
 
   # Extra Logitech Support
@@ -146,5 +132,5 @@
     allowSFTP = true;
   };
 
-  system.stateVersion = "24.05";
+  system.stateVersion = "24.11";
 }

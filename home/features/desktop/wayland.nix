@@ -80,6 +80,11 @@ in {
             border-radius: 10px;
         }
 
+        #idle_inhibitor {
+            border-radius: 10px 0px 0px 10px;
+        }
+
+
         #custom-language,
         #custom-updates,
         #custom-caffeine,
@@ -95,12 +100,12 @@ in {
         #memory,
         #temperature,
         #idle_inhibitor,
+        #language,
         #backlight {
             background: #1e1e2e;
             padding: 0px 10px;
             margin: 3px 0px;
             margin-top: 10px;
-            border: 1px solid #181825;
         }
 
         #tray {
@@ -143,7 +148,7 @@ in {
 
         #clock {
             color: #fab387;
-            border-radius: 10px 0px 0px 10px;
+            border-radius: 0px 10px 10px 0px;
             margin-left: 0px;
             border-right: 0px;
         }
@@ -168,7 +173,7 @@ in {
 
         #battery {
             color: #a6e3a1;
-            border-radius: 0 10px 10px 0;
+            border-radius: 0 0px 0px 0;
             margin-right: 10px;
             border-left: 0px;
         }
@@ -202,9 +207,13 @@ in {
           passthrough = false;
           gtk-layer-shell = true;
           height = 0;
-          modules-left = ["clock" "custom/weather" "hyprland/workspaces"];
+          modules-left = [
+            "clock"
+            "hyprland/workspaces"
+          ];
           modules-center = ["hyprland/window"];
           modules-right = [
+            "tray"
             "idle_inhibitor"
             "pulseaudio"
             "network"
@@ -212,11 +221,14 @@ in {
             "memory"
             "temperature"
             "backlight"
+            "hyprland/language"
             "battery"
-            "clock"
-            "tray"
           ];
-
+          "hyprland/language" = {
+            "format" = "{}";
+            "format-se" = "SE";
+            "format-en" = "US";
+          };
           "hyprland/window" = {
             format = "👉 {}";
             seperate-outputs = true;

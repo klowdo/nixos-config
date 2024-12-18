@@ -1,9 +1,17 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }:
 with lib; let
+  start-way-displays = pkgs.writeShellScriptBin "start-way-displays" ''
+    #!/bin/sh
+
+    sleep 1 # give Hyprland a moment to set its defaults
+
+    ${pkgs.way-displays}/bin/way-displays > "/tmp/way-displays.''${XDG_VTNR}.''${USER}.log" 2>&1
+  '';
   cfg = config.features.desktop.hyprland;
 in {
   options.features.desktop.hyprland.enable = mkEnableOption "hyprland config";
@@ -13,6 +21,10 @@ in {
     ./sway
   ];
   config = mkIf cfg.enable {
+    home.packages = [
+      pkgs.way-displays
+    ];
+
     home.sessionVariables = {
       MOZ_ENABLE_WAYLAND = "1";
       NIXOS_OZONE_WL = "1";
@@ -44,6 +56,7 @@ in {
           "hypridle"
           "wl-paste -p -t text --watch clipman store -P --histpath=\"~/.local/share/clipman-primary.json\""
           "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
+          "${start-way-displays}/bin/start-way-displays"
         ];
 
         env = [
@@ -54,22 +67,6 @@ in {
           "XDG_SESSION_TYPE,wayland"
           "XDG_SESSION_DESKTOP,Hyprland"
         ];
-
-        input = {
-          kb_layout = "us";
-          kb_variant = ",qwerty";
-          kb_options = [
-            "grp:alt_space_toggle"
-            "ctrl:nocaps"
-          ];
-          follow_mouse = 1;
-
-          touchpad = {
-            natural_scroll = true;
-          };
-
-          sensitivity = 0;
-        };
 
         general = {
           gaps_in = 5;
@@ -82,19 +79,21 @@ in {
 
         decoration = {
           # "col.shadow" = "rgba(1E202966)";
-          drop_shadow = true;
-          shadow_range = 60;
-          shadow_offset = "1 2";
-          shadow_render_power = 3;
-          shadow_scale = 0.97;
+          shadow = {
+            enabled = false;
+            range = 60;
+            offset = "1 2";
+            render_power = 3;
+            scale = 0.97;
+          };
           rounding = 8;
           blur = {
-            enabled = true;
+            enabled = false;
             size = 3;
             passes = 3;
           };
-          active_opacity = 0.9;
-          inactive_opacity = 0.5;
+          active_opacity = 1.0;
+          inactive_opacity = 0.7;
         };
 
         animations = {
@@ -113,6 +112,10 @@ in {
         dwindle = {
           pseudotile = true;
           preserve_split = true;
+        };
+
+        misc = {
+          vfr = true;
         };
 
         master = {};
@@ -219,17 +222,13 @@ in {
         #   "$mainMod, mouse_up, workspace, e-1"
         # ];
 
-        bindm = [
-          "$mainMod, mouse:272, movewindow"
-          "$mainMod, mouse:273, resizewindow"
-        ];
-
         windowrulev2 = [
           "workspace 1,class:(Emacs)"
           "workspace 3,opacity 1.0, class:(brave-browser)"
           "workspace 4,class:(com.obsproject.Studio)"
           "animation none, class:(jetbrains-rider)"
           "opaque, class:(jetbrains-rider)"
+          "opaque, initialTitle:(Huddle),initialClass:(Slack)"
         ];
       };
     };

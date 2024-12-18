@@ -121,6 +121,7 @@
         "SUPER,m,fullscreen,1"
         "SUPERSHIFT,f,fullscreen,0"
         "SUPERSHIFT,space,togglefloating"
+        "${mainMod},G,togglefloating"
         "SUPERSHIFT,q ,exit"
 
         "SUPER,minus,splitratio,-0.25"
@@ -129,8 +130,8 @@
         "SUPER,equal,splitratio,0.25"
         "SUPERSHIFT,equal,splitratio,0.3333333"
 
-        "SUPER,g,togglegroup"
-        "SUPER,t,lockactivegroup,toggle"
+        # "SUPER,g,togglegroup"
+        # "SUPER,t,lockactivegroup,toggle"
         "SUPER,apostrophe,changegroupactive,f"
         "SUPERSHIFT,apostrophe,changegroupactive,b"
 

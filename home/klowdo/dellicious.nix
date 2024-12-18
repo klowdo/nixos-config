@@ -12,6 +12,7 @@
       neofetch.enable = true;
       fzf.enable = true;
       yazi.enable = true;
+      password-store.enable = true;
     };
     desktop = {
       wayland.enable = true;
@@ -31,40 +32,43 @@
     };
   };
 
-  wayland.windowManager.hyprland = let
-    laptopMonitor = "eDP-1,3456x2160@60,0x0,1.5";
-  in {
+  wayland.windowManager.hyprland = {
     settings = {
       input = {
-        touchpad = {scroll_factor = 0.2;};
+        touchpad = {
+          scroll_factor = 0.2;
+          disable_while_typing = true;
+        };
+        kb_layout = "us,se";
+        kb_options = "grp:win_space_toggle,ctrl:nocaps";
+        follow_mouse = 1;
+
+        sensitivity = 0;
       };
+
       device = [
         {
-          name = "keyboard";
+          name = "zsa-technology-labs-moonlander-mark-i-keyboard";
+          kb_layout = "us,se";
+        }
+        {
+          name = "zsa-technology-labs-moonlander-mark-i";
+          kb_layout = "us,se";
         }
         {
           name = "mouse";
           sensitivity = -0.5;
         }
       ];
-      monitor = [
-        laptopMonitor
-        "DP-1,1920x1080@60,0x0,1"
-      ];
-      bindl = [
-        ", switch:off:Lid Switch,exec,hyprctl keyword monitor \"${laptopMonitor}\""
-        # trigger when the switch is turning on
-        ", switch:on:Lid Switch,exec,hyprctl keyword monitor \"eDP-1, disable\""
-      ];
-      workspace = [
-        "1, monitor:eDP-1, default:true"
-        "2, monitor:eDP-1"
-        "3, monitor:eDP-1"
-        "4, monitor:eDP-2"
-        "5, monitor:eDP-1"
-        "6, monitor:eDP-2"
-        "7, monitor:eDP-2"
-      ];
+      # workspace = [
+      #   "1, monitor:eDP-1, default:true"
+      #   "2, monitor:eDP-1"
+      #   "3, monitor:eDP-1"
+      #   "4, monitor:eDP-2"
+      #   "5, monitor:eDP-1"
+      #   "6, monitor:eDP-2"
+      #   "7, monitor:eDP-2"
+      # ];
     };
   };
 }

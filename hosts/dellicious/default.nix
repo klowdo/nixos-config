@@ -45,6 +45,7 @@
     # hyprlock.enable = true;
     swaylock.enable = true;
     tpl.enable = true;
+    auto-cpufreq.enable = true;
   };
 
   nixpkgs = {

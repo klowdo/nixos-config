@@ -23,7 +23,7 @@ in {
   # You should not change this value, even if you update Home Manager. If you do
   # want to update the value, then make sure to first check the Home Manager
   # release notes.
-  home.stateVersion = "24.05"; # Please read the comment before changing.
+  home.stateVersion = "24.11"; # Please read the comment before changing.
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
@@ -80,6 +80,16 @@ in {
 
     pavucontrol
     zellij-ps
+    git-absorb
+    wofi-pass
+    wofi-emoji
+
+    yubikey-agent
+    yubico-pam
+    yubikey-manager
+    yubioath-flutter
+    pcsclite
+    # pam_u2f
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -97,6 +107,22 @@ in {
     # '';
   };
 
+  # for screensharing
+  xdg = {
+    portal = {
+      enable = true;
+      config = {
+        common.default = ["gtk"];
+        hyprland.default = ["gtk" "hyprland"];
+      };
+      extraPortals = with pkgs; [
+        # xdg-desktop-portal-wlr
+        xdg-desktop-portal-gtk
+        xdg-desktop-portal-hyprland
+      ];
+    };
+  };
+
   programs = {
     direnv = {
       enable = true;
@@ -110,12 +136,30 @@ in {
   # program.firefox.enable = true;
   programs.git = {
     enable = true;
+    package = pkgs.gitAndTools.gitFull;
     userName = "Felix Svensson";
     userEmail = "klowdo.fs@gmail.com";
     aliases = {
       ci = "commit";
       co = "checkout";
       st = "status";
+    };
+    difftastic = {
+      enable = true;
+    };
+    extraConfig = {
+      init.defaultBranch = "main";
+
+      merge.conflictStyle = "zdiff3";
+      commit.verbose = true;
+      diff.algorithm = "histogram";
+      log.date = "iso";
+      column.ui = "auto";
+      branch.sort = "committerdate";
+      # Automatically track remote branch
+      push.autoSetupRemote = true;
+      # Reuse merge conflict fixes when rebasing
+      rerere.enabled = true;
     };
   };
 
