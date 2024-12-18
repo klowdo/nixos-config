@@ -224,6 +224,7 @@ in {
           "workspace 4,class:(com.obsproject.Studio)"
           "animation none, class:(jetbrains-rider)"
           "opaque, class:(jetbrains-rider)"
+          "opaque, initialTitle:(Huddle),initialClass:(Slack)"
         ];
       };
     };
