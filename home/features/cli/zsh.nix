@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }:
 with lib; let
@@ -13,7 +14,6 @@ in {
       enable = true;
       enableCompletion = true;
       syntaxHighlighting.enable = true;
-      oh-my-zsh.enable = true;
       shellAliases = {
         ll = "ls -l";
         update = "sudo nixos-rebuild switch";
@@ -27,6 +27,14 @@ in {
         path = "${config.xdg.dataHome}/zsh/history";
       };
 
+      plugins = [
+        {
+          name = "vi-mode";
+          src = pkgs.zsh-vi-mode;
+          file = "share/zsh-vi-mode/zsh-vi-mode.plugin.zsh";
+        }
+      ];
+
       loginExtra = ''
           set -x NIX_PATH nixpkgs=channel:nixos-stable
           set -x NIX_LOG info
@@ -36,6 +44,12 @@ in {
             exec Hyprland &> /dev/null
         fi
       '';
+
+      oh-my-zsh = {
+        enable = true;
+        theme = "robbyrussell";
+        plugins = ["git" "sudo" "dotnet"];
+      };
     };
   };
 }
