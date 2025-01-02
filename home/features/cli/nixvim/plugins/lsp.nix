@@ -85,6 +85,10 @@
           };
         };
 
+        csharp_ls = {
+          enable = true;
+        };
+
         # clangd = {
         #  enable = true;
         #}
