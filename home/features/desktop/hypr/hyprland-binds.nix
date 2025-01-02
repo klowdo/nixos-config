@@ -96,6 +96,8 @@
         "SHIFTCTRL, P, exec, grim -g \"$(slurp -d)\" - | wl-copy"
         #TODO: referece the audio-select bin
         "$hyper, A, exec, audio-select"
+        "$hyper, P, exec, wofi-pass"
+        "$hyper, E, exec, wofi-emoji fill"
 
         #################### Computer Mange ####################
 
