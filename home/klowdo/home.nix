@@ -30,9 +30,6 @@ in {
   home.packages = with pkgs; [
     inputs.hyprland-contrib.packages.x86_64-linux.hdrop # or any other package
     fastfetch
-    kitty
-    nh
-    eza
     gsettings-desktop-schemas
     swaynotificationcenter
     wlr-randr

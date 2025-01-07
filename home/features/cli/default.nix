@@ -5,6 +5,7 @@
     ./neofetch.nix
     ./yazi.nix
     ./password-store.nix
+    ./nh.nix
   ];
 
   programs.zoxide = {

@@ -87,11 +87,7 @@
     };
   };
 
-  environment.sessionVariables = {
-    FLAKE = "/home/klowdo/.dotfiles/";
-  };
   environment.systemPackages = with pkgs; [
-    nh
     eza
     gsettings-desktop-schemas
     swaynotificationcenter
