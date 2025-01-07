@@ -224,9 +224,14 @@ in {
 
         windowrulev2 = [
           "workspace 1,class:(Emacs)"
+          "workspace 2,class:(jetbrains-rider)"
           "workspace 3,opacity 1.0, class:(brave-browser)"
+          "workspace 3,opacity 1.0, class:(firefox)"
+          "workspace 4,class:(spotify)"
           "workspace 4,class:(com.obsproject.Studio)"
+          "workspace 5,class:(Slack)"
           "animation none, class:(jetbrains-rider)"
+          "animation none, initialClass:(jetbrains-rider)"
           "opaque, class:(jetbrains-rider)"
           "opaque, initialTitle:(Huddle),initialClass:(Slack)"
         ];
