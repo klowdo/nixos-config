@@ -41,6 +41,7 @@
     ./plugins/custom/plugins/toggleterm.nix
     ./plugins/custom/plugins/oil.nix
     ./plugins/custom/plugins/snacks.nix
+    ./plugins/custom/plugins/harpoon.nix
   ];
 
   /*
