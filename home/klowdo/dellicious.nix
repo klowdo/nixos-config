@@ -42,6 +42,7 @@
         kb_layout = "us,se";
         kb_options = "grp:win_space_toggle,ctrl:nocaps";
         follow_mouse = 1;
+        float_switch_override_focus = 0;
 
         sensitivity = 0;
       };
