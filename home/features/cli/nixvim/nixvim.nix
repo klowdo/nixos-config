@@ -42,6 +42,7 @@
     ./plugins/custom/plugins/oil.nix
     ./plugins/custom/plugins/snacks.nix
     ./plugins/custom/plugins/harpoon.nix
+    ./plugins/custom/plugins/dadbod.nix
   ];
 
   /*
