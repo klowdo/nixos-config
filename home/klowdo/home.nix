@@ -54,6 +54,7 @@ in {
 
     unzip
     unrar
+    p7zip
 
     ninja
     brightnessctl
