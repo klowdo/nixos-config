@@ -88,6 +88,7 @@ in {
     yubioath-flutter
     pcsclite
     # pam_u2f
+    rpi-imager
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
