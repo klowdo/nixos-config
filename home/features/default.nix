@@ -4,5 +4,6 @@
     ./desktop
     ./development
     ./media
+    ./communication
   ];
 }

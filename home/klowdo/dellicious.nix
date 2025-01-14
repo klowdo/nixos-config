@@ -30,6 +30,10 @@
     media = {
       spicetify.enable = true;
     };
+    communication = {
+      zoom.enable = true;
+      discord.enable = true;
+    };
   };
 
   wayland.windowManager.hyprland = {
