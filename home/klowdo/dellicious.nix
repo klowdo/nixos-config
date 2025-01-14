@@ -29,6 +29,7 @@
     };
     media = {
       spicetify.enable = true;
+      zathura.enable = true;
     };
     communication = {
       zoom.enable = true;
