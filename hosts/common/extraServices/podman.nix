@@ -26,6 +26,11 @@ in {
         defaultNetwork.settings.dns_enabled = true;
       };
     };
+
+    environment.variables = {
+      DOCKER_HOST = "unix:///run/user/1000/podman/podman.sock";
+    };
+
     environment.systemPackages = with pkgs; [
       podman-compose
       lazydocker
