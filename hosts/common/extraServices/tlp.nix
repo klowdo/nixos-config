@@ -4,9 +4,9 @@
   ...
 }:
 with lib; let
-  cfg = config.extraServices.tpl;
+  cfg = config.extraServices.tlp;
 in {
-  options.extraServices.tpl.enable = mkEnableOption "enable tpl cpu management";
+  options.extraServices.tlp.enable = mkEnableOption "enable tlp cpu management";
 
   config = mkIf cfg.enable {
     services.tlp = {

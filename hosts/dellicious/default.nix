@@ -44,8 +44,8 @@
     podman.enable = true;
     # hyprlock.enable = true;
     swaylock.enable = true;
-    tpl.enable = true;
     auto-cpufreq.enable = true;
+    tlp.enable = true;
   };
 
   nixpkgs = {

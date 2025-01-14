@@ -3,7 +3,7 @@
     ./podman.nix
     ./hypr
     ./swaylock.nix
-    ./tpl.nix
+    ./tlp.nix
     ./auto-cpufreq.nix
     ./powertop.nix
   ];
