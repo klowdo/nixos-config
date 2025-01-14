@@ -69,8 +69,8 @@ in {
         ];
 
         general = {
-          gaps_in = 5;
-          gaps_out = 5;
+          gaps_in = 0;
+          gaps_out = 0;
           border_size = 1;
           # "col.active_border" = "rgba(9742b5ee) rgba(9742b5ee) 45deg";
           # "col.inactive_border" = "rgba(595959aa)";
@@ -86,7 +86,7 @@ in {
             render_power = 3;
             scale = 0.97;
           };
-          rounding = 8;
+          rounding = 0;
           blur = {
             enabled = false;
             size = 3;
@@ -97,7 +97,7 @@ in {
         };
 
         animations = {
-          enabled = true;
+          enabled = false;
           bezier = "myBezier, 0.05, 0.9, 0.1, 1.05";
           animation = [
             "windows, 1, 7, myBezier"
