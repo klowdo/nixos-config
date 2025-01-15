@@ -6,5 +6,6 @@
     ./tlp.nix
     ./auto-cpufreq.nix
     ./powertop.nix
+    ./power-profiles-deamon.nix
   ];
 }
