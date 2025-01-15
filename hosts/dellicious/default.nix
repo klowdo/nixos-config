@@ -44,8 +44,9 @@
     podman.enable = true;
     # hyprlock.enable = true;
     swaylock.enable = true;
-    auto-cpufreq.enable = true;
-    tlp.enable = true;
+    # tlp.enable = true;
+    # auto-cpufreq.enable = true;
+    power-profiles-daemon.enable = true;
   };
 
   nixpkgs = {
