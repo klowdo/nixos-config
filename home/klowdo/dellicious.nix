@@ -13,6 +13,7 @@
       fzf.enable = true;
       yazi.enable = true;
       password-store.enable = true;
+      taskwarrior.enable = true;
     };
     desktop = {
       wayland.enable = true;
