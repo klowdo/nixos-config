@@ -39,6 +39,7 @@
     # ./services
     ./secrets.nix
   ];
+  powerManagement.enable = true;
 
   extraServices = {
     podman.enable = true;
