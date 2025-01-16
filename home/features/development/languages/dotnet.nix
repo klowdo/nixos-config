@@ -38,9 +38,13 @@ in {
       pkgs.protobuf
     ];
     home.sessionVariables = {
-      DOTNET_ROOT = "${pkgs.dotnet-combined}";
+      DOTNET_ROOT = "${pkgs.dotnet-combined}/share/dotnet";
       PROTOBUF_PROTOC = "${pkgs.protobuf}/bin/protoc";
       GRPC_PROTOC_PLUGIN = "${pkgs.grpc}/bin/grpc_csharp_plugin";
     };
+
+    home.sessionPath = [
+      "/home/klowdo/.dotnet/tools"
+    ];
   };
 }
