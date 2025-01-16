@@ -8,6 +8,7 @@
 
   features = {
     cli = {
+      kitty.enable = true;
       zsh.enable = true;
       neofetch.enable = true;
       fzf.enable = true;
