@@ -7,6 +7,7 @@
     ./password-store.nix
     ./nh.nix
     ./taskwarrior.nix
+    ./kitty.nix
   ];
 
   programs.zoxide = {
