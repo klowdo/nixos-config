@@ -43,6 +43,7 @@
     ./plugins/custom/plugins/snacks.nix
     ./plugins/custom/plugins/harpoon.nix
     ./plugins/custom/plugins/dadbod.nix
+    ./plugins/custom/plugins/neorg.nix
   ];
 
   /*
