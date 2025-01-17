@@ -1,6 +1,20 @@
 {
   # https://nix-community.github.io/nixvim/plugins/snacks/index.html
   programs.nixvim = {
+    plugins.dashboard = {
+      enable = true;
+      settings = {
+        theme = "hyper";
+        config.header = [
+          "███╗   ██╗██╗██╗  ██╗██╗   ██╗██╗███╗   ███╗"
+          "████╗  ██║██║╚██╗██╔╝██║   ██║██║████╗ ████║"
+          "██╔██╗ ██║██║ ╚███╔╝ ██║   ██║██║██╔████╔██║"
+          "██║╚██╗██║██║ ██╔██╗ ╚██╗ ██╔╝██║██║╚██╔╝██║"
+          "██║ ╚████║██║██╔╝ ██╗ ╚████╔╝ ██║██║ ╚═╝ ██║"
+          "╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝  ╚═══╝  ╚═╝╚═╝     ╚═╝"
+        ];
+      };
+    };
     plugins.snacks = {
       enable = true;
       settings = {
