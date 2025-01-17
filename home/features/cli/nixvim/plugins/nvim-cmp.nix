@@ -123,6 +123,9 @@
           {
             name = "path";
           }
+          {
+            name = "neorg";
+          }
         ];
       };
     };
