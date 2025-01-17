@@ -45,6 +45,7 @@
     ./plugins/custom/plugins/dadbod.nix
     ./plugins/custom/plugins/neorg.nix
     ./plugins/custom/plugins/persistence.nix
+    ./plugins/custom/plugins/obsidian.nix
   ];
 
   /*
