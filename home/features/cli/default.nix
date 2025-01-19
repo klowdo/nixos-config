@@ -48,6 +48,7 @@
     ripgrep
     tldr
     zip
+    wishlist
   ];
   programs.lazygit = {
     enable = true;
