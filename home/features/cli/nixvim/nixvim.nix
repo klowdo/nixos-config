@@ -46,6 +46,7 @@
     ./plugins/custom/plugins/neorg.nix
     ./plugins/custom/plugins/persistence.nix
     ./plugins/custom/plugins/obsidian.nix
+    ./plugins/custom/plugins/tmux-navigator.nix
   ];
 
   /*
