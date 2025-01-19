@@ -10,12 +10,14 @@ in {
   imports = [
     ../features/cli/nixvim/nixvim.nix
     ../../modules/home-manager/stylix.nix
+    inputs.catppuccin.homeManagerModules.catppuccin
   ];
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   home.username = lib.mkDefault "klowdo";
   home.homeDirectory = lib.mkDefault "/home/klowdo";
 
+  catppuccin.flavor = "macchiato";
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release
   # introduces backwards incompatible changes.
@@ -49,7 +51,6 @@ in {
     ncdu
     wl-clipboard
     pciutils
-    tmux
     zellij
 
     unzip
