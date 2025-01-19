@@ -8,6 +8,7 @@
     ./nh.nix
     ./taskwarrior.nix
     ./kitty.nix
+    ./tmux.nix
   ];
 
   programs.zoxide = {

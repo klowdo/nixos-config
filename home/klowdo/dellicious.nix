@@ -15,6 +15,7 @@
       yazi.enable = true;
       password-store.enable = true;
       taskwarrior.enable = true;
+      tmux.enable = true;
     };
     desktop = {
       wayland.enable = true;
