@@ -36,9 +36,8 @@ in {
       ];
 
       loginExtra = ''
-          set -x NIX_PATH nixpkgs=channel:nixos-stable
-          set -x NIX_LOG info
-          set -x TERMINAL kitty
+          export NIX_LOG=info
+          export TERMINAL=kitty
 
         if [[ $(tty) == "/dev/tty1" ]]; then
             exec Hyprland &> /dev/null
