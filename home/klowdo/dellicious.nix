@@ -25,6 +25,7 @@
     development = {
       tools = {
         rider.enable = true;
+        libreoffice.enable = true;
       };
       languages = {
         dotnet.enable = true;
