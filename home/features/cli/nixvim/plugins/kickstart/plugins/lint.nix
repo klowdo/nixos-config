@@ -1,5 +1,8 @@
-{
+{pkgs, ...}: {
   programs.nixvim = {
+    extraPackages = with pkgs; [
+      markdownlint-cli
+    ];
     # Linting
     # https://nix-community.github.io/nixvim/plugins/lint/index.html
     plugins.lint = {
