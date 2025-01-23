@@ -48,6 +48,7 @@
     ./plugins/custom/plugins/obsidian.nix
     ./plugins/custom/plugins/tmux-navigator.nix
     ./plugins/custom/plugins/markview.nix
+    ./plugins/custom/plugins
   ];
 
   /*
