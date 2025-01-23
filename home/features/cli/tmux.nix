@@ -79,6 +79,10 @@ in {
 
         set-option -g status-position top
 
+        # for image.nvim
+        set -gq allow-passthrough on
+        set -g visual-activity off
+
         # easy-to-remember split pane commands
         bind | split-window -h -c "#{pane_current_path}"
         bind - split-window -v -c "#{pane_current_path}"
