@@ -66,6 +66,7 @@ in {
         tmuxPlugins.vim-tmux-navigator
         tmuxPlugins.sensible
         tmux-super-fingers
+        tmuxPlugins.resurrect
       ];
 
       tmuxinator.enable = true;
