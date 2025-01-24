@@ -1,8 +1,10 @@
 {pkgs}:
 with pkgs.unstable.dotnetCorePackages;
   (combinePackages [
-    sdk_8_0_3xx
-    sdk_9_0
+    # sdk_8_0_3xx
+    # sdk_9_0
+    dotnet_8.sdk
+    dotnet_9.sdk
   ])
   .overrideAttrs (finalAttrs: previousAttrs: {
     # This is needed to install workload in $HOME

@@ -31,7 +31,7 @@ with lib; let
 
           for dir in lib/ReSharperHost/linux-*; do
             rm -rf $dir/dotnet
-            ln -s ${pkgs.dotnet-combined.unwrapped}/share/dotnet $dir/dotnet
+            ln -s ${pkgs.unstable.dotnet-sdk_8.unwrapped}/share/dotnet $dir/dotnet
           done
         )
       '';
