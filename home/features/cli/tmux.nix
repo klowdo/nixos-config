@@ -49,7 +49,7 @@ in {
     };
     programs.tmux = {
       enable = true;
-      shortcut = "a";
+      shortcut = "b";
       shell = "${pkgs.zsh}/bin/zsh";
       mouse = true;
       # shell = "${pkgs.fish}/bin/fish";
@@ -88,7 +88,11 @@ in {
         bind | split-window -h -c "#{pane_current_path}"
         bind - split-window -v -c "#{pane_current_path}"
         bind c new-window -c "#{pane_current_path}"
-        set -g prefix C-a
+
+        is_vim="ps -o state= -o comm= -t '#{pane_tty}' | grep -iqE '^[^TXZ ]+ +(\\S+\\/)?g?(view|l?n?vim?x?|fzf)(diff)?$'"
+        is_lg="ps -o state= -o comm= -t '#{pane_tty}' | grep -iqE '^[^TXZ ]+ +(\\S+\\/)?lazygit$'"
+        bind -n C-j if "$is_lg || $is_vim" "send-keys C-j"  "select-pane -D"
+        bind -n C-k if "$is_lg || $is_vim" "send-keys C-k"  "select-pane -U"
       '';
     };
     # programs.tmate = {
