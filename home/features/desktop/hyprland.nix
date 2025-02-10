@@ -233,7 +233,6 @@ in {
           "animation none, class:(jetbrains-rider)"
           "animation none, initialClass:(jetbrains-rider)"
           "opaque, class:(jetbrains-rider)"
-          "stayfocused, class:(jetbrains-rider)" # fix jetbrains losing focus
           "opaque, initialTitle:(Huddle),initialClass:(Slack)"
         ];
       };
