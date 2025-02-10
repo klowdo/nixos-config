@@ -8,6 +8,5 @@
   # cd-gitroot = pkgs.callPackage ./cd-gitroot { };
   # zhooks = pkgs.callPackage ./zhooks { };
   zellij-ps = pkgs.callPackage ./zellij-ps {};
-  dotnet-combined = pkgs.callPackage ./dotnet-combined {};
   # zsh-term-title = pkgs.callPackage ./zsh-term-title { };
 }
