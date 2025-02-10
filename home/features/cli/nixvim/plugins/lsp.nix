@@ -89,9 +89,9 @@
           enable = true;
         };
 
-        # clangd = {
-        #  enable = true;
-        #}
+        clangd = {
+          enable = true;
+        };
         gopls = {
           enable = true;
         };
