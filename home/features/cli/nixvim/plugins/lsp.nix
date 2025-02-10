@@ -95,6 +95,9 @@
         # gopls = {
         #  enable = true;
         #}
+        terraformls = {
+          enable = true;
+        };
         # pyright = {
         #  enable = true;
         #}

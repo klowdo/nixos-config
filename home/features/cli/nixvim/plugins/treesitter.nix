@@ -17,6 +17,7 @@
           "markdown"
           "vim"
           "vimdoc"
+          "terraform"
         ];
         indent = {
           enable = true;
