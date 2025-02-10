@@ -8,6 +8,7 @@
       stylua
       nixfmt-rfc-style
       alejandra
+      clang-tools
     ];
 
     # Autoformat
@@ -19,6 +20,7 @@
         formatters_by_ft = {
           lua = ["stylua"];
           nix = [["alejandra" "nixfmt"]];
+          c = ["clang-format"];
 
           # Conform can also run multiple formatters sequentially
           # python = [ "isort "black" ];
