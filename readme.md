@@ -3,6 +3,7 @@
 ![NixOS](https://img.shields.io/badge/NixOS-configuration-blue?logo=nixos)
 ![NH](https://img.shields.io/badge/Built%20with-NH-blueviolet)
 ![License](https://img.shields.io/badge/license-MIT-green) 
+![Nix Check](https://github.com/klowdo/nixos-config/actions/workflows/check.yml/badge.svg)
 
 Welcome to my **NixOS configuration**! This repository manages my declarative NixOS setup, optimized with [NH](https://github.com/viperML/nh) for easy management. Inspired by clean, modular designs like [Misterio77's](https://github.com/Misterio77/nix-config).
 
