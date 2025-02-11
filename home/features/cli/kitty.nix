@@ -11,6 +11,12 @@ in {
   config = mkIf cfg.enable {
     programs.kitty = {
       enable = true;
+      settings = {
+        allow_remote_control = "yes";
+      };
+      shellIntegration = {
+        enableZshIntegration = true;
+      };
       # enableZshIntegration = true;
       # confirm_os_window_close = 0;
       # dynamic_background_opacity = true;

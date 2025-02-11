@@ -8,6 +8,9 @@
       "SUPER,mouse:272,movewindow"
       "SUPER,mouse:273,resizewindow"
     ];
+    source = [
+      "~/.config/hypr/extra.conf"
+    ];
 
     bind = let
       workspaces = [

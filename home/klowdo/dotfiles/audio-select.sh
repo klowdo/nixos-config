@@ -1,79 +1,47 @@
 #!/usr/bin/env bash
 
+CONFIG_FILE=${1:-./audio-config.yml}
 
-##### get ids #####
-pa_sink_id(){
-	local sinkName=$1
-	pactl list short sinks | grep "$sinkName" | awk '{print $1}' 
-}
-pa_card_id(){
-	local cardName=$1
-	pactl list short cards | grep "$cardName" | awk '{print $1}' 
-}
+available="$(ponymix list-short --sink | awk -F '\t' '{print $4}')"
 
-pa_source_id(){
-	local sourceName=$1
-	pactl list short sources | grep "input"  | grep "$sourceName" | awk '{print $1}'
-}
+known="$(yq '.pairs[].name' -r $CONFIG_FILE)"
 
+selected=$(
+	printf '%s\n%s\n' "$known" "$available" | \
+	 wofi -i -M fuzzy -d \
+	-p "Audio setup?" --hide-scroll --allow-markup  --width=650 --height=400
+)
+
+if yq -e ".pairs[] | select(.name == \"$selected\")" $CONFIG_FILE >/dev/null 2>&1; then
+	mic=$(yq -e ".pairs[] | select(.name == \"$selected\")| .mic" -r $CONFIG_FILE)
+	selected=$(yq -e ".pairs[] | select(.name == \"$selected\")| .speaker" -r $CONFIG_FILE)
+
+	selectedMic=$(ponymix list-short --input | grep -i "$mic" |grep -i -v "mono" |grep -i -v "monitor" | awk -F '\t' '{print $2}')
+else 
+
+	mic=$(
+		ponymix list-short --sink | \
+		awk -F '\t' '{print $4}' | \
+		 wofi -i -M fuzzy -d  -p "Mic setup?" \
+		 --hide-scroll --allow-markup  --width=650 --height=400
+	)
+
+	selectedMic=$(ponymix list-short --input | grep -i "$mic"  | awk -F '\t' '{print $2}')
+
+fi
+
+selectedSink=$(ponymix list-short --sink | grep -i "$selected" | awk -F '\t' '{print $2}')
+
+ponymix set-default --input -d "$selectedMic"
+ponymix set-default --sink -d "$selectedSink"
 #
-set_source(){
-	local source_name=$1
-	local source_id=$(pa_source_id $source_name)
-	pactl set-default-source $source_id 
-}
-  
-##### SET ACTIONS #####
-set_profile(){
-	local sink_name=$1
-	local profile_name=$2
-	local card_id=$(pa_card_id $sink_name)
-        pactl set-card-profile $card_id $profile_name
-	local sink_id=$(pa_sink_id $sink_name)
-	pactl set-default-sink $sink_id 
-}
 
-set_output(){
-	local sink_name=$1
-	local sink_id=$(pa_sink_id $sink_name)
-	pactl set-default-sink $sink_id 
-}
-
-##### SETUPS ##### 
-headsetCall(){
-	set_source "Jabra_Link_380"
-	set_profile "Jabra_Link_380" "output:iec958-stereo+input:mono-fallback"
-	set_output "Jabra_Link_380" 
-}
-
-headsetMusic(){
-	set_profile "Jabra_Link_380" "output:analog-stereo+input:mono-fallback"
-	set_output "Jabra_Link_380"
-}
-
-laptop(){
-	set_source "skl_hda_dsp_generic"
-	set_output "skl_hda_dsp_generic"
-}
-
-homeSpeakers(){
-	set_source "HP_Z40c_G3_USB"
-	set_output "KT_USB_Audio"
-}
-
-choises="laptop"
-choises+="\\nHeadset (Music)"
-choises+="\\nHeadset (Call)"
-choises+="\\nHome Speakers"
-
- choice=$(echo -e "$choises" | wofi -d -p "Audio setup?" --hide-scroll --allow-markup  --width=600 --height=400)
- 
-case "$choice" in
-	"Headset (Music)") headsetMusic & ;;
-	"Headset (Call)") headsetCall & ;;
- "Home Speakers") homeSpeakers & ;;
- laptop) laptop & ;;
-esac
-
-
-
+# echo "----MIC OUTPUT----"
+# ponymix list-short --input | grep "$selectedMic"
+#
+# echo "----SPEAKER OUTPUT----"
+#
+# echo "speaker for $selected"
+# ponymix list-short --sink | grep "$selectedSink"
+#
+# echo "----OUTPUT----"
