@@ -60,6 +60,7 @@ in {
       escapeTime = 0;
       # Force tmux to use /tmp for sockets (WSL2 compat)
       secureSocket = false;
+      keyMode = "vi";
 
       plugins = with pkgs; [
         tmuxPlugins.better-mouse-mode
@@ -83,6 +84,11 @@ in {
         # for image.nvim
         set -gq allow-passthrough on
         set -g visual-activity off
+
+        bind -T copy-mode-vi v send -X begin-selection
+        bind -T copy-mode-vi y send-keys -X copy-pipe-and-cancel
+        bind P paste-buffer
+        bind -T copy-mode-vi MouseDragEnd1Pane send-keys -X copy-pipe-and-cancel
 
         # easy-to-remember split pane commands
         bind | split-window -h -c "#{pane_current_path}"
