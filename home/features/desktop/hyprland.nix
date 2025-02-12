@@ -21,6 +21,29 @@ in {
     ./sway
   ];
   config = mkIf cfg.enable {
+    ## https://github.com/nix-community/home-manager/blob/83bd3a26ac0526ae04fa74df46738bb44b89dcdd/modules/programs/waybar.nix#L190
+    systemd.user.services.way-displays = {
+      Unit = {
+        PartOf = ["graphical-session.target"]; # config.wayland.systemd.target
+        After = ["graphical-session.target"]; # config.wayland.systemd.target
+        # requiredBy = ["xdg-desktop-autostart.target"];
+        Documentation = "https://github.com/alex-courtis/way-displays";
+        description = "Start the way-displays manager";
+        ConditionEnvironment = "WAYLAND_DISPLAY";
+        #  X-Restart-Triggers = optional (settings != [ ])
+        # "${config.xdg.configFile."waybar/config".source}"
+        # ++ optional (cfg.style != null)
+        # "${config.xdg.configFile."waybar/style.css".source}";
+      };
+      Service = {
+        Restart = "on-failure";
+        KillMode = "mixed";
+        ExecStart = "${start-way-displays}/bin/start-way-displays";
+        ExecReload = "${pkgs.coreutils}/bin/kill -SIGUSR2 $MAINPID";
+      };
+
+      Install.WantedBy = ["graphical-session.target"]; # lib.optional (cfg.systemd.target != null) cfg.systemd.target;
+    };
     home.packages = [
       pkgs.way-displays
     ];
@@ -56,7 +79,6 @@ in {
           "hypridle"
           "wl-paste -p -t text --watch clipman store -P --histpath=\"~/.local/share/clipman-primary.json\""
           "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
-          "${start-way-displays}/bin/start-way-displays"
         ];
 
         env = [
