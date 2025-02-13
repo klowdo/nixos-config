@@ -6,6 +6,8 @@
     ../common
   ];
 
+  hyprpanel.enable = true;
+
   features = {
     cli = {
       kitty.enable = true;
