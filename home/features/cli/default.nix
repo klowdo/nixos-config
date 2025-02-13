@@ -39,18 +39,22 @@
     };
   };
 
-  home.packages = with pkgs; [
-    coreutils
-    fd
-    htop
-    httpie
-    jq
-    procs
-    ripgrep
-    tldr
-    zip
-    wishlist
-  ];
+  home.packages = with pkgs;
+    [
+      coreutils
+      fd
+      htop
+      httpie
+      jq
+      procs
+      ripgrep
+      tldr
+      zip
+      wishlist
+    ]
+    ++ [
+      pkgs.unstable.isd
+    ];
   programs.lazygit = {
     enable = true;
     package = pkgs.unstable.lazygit;
