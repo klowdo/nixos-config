@@ -112,7 +112,8 @@
         # "$fileManager = dolphin"
         # "$menu = wofi --show drun"
         "${mainMod}, B, exec, $browser"
-        "${mainMod}, T, exec, $terminal"
+        "${mainMod}, T, exec, $terminal -e 't'" # start tmux sesh
+        "${mainMod}SHIFT, T, exec, $terminal"
         "${mainMod}, Q, killactive,"
         "${mainMod}, R, exec, ${menu}"
         "${mainMod}, E, exec, $fileManager"
