@@ -18,10 +18,17 @@ with lib; let
         sha256 = "sha256-cPZCV8xk9QpU49/7H8iGhQYK6JwWjviL29eWabuqruc=";
       };
     };
+
+  t-sesh-cmd = pkgs.writeShellScriptBin "t" ''
+    sesh connect $(sesh list -i | gum filter  --limit 1 --no-sort --fuzzy --placeholder 'Pick a sesh' --height 50 --prompt='⚡')
+  '';
 in {
   options.features.cli.tmux.enable = mkEnableOption "enable tmux tool";
 
   config = mkIf cfg.enable {
+    xdg.configFile."sesh/sesh.toml" = {
+      source = config.lib.file.mkOutOfStoreSymlink ./sesh.toml;
+    };
     catppuccin.tmux = {
       enable = true;
       extraConfig = ''
@@ -81,6 +88,36 @@ in {
 
         set-option -g status-position top
 
+        set -g detach-on-destroy off
+        set -g focus-events on
+
+        ## SESH
+        bind-key "K" display-popup -E -w 40% "sesh connect \"$(
+          sesh list -i | gum filter --limit 1 --placeholder 'Pick a sesh' --prompt='⚡'
+        )\""
+
+        bind-key "J" run-shell "sesh connect \"$(
+          sesh list -i | fzf-tmux -p 55%,60% \
+            --no-sort --border-label ' sesh ' --prompt '⚡  ' \
+            --header '  ^a all ^t tmux ^x zoxide ^g config ^d tmux kill ^f find' \
+            --bind 'tab:down,btab:up' \
+            --bind 'ctrl-a:change-prompt(⚡  )+reload(sesh list -i)' \
+            --bind 'ctrl-t:change-prompt(🪟  )+reload(sesh list -it)' \
+            --bind 'ctrl-g:change-prompt(⚙️  )+reload(sesh list -ic)' \
+            --bind 'ctrl-x:change-prompt(📁  )+reload(sesh list -iz)' \
+            --bind 'ctrl-f:change-prompt(🔎  )+reload(fd -H -d 2 -t d -E .Trash . ~)' \
+            --bind 'ctrl-d:execute(tmux kill-session -t {})+change-prompt(⚡  )+reload(sesh list)'
+        )\""
+
+        bind -N "last-session (via sesh) " L run-shell "sesh last"
+        bind -N "switch to root session (via sesh) " 9 run-shell "sesh connect --root \'$(pwd)\'"
+        bind-key "R" display-popup -E -w 40% "sesh connect \"$(
+          sesh list -i -H | gum filter --valuf \"$(sesh root)\" --limit 1 --fuzzy --no-sort --placeholder 'Pick a sesh' --prompt='⚡'readme
+        )\""
+        ## SESH
+
+        bind-key x kill-pane
+
         # for image.nvim
         set -gq allow-passthrough on
         set -g visual-activity off
@@ -108,6 +145,9 @@ in {
     # };
 
     home.packages = [
+      pkgs.unstable.sesh
+      pkgs.unstable.gum
+      t-sesh-cmd
       # Open tmux for current project.
       (pkgs.writeShellApplication {
         name = "pux";

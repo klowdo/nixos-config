@@ -1,0 +1,22 @@
+import = [
+ "~/dev/sesh.toml"
+]
+
+[[session]]
+name = "home 🏠"
+path = "~"
+
+[[session]]
+name = "code 💻"
+path = "~/dev"
+
+[[session]]
+name = "dotfiles ❄️"
+path = "~/.dotfiles"
+startup_command = "nvim"
+
+[[session]]
+name = "downloads 📂"
+path = "~/Downloads"
+startup_command = "yazi"
+
