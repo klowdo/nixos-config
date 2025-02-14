@@ -91,8 +91,8 @@ in {
         ];
 
         general = {
-          gaps_in = 0;
-          gaps_out = 0;
+          gaps_in = 8;
+          gaps_out = 8;
           border_size = 1;
           # "col.active_border" = "rgba(9742b5ee) rgba(9742b5ee) 45deg";
           # "col.inactive_border" = "rgba(595959aa)";
@@ -108,7 +108,7 @@ in {
             render_power = 3;
             scale = 0.97;
           };
-          rounding = 0;
+          rounding = 3;
           blur = {
             enabled = false;
             size = 3;
