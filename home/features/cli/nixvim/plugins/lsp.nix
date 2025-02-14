@@ -98,6 +98,9 @@
         terraformls = {
           enable = true;
         };
+        bashls = {
+          enable = true;
+        };
         # pyright = {
         #  enable = true;
         #}
