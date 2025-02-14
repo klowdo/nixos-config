@@ -10,6 +10,7 @@
     ./kitty.nix
     ./tmux.nix
     ./gh.nix
+    ./nix.nix
   ];
 
   programs.zoxide = {
