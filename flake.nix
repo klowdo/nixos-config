@@ -62,43 +62,42 @@
     };
 
     catppuccin.url = "github:catppuccin/nix";
+    #
+    # sops-nix = {
+    #   url = "github:Mic92/sops-nix";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
+
+    systems.url = "github:nix-systems/default-linux";
   };
 
   outputs = {
     self,
     nixpkgs,
     home-manager,
-    agenix,
-    nixpkgs-unstable,
-    stylix,
+    systems,
     ...
   } @ inputs: let
     inherit (self) outputs;
-    # Supported systems for your flake packages, shell, etc.
-    systems = [
-      # "aarch64-linux"
-      # "i686-linux"
-      "x86_64-linux"
-      # "aarch64-darwin"
-      # "x86_64-darwin"
-    ];
-    # This is a function that generates an attribute by calling a function you
-    # pass to it, with each system as an argument
-    forAllSystems = nixpkgs.lib.genAttrs systems;
-
-    specialArgs = {
-      inherit
-        inputs
-        outputs
-        ;
-    };
+    # Thanks Misterio77
+    lib = nixpkgs.lib // home-manager.lib;
+    forEachSystem = f: lib.genAttrs (import systems) (system: f pkgsFor.${system});
+    pkgsFor = lib.genAttrs (import systems) (
+      system:
+        import nixpkgs {
+          inherit system;
+          config.allowUnfree = true;
+        }
+    );
   in {
     # Your custom packages
     # Accessible through 'nix build', 'nix shell', etc
-    packages = forAllSystems (system: import ./pkgs nixpkgs.legacyPackages.${system});
+    packages = forEachSystem (pkgs: import ./pkgs {inherit pkgs;});
+    # dev shells
+    devShells = forEachSystem (pkgs: import ./shell.nix {inherit pkgs;});
     # Formatter for your nix files, available through 'nix fmt'
     # Other options beside 'alejandra' include 'nixpkgs-fmt'
-    formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
+    formatter = forEachSystem (pkgs: pkgs.alejandra);
 
     # Your custom packages and modifications, exported as overlays
     overlays = import ./overlays {inherit inputs;};
