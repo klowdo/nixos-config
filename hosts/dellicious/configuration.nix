@@ -32,6 +32,11 @@
     kernelParams = ["i915.force_probe=a7a0"];
   };
 
+  hardware.intelgpu = {
+    # Raptor lake :Intel® VPL
+    driver = "i915"; # xe
+    vaapiDriver = "intel-media-driver";
+  };
 
   networking.hostName = "dellicious"; # Define your hostname.
   # networking.wireless.enable = true; # Enables wireless support via wpa_supplicant.
