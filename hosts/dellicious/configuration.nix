@@ -23,12 +23,15 @@
     # ../modules/nixos/stylix.nix
   ];
 
-  # Kernel
-  boot.kernelPackages = pkgs.pkgs.linuxPackages_6_11;
+  # Kernel Bootloader.
+  boot = {
+    kernelPackages = pkgs.linuxPackages_latest;
+    kernelModules = ["kvm-intel"];
+    loader.systemd-boot.enable = true;
+    loader.efi.canTouchEfiVariables = true;
+    kernelParams = ["i915.force_probe=a7a0"];
+  };
 
-  # Bootloader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
 
   networking.hostName = "dellicious"; # Define your hostname.
   # networking.wireless.enable = true; # Enables wireless support via wpa_supplicant.
@@ -73,7 +76,7 @@
   # for aspire dotnet
   programs.nix-ld.enable = true;
   programs.nix-ld.libraries = with pkgs; [
-    pkgs.mpifileutils
+    mpifileutils
   ];
 
   programs.zsh.enable = true;
