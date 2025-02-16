@@ -2,11 +2,15 @@
   config,
   pkgs,
   inputs,
+  lib,
   ...
 }: {
   hardware.keyboard.zsa.enable = true;
+  sops.secrets."passwords/klowdo".neededForUsers = true;
+  users.mutableUsers = false;
   users.users.klowdo = {
-    initialHashedPassword = "$y$j9T$/nxF1ltBc38vOPhGNfjHE.$tf6BVIXMkWkgUFXciZu/g1QVH/Zd5eSH5oIjMK5Xd95";
+    hashedPasswordFile = config.sops.secrets."passwords/klowdo".path;
+    # password = lib.mkForce "nixos"; # Uncomment to set temporary password until sops passwords work
     isNormalUser = true;
     description = "Felix Svensson";
     extraGroups = [
@@ -22,7 +26,7 @@
       "qemu-libvirtd"
     ];
     openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPkGJ4oiQKSQc/stxvyBo1sgsNgKiH6/9EYQz7p9n8iX klowdo.fs@gmail.com"
+      (builtins.readFile ./klowdo/keys/id_ed25519.pub)
     ];
     packages = [inputs.home-manager.packages.${pkgs.system}.default];
   };

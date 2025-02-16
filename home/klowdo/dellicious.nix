@@ -4,6 +4,7 @@
     ./dotfiles
     ../features
     ../common
+    ../common/optional/sops.nix
   ];
 
   hyprpanel.enable = true;
