@@ -62,11 +62,11 @@
     };
 
     catppuccin.url = "github:catppuccin/nix";
-    #
-    # sops-nix = {
-    #   url = "github:Mic92/sops-nix";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
+
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     systems.url = "github:nix-systems/default-linux";
   };
