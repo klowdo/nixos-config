@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  inputs,
+  ...
+}: {
   imports = [
     ./zsh.nix
     ./fzf.nix
@@ -55,7 +59,14 @@
     ]
     ++ [
       pkgs.unstable.isd
+      inputs.kixvim.packages.${system}.default
     ];
+
+  home.sessionVariables = {EDITOR = "nvim";};
+
+  programs = {
+    zsh.shellAliases.vimdiff = "nvim -d";
+  };
   programs.lazygit = {
     enable = true;
     package = pkgs.unstable.lazygit;

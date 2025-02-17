@@ -16,7 +16,11 @@ path = "~/.dotfiles"
 startup_command = "nvim"
 
 [[session]]
+name = "kixvim 👨‍💻"
+path = "~/dev/github/kixvim/"
+startup_command = "nvim --cmd ':Telecope find_files'"
+
+[[session]]
 name = "downloads 📂"
 path = "~/Downloads"
 startup_command = "yazi"
-
