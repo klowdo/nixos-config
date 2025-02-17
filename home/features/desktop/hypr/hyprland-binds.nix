@@ -1,8 +1,34 @@
 {
   lib,
+  pkgs,
   config,
   ...
-}: {
+}: let
+  increments = "5";
+
+  sound-change = pkgs.writeShellScriptBin "sound-change" ''
+    [[ $1 == "mute" ]] && wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+    [[ $1 == "up" ]] && wpctl set-volume --limit=1.5 @DEFAULT_AUDIO_SINK@ ''${2-${increments}}%+
+    [[ $1 == "down" ]] && wpctl set-volume --limit=1.5 @DEFAULT_AUDIO_SINK@ ''${2-${increments}}%-
+    [[ $1 == "set" ]] && wpctl set-volume --limit=1.5 @DEFAULT_AUDIO_SINK@ ''${2-100}%
+  '';
+
+  sound-up = pkgs.writeShellScriptBin "sound-up" ''
+    ${sound-change}/bin/sound-change up ${increments}
+  '';
+
+  # sound-set = pkgs.writeShellScriptBin "sound-set" ''
+  #   ${sound-change}/bin/sound-change  set ''${1-100}
+  # '';
+
+  sound-down = pkgs.writeShellScriptBin "sound-down" ''
+    ${sound-change}/bin/sound-change down ${increments}
+  '';
+
+  sound-toggle = pkgs.writeShellScriptBin "sound-toggle" ''
+    ${sound-change}/bin/sound-change mute
+  '';
+in {
   wayland.windowManager.hyprland.settings = {
     bindm = [
       "SUPER,mouse:272,movewindow"
@@ -12,6 +38,40 @@
       "~/.config/hypr/extra.conf"
     ];
 
+    # ################# Audio & Brightness ###################
+    # ", xf86audioraisevolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"
+    # ", xf86audiolowervolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
+    # ", XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+    #
+    # ", XF86AudioPlay, exec, playerctl play-pause"
+    # ", XF86AudioPause, exec, playerctl play-pause"
+    # ", XF86AudioNext, exec, playerctl next"
+    # ", XF86AudioPrev, exec, playerctl previous"
+    #
+    # # Keyboard backlight
+    # ", keyboard_brightness_up_shortcut, exec, brightnessctl -d *::kbd_backlight set +33%"
+    # ", keyboard_brightness_down_shortcut, exec, brightnessctl -d *::kbd_backlight set 33%-"
+    #
+    # # Screen brightness
+    # ", XF86MonBrightnessUp, exec, brightnessctl s +5%"
+    # ", XF86MonBrightnessDown, exec, brightnessctl s 5%-"
+
+    bindl = [
+      ",XF86AudioMute, exec, ${sound-toggle}/bin/sound-toggle" # Toggle Mute
+      ",XF86AudioPlay, exec, ${pkgs.playerctl}/bin/playerctl play-pause" # Play/Pause Song
+      ",XF86AudioNext, exec, ${pkgs.playerctl}/bin/playerctl next" # Next Song
+      ",XF86AudioPrev, exec, ${pkgs.playerctl}/bin/playerctl previous" # Previous Song
+      # ",switch:Lid Switch, exec, ${pkgs.hyprlock}/bin/hyprlock" # Lock when closing Lid
+    ];
+
+    bindle = [
+      ",XF86AudioRaiseVolume, exec, ${sound-up}/bin/sound-up" # Sound Up
+      ",XF86AudioLowerVolume, exec, ${sound-down}/bin/sound-down" # Sound Down
+      ",XF86MonBrightnessUp, exec, brightness-up" # Brightness Up
+      ",XF86MonBrightnessDown, exec, brightness-down" # Brightness Down
+      ", keyboard_brightness_up_shortcut, exec, brightnessctl -d *::kbd_backlight set +33%"
+      ", keyboard_brightness_down_shortcut, exec, brightnessctl -d *::kbd_backlight set 33%-"
+    ];
     bind = let
       workspaces = [
         "0"
@@ -76,24 +136,6 @@
       #editor = defaultApp "text/plain";
     in
       [
-        ################# Audio & Brightness ###################
-        ", xf86audioraisevolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"
-        ", xf86audiolowervolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
-        ", XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
-
-        ", XF86AudioPlay, exec, playerctl play-pause"
-        ", XF86AudioPause, exec, playerctl play-pause"
-        ", XF86AudioNext, exec, playerctl next"
-        ", XF86AudioPrev, exec, playerctl previous"
-
-        # Keyboard backlight
-        ", keyboard_brightness_up_shortcut, exec, brightnessctl -d *::kbd_backlight set +33%"
-        ", keyboard_brightness_down_shortcut, exec, brightnessctl -d *::kbd_backlight set 33%-"
-
-        # Screen brightness
-        ", XF86MonBrightnessUp, exec, brightnessctl s +5%"
-        ", XF86MonBrightnessDown, exec, brightnessctl s 5%-"
-
         # Screen shot # https://wiki.hyprland.org/FAQ/#how-do-i-screenshot
         ", Print, exec, grim -g \"$(slurp -d)\" - | wl-copy"
         "SHIFTCTRL, P, exec, grim -g \"$(slurp -d)\" - | wl-copy"
