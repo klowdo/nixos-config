@@ -21,6 +21,9 @@ in {
         grep = "rg";
         ps = "procs";
         lg = "lazygit";
+        ndev = "nix run ~/dev/github/kixvim";
+        e = "nvim";
+        edit = "nvim";
       };
       history = {
         size = 10000;

@@ -61,6 +61,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    kixvim.url = "github:klowdo/kixvim";
+
     catppuccin.url = "github:catppuccin/nix";
 
     sops-nix = {

@@ -8,7 +8,6 @@
   flakeInputs = lib.filterAttrs (_: lib.isType "flake") inputs;
 in {
   imports = [
-    ../features/cli/nixvim/nixvim.nix
     ../../modules/home-manager/stylix.nix
     inputs.catppuccin.homeManagerModules.catppuccin
   ];
