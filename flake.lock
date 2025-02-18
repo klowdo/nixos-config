@@ -1475,11 +1475,11 @@
         "nixvim": "nixvim"
       },
       "locked": {
-        "lastModified": 1739828560,
-        "narHash": "sha256-rr6pvY+30GBzYNA5sn+UEq0Ed1w1qIAuNOOypV/HE7Q=",
+        "lastModified": 1739911881,
+        "narHash": "sha256-xLPAmVhFhBk+AXvLLEH01furLh4EB+8IdOZJTL6Rygg=",
         "owner": "klowdo",
         "repo": "kixvim",
-        "rev": "985b7bf75f02965a085deadb460ed50ee436a54c",
+        "rev": "c8b967ad9390554590ef5d8d23c36be3b98a13a2",
         "type": "github"
       },
       "original": {
