@@ -24,6 +24,7 @@ in {
         ndev = "nix run ~/dev/github/kixvim";
         e = "nvim";
         edit = "nvim";
+        dive = "docker run -ti --rm  -v /run/user/1000/podman/podman.sock:/var/run/docker.sock wagoodman/dive";
       };
       history = {
         size = 10000;
