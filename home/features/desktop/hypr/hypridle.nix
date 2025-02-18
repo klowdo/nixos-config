@@ -7,13 +7,13 @@ in {
       general = {
         after_sleep_cmd = "hyprctl dispatch dpms on";
         ignore_dbus_inhibit = false;
-        lock_cmd = "swaylock";
+        lock_cmd = "hyprlock";
       };
 
       listener = [
         {
           timeout = minutes 5;
-          on-timeout = "swaylock";
+          on-timeout = "hyprlock";
         }
         {
           timeout = minutes 10;
