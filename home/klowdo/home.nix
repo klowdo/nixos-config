@@ -89,6 +89,7 @@ in {
     pcsclite
     # pam_u2f
     rpi-imager
+    git-extras
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
