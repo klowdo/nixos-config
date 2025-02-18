@@ -18,7 +18,7 @@ in {
 
   imports = [
     ./hypr
-    ./sway
+    ./wlogout.nix
   ];
   config = mkIf cfg.enable {
     ## https://github.com/nix-community/home-manager/blob/83bd3a26ac0526ae04fa74df46738bb44b89dcdd/modules/programs/waybar.nix#L190
