@@ -1,4 +1,4 @@
-{ config, ... }: {
+{config, ...}: {
   imports = [
     ./home.nix
     ./dotfiles
@@ -46,4 +46,3 @@
     };
   };
 }
-
