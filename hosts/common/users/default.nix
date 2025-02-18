@@ -1,4 +1,3 @@
 {
-  imports = [ ./klowdo.nix ];
+  imports = [./klowdo.nix];
 }
-
