@@ -2,7 +2,7 @@
   stylix = {
     enable = true;
     base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-macchiato.yaml";
-    image = ../../lib/Sunrise.jpg;
+    image = ../../lib/nix-wallpaper-nineish-catppuccin-macchiato.png;
     fonts = {
       monospace = {
         package = pkgs.nerdfonts.override {fonts = ["JetBrainsMono"];};
