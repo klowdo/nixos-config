@@ -87,3 +87,6 @@ check-sops:
 # Update the `mysecrets` flake input when changes have been made to the private nix-secrets repo
 serets-update:
   nix flake lock --update-input mysecrets
+# great too to check current system
+investigate:
+  nix run github:utdemir/nix-tree
