@@ -47,6 +47,7 @@
     # tlp.enable = true;
     # auto-cpufreq.enable = true;
     power-profiles-daemon.enable = true;
+    strongSwan.enable = true;
   };
 
   nixpkgs = {
