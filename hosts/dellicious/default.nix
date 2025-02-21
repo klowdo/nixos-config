@@ -37,7 +37,6 @@
     ../common
     ./configuration.nix
     # ./services
-    ./secrets.nix
   ];
   powerManagement.enable = true;
 
