@@ -7,5 +7,6 @@
     ./auto-cpufreq.nix
     ./powertop.nix
     ./power-profiles-deamon.nix
+    ./worldstream/strongSwan.nix
   ];
 }
