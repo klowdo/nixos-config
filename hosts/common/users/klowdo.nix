@@ -1,8 +1,6 @@
 {
   config,
   pkgs,
-  inputs,
-  lib,
   ...
 }: {
   hardware.keyboard.zsa.enable = true;

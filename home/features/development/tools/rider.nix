@@ -10,7 +10,7 @@ with lib; let
   # https://github.com/NixOS/nixpkgs/blob/master/pkgs/applications/editors/jetbrains/default.nix
   riderpkg =
     pkgs.unstable.jetbrains.rider.overrideAttrs
-    (old: {
+    (_old: {
       src = pkgs.fetchurl {
         url = "https://download.jetbrains.com/rider/JetBrains.Rider-2024.3.5.tar.gz";
         hash = "sha256-8qeO5tI+tYC8c/YAX5oGnyeFeG4LOciBCNiCq5ybkl8=";

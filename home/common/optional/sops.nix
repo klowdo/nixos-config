@@ -1,9 +1,4 @@
-{
-  inputs,
-  config,
-  lib,
-  ...
-}: let
+{inputs, ...}: let
   homeDirectory = "/home/klowdo";
 in {
   imports = [inputs.sops-nix.homeManagerModules.sops];
