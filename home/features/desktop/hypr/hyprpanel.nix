@@ -52,6 +52,7 @@
           launcher.autoDetectIcon = true;
           # launcher.icon = " ";
           workspaces.show_icons = true;
+          clock.format = "%a %b %d  %H:%M:%S ";
         };
         menus = {
           clock = {
