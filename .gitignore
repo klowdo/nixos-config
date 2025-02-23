@@ -1,4 +1,5 @@
+.pre-commit-config.yaml
 .direnv
 tmp
 result
-ssh/
+latest.iso
