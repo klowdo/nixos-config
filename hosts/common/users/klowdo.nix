@@ -6,6 +6,7 @@
   ...
 }: {
   hardware.keyboard.zsa.enable = true;
+  services.gnome.gnome-keyring.enable = true;
 
   sops.secrets."passwords/klowdo".neededForUsers = true;
   users.mutableUsers = false;
