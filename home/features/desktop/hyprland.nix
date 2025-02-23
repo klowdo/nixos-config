@@ -1,17 +1,9 @@
 {
   config,
   lib,
-  pkgs,
   ...
 }:
 with lib; let
-  start-way-displays = pkgs.writeShellScriptBin "start-way-displays" ''
-    #!/bin/sh
-
-    sleep 1 # give Hyprland a moment to set its defaults
-
-    ${pkgs.way-displays}/bin/way-displays > "/tmp/way-displays.''${XDG_VTNR}.''${USER}.log" 2>&1
-  '';
   cfg = config.features.desktop.hyprland;
 in {
   options.features.desktop.hyprland.enable = mkEnableOption "hyprland config";
@@ -20,33 +12,12 @@ in {
     ./hypr
     ./wlogout.nix
   ];
-  config = mkIf cfg.enable {
-    ## https://github.com/nix-community/home-manager/blob/83bd3a26ac0526ae04fa74df46738bb44b89dcdd/modules/programs/waybar.nix#L190
-    systemd.user.services.way-displays = {
-      Unit = {
-        PartOf = ["graphical-session.target"]; # config.wayland.systemd.target
-        After = ["graphical-session.target"]; # config.wayland.systemd.target
-        # requiredBy = ["xdg-desktop-autostart.target"];
-        Documentation = "https://github.com/alex-courtis/way-displays";
-        description = "Start the way-displays manager";
-        ConditionEnvironment = "WAYLAND_DISPLAY";
-        #  X-Restart-Triggers = optional (settings != [ ])
-        # "${config.xdg.configFile."waybar/config".source}"
-        # ++ optional (cfg.style != null)
-        # "${config.xdg.configFile."waybar/style.css".source}";
-      };
-      Service = {
-        Restart = "on-failure";
-        KillMode = "mixed";
-        ExecStart = "${start-way-displays}/bin/start-way-displays";
-        ExecReload = "${pkgs.coreutils}/bin/kill -SIGUSR2 $MAINPID";
-      };
 
-      Install.WantedBy = ["graphical-session.target"]; # lib.optional (cfg.systemd.target != null) cfg.systemd.target;
+  config = mkIf cfg.enable {
+    services.way-displays = {
+      enable = true;
+      logThreshold = "WARNING";
     };
-    home.packages = [
-      pkgs.way-displays
-    ];
 
     home.sessionVariables = {
       MOZ_ENABLE_WAYLAND = "1";
