@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
-if [ ! -z $1 ]; then
-	export HOST=$1
+if [ -n "$1" ]; then
+	HOST=$1
 else
-	export HOST=$(hostname)
+	HOST=$(hostname)
 fi
 
 # sudo nixos-rebuild --impure --flake .#$HOST switch
-sudo nixos-rebuild switch --flake .#$HOST
+sudo nixos-rebuild switch --flake .#"$HOST"
