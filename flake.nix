@@ -16,7 +16,7 @@
     };
 
     # TODO: Add any other flake you might need
-    hardware.url = "github:klowdo/nixos-hardware";
+    hardware.url = "github:nixos/nixos-hardware";
     stylix.url = "github:danth/stylix";
 
     hyprlock = {

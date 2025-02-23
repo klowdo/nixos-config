@@ -709,15 +709,15 @@
     },
     "hardware": {
       "locked": {
-        "lastModified": 1739650197,
-        "narHash": "sha256-ute2Srxfwaiv4zmxw94jubRzlysv9E4gJNRAg4pF4pQ=",
-        "owner": "klowdo",
+        "lastModified": 1740089251,
+        "narHash": "sha256-Y78mDBWoO8CLLTjQfPfII+KXFb6lAmF9GrLbyVBsIMM=",
+        "owner": "nixos",
         "repo": "nixos-hardware",
-        "rev": "3f49268564684c7eb13cd98521f7d129499a8978",
+        "rev": "18e9f9753e9ae261bcc7d3abe15745686991fd30",
         "type": "github"
       },
       "original": {
-        "owner": "klowdo",
+        "owner": "nixos",
         "repo": "nixos-hardware",
         "type": "github"
       }
