@@ -1,5 +1,6 @@
 import = [
- "~/dev/sesh.toml"
+ "~/dev/sesh.toml",
+ "~/dev/github/sesh.toml"
 ]
 
 [[session]]
@@ -14,6 +15,11 @@ path = "~/dev"
 name = "dotfiles ❄️"
 path = "~/.dotfiles"
 startup_command = "nvim"
+
+[[session]]
+name = "todo dotfiles ✅"
+path = "~/.dotfiles"
+startup_command = "nvim docs/todo.md"
 
 [[session]]
 name = "kixvim 👨‍💻"
