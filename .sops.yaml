@@ -4,11 +4,9 @@ keys:
   - &hosts:
     - &dellicious age13ph0tj5f8k752hure0wrw38g3g4ydmugew4exd8rahh95ngsfuvsyfjnvj
 
-
 creation_rules:
   - path_regex: secrets.yaml$
     key_groups:
       - age:
           - *klowdo
           - *dellicious
-
