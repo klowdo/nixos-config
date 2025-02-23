@@ -24,7 +24,7 @@
         dotnet_8.sdk
         dotnet_9.sdk
       ])
-      .overrideAttrs (finalAttrs: previousAttrs: {
+      .overrideAttrs (_finalAttrs: previousAttrs: {
         # This is needed to install workload in $HOME
         # https://discourse.nixos.org/t/dotnet-maui-workload/20370/2
         postBuild =

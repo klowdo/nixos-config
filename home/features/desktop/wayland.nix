@@ -6,8 +6,6 @@
 }:
 with lib; let
   cfg = config.features.desktop.wayland;
-  light = "${pkgs.light}/bin/light";
-  pactl = "${pkgs.pulseaudioFull}/bin/pactl";
 in {
   options.features.desktop.wayland.enable = mkEnableOption "wayland extra tools and config";
 

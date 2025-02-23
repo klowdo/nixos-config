@@ -1,12 +1,4 @@
-{
-  inputs,
-  config,
-  ...
-}: let
-  # secretsDirectory = builtins.toString inputs.nix-secrets;
-  # secretsFilePath = "${secretsDirectory}/secrets.yaml";
-  homeDirectory = config.home.homeDirectory;
-in {
+{inputs, ...}: {
   imports = [inputs.sops-nix.nixosModules.sops];
   sops = {
     # This is the location of the host specific age-key for ta and will to have been extracted to this location via hosts/common/core/sops.nix on the host
