@@ -17,17 +17,12 @@
     hardware.url = "github:nixos/nixos-hardware";
 
     # hyprland
-    hyprlock = {
-      url = "github:hyprwm/hyprlock";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # hyprlock = {
+    #   url = "github:hyprwm/hyprlock";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
 
-    hyprland.url = "github:hyprwm/Hyprland";
-
-    hyprpicker = {
-      url = "github:hyprwm/hyprpicker";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # hyprland.url = "github:hyprwm/Hyprland";
 
     hyprpanel = {
       url = "github:Jas-SinghFSU/HyprPanel";
@@ -74,7 +69,7 @@
 
     ## Theming
     catppuccin.url = "github:catppuccin/nix";
-    stylix.url = "github:danth/stylix";
+    stylix.url = "github:danth/stylix/release-24.11";
     spicetify-nix = {
       url = "github:Gerg-L/spicetify-nix";
       inputs.nixpkgs.follows = "nixpkgs";
