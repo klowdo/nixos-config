@@ -11,6 +11,8 @@ in {
   imports = [
     ./hypr
     ./wlogout.nix
+    ## To use the absolute latest
+    # inputs.hyprland.homeManagerModules.default
   ];
 
   config = mkIf cfg.enable {
