@@ -1,11 +1,11 @@
 {
-  config,
   lib,
   outputs,
   inputs,
   pkgs,
   ...
 }: {
+  imports = builtins.attrValues outputs.homeModules;
   nixpkgs = {
     # You can add overlays here
     overlays = [
