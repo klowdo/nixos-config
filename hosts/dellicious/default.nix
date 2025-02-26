@@ -49,6 +49,10 @@
     power-profiles-daemon.enable = true;
     strongSwan.enable = true;
   };
+  #TODO: fix this... use same names for modules
+  modules = {
+    resolved.enable = true;
+  };
 
   nixpkgs = {
     overlays = [
