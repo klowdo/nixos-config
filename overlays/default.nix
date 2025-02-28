@@ -10,19 +10,19 @@
     # example = prev.example.overrideAttrs (oldAttrs: rec {
     # ...
     # });
-    strongswan = prev.strongswan.overrideAttrs (oldAttrs: {
-      configureFlags =
-        oldAttrs.configureFlags
-        ++ [
-          "--enable-bypass-lan"
-        ];
-    });
+    # strongswan = prev.strongswan.overrideAttrs (oldAttrs: {
+    #   configureFlags =
+    #     oldAttrs.configureFlags
+    #     ++ [
+    #       "--enable-bypass-lan"
+    #     ];
+    # });
     dotnet-combined = with final.unstable.dotnetCorePackages;
       (combinePackages [
         # sdk_8_0_3xx
         # sdk_9_0
-        dotnet_8.sdk
-        dotnet_9.sdk
+        final.unstable.dotnet-sdk_8
+        final.unstable.dotnet-sdk_9
       ])
       .overrideAttrs (_finalAttrs: previousAttrs: {
         # This is needed to install workload in $HOME
