@@ -98,6 +98,12 @@
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
+  # Thunderbold
+  services.hardware.bolt.enable = true;
+
+  # hardware firmware update
+  services.fwupd.enable = true;
+
   # Enable sound with pipewire.
   hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
@@ -112,6 +118,7 @@
     # use the example session manager (no others are packaged yet so this is enabled by default,
     # no need to redefine it in your config for now)
     #media-session.enable = true;
+    wireplumber.enable = true;
   };
 
   # Enable touchpad support (enabled default in most desktopManager).
