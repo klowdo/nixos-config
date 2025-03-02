@@ -12,12 +12,12 @@ with lib; let
     pkgs.unstable.jetbrains.rider.overrideAttrs
     (_old: {
       src = pkgs.fetchurl {
-        url = "https://download.jetbrains.com/rider/JetBrains.Rider-2024.3.5.tar.gz";
+        url = "https://download.jetbrains.com/rider/JetBrains.Rider-2024.3.6.tar.gz";
         hash = "sha256-8qeO5tI+tYC8c/YAX5oGnyeFeG4LOciBCNiCq5ybkl8=";
       };
       # https://www.jetbrains.com/rider/download/other.html
-      version = "2024.3.5";
-      build_number = "243.24978.27";
+      version = "2024.3.6";
+      build_number = "243.25659.34";
 
       postInstall = ''
         (
