@@ -14,5 +14,6 @@
     ]
     ++ (with inputs.nsearch.packages.${pkgs.system}; [nsearch nrun nshell]);
   programs.nix-index.enable = true;
+  # programs.nix-index-database.comma.enable = true;
   # programs.nix-your-shell.enable = true;
 }

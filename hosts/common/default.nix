@@ -8,10 +8,9 @@
   ...
 }: {
   imports = [
-    ./extraServices
+    ./core
+    ./optional/services
     ./users
-    ./global
-    ./optional/resolved.nix
     inputs.home-manager.nixosModules.home-manager
     inputs.sops-nix.nixosModules.sops
   ];
@@ -44,6 +43,8 @@
     config = {
       # Disable if you don't want unfree packages
       allowUnfree = true;
+
+      allowUnfreePredicate = _: true;
     };
   };
 
@@ -55,10 +56,11 @@
         "klowdo"
       ]; # Set users that are allowed to use the flake command
     };
-    gc = {
-      automatic = true;
-      options = "--delete-older-than 30d";
-    };
+    # not needed with nh
+    # gc = {
+    #   automatic = true;
+    #   options = "--delete-older-than 30d";
+    # };
     optimise.automatic = true;
     registry =
       (lib.mapAttrs (_: flake: {inherit flake;}))
@@ -67,4 +69,6 @@
   };
 
   users.defaultUserShell = pkgs.zsh;
+
+  system.stateVersion = "24.11";
 }
