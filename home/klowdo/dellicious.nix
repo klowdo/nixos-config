@@ -133,8 +133,8 @@
         nameDesc = "Samsung Electric Company SAMSUNG 0x01000E00";
         width = 3840;
         height = 2160;
-        # hz = 60;
-        max = true;
+        hz = 30;
+        # max = true;
       }
       {
         # Home monitor
