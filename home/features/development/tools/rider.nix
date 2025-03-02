@@ -13,7 +13,7 @@ with lib; let
     (_old: {
       src = pkgs.fetchurl {
         url = "https://download.jetbrains.com/rider/JetBrains.Rider-2024.3.6.tar.gz";
-        hash = "sha256-8qeO5tI+tYC8c/YAX5oGnyeFeG4LOciBCNiCq5ybkl8=";
+        hash = "sha256-H5258/kMcf5Hbj4XrHi+n8yYLj8BfFmPYxtc1gDm2kM=";
       };
       # https://www.jetbrains.com/rider/download/other.html
       version = "2024.3.6";

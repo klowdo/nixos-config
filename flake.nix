@@ -85,7 +85,7 @@
   } @ inputs: let
     inherit (self) outputs;
     # Thanks Misterio77
-    lib = nixpkgs.lib // home-manager.lib;
+    lib = (nixpkgs.lib // home-manager.lib).extend (self: super: {custom = import ./lib {inherit (nixpkgs) lib;};});
     forEachSystem = f: lib.genAttrs (import systems) (system: f pkgsFor.${system});
     pkgsFor = lib.genAttrs (import systems) (
       system:
