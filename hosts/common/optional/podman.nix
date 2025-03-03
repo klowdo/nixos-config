@@ -34,6 +34,7 @@ in {
     environment.systemPackages = with pkgs; [
       podman-compose
       lazydocker
+      podman-desktop
     ];
   };
 }
