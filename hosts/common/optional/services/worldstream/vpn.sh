@@ -21,10 +21,8 @@ vpnIP() {
 	sudo /usr/sbin/ipsec status | grep -E "$CONN_NAME\{[[:digit:]]+}:   " | awk '{print $2}' | cut -d/ -f1
 }
 
-RANGE=172.29.0.0/16
 INTERFACES=("enp0s20f0u1u1" "wlp0s20f3")
-# HOMEDNS=192.168.1.252
-HOMEDNS=192.168.1.1
+HOMEDNS=192.168.10.1
 DNS1=10.10.16.10
 DNS2=10.10.17.10
 
