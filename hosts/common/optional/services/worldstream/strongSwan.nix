@@ -7,20 +7,40 @@
 with lib; let
   cfg = config.extraServices.strongSwan;
   connecionName = "worlstream";
-  shellsScript = pkgs.writeShellScriptBin "ws-vpn" ''
-    if [ "$1" == 'up' ]; then
-      tailscale_status=$(${pkgs.tailscale}/bin/tailscale status  --json | ${pkgs.jq}/bin/jq .BackendState -r)
-      if [ "$tailscale_status" == 'Running' ]; then
-        ${pkgs.tailscale}/bin/tailscale  down
+  homedns = "192.168.10.1";
+  shellsScript =
+    pkgs.writeShellScriptBin "ws-vpn"
+    # shell
+    ''
+      if [ "$1" == 'up' ]; then
+        tailscale_status=$(${pkgs.tailscale}/bin/tailscale status  --json | ${pkgs.jq}/bin/jq .BackendState -r)
+        if [ "$tailscale_status" == 'Running' ]; then
+          ${pkgs.tailscale}/bin/tailscale  down
+        fi
+        ${pkgs.strongswan}/bin/ipsec up ${connecionName}
+
+        INTERFACES=("enp0s20f0u1u1" "wlp0s20f3")
+        # HOMEDNS=192.168.1.252
+        HOMEDNS=${homedns}
+        DNS1=10.10.16.10
+        DNS2=10.10.17.10
+
+        for INT in "''${INTERFACES[@]}"; do
+          sudo resolvectl dns "$INT" "$DNS1" "$DNS2"
+        done
+
+
+      elif [ "$1" == 'down' ]; then
+        ${pkgs.strongswan}/bin/ipsec down ${connecionName}
+
+        for INT in "''${INTERFACES[@]}"; do
+          sudo resolvectl dns "$INT" "$HOMEDNS"
+        done
+        ${pkgs.tailscale}/bin/tailscale up
+      else
+        echo "have no idea what to do"
       fi
-      ${pkgs.strongswan}/bin/ipsec up ${connecionName}
-    elif [ "$1" == 'down' ]; then
-      ${pkgs.strongswan}/bin/ipsec down ${connecionName}
-      ${pkgs.tailscale}/bin/tailscale up
-    else
-      echo "have no idea what to do"
-    fi
-  '';
+    '';
 in {
   options.extraServices.strongSwan.enable = mkEnableOption "enable strongSwan vpn client";
 
