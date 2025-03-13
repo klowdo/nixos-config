@@ -42,6 +42,7 @@
     ../common/optional/default.nix
     ../common/optional/default.nix
     ../common/optional/tailscale-exit-node.nix
+    ../common/optional/udev.nix
   ];
 
   powerManagement.enable = true;

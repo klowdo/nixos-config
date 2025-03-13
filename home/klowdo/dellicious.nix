@@ -5,6 +5,7 @@
     ../features
     ../common
     ../common/optional/sops.nix
+    ../common/optional/vial.nix
   ];
 
   hyprpanel.enable = true;
