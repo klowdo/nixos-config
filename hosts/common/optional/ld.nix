@@ -4,6 +4,7 @@
   programs.nix-ld.libraries = with pkgs; [
     mpifileutils
     icu # for aspire 9.1 localization
+    icu.dev
   ];
 
   environment.systemPackages = with pkgs; [
