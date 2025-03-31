@@ -9,6 +9,7 @@ with lib; let
 in {
   options.extraServices.podman.enable = mkEnableOption "enable podman";
 
+  # dive = "docker run -ti --rm  -v /run/user/1000/podman/podman.sock:/var/run/docker.sock wagoodman/dive";
   config = mkIf cfg.enable {
     virtualisation = {
       podman = {
