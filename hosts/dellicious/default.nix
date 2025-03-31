@@ -49,7 +49,7 @@
   powerManagement.enable = true;
 
   extraServices = {
-    podman.enable = true;
+    docker.enable = true;
     # hyprlock.enable = true;
     swaylock.enable = true;
     # tlp.enable = true;
