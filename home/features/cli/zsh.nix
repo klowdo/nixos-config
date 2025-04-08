@@ -20,7 +20,6 @@ in {
         ls = "eza";
         grep = "rg";
         ps = "procs";
-        cat = "bat";
         lg = "lazygit";
         ndev = "nix run ~/dev/github/kixvim";
         e = "nvim";
