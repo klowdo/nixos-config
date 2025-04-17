@@ -9,7 +9,7 @@
 in {
   imports = [
     ../../modules/home-manager/stylix.nix
-    inputs.catppuccin.homeManagerModules.catppuccin
+    inputs.catppuccin.homeModules.catppuccin
   ];
   # Home Manager needs a bit of information about you and the paths it should
   # manage.

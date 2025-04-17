@@ -17,37 +17,37 @@
     programs.hyprpanel = {
       enable = true;
       hyprland.enable = true;
-      theme = "catppuccin_mocha";
+      # theme = "catppuccin_mocha";
       overlay.enable = true;
       overwrite.enable = true;
-
-      layout = {
-        "bar.layouts" = {
-          "*" = {
-            "left" = [
-              "dashboard"
-              "clock"
-              "workspaces"
-              "windowtitle"
-            ];
-            "middle" = ["media" "cava"];
-            "right" = [
-              "systray"
-              "volume"
-              "bluetooth"
-              "battery"
-              "network"
-              "hypridle"
-              "notifications"
-              "kbinput"
-            ];
-          };
-        };
-      };
+      systemd.enable = true;
 
       override = {
       };
       settings = {
+        layout = {
+          "bar.layouts" = {
+            "*" = {
+              "left" = [
+                "dashboard"
+                "clock"
+                "workspaces"
+                "windowtitle"
+              ];
+              "middle" = ["media" "cava"];
+              "right" = [
+                "systray"
+                "volume"
+                "bluetooth"
+                "battery"
+                "network"
+                "hypridle"
+                "notifications"
+                "kbinput"
+              ];
+            };
+          };
+        };
         bar = {
           launcher.autoDetectIcon = true;
           # launcher.icon = " ";
