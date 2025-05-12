@@ -45,6 +45,7 @@ in {
         # "github-copilot"
 
         "ideavim"
+        "mermaid"
       ])
     ];
 
