@@ -40,7 +40,12 @@ in {
   options.features.development.tools.rider.enable = mkEnableOption "enable rider IDE";
   config = mkIf cfg.enable {
     home.packages = [
-      (plugins.addPlugins riderpkg ["github-copilot" "ideavim"])
+      (plugins.addPlugins riderpkg [
+        #TODO: https://github.com/NixOS/nixpkgs/issues/400317
+        # "github-copilot"
+
+        "ideavim"
+      ])
     ];
 
     home.file.".local/share/applications/jetbrains-rider.desktop".text = ''
@@ -57,4 +62,5 @@ in {
       StartupNotify=true
     '';
   };
+
 }
