@@ -44,6 +44,7 @@
     ../common/optional/tailscale-exit-node.nix
     ../common/optional/udev.nix
     ../common/optional/icu.nix
+    ../common/optional/dotnet-dev-certs.nix
   ];
 
   powerManagement.enable = true;
