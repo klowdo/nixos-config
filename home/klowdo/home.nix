@@ -29,6 +29,7 @@ in {
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = with pkgs; [
+    inputs.claude-desktop.packages.${pkgs.system}.claude-desktop-with-fhs
     vesktop
     fastfetch
     gsettings-desktop-schemas
