@@ -40,7 +40,7 @@ in {
         }
       ];
 
-      initExtra = ''
+      initContent = ''
         function sesh-sessions() {
           {
             exec </dev/tty
