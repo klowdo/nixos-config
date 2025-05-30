@@ -16,7 +16,7 @@ in {
   ];
 
   config = mkIf cfg.enable {
-    services.way-displays = {
+    services.custom-way-displays = {
       enable = true;
       logThreshold = "WARNING";
     };

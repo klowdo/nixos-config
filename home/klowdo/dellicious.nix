@@ -87,7 +87,7 @@
     };
   };
 
-  services.way-displays = {
+  services.custom-way-displays = {
     arrange = "ROW";
     align = "TOP";
     scaling = true;

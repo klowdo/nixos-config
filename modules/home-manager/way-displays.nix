@@ -161,7 +161,7 @@ with lib; let
 in {
   meta.maintainers = with lib.hm.maintainers; [];
 
-  options.services.way-displays = {
+  options.services.custom-way-displays = {
     enable = mkEnableOption "way-displays display management tool for Wayland";
 
     package = mkOption {
@@ -438,18 +438,17 @@ in {
       systemd.user.services.way-displays = {
         Unit = {
           Description = "Manage displays in Wayland compositors";
-          Documentation = "https://github.com/alex-courtis/way-displays";
+          Documentation = "man:way-displays(1)";
           ConditionEnvironment = "WAYLAND_DISPLAY";
           PartOf = cfg.systemdTarget;
+          Requires = cfg.systemdTarget;
           After = cfg.systemdTarget;
         };
 
         Service = {
           Type = "simple";
           ExecStart = "${cfg.package}/bin/way-displays";
-          Restart = "on-failure";
-          RestartSec = 5;
-          #     ExecReload = "${pkgs.coreutils}/bin/kill -SIGUSR2 $MAINPID";
+          Restart = "always";
         };
 
         Install = {
