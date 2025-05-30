@@ -4,7 +4,7 @@
   ...
 }: {
   imports = [
-    inputs.stylix.homeManagerModules.stylix
+    inputs.stylix.homeModules.stylix
   ];
   stylix = {
     enable = true;
@@ -14,10 +14,11 @@
     cursor = {
       package = pkgs.banana-cursor;
       name = "Banana";
+      size = 16;
     };
     fonts = {
       monospace = {
-        package = pkgs.nerdfonts.override {fonts = ["JetBrainsMono"];};
+        package = pkgs.nerd-fonts.jetbrains-mono;
         name = "JetBrainsMono Nerd Font Mono";
       };
       sansSerif = {
@@ -37,5 +38,6 @@
     };
     targets.bat.enable = false;
     targets.hyprland.enable = true;
+    targets.mako.enable = false;
   };
 }
