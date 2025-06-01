@@ -56,6 +56,7 @@
       tldr
       zip
       wishlist
+      unp
     ]
     ++ [
       pkgs.unstable.isd
