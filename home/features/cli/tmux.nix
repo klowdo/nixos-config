@@ -118,7 +118,7 @@ in {
         bind-key x kill-pane
 
         # for image.nvim
-        set -gq allow-passthrough on
+        set -g allow-passthrough on
         set -g visual-activity off
 
         bind -T copy-mode-vi v send -X begin-selection
