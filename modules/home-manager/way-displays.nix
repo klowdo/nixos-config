@@ -5,7 +5,7 @@
   ...
 }:
 with lib; let
-  cfg = config.services.way-displays;
+  cfg = config.services.custom-way-displays;
 
   # Types for validation
   arrangeType = types.enum ["ROW" "COLUMN"];
