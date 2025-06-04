@@ -13,6 +13,8 @@
     home.packages = [
       pkgs.upower
       pkgs.libgtop
+      # pkgs.python313Packages.gpustat
+      # pkgs.python313Packages.nvidia-ml-py
     ];
     programs.hyprpanel = {
       enable = true;
@@ -65,7 +67,7 @@
           };
           dashboard = {
             directories.enabled = false;
-            stats.enable_gpu = true;
+            # stats.enable_gpu = true;
           };
         };
 
