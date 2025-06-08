@@ -61,13 +61,13 @@ in {
       ",XF86AudioNext, exec, ${pkgs.playerctl}/bin/playerctl next" # Next Song
       ",XF86AudioPrev, exec, ${pkgs.playerctl}/bin/playerctl previous" # Previous Song
       # ",switch:Lid Switch, exec, ${pkgs.hyprlock}/bin/hyprlock" # Lock when closing Lid
+      ",XF86MonBrightnessUp, exec,   ${pkgs.brightnessctl}/bin/brightnessctl set +10%" # Brightness Up
+      ",XF86MonBrightnessDown, exec, ${pkgs.brightnessctl}/bin/brightnessctl set 10%-" # Brightness Down
     ];
 
     bindle = [
       ",XF86AudioRaiseVolume, exec, ${sound-up}/bin/sound-up" # Sound Up
       ",XF86AudioLowerVolume, exec, ${sound-down}/bin/sound-down" # Sound Down
-      ",XF86MonBrightnessUp, exec, brightness-up" # Brightness Up
-      ",XF86MonBrightnessDown, exec, brightness-down" # Brightness Down
       ", keyboard_brightness_up_shortcut, exec, brightnessctl -d *::kbd_backlight set +33%"
       ", keyboard_brightness_down_shortcut, exec, brightnessctl -d *::kbd_backlight set 33%-"
     ];
