@@ -52,6 +52,17 @@ with lib; let
 
 
         ${pkgs.tailscale}/bin/tailscale up
+
+      elif [ "$1" == 'rdns' ]; then
+        for INT in "''${INTERFACES[@]}"; do
+          # Check if interface exists
+          if ip link show "$INT" &>/dev/null; then
+            echo "Setting DNS for interface $INT"
+            sudo resolvectl dns "$INT" "$DNS1" "$DNS2"
+          else
+            echo "Interface $INT is not available, skipping"
+          fi
+        done
       else
         echo "have no idea what to do"
       fi
