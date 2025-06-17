@@ -48,7 +48,7 @@ in {
 
         exec-once = [
           "waybar"
-          "hyprpaper"
+          # "hyprpaper"
           "hypridle"
           "wl-paste -p -t text --watch clipman store -P --histpath=\"~/.local/share/clipman-primary.json\""
           "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"

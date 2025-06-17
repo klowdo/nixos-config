@@ -72,7 +72,6 @@ in {
     hyprpicker
     swayidle
     xdg-desktop-portal-hyprland
-    hyprpaper
     firefox-wayland
     swww
     grim
