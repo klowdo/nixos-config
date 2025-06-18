@@ -29,7 +29,7 @@
     };
     development = {
       tools = {
-        rider.enable = true;
+        rider.enable = false;
         libreoffice.enable = true;
       };
       languages = {
