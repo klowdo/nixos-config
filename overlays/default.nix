@@ -11,15 +11,6 @@
     # ...
     # });
 
-    claude-code = prev.claude-code.overrideAttrs (oldAttrs: rec {
-      version = "1.0.25";
-      src = prev.fetchzip {
-        url = "https://registry.npmjs.org/@anthropic-ai/claude-code/-/claude-code-${version}.tgz";
-        hash = "sha256-Khd1S/8zNQy6It4XcfJQmmLs1IDyoCd+ZxPBHuacjkw=";
-      };
-      npmDepsHash = "sha256-Khd1S/8zNQy6It4XcfJQmmLs1IDyoCd+ZxPBHuacjkw=";
-    });
-
     strongswan = prev.strongswan.overrideAttrs (oldAttrs: {
       configureFlags =
         oldAttrs.configureFlags
