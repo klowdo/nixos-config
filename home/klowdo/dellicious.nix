@@ -42,7 +42,7 @@
     };
     communication = {
       zoom.enable = true;
-      discord.enable = true;
+      vesktop.enable = true;
     };
   };
 

@@ -31,7 +31,6 @@ in {
   home.packages = with pkgs; [
     # inputs.claude-desktop.packages.${pkgs.system}.claude-desktop-with-fhs
     claude-code
-    vesktop
     fastfetch
     gsettings-desktop-schemas
     swaynotificationcenter
