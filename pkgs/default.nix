@@ -8,5 +8,6 @@
   # cd-gitroot = pkgs.callPackage ./cd-gitroot { };
   # zhooks = pkgs.callPackage ./zhooks { };
   zellij-ps = pkgs.callPackage ./zellij-ps {};
+  appimage-tools = pkgs.callPackage ./appimage-tools {};
   # zsh-term-title = pkgs.callPackage ./zsh-term-title { };
 }
