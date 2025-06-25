@@ -37,6 +37,7 @@
       };
       cura.enable = true;
       orca.enable = true;
+      super-slicer.enable = true;
     };
     media = {
       spicetify.enable = true;
@@ -45,6 +46,7 @@
     communication = {
       zoom.enable = true;
       vesktop.enable = true;
+      neomutt.enable = true;
     };
   };
 
