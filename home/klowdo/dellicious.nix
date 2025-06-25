@@ -35,6 +35,7 @@
       languages = {
         dotnet.enable = true;
       };
+      cura.enable = true;
     };
     media = {
       spicetify.enable = true;
