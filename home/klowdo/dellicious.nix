@@ -36,6 +36,7 @@
         dotnet.enable = true;
       };
       cura.enable = true;
+      orca.enable = true;
     };
     media = {
       spicetify.enable = true;
