@@ -109,7 +109,7 @@ in {
       };
 
       mainMod = "SUPER";
-      menu = "wofi --show drun --allow-images";
+      menu = "${pkgs.killall}/bin/killall wofi || wofi --show drun --allow-images";
       # browser = google-chrome-stable
       # browser = "${config.programs.go.package}/bin/swaylock";
       # $fileManager = dolphin
@@ -142,6 +142,11 @@ in {
         "$hyper, A, exec, audio-select"
         "$hyper, P, exec, wofi-pass"
         "$hyper, E, exec, wofi-emoji fill"
+
+        #################### Clipboard Manager ####################
+        "SUPER, V, exec, clipboard-menu"
+        "SUPERSHIFT, V, exec, clipboard-clear"
+        "SUPERALT, V, exec, clipboard-delete"
 
         #################### Computer Mange ####################
 
