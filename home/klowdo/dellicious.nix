@@ -17,7 +17,7 @@
       neofetch.enable = true;
       fzf.enable = true;
       yazi.enable = true;
-      password-store.enable = true;
+      password-store.enable = false;
       taskwarrior.enable = true;
       tmux.enable = true;
       gh.enable = true;

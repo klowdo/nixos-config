@@ -19,6 +19,10 @@ in {
       "email/office365-password" = {
         path = "${homeDirectory}/.config/neomutt/office365-password";
       };
+      "passwords/klowdo" = {
+        path = "${homeDirectory}/.config/pass/gpg-passphrase";
+        mode = "0400";
+      };
     };
   };
 }
