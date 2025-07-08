@@ -3,6 +3,7 @@
 {
   # List your module files her
   way-displays = import ./way-displays.nix;
+  claudia = import ./claudia.nix;
 }
 # {lib, ...}: {
 #   imports = lib.custom.scanPaths ./.;
