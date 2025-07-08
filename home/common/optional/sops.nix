@@ -13,6 +13,12 @@ in {
       "private_keys/klowdo" = {
         path = "${homeDirectory}/.ssh/id_ed25519";
       };
+      "email/gmail-password" = {
+        path = "${homeDirectory}/.config/neomutt/gmail-password";
+      };
+      "email/office365-password" = {
+        path = "${homeDirectory}/.config/neomutt/office365-password";
+      };
     };
   };
 }

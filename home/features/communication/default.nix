@@ -3,5 +3,7 @@
     ./zoom.nix
     ./discord.nix
     ./vesktop.nix
+    ./email.nix
+    ./neomutt.nix
   ];
 }
