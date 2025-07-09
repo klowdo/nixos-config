@@ -5,7 +5,6 @@
   pkgs,
   ...
 }: {
-  imports = [inputs.hyprpanel.homeManagerModules.hyprpanel];
   options = {
     hyprpanel.enable = lib.mkEnableOption "Enable hyprpanel module";
   };
@@ -17,44 +16,40 @@
       # pkgs.python313Packages.nvidia-ml-py
     ];
     programs.hyprpanel = {
+      package = inputs.hyprpanel.packages.${pkgs.system}.default;
       enable = true;
       # hyprland.enable = true;
       # theme = "catppuccin_mocha";
-      overlay.enable = true;
-      overwrite.enable = true;
       systemd.enable = true;
+      dontAssertNotificationDaemons = true;
 
-      override = {
-      };
       settings = {
-        layout = {
-          "bar.layouts" = {
-            "*" = {
-              "left" = [
-                "dashboard"
-                "clock"
-                "workspaces"
-                "windowtitle"
-              ];
-              "middle" = ["media" "cava"];
-              "right" = [
-                "systray"
-                "volume"
-                "bluetooth"
-                "battery"
-                "network"
-                "hypridle"
-                "notifications"
-                "kbinput"
-              ];
-            };
+        bar.layouts = {
+          "*" = {
+            left = [
+              "dashboard"
+              "clock"
+              "workspaces"
+              "windowtitle"
+            ];
+            middle = ["media" "cava"];
+            right = [
+              "systray"
+              "volume"
+              "bluetooth"
+              "battery"
+              "network"
+              "hypridle"
+              "notifications"
+              "kbinput"
+            ];
           };
         };
         bar = {
           launcher.autoDetectIcon = true;
           # launcher.icon = " ";
           workspaces.show_icons = true;
-          clock.format = "%a %b %d  %H:%M:%S ";
+          clock.format = "%a %b %d  %H:%M";
         };
         menus = {
           clock = {
