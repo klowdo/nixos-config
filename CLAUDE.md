@@ -21,6 +21,7 @@ This is a sophisticated NixOS dotfiles configuration using Nix flakes that manag
 - `just ci-all` - Run pre-commit hooks on all files
 - `just diff` - Show git diff excluding flake.lock
 - `just investigate` - Analyze current system with nix-tree
+- `nh os test` - Test NixOS configuration without applying changes
 
 ### Direct Commands
 - `sudo nixos-rebuild switch --flake .#<hostname>` - Direct system rebuild
