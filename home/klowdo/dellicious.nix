@@ -43,6 +43,7 @@
     media = {
       spicetify.enable = true;
       zathura.enable = true;
+      deezer.enable = true;
     };
     communication = {
       zoom.enable = true;

@@ -11,5 +11,6 @@
   # ultimaker-cura = pkgs.callPackage ./cura {};
   appimage-tools = pkgs.callPackage ./appimage-tools {};
   claudia = pkgs.callPackage ./claudia {};
+  deezer-linux = pkgs.callPackage ./deezer-linux {};
   # zsh-term-title = pkgs.callPackage ./zsh-term-title { };
 }
