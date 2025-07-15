@@ -42,6 +42,7 @@
     };
     media = {
       spicetify.enable = true;
+      spotify-player.enable = true;
       zathura.enable = true;
       deezer.enable = true;
     };
