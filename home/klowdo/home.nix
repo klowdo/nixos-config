@@ -28,9 +28,17 @@ in {
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
-  home.packages = with pkgs; [
+  home.packages = with pkgs; let
+    claudeCodeVersion = "1.0.51";
+  in [
     # inputs.claude-desktop.packages.${pkgs.system}.claude-desktop-with-fhs
-    unstable.claude-code
+    (unstable.claude-code.overrideAttrs (oldAttrs: {
+      version = claudeCodeVersion;
+      src = pkgs.fetchurl {
+        url = "https://registry.npmjs.org/@anthropic-ai/claude-code/-/claude-code-${claudeCodeVersion}.tgz";
+        sha256 = "1lpiyc1k0za9xkwzdhqic2qj1l9f51xgn02hx7bgg4ccymdsc38w";
+      };
+    }))
     fastfetch
     gsettings-desktop-schemas
     swaynotificationcenter
