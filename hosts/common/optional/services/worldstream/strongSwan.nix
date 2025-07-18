@@ -6,7 +6,7 @@
 }:
 with lib; let
   cfg = config.extraServices.strongSwan;
-  connecionName = "worlstream";
+  connecionName = "worldstream";
   homedns = "192.168.10.1";
   shellsScript =
     pkgs.writeShellScriptBin "ws-vpn"
@@ -15,6 +15,7 @@ with lib; let
       INTERFACES=("enp0s20f0u1u1" "wlp0s20f3")
       # HOMEDNS=192.168.1.252
       HOMEDNS=${homedns}
+      PUBLICDNS="1.1.1.1"
       DNS1=10.10.16.10
       DNS2=10.10.17.10
 
@@ -44,7 +45,7 @@ with lib; let
           # Check if interface exists
           if ip link show "$INT" &>/dev/null; then
             echo "Setting HOME DNS for interface $INT"
-            sudo resolvectl dns "$INT" "$HOMEDNS"
+            sudo resolvectl dns "$INT" "$HOMEDNS" "$PUBLICDNS"
           else
             echo "Interface $INT is not available, skipping"
           fi
