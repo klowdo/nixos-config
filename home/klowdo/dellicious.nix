@@ -39,6 +39,7 @@
       cura.enable = true;
       orca.enable = true;
       super-slicer.enable = true;
+      nix-flatpak.enable = true;
     };
     media = {
       spicetify.enable = true;

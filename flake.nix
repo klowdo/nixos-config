@@ -74,6 +74,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    superclaude-nix.url = "path:/home/klowdo/dev/github/SuperCaludeNix";
+
     ## Theming
     catppuccin.url = "github:catppuccin/nix";
     stylix.url = "github:danth/stylix/release-25.05";
@@ -81,6 +83,9 @@
       url = "github:Gerg-L/spicetify-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # Flatpak
+    nix-flatpak.url = "github:gmodena/nix-flatpak";
   };
 
   outputs = {
