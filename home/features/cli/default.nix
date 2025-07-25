@@ -15,6 +15,7 @@
     ./tmux.nix
     ./gh.nix
     ./nix.nix
+    ./claude-code.nix
   ];
 
   programs.zoxide = {

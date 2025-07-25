@@ -21,6 +21,7 @@
       taskwarrior.enable = true;
       tmux.enable = true;
       gh.enable = true;
+      claude-code.enable = true;
     };
     desktop = {
       wayland.enable = true;
