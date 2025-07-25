@@ -10,6 +10,7 @@
   zellij-ps = pkgs.callPackage ./zellij-ps {};
   # ultimaker-cura = pkgs.callPackage ./cura {};
   appimage-tools = pkgs.callPackage ./appimage-tools {};
+  bambustudio-appimage = pkgs.callPackage ./bambustudio-appimage {};
   claudia = pkgs.callPackage ./claudia {};
   deezer-linux = pkgs.callPackage ./deezer-linux {};
   # zsh-term-title = pkgs.callPackage ./zsh-term-title { };
