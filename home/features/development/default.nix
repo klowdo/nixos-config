@@ -7,6 +7,7 @@
     ./super-slicer.nix
     ./bambu-studio.nix
     ./nix-flatpak.nix
+    ./freecad.nix
   ];
 
   home.packages = with pkgs; [

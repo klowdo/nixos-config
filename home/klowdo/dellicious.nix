@@ -42,6 +42,7 @@
       super-slicer.enable = true;
       bambu-studio.enable = true;
       nix-flatpak.enable = true;
+      freecad.enable = true;
     };
     media = {
       spicetify.enable = true;
