@@ -43,6 +43,7 @@
       bambu-studio.enable = true;
       nix-flatpak.enable = true;
       freecad.enable = true;
+      mongo-compass.enable = true;
     };
     media = {
       spicetify.enable = true;
