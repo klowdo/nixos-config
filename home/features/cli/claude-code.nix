@@ -6,7 +6,7 @@
 }:
 with lib; let
   cfg = config.features.cli.claude-code;
-  claudeCodeVersion = "1.0.60";
+  claudeCodeVersion = "1.0.90";
 in {
   options.features.cli.claude-code = {
     enable = mkEnableOption "Claude Code CLI tool";
@@ -22,7 +22,16 @@ in {
     };
   };
 
-  config = mkIf cfg.enable {
+  config = mkIf cfg.enable (let
+    # Create permission hook script in Nix store from separate file
+    permissionHookScript =
+      pkgs.writeShellScript "claude-permission-hook"
+      (builtins.readFile (pkgs.replaceVars ./hooks/claude-permission-hook.sh {
+        jq = "${pkgs.jq}/bin/jq";
+        notifysend = "${pkgs.libnotify}/bin/notify-send";
+        zenity = "${pkgs.zenity}/bin/zenity";
+      }));
+  in {
     # Install Claude Code package
     home.packages = with pkgs;
       [
@@ -30,14 +39,31 @@ in {
           version = claudeCodeVersion;
           src = pkgs.fetchurl {
             url = "https://registry.npmjs.org/@anthropic-ai/claude-code/-/claude-code-${claudeCodeVersion}.tgz";
-            sha256 = "sha256-I5+LUI3VbDVc0G3iYT1EhYkFrp9cM3sSyhjXHNwCUgM=";
+            sha256 = "sha256-ypS7TV0eOqzLAQMz2z8KHRzI1OcCv4ai5gSenM2RoSc=";
           };
         }))
       ]
       ++ optionals cfg.enableNotifications [
         libnotify
         zenity
+        imagemagick
+        curl
       ];
+
+    programs.zsh = {
+      # From https://github.com/anthropics/claude-code/issues/2110#issuecomment-2996564886
+      envExtra = ''
+        if command -v direnv >/dev/null; then
+          if [[ ! -z "$CLAUDECODE" ]]; then
+            eval "$(direnv hook zsh)"
+            eval "$(DIRENV_LOG_FORMAT= direnv export zsh)"  # Need to trigger "hook" manually
+
+            # If the .envrc is not allowed, allow it
+            direnv status --json | jq -e ".state.foundRC.allowed==0" >/dev/null || direnv allow >/dev/null 2>&1
+          fi
+        fi
+      '';
+    };
 
     # Create notification hook scripts
     home.file.".claude/hooks/notification.sh" = mkIf (cfg.enableHooks && cfg.enableNotifications) {
@@ -53,21 +79,12 @@ in {
       '';
     };
 
-    home.file.".claude/hooks/pretooluse.sh" = mkIf (cfg.enableHooks && cfg.enableNotifications) {
-      executable = true;
-      text = ''
-        #!/usr/bin/env bash
-        # Read input
-        input=$(cat)
-        tool_name=$(echo "$input" | ${pkgs.jq}/bin/jq -r '.tool_name // "Unknown tool"')
+    # Old pretooluse.sh script removed - now using external permission-notify.sh script
 
-        # Send notification about tool usage
-        ${pkgs.libnotify}/bin/notify-send 'Claude Code' "Using tool: $tool_name" --icon=dialog-question --urgency=normal
-
-        # Always allow the tool to proceed
-        echo '{"hookSpecificOutput": {"hookEventName": "PreToolUse", "permissionDecision": "allow"}}'
-      '';
-    };
+    # Setup Claude icon for dialogs
+    home.activation.setupClaudeIcon = mkIf cfg.enableNotifications (lib.hm.dag.entryAfter ["writeBoundary"] ''
+      $DRY_RUN_CMD ${pkgs.bash}/bin/bash ${config.home.homeDirectory}/.dotfiles/home/features/cli/hooks/setup-claude-icon.sh
+    '');
 
     # Create Claude Code hooks configuration
     home.file.".claude/settings.json" = mkIf cfg.enableHooks {
@@ -90,7 +107,7 @@ in {
               hooks = [
                 {
                   type = "command";
-                  command = "${config.home.homeDirectory}/.dotfiles/home/features/cli/hooks/permission-notify.sh";
+                  command = "${permissionHookScript}";
                   timeout = 30000;
                 }
               ];
@@ -99,5 +116,5 @@ in {
         };
       };
     };
-  };
+  });
 }
