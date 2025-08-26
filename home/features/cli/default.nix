@@ -15,6 +15,7 @@
     ./tmux.nix
     ./gh.nix
     ./nix.nix
+    ./superclaude.nix
     ./claude-code.nix
   ];
 
