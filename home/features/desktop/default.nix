@@ -6,5 +6,6 @@
     ./notification.nix
     ./clipboard.nix
     ./tailscale-systray.nix
+    ./calculator.nix
   ];
 }

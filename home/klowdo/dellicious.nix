@@ -29,6 +29,7 @@
       fonts.enable = true;
       tailscale-systray.enable = true;
       clipboard.enable = true;
+      calculator.enable = true;
     };
     development = {
       tools = {
