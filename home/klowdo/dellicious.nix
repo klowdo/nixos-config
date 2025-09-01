@@ -27,6 +27,7 @@
       wayland.enable = true;
       hyprland.enable = true;
       fonts.enable = true;
+      tailscale-systray.enable = true;
       clipboard.enable = true;
     };
     development = {
