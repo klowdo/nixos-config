@@ -101,8 +101,8 @@
   };
 
   services.custom-way-displays = {
-    arrange = "ROW";
-    align = "TOP";
+    arrange = "COLUMN";
+    align = "MIDDLE";
     scaling = true;
     autoScale = false;
     autoScaleMin = 1.0;
