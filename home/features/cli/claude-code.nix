@@ -23,15 +23,6 @@ in {
   };
 
   config = mkIf cfg.enable (let
-    # Create permission hook script in Nix store from separate file
-    permissionHookScript =
-      pkgs.writeShellScript "claude-permission-hook"
-      (builtins.readFile (pkgs.replaceVars ./hooks/claude-permission-hook.sh {
-        jq = "${pkgs.jq}/bin/jq";
-        notifysend = "${pkgs.libnotify}/bin/notify-send";
-        zenity = "${pkgs.zenity}/bin/zenity";
-      }));
-
     # Claude Code package
     claudeCodePackage = pkgs.unstable.claude-code.overrideAttrs (oldAttrs: {
       version = claudeCodeVersion;
@@ -40,9 +31,22 @@ in {
         sha256 = "sha256-ypS7TV0eOqzLAQMz2z8KHRzI1OcCv4ai5gSenM2RoSc=";
       };
     });
-  in {
-    # Install Claude Code package
 
+    # Permission hook script with proper substitutions
+    permissionHookScript = pkgs.writeShellScript "claude-permission-hook"
+      (builtins.readFile (pkgs.replaceVars ./hooks/claude-permission-hook.sh {
+        jq = "${pkgs.jq}/bin/jq";
+        zenity = "${pkgs.zenity}/bin/zenity";
+        notifysend = "${pkgs.libnotify}/bin/notify-send";
+      }));
+
+    # Post-operation notification hook script with proper substitutions
+    notificationHookScript = pkgs.writeShellScript "claude-notification-hook"
+      (builtins.readFile (pkgs.replaceVars ./hooks/claude-notification-hook.sh {
+        jq = "${pkgs.jq}/bin/jq";
+        notifysend = "${pkgs.libnotify}/bin/notify-send";
+      }));
+  in {
     programs.zsh = {
       # From https://github.com/anthropics/claude-code/issues/2110#issuecomment-2996564886
       envExtra = ''
@@ -61,37 +65,29 @@ in {
     home = {
       packages = with pkgs;
         [
-          (pkgs.writeShellScriptBin "claude" ''
-            SHELL=${pkgs.bash}/bin/bash exec ${claudeCodePackage}/bin/claude "$@"
+          (writeShellScriptBin "claude" ''
+            SHELL=${bash}/bin/bash exec ${claudeCodePackage}/bin/claude "$@"
           '')
         ]
-        ++ optionals cfg.enableNotifications [
-          libnotify
-          zenity
-          imagemagick
-          curl
+        ++ optionals cfg.enableHooks [
+          # Required packages for hooks
+          libnotify  # For desktop notifications
+          zenity     # For permission dialogs
+          jq         # For JSON parsing in hooks
+          
+          # Permission management helper script
+          (pkgs.writeShellScriptBin "claude-permissions"
+            (builtins.readFile (pkgs.replaceVars ./hooks/claude-permissions.sh {
+              notifysend = "${libnotify}/bin/notify-send";
+            })))
         ];
 
       file =
         {
-          ".claude/agents/meta-agent.md"  .source = ./claude/agents/meta-agent.md;
-          ".claude/commands/git_status.md"  .source = ./claude/commands/git_status.md;
+          ".claude/agents/meta-agent.md".source = ./claude/agents/meta-agent.md;
+          ".claude/commands/git_status.md".source = ./claude/commands/git_status.md;
           ".claude/mcp_servers.json".source = ./claude/mcp_servers.json;
         }
-        // (optionalAttrs (cfg.enableHooks && cfg.enableNotifications) {
-          ".claude/hooks/notification.sh" = {
-            executable = true;
-            text = ''
-              #!/usr/bin/env bash
-              # Read input and extract message
-              input=$(cat)
-              message=$(echo "$input" | ${pkgs.jq}/bin/jq -r '.message // "Claude Code notification"')
-
-              # Send notification
-              ${pkgs.libnotify}/bin/notify-send 'Claude Code' "$message" --icon=dialog-information --urgency=normal
-            '';
-          };
-        })
         // (optionalAttrs cfg.enableHooks {
           ".claude/settings.json" = {
             text = builtins.toJSON {
@@ -104,44 +100,79 @@ in {
                 "command" = ./claude/status-line.sh;
                 "padding" = 0;
               };
-              # "permissions" = {
-              #   "defaultMode" = "bypassPermissions";
-              # };
-              hooks = optionalAttrs cfg.enableNotifications {
-                Notification = [
-                  {
-                    matcher = "*";
-                    hooks = [
-                      {
-                        type = "command";
-                        command = "$HOME/.claude/hooks/notification.sh";
-                      }
-                    ];
-                  }
-                ];
-                PreToolUse = [
-                  {
-                    matcher = "*";
-                    hooks = [
-                      {
-                        type = "command";
-                        command = "${permissionHookScript}";
-                        timeout = 30000;
-                      }
-                    ];
-                  }
-                ];
+              "hooks" = [
+                {
+                  "name" = "permission_hook";
+                  "description" = "Interactive permission confirmation for file operations";
+                  "hookEventName" = "PreToolUse";
+                  "command" = "${permissionHookScript}";
+                  "toolMatchers" = [
+                    {
+                      "toolName" = "Write";
+                    }
+                    {
+                      "toolName" = "Edit";
+                    }
+                    {
+                      "toolName" = "MultiEdit";
+                    }
+                    {
+                      "toolName" = "Bash";
+                      "toolInputMatchers" = [
+                        {
+                          "jsonPath" = "$.command";
+                          "regex" = ".*(rm -rf|dd if=|mkfs|> /dev/|sudo).*";
+                        }
+                      ];
+                    }
+                  ];
+                }
+              ] ++ optionals cfg.enableNotifications [
+                {
+                  "name" = "notification_hook";
+                  "description" = "Desktop notifications for completed operations";
+                  "hookEventName" = "PostToolUse";
+                  "command" = "${notificationHookScript}";
+                  "toolMatchers" = [
+                    {
+                      "toolName" = "Write";
+                    }
+                    {
+                      "toolName" = "Edit";
+                    }
+                    {
+                      "toolName" = "MultiEdit";
+                    }
+                    {
+                      "toolName" = "Bash";
+                      "toolInputMatchers" = [
+                        {
+                          "jsonPath" = "$.command";
+                          "regex" = ".*(git|just rebuild|nixos-rebuild|nix build|home-manager).*";
+                        }
+                      ];
+                    }
+                  ];
+                }
+              ];
+            };
+          };
+        })
+        // (optionalAttrs (!cfg.enableHooks) {
+          ".claude/settings.json" = {
+            text = builtins.toJSON {
+              "includeCoAuthoredBy" = false;
+              "env" = {
+                "CLAUDE_BASH_MAINTAIN_PROJECT_WORKING_DIR" = "1";
+              };
+              "statusLine" = {
+                "type" = "command";
+                "command" = ./claude/status-line.sh;
+                "padding" = 0;
               };
             };
           };
         });
     };
-
-    # Create notification hook scripts and symlink claude files
-
-    # Setup Claude icon for dialogs
-    home.activation.setupClaudeIcon = mkIf cfg.enableNotifications (lib.hm.dag.entryAfter ["writeBoundary"] ''
-      $DRY_RUN_CMD ${pkgs.bash}/bin/bash ${config.home.homeDirectory}/.dotfiles/home/features/cli/hooks/setup-claude-icon.sh
-    '');
   });
 }

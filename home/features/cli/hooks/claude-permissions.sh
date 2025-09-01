@@ -35,7 +35,7 @@ reset_preferences() {
     if [ -f "$PREFERENCES_FILE" ]; then
         rm "$PREFERENCES_FILE"
         echo "All preferences reset. Dialogs re-enabled."
-        notify-send -i dialog-information "Claude Permissions Reset" "All dialogs re-enabled" -t 2000
+        @notifysend@ -i dialog-information "Claude Permissions Reset" "All dialogs re-enabled" -t 2000
     else
         echo "No preferences to reset."
     fi
@@ -51,14 +51,14 @@ set_file_preference() {
             echo "file_modifications=always_allow" >> "${PREFERENCES_FILE}.tmp"
             mv "${PREFERENCES_FILE}.tmp" "$PREFERENCES_FILE"
             echo "File modifications will now be automatically allowed."
-            notify-send -i dialog-information "Auto-approval Enabled" "File modifications automatically allowed" -t 2000
+            @notifysend@ -i dialog-information "Auto-approval Enabled" "File modifications automatically allowed" -t 2000
             ;;
         "ask")
             # Remove file_modifications line
             grep -v "file_modifications=" "$PREFERENCES_FILE" 2>/dev/null > "${PREFERENCES_FILE}.tmp" || true
             mv "${PREFERENCES_FILE}.tmp" "$PREFERENCES_FILE"
             echo "File modification dialogs re-enabled."
-            notify-send -i dialog-information "Dialogs Re-enabled" "Will ask for file modification permission" -t 2000
+            @notifysend@ -i dialog-information "Dialogs Re-enabled" "Will ask for file modification permission" -t 2000
             ;;
     esac
 }
