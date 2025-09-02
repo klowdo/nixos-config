@@ -7,5 +7,6 @@
     ./clipboard.nix
     ./tailscale-systray.nix
     ./calculator.nix
+    ./todo.nix
   ];
 }

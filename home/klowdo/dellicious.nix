@@ -30,6 +30,7 @@
       tailscale-systray.enable = true;
       clipboard.enable = true;
       calculator.enable = true;
+      todo.enable = true;
     };
     development = {
       tools = {
