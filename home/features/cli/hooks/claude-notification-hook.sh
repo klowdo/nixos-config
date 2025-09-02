@@ -23,13 +23,13 @@ if [ "$hook_event_name" = "PostToolUse" ]; then
             
             case "$tool_name" in
                 "Write")
-                    @notifysend@ -i document-save "📄 File Written" "$file_name" -t 2000
+                    @notifysend@ -i document-save "📄 File Written" "$file_name" -t 10000
                     ;;
                 "Edit")
-                    @notifysend@ -i document-edit "✏️ File Edited" "$file_name" -t 2000
+                    @notifysend@ -i document-edit "✏️ File Edited" "$file_name" -t 10000
                     ;;
                 "MultiEdit")
-                    @notifysend@ -i document-edit "🔧 Multi-Edit Complete" "$file_name" -t 2000
+                    @notifysend@ -i document-edit "🔧 Multi-Edit Complete" "$file_name" -t 10000
                     ;;
             esac
         fi
@@ -39,15 +39,10 @@ if [ "$hook_event_name" = "PostToolUse" ]; then
     if [[ "$tool_name" == "Bash" ]]; then
         command=$(echo "$tool_input" | @jq@ -r '.command // empty')
         
-        # Only notify for important/long running commands
-        if [[ ${#command} -gt 80 ]] || \
-           [[ "$command" == *"git"* ]] || \
-           [[ "$command" == *"just rebuild"* ]] || \
-           [[ "$command" == *"nixos-rebuild"* ]] || \
-           [[ "$command" == *"nix build"* ]] || \
-           [[ "$command" == *"home-manager"* ]]; then
+        # Only notify for long running commands
+        if [[ ${#command} -gt 80 ]]; then
             @notifysend@ -i utilities-terminal "✅ Command Complete" \
-                       "${command:0:50}..." -t 2000
+                       "${command:0:50}..." -t 10000
         fi
     fi
 fi
