@@ -5,5 +5,6 @@
     ./development
     ./media
     ./communication
+    ./hardware
   ];
 }

@@ -59,6 +59,9 @@
       vesktop.enable = true;
       neomutt.enable = true;
     };
+    hardware = {
+      zsa-moonlander.enable = true;
+    };
   };
 
   wayland.windowManager.hyprland = {
