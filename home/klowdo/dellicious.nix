@@ -35,6 +35,7 @@
     development = {
       tools = {
         rider.enable = false;
+        goland.enable = true;
         libreoffice.enable = true;
       };
       languages = {
