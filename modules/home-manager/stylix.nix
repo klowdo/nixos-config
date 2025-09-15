@@ -36,8 +36,10 @@
         popups = 12;
       };
     };
-    targets.bat.enable = false;
-    targets.hyprland.enable = true;
-    targets.mako.enable = false;
+    targets = {
+      bat.enable = false;
+      hyprland.enable = true;
+      mako.enable = false;
+    };
   };
 }
