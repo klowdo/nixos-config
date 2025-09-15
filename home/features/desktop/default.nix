@@ -8,5 +8,6 @@
     ./tailscale-systray.nix
     ./calculator.nix
     ./todo.nix
+    ./thunar.nix
   ];
 }
