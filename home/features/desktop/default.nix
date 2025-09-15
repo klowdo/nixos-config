@@ -9,5 +9,6 @@
     ./calculator.nix
     ./todo.nix
     ./thunar.nix
+    ./darkman.nix
   ];
 }

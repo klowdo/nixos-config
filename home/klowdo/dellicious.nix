@@ -31,6 +31,7 @@
       clipboard.enable = true;
       calculator.enable = true;
       todo.enable = true;
+      darkman.enable = true;
     };
     development = {
       tools = {
