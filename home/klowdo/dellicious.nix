@@ -55,6 +55,11 @@
       spotify-player.enable = true;
       zathura.enable = true;
       deezer.enable = true;
+      music-assistant = {
+        enable = true;
+        url = "https://music.home.flixen.se";
+      };
+      pinta.enable = true;
     };
     communication = {
       zoom.enable = true;

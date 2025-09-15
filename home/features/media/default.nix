@@ -5,5 +5,6 @@
     ./spotify-player.nix
     ./zathura.nix
     ./firefox.nix
+    ./pinta.nix
   ];
 }
