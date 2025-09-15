@@ -4,5 +4,6 @@
     ./spicetify.nix
     ./spotify-player.nix
     ./zathura.nix
+    ./firefox.nix
   ];
 }
