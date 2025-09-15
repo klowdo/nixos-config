@@ -8,11 +8,17 @@ This is a sophisticated NixOS dotfiles configuration using Nix flakes that manag
 
 ## Common Commands
 
-### Build & Deploy
+### Primary Build & Deploy (NH Tool)
+- `nh os switch` - Rebuild and switch to new NixOS configuration
+- `nh os test` - Test NixOS configuration without applying changes
+
+### Legacy Commands (Deprecated)
 - `just rebuild` - Stage files, rebuild system flake, and validate SOPS
 - `just rebuild-trace` - Same as rebuild with `--show-trace` for debugging
 - `just home` - Rebuild Home Manager configuration only
 - `just build` - Stage files and run build script
+
+### Other Commands
 - `just update` - Update flake inputs (`nix flake update`)
 - `just rebuild-update` - Update flakes then rebuild system
 
@@ -21,12 +27,6 @@ This is a sophisticated NixOS dotfiles configuration using Nix flakes that manag
 - `just ci-all` - Run pre-commit hooks on all files
 - `just diff` - Show git diff excluding flake.lock
 - `just investigate` - Analyze current system with nix-tree
-- `nh os test` - Test NixOS configuration without applying changes
-
-### Direct Commands
-- `sudo nixos-rebuild switch --flake .#<hostname>` - Direct system rebuild
-- `home-manager --impure --flake . switch` - Direct Home Manager rebuild
-- `nh os switch` - Alternative rebuild using NH tool
 
 ### Secrets Management
 - `just check-sops` - Validate SOPS activation
@@ -75,17 +75,18 @@ Home Manager uses feature flags in `home/features/`:
 ## Development Workflow
 
 1. **Making Changes**: Edit configurations in appropriate modules
-2. **Testing**: Use `just rebuild` to apply and validate changes
-3. **Home Manager Only**: Use `just home` for user-level changes
+2. **Testing**: Use `nh os test` to test configuration without applying changes
+3. **Deploying**: Use `nh os switch` to apply and switch to new configuration
 4. **Updates**: Use `just update` to update flake inputs
-5. **Debugging**: Use `just rebuild-trace` for detailed error output
-6. **CI**: Run `just ci` before committing changes
+5. **CI**: Run `just ci` before committing changes
 
 ## Important Notes
 
-- Always stage changes with `git add .` before rebuilding (handled by just commands)
+- Always stage changes with `git add .` before rebuilding
+- Uses **NH (Nix Helper)** as the primary build tool for improved UX and performance
 - SOPS validation runs automatically after rebuilds
 - The configuration uses impure evaluation for Home Manager
 - Custom packages are defined in `pkgs/` with overlays in `overlays/`
 - Secrets are managed via SOPS with age encryption
 - Pre-commit hooks enforce code quality (nixpkgs formatting, shellcheck)
+- Always commit new features
