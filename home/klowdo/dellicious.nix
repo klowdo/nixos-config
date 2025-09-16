@@ -22,6 +22,7 @@
       tmux.enable = true;
       gh.enable = true;
       claude-code.enable = true;
+      bitwarden-wofi.enable = true;
       ssh.enable = true;
     };
     desktop = {

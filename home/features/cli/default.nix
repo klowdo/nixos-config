@@ -17,6 +17,7 @@
     ./nix.nix
     ./superclaude.nix
     ./claude-code.nix
+    ./bitwarden-wofi.nix
     ./ssh.nix
   ];
 

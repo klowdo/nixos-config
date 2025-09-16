@@ -141,6 +141,7 @@ in {
         #TODO: referece the audio-select bin
         "$hyper, A, exec, audio-select"
         "$hyper, P, exec, wofi-pass"
+        "$hyper, B, exec, wofi-bitwarden"
         "$hyper, E, exec, wofi-emoji fill"
 
         #################### Clipboard Manager ####################
