@@ -23,6 +23,8 @@ in {
         path = "${homeDirectory}/.config/pass/gpg-passphrase";
         mode = "0400";
       };
+
+      "weather-api-key" = {};
     };
   };
 }

@@ -57,8 +57,11 @@
               military = true;
               hideSeconds = true;
             };
-            weather.unit = "metric";
-            weather.location = "Gothenburg";
+            weather = {
+              unit = "metric";
+              location = "Gothenburg";
+              key = "${config.sops.secrets."weather-api-key".path}";
+            };
           };
           dashboard = {
             directories.enabled = false;

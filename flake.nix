@@ -76,6 +76,8 @@
 
     superclaude-nix.url = "path:/home/klowdo/dev/github/SuperCaludeNix";
 
+    nix-webapps.url = "github:TLATER/nix-webapps?ref=tlater/idiomatic-flake";
+
     ## Theming
     catppuccin.url = "github:catppuccin/nix";
     stylix.url = "github:danth/stylix/release-25.05";
