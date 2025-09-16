@@ -6,5 +6,6 @@
     ./zathura.nix
     ./firefox.nix
     ./pinta.nix
+    ./music-assistant.nix
   ];
 }
