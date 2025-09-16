@@ -4,7 +4,9 @@
   ...
 }: {
   hardware.keyboard.zsa.enable = true;
-  services.gnome.gnome-keyring.enable = true;
+  
+  # Enable GNOME Keyring with SSH agent support (configured in optional/gnome-keyring.nix)
+  services.gnome.gnome-keyring-ssh.enable = true;
 
   sops.secrets."passwords/klowdo".neededForUsers = true;
   users.mutableUsers = false;

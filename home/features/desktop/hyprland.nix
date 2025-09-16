@@ -30,6 +30,8 @@ in {
       XDG_CURRENT_DESKTOP = "Hyprland";
       XDG_SESSION_TYPE = "wayland";
       XDG_SESSION_DESKTOP = "Hyprland";
+      # GNOME Keyring SSH agent socket
+      SSH_AUTH_SOCK = "$XDG_RUNTIME_DIR/keyring/ssh";
     };
     wayland.windowManager.hyprland = {
       enable = true;
@@ -52,6 +54,8 @@ in {
           "hypridle"
           "wl-paste -p -t text --watch clipman store -P --histpath=\"~/.local/share/clipman-primary.json\""
           "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
+          # Start GNOME Keyring daemon (components configured via NixOS service)
+          "/run/wrappers/bin/gnome-keyring-daemon --start"
         ];
 
         env = [
