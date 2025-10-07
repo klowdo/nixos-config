@@ -227,6 +227,7 @@ in {
           "workspace 3,opacity 1.0, class:(brave-browser)"
           "workspace 3,opacity 1.0, class:(firefox)"
           "workspace 4,class:(spotify)"
+          "workspace 4,class:(Deezer)"
           "workspace 4,class:(com.obsproject.Studio)"
           "workspace 5,class:(Slack)"
           "animation none, class:(jetbrains-rider)"
