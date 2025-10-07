@@ -89,6 +89,9 @@ in {
     # pam_u2f
     rpi-imager
     git-extras
+    nix-search-cli
+    nix-search-tv
+    circumflex
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
