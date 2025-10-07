@@ -7,13 +7,15 @@
   outputs,
   ...
 }: {
-  imports = [
-    ./core
-    ./optional/services
-    ./users
-    inputs.home-manager.nixosModules.home-manager
-    inputs.sops-nix.nixosModules.sops
-  ];
+  imports =
+    [
+      ./core
+      ./optional/services
+      ./users
+      inputs.home-manager.nixosModules.home-manager
+      inputs.sops-nix.nixosModules.sops
+    ]
+    ++ (builtins.attrValues outputs.nixosModules);
   home-manager = {
     useUserPackages = true;
     extraSpecialArgs = {inherit inputs outputs;};
