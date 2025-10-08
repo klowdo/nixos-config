@@ -143,6 +143,7 @@ in {
         "$hyper, P, exec, wofi-pass"
         "$hyper, B, exec, wofi-bitwarden"
         "$hyper, E, exec, wofi-emoji fill"
+        "$hyper, T, exec, darkman toggle"
 
         #################### Clipboard Manager ####################
         "SUPER, V, exec, clipboard-menu"

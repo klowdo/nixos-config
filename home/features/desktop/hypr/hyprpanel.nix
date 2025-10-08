@@ -90,6 +90,7 @@
           dark = "󰖙";
           light = "󰖔";
         };
+        tooltip = "Current theme: {alt}%";
         execute = "darkman get | jq -R '{alt: .}'";
         interval = 1000;
         actions = {
