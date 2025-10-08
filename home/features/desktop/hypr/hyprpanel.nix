@@ -40,6 +40,7 @@
               "battery"
               "network"
               "hypridle"
+              "custom/darkman"
               "notifications"
               "kbinput"
             ];
@@ -57,6 +58,7 @@
               military = true;
               hideSeconds = true;
             };
+
             weather = {
               unit = "metric";
               location = "Gothenburg";
@@ -64,6 +66,7 @@
             };
           };
           dashboard = {
+            powermenu.avatar.image = "~/.face.icon";
             directories.enabled = false;
             # stats.enable_gpu = true;
           };
@@ -77,6 +80,20 @@
             name = "CaskaydiaCove NF";
             size = "12px";
           };
+        };
+      };
+    };
+
+    xdg.configFile."hyprpanel/modules.json".text = builtins.toJSON {
+      "custom/darkman" = {
+        icon = {
+          dark = "󰖙";
+          light = "󰖔";
+        };
+        execute = "darkman get | jq -R '{alt: .}'";
+        interval = 1000;
+        actions = {
+          onLeftClick = "darkman toggle";
         };
       };
     };
