@@ -74,8 +74,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    superclaude-nix.url = "path:/home/klowdo/dev/github/SuperCaludeNix";
-
     nix-webapps.url = "github:TLATER/nix-webapps?ref=tlater/idiomatic-flake";
 
     ## Theming
