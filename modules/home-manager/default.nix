@@ -4,6 +4,7 @@
   # List your module files her
   way-displays = import ./way-displays.nix;
   claudia = import ./claudia.nix;
+  vivid-stub = import ./vivid-stub.nix;
 }
 # {lib, ...}: {
 #   imports = lib.custom.scanPaths ./.;
