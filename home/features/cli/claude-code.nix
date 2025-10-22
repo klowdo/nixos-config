@@ -19,14 +19,15 @@ in {
 
   config = mkIf cfg.enable (let
     # Claude Code package
-    claudeCodePackage = pkgs.unstable.claude-code.overrideAttrs (oldAttrs: {
-      version = claudeCodeVersion;
-      src = pkgs.fetchurl {
-        url = "https://registry.npmjs.org/@anthropic-ai/claude-code/-/claude-code-${claudeCodeVersion}.tgz";
-        sha256 = "sha256-Emx9dS/G7iTwjC22+nDc9FloM/SNi95aHw2NLxSc4CM=";
-      };
-    });
-
+    claudeCodePackage = pkgs.unstable.claude-code;
+    # claudeCodePackage = pkgs.unstable.claude-code.overrideAttrs (oldAttrs: {
+    #   version = claudeCodeVersion;
+    #   src = pkgs.fetchurl {
+    #     url = "https://registry.npmjs.org/@anthropic-ai/claude-code/-/claude-code-${claudeCodeVersion}.tgz";
+    #     sha256 = "sha256-Emx9dS/G7iTwjC22+nDc9FloM/SNi95aHw2NLxSc4CM=";
+    #   };
+    # });
+    #
     # Post-operation notification hook script with proper substitutions
     notificationHookScript =
       pkgs.writeShellScript "claude-notification-hook"
