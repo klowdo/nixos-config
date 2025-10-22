@@ -45,6 +45,7 @@
     ../common/optional/udev.nix
     ../common/optional/icu.nix
     ../common/optional/dotnet-dev-certs.nix
+    ../common/optional/steam.nix
   ];
 
   powerManagement.enable = true;
