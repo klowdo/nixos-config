@@ -4,5 +4,6 @@
     ./libreoffice.nix
     ./claudia.nix
     ./goland.nix
+    ./datagrip.nix
   ];
 }
