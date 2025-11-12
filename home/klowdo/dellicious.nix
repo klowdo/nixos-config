@@ -120,6 +120,11 @@
     scaling = true;
     autoScale = false;
     autoScaleMin = 1.0;
+    order = [
+      "!.*$"
+      "DP-7"
+      "eDP-1"
+    ];
     scales = [
       {
         # Internal
@@ -141,6 +146,11 @@
         nameDesc = "HP Inc. HP Z40c G3 CN43090Z36";
         scale = 1.0;
       }
+      {
+        # Office thunderbold
+        nameDesc = "Dell Inc. DELL U2724DE 42QR734";
+        scale = 1.0;
+      }
     ];
     modes = [
       {
@@ -149,11 +159,6 @@
         width = 3456;
         height = 2160;
         hz = 60;
-        max = true;
-      }
-      {
-        # Work
-        nameDesc = "Samsung Electric Company LU28R55 H4ZT400162";
         max = true;
       }
       {
@@ -169,7 +174,19 @@
         nameDesc = "HP Inc. HP Z40c G3 CN43090Z36";
         max = true;
       }
+
+      {
+        # Office thunderbold
+        nameDesc = "Dell Inc. DELL U2724DE 42QR734";
+        max = true;
+      }
+
+      # Office 
+      { 
+        nameDesc = "Dell Inc. DELL U2724D BW25834";
+        max = true;
+      }
     ];
-    vrrOff = ["eDP-1" "DP-4"];
+    vrrOff = [ "!.*$" ];
   };
 }
