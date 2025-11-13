@@ -87,7 +87,7 @@ in {
     yubioath-flutter
     pcsclite
     # pam_u2f
-    rpi-imager
+    # rpi-imager  # Broken in current nixpkgs - Qt6 CMake issue
     git-extras
     nix-search-cli
     nix-search-tv
