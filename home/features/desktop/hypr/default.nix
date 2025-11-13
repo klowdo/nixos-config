@@ -4,6 +4,7 @@
     ./hyprland-binds.nix
     ./wofi.nix
     ./hyprlock.nix
+    ./hyprlock-music-script.nix
     ./hyprpanel.nix
   ];
 }

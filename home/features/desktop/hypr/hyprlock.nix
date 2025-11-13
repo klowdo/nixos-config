@@ -1,7 +1,11 @@
-{config, lib, ...}: let
+{config, lib, pkgs, ...}: let
   # Image paths from lib directory
   wallpaperPath = ../../../../lib/nix-wallpaper-nineish-catppuccin-macchiato.png;
   userPhotoPath = ../../../../lib/felix_evolve.jpg;
+
+  # Music widget paths
+  musicArtCache = "${config.home.homeDirectory}/.config/hypr/scripts/music.webp";
+  musicScript = "${config.home.homeDirectory}/.config/hypr/scripts/hyprlock-music.sh";
 in {
   programs.hyprlock = {
     enable = true;
@@ -33,8 +37,8 @@ in {
           monitor = "";
           size = "250, 60";
           outline_thickness = 2;
-          dots_size = 0.2; # Scale of input-field height, 0.2 - 0.8
-          dots_spacing = 0.2; # Scale of dots' absolute size, 0.0 - 1.0
+          dots_size = 0.2;
+          dots_spacing = 0.2;
           dots_center = true;
           outer_color = "rgba(0, 0, 0, 0)";
           inner_color = "rgba(100, 114, 125, 0.4)";
@@ -85,10 +89,119 @@ in {
           halign = "center";
           valign = "center";
         }
+
+        # MUSIC - Song title
+        {
+          monitor = "";
+          text = "cmd[update:1000] echo \"$(${musicScript} --title)\"";
+          color = "rgba(216, 222, 233, 0.70)";
+          font_size = 16;
+          font_family = "SF Pro Display Heavy";
+          position = "55, 138";
+          halign = "center";
+          valign = "bottom";
+        }
+
+        # MUSIC - Player source
+        {
+          monitor = "";
+          text = "cmd[update:1000] echo \"$(${musicScript} --player)\"";
+          color = "rgba(216, 222, 233, 0.70)";
+          font_size = 13;
+          font_family = "SF Pro Display Bold";
+          position = "205, 45";
+          halign = "center";
+          valign = "bottom";
+        }
+
+        # MUSIC - Artist name
+        {
+          monitor = "";
+          text = "cmd[update:1000] echo \"󰠃  $(${musicScript} --artist)\"";
+          color = "rgba(216, 222, 233, 0.70)";
+          font_size = 12;
+          font_family = "SF Pro Display Semibold";
+          position = "55, 118";
+          halign = "center";
+          valign = "bottom";
+        }
+
+        # MUSIC - Previous button
+        {
+          monitor = "";
+          text = "󰒮";
+          color = "rgba(216, 222, 233, 0.70)";
+          font_size = 25;
+          onclick = "${pkgs.playerctl}/bin/playerctl previous";
+          position = "-5, 55";
+          halign = "center";
+          valign = "bottom";
+        }
+
+        # MUSIC - Play/Pause button
+        {
+          monitor = "";
+          text = "cmd[update:1000] ${musicScript} --status";
+          color = "rgba(216, 222, 233, 0.70)";
+          font_size = 25;
+          onclick = "${pkgs.playerctl}/bin/playerctl play-pause";
+          position = "55, 55";
+          halign = "center";
+          valign = "bottom";
+        }
+
+        # MUSIC - Next button
+        {
+          monitor = "";
+          text = "󰒭";
+          color = "rgba(216, 222, 233, 0.70)";
+          font_size = 25;
+          onclick = "${pkgs.playerctl}/bin/playerctl next";
+          position = "110, 55";
+          halign = "center";
+          valign = "bottom";
+        }
+
+        # MUSIC - Current position
+        {
+          monitor = "";
+          text = "cmd[update:1000] echo \"$(${musicScript} --position)\"";
+          color = "rgba(216, 222, 233, 0.70)";
+          font_size = 10;
+          font_family = "SF Pro Display Medium";
+          position = "-100, 95";
+          halign = "center";
+          valign = "bottom";
+        }
+
+        # MUSIC - Total length
+        {
+          monitor = "";
+          text = "cmd[update:1000] echo \"$(${musicScript} --length)\"";
+          color = "rgba(216, 222, 233, 0.70)";
+          font_size = 10;
+          font_family = "SF Pro Display Medium";
+          position = "210, 95";
+          halign = "center";
+          valign = "bottom";
+        }
+
+        # MUSIC - Progress bar
+        {
+          monitor = "";
+          text = "cmd[update:1000] ${musicScript} --progress-bar";
+          color = "rgba(216, 222, 233, 0.70)";
+          font_size = 12;
+          font_family = "SF Pro Display Medium";
+          position = "55, 95";
+          halign = "center";
+          valign = "bottom";
+        }
       ];
 
-      # Profile-Photo
+      # Images: Profile photo + Album art
       image = lib.mkForce [
+        # Profile Photo
         {
           monitor = "";
           path = "${userPhotoPath}";
@@ -102,6 +215,36 @@ in {
           position = "0, -20";
           halign = "center";
           valign = "center";
+        }
+
+        # Album Art
+        {
+          monitor = "";
+          path = musicArtCache;
+          size = 100;
+          rounding = 5;
+          border_size = 3;
+          border_color = "rgba(216, 222, 233, 0.70)";
+          rotate = 0;
+          reload_time = 2;
+          reload_cmd = "${musicScript} --art";
+          position = "-180, 57";
+          halign = "center";
+          valign = "bottom";
+        }
+      ];
+
+      # Music widget background box
+      shape = lib.mkForce [
+        {
+          monitor = "";
+          color = "rgba(100, 114, 125, 0.4)";
+          size = "500, 140";
+          rounding = 10;
+          position = "0, 40";
+          halign = "center";
+          valign = "bottom";
+          zindex = 0;
         }
       ];
     };
