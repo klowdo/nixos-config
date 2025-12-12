@@ -18,6 +18,7 @@
     ./claude-code.nix
     ./bitwarden-wofi.nix
     ./ssh.nix
+    ./lazygit.nix
   ];
 
   programs.zoxide = {
@@ -70,9 +71,5 @@
 
   programs = {
     zsh.shellAliases.vimdiff = "nvim -d";
-  };
-  programs.lazygit = {
-    enable = true;
-    package = pkgs.unstable.lazygit;
   };
 }
