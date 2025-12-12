@@ -13,22 +13,37 @@ with lib; let
     # shell
     ''
       INTERFACES=("enp0s20f0u1u1" "wlp0s20f3")
-      # HOMEDNS=192.168.1.252
       HOMEDNS=${homedns}
       PUBLICDNS="1.1.1.1"
       DNS1=10.10.16.10
       DNS2=10.10.17.10
 
-      if [ "$1" == 'up' ]; then
-        tailscale_status=$(${pkgs.tailscale}/bin/tailscale status  --json | ${pkgs.jq}/bin/jq .BackendState -r)
-        if [ "$tailscale_status" == 'Running' ]; then
-          ${pkgs.tailscale}/bin/tailscale  down
-        fi
-        ${pkgs.strongswan}/bin/ipsec up ${connecionName}
+      # Auto-detect which strongSwan mode is active
+      # Check if swanctl service is running, otherwise use legacy ipsec
+      if systemctl is-active --quiet strongswan-swanctl.service; then
+        USE_SWANCTL=true
+        echo "Using swanctl mode"
+      elif systemctl is-active --quiet strongswan.service; then
+        USE_SWANCTL=false
+        echo "Using legacy ipsec mode"
+      else
+        echo "Error: Neither strongswan.service nor strongswan-swanctl.service is active"
+        exit 1
+      fi
 
+      if [ "$1" == 'up' ]; then
+        tailscale_status=$(${pkgs.tailscale}/bin/tailscale status --json | ${pkgs.jq}/bin/jq .BackendState -r)
+        if [ "$tailscale_status" == 'Running' ]; then
+          ${pkgs.tailscale}/bin/tailscale down
+        fi
+
+        if [ "$USE_SWANCTL" = true ]; then
+          ${pkgs.strongswan}/bin/swanctl --initiate --child ${connecionName}
+        else
+          ${pkgs.strongswan}/bin/ipsec up ${connecionName}
+        fi
 
         for INT in "''${INTERFACES[@]}"; do
-          # Check if interface exists
           if ip link show "$INT" &>/dev/null; then
             echo "Setting DNS for interface $INT"
             sudo resolvectl dns "$INT" "$DNS1" "$DNS2"
@@ -37,12 +52,14 @@ with lib; let
           fi
         done
 
-
       elif [ "$1" == 'down' ]; then
-        ${pkgs.strongswan}/bin/ipsec down ${connecionName}
+        if [ "$USE_SWANCTL" = true ]; then
+          ${pkgs.strongswan}/bin/swanctl --terminate --ike ${connecionName}
+        else
+          ${pkgs.strongswan}/bin/ipsec down ${connecionName}
+        fi
 
         for INT in "''${INTERFACES[@]}"; do
-          # Check if interface exists
           if ip link show "$INT" &>/dev/null; then
             echo "Setting HOME DNS for interface $INT"
             sudo resolvectl dns "$INT" "$HOMEDNS" "$PUBLICDNS"
@@ -51,12 +68,10 @@ with lib; let
           fi
         done
 
-
         ${pkgs.tailscale}/bin/tailscale up
 
       elif [ "$1" == 'rdns' ]; then
         for INT in "''${INTERFACES[@]}"; do
-          # Check if interface exists
           if ip link show "$INT" &>/dev/null; then
             echo "Setting DNS for interface $INT"
             sudo resolvectl dns "$INT" "$DNS1" "$DNS2"
@@ -64,8 +79,17 @@ with lib; let
             echo "Interface $INT is not available, skipping"
           fi
         done
+
+      elif [ "$1" == 'status' ]; then
+        if [ "$USE_SWANCTL" = true ]; then
+          ${pkgs.strongswan}/bin/swanctl --list-sas
+        else
+          ${pkgs.strongswan}/bin/ipsec status
+        fi
+
       else
-        echo "have no idea what to do"
+        echo "Usage: ws-vpn {up|down|rdns|status}"
+        exit 1
       fi
     '';
 in {
@@ -82,6 +106,24 @@ in {
       shellsScript
     ];
     networking.networkmanager.enableStrongSwan = true;
+
+    # Configure strongswan.conf to disable DNS installation via resolvconf
+    # Since NixOS doesn't have a direct option for this, we create the config file
+    # This eliminates the "resolvconf is disabled" errors in the logs
+    environment.etc."strongswan.conf".text = ''
+      charon {
+        # We handle DNS manually in the ws-vpn script via resolvectl,
+        # so disable strongSwan's DNS installation completely
+
+        # Disable loading of the resolve plugin which handles DNS installation
+        plugins {
+          resolve {
+            load = no
+          }
+        }
+      }
+    '';
+
     services.strongswan = {
       enable = true;
       secrets = [config.sops.secrets."strong-swan.ipsec".path];

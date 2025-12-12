@@ -57,7 +57,9 @@
     # tlp.enable = true;
     # auto-cpufreq.enable = true;
     power-profiles-daemon.enable = true;
-    strongSwan.enable = true;
+    # strongSwan.enable = true;
+    # strongSwan.
+    strongSwan-swanctl.enable = true;
   };
 
   #TODO: fix this... use same names for modules
