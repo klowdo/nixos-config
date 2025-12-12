@@ -92,6 +92,7 @@ in {
     nix-search-cli
     nix-search-tv
     circumflex
+    numara-calculator
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
