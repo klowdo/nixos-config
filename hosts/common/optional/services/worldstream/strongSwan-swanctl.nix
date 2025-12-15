@@ -109,7 +109,9 @@ in {
       toggleScript
     ];
 
-    networking.networkmanager.enableStrongSwan = true;
+    networking.networkmanager.plugins = [
+      pkgs.networkmanager-strongswan
+    ];
 
     # Configure strongswan.conf to disable DNS installation via resolvconf
     # This properly fixes the "resolvconf is disabled" errors

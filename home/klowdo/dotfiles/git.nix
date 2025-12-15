@@ -10,18 +10,17 @@
   };
   programs.git = {
     enable = true;
-    package = pkgs.gitAndTools.gitFull;
-    userName = "Felix Svensson";
-    userEmail = "klowdo.fs@gmail.com";
-    aliases = {
-      ci = "commit";
-      co = "checkout";
-      st = "status";
-    };
-    difftastic = {
-      enable = true;
-    };
-    extraConfig = {
+    package = pkgs.gitFull;
+    settings = {
+      user = {
+        name = "Felix Svensson";
+        email = "klowdo.fs@gmail.com";
+      };
+      alias = {
+        ci = "commit";
+        co = "checkout";
+        st = "status";
+      };
       init.defaultBranch = "main";
 
       merge.conflictStyle = "zdiff3";
@@ -36,9 +35,12 @@
       rerere.enabled = true;
       rebase.updateRefs = true;
       pull.rebase = true;
-      extraConfig = {
-        credential.helper = "store";
-      };
+      credential.helper = "store";
     };
+  };
+
+  programs.difftastic = {
+    enable = true;
+    git.enable = true;
   };
 }

@@ -53,7 +53,7 @@ This is a sophisticated NixOS dotfiles configuration using Nix flakes that manag
 - `scripts/` - Management and build scripts
 
 ### Key Technologies
-- **NixOS 25.05** stable with unstable overlay
+- **NixOS 25.11** stable with unstable overlay
 - **Home Manager** for user environment
 - **Hyprland** Wayland compositor with HyprPanel
 - **SOPS-nix** for secrets management

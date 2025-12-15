@@ -13,15 +13,14 @@ in {
     mkIf cfg.enable {
       programs.ssh = {
         enable = true;
-        addKeysToAgent = "yes";
-        forwardAgent = true;
+        enableDefaultConfig = false;
         includes = [
           "config.d/*"
         ];
 
         matchBlocks = {
           "*" = {
-            # addKeysToAgent = "yes";
+            addKeysToAgent = "yes";
             forwardAgent = true;
             identityAgent = "\${XDG_RUNTIME_DIR}/keyring/ssh";
           };
@@ -32,9 +31,6 @@ in {
           };
         };
         extraConfig = ''
-          AddKeysToAgent yes
-          ForwardAgent yes
-
           # Use libsecret for password authentication when needed
           # This allows SSH to integrate with GNOME Keyring for passwords
         '';

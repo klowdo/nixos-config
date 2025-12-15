@@ -16,7 +16,7 @@ in {
   config = mkIf cfg.enable {
     stylix.targets.spicetify.enable = false;
     programs.spicetify = let
-      spicePkgs = inputs.spicetify-nix.legacyPackages.${pkgs.system};
+      spicePkgs = inputs.spicetify-nix.legacyPackages.${pkgs.stdenv.hostPlatform.system};
     in {
       enable = true;
       enabledExtensions = with spicePkgs.extensions; [

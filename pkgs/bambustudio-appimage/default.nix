@@ -36,7 +36,7 @@ in
       # GTK and WebKit dependencies (required for embedded browser)
       gtk3
       glib
-      webkitgtk_4_0  # Provides libwebkit2gtk-4.0.so.37 for Ubuntu 22.04
+      webkitgtk_4_1  # Provides libwebkit2gtk-4.0.so.37 for Ubuntu 22.04
 
       # Font rendering
       fontconfig

@@ -119,9 +119,9 @@ in {
 
         master = {};
 
-        gestures = {
-          workspace_swipe = false;
-        };
+        gesture = [
+          "3, horizontal, workspace"
+        ];
 
         # trigger when the switch is turning off
         windowrule = [

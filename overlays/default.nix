@@ -11,6 +11,16 @@
     # ...
     # });
 
+    pulseaudio-dlna = prev.pulseaudio-dlna.overrideAttrs (oldAttrs: {
+      buildInputs = (oldAttrs.buildInputs or []) ++ [
+        prev.gobject-introspection
+      ];
+      nativeBuildInputs = (oldAttrs.nativeBuildInputs or []) ++ [
+        prev.wrapGAppsHook3
+        prev.gobject-introspection
+      ];
+    });
+
     strongswan = prev.strongswan.overrideAttrs (oldAttrs: {
       configureFlags =
         oldAttrs.configureFlags
@@ -48,13 +58,13 @@
   # be accessible through 'pkgs.unstable'
   unstable-packages = final: _prev: {
     unstable = import inputs.nixpkgs-unstable {
-      system = final.system;
+      system = final.stdenv.hostPlatform.system;
       config.allowUnfree = true;
     };
   };
   stable-packages = final: _prev: {
     stable = import inputs.nixpkgs-stable {
-      system = final.system;
+      system = final.stdenv.hostPlatform.system;
       config.allowUnfree = true;
     };
   };

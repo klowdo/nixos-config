@@ -64,7 +64,7 @@
     ]
     ++ [
       pkgs.unstable.isd
-      inputs.kixvim.packages.${system}.default
+      inputs.kixvim.packages.${pkgs.stdenv.hostPlatform.system}.default
     ];
 
   home.sessionVariables = {EDITOR = "nvim";};

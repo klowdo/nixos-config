@@ -16,12 +16,12 @@
       # pkgs.python313Packages.nvidia-ml-py
     ];
     programs.hyprpanel = {
-      package = inputs.hyprpanel.packages.${pkgs.system}.default;
+      package = inputs.hyprpanel.packages.${pkgs.stdenv.hostPlatform.system}.default;
       enable = true;
       # hyprland.enable = true;
       # theme = "catppuccin_mocha";
       systemd.enable = true;
-      dontAssertNotificationDaemons = true;
+      # dontAssertNotificationDaemons = true;
 
       settings = {
         bar.layouts = {
