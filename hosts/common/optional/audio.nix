@@ -1,4 +1,10 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  lib,
+  ...
+}: let
+  inherit (lib.lists) singleton;
+in {
   # Enable sound with pipewire.
   services.pulseaudio.enable = false;
   security.rtkit.enable = true;
@@ -62,14 +68,30 @@
           ];
         };
 
-        # Bluetooth configuration
         "10-bluez" = {
-          "monitor.bluez.properties" = {
-            "bluez5.enable-sbc-xq" = true; # Higher quality SBC codec
-            "bluez5.enable-msbc" = true; # Better call quality
-            "bluez5.enable-hw-volume" = true; # Hardware volume control
+          "monitor.bluez.rules" = singleton {
+            matches = singleton {"device.name" = "~bluez_card.*";};
+            actions = {
+              update-props = {
+                "bluez5.roles" = ["hsp_hs" "hsp_ag" "hfp_hf" "hfp_ag"];
+                "bluez5.enable-msbc" = true;
+                "bluez5.enable-sbc-xq" = true;
+                "bluez5.enable-hw-volume" = true;
+
+                # Set quality to high quality instead of the default of auto
+                "bluez5.a2dp.ldac.quality" = "hq";
+              };
+            };
           };
         };
+        # # Bluetooth configuration
+        # "10-bluez" = {
+        #   "monitor.bluez.properties" = {
+        #     "bluez5.enable-sbc-xq" = true; # Higher quality SBC codec
+        #     "bluez5.enable-msbc" = true; # Better call quality
+        #     "bluez5.enable-hw-volume" = true; # Hardware volume control
+        #   };
+        # };
         #
         # "11-bluetooth-policy" = {
         #   "wireplumber.settings" = {
@@ -209,5 +231,6 @@
   environment.systemPackages = with pkgs; [
     pipewire
     wireplumber
+    pulseaudio-dlna
   ];
 }
