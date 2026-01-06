@@ -19,7 +19,7 @@ in {
     security.pam.services = {
       login.enableGnomeKeyring = true;
       passwd.enableGnomeKeyring = true;
-      sudo.enableGnomeKeyring = true;
+      # sudo.enableGnomeKeyring = true;  # Disabled: causes credential mismatch warnings
     };
 
     # System packages for GNOME Keyring GUI management
