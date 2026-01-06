@@ -181,9 +181,13 @@ in {
                 # ESP proposals
                 esp_proposals = ["aes256-sha256-modp2048"];
 
-                # Traffic selectors
+                # Traffic selectors - Split tunneling configuration
+                # Only route Worldstream networks through VPN, keep local traffic local
                 local_ts = ["dynamic"];
-                remote_ts = ["0.0.0.0/0"];
+                remote_ts = [
+                  "10.10.0.0/16"      # Worldstream internal network (DNS servers)
+                  "192.168.99.0/24"   # Worldstream office network
+                ];
 
                 # Rekey time (keylife = 12h = 43200s, margin = 3m = 180s)
                 rekey_time = "43020s";

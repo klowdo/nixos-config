@@ -10,6 +10,7 @@
   imports =
     [
       ./core
+      ./optional
       ./optional/services
       ./users
       inputs.home-manager.nixosModules.home-manager
