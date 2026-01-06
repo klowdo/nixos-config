@@ -39,6 +39,7 @@
     ../common/optional/graphics.nix
     ../common/optional/hyprland.nix
     ../common/optional/bluetooth.nix
+    ../common/optional/avahi.nix
     ../common/optional/default.nix
     ../common/optional/default.nix
     ../common/optional/tailscale-exit-node.nix
