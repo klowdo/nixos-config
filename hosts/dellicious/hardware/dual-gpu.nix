@@ -1,24 +1,39 @@
-{config, ...}: {
+{
+  config,
+  lib,
+  ...
+}: {
   specialisation = {
     nvidia.configuration = {
       # Nvidia Configuration
       services.xserver.videoDrivers = ["nvidia"];
-      hardware.opengl.enable = true;
 
-      # Optionally, you may need to select the appropriate driver version for your specific GPU.
-      hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
+      # Override base blacklist to allow nvidia modules
+      boot.blacklistedKernelModules = lib.mkForce ["nouveau"];
 
-      # nvidia-drm.modeset=1 is required for some wayland compositors, e.g. sway
-      hardware.nvidia.modesetting.enable = true;
+      hardware = {
+        graphics.enable = true;
 
-      hardware.nvidia.prime = {
-        sync.enable = true;
+        nvidia = {
+          # Use open source kernel modules (recommended for RTX/GTX 16xx series)
+          open = true;
 
-        # Bus ID of the NVIDIA GPU. You can find it using lspci, either under 3D or VGA
-        nvidiaBusId = "PCI:01:00:0";
+          # Optionally, you may need to select the appropriate driver version for your specific GPU.
+          package = config.boot.kernelPackages.nvidiaPackages.stable;
 
-        # Bus ID of the Intel GPU. You can find it using lspci, either under 3D or VGA
-        intelBusId = "PCI:00:02:0";
+          # nvidia-drm.modeset=1 is required for some wayland compositors, e.g. sway
+          modesetting.enable = true;
+
+          prime = {
+            sync.enable = true;
+
+            # Bus ID of the NVIDIA GPU. You can find it using lspci, either under 3D or VGA
+            nvidiaBusId = "PCI:01:00:0";
+
+            # Bus ID of the Intel GPU. You can find it using lspci, either under 3D or VGA
+            intelBusId = "PCI:00:02:0";
+          };
+        };
       };
     };
   };
