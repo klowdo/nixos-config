@@ -17,7 +17,7 @@ in {
 
   config = mkIf cfg.enable {
     services.custom-way-displays = {
-      enable = true;
+      enable = false; # Disabled in favor of hyprdynamicmonitors
       logThreshold = "WARNING";
     };
 
@@ -44,6 +44,8 @@ in {
         "$menu" = "wofi --show drun --allow-images";
         "$fileManager" = "thunar";
         "$hyper" = "CONTROL_SHIFT_ALT_SUPER";
+
+        source = ["~/.config/hypr/monitors.conf"];
 
         xwayland = {
           force_zero_scaling = true;

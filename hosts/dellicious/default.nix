@@ -57,11 +57,10 @@
     swaylock.enable = true;
     # tlp.enable = true;
     # auto-cpufreq.enable = true;
-    power-profiles-daemon.enable = true;
+    power-profiles-daemon.enable = true; # Already enables upower for hyprdynamicmonitors
     # strongSwan.enable = true;
     # strongSwan.
     strongSwan-swanctl.enable = true;
-    upower.enable = true; # For hyprdynamicmonitors power awareness
   };
 
   #TODO: fix this... use same names for modules

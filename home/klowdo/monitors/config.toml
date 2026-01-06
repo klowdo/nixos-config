@@ -1,0 +1,51 @@
+[general]
+enable_notifications = true
+
+# Profile: Home TV (with template for lid state)
+[profiles.home_tv]
+config_file = "hyprconfigs/home-tv.conf"
+config_file_type = "template"
+
+[[profiles.home_tv.conditions.required_monitors]]
+description = "Samsung Electric Company SAMSUNG 0x01000E00"
+
+[[profiles.home_tv.conditions.required_monitors]]
+description = "Samsung Display Corp. 0x414D"
+
+# Profile: Home Monitor (with template for lid state)
+[profiles.home_monitor]
+config_file = "hyprconfigs/home-monitor.conf"
+config_file_type = "template"
+
+[[profiles.home_monitor.conditions.required_monitors]]
+description = "HP Inc. HP Z40c G3 CN43090Z36"
+
+[[profiles.home_monitor.conditions.required_monitors]]
+description = "Samsung Display Corp. 0x414D"
+
+# Profile: Work Desk (with template for lid state)
+[profiles.work_desk]
+config_file = "hyprconfigs/work-desk.conf"
+config_file_type = "template"
+
+[[profiles.work_desk.conditions.required_monitors]]
+description = "Samsung Electric Company LU28R55 H4ZT400162"
+
+[[profiles.work_desk.conditions.required_monitors]]
+description = "Samsung Display Corp. 0x414D"
+
+# Profile: Office Thunderbolt (with template for lid state)
+[profiles.office_thunderbolt]
+config_file = "hyprconfigs/office-thunderbolt.conf"
+config_file_type = "template"
+
+[[profiles.office_thunderbolt.conditions.required_monitors]]
+description = "Dell Inc. DELL U2724DE 42QR734"
+
+[[profiles.office_thunderbolt.conditions.required_monitors]]
+description = "Samsung Display Corp. 0x414D"
+
+# Fallback profile (laptop only, no external monitors)
+[fallback_profile]
+config_file = "hyprconfigs/laptop-only.conf"
+config_file_type = "static"

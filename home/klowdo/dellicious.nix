@@ -6,6 +6,7 @@
   imports = [
     ./home.nix
     ./dotfiles
+    ./dellicious-monitors.nix
     ../features
     ../common
     ../common/optional/sops.nix
@@ -140,79 +141,80 @@
     };
   };
 
-  services.custom-way-displays = {
-    arrange = "COLUMN";
-    align = "MIDDLE";
-    scaling = true;
-    autoScale = false;
-    autoScaleMin = 1.0;
-    order = [
-      "!.*$"
-      "DP-7"
-      "eDP-1"
-    ];
-    scales = [
-      {
-        # Internal
-        nameDesc = "Samsung Display Corp. 0x414D";
-        scale = 1.5;
-      }
-      {
-        # home TV
-        nameDesc = "Samsung Electric Company SAMSUNG 0x01000E00";
-        scale = 1.5;
-      }
-      {
-        # Work
-        nameDesc = "Samsung Electric Company LU28R55 H4ZT400162";
-        scale = 1.0;
-      }
-      {
-        # Home monitor
-        nameDesc = "HP Inc. HP Z40c G3 CN43090Z36";
-        scale = 1.0;
-      }
-      {
-        # Office thunderbold
-        nameDesc = "Dell Inc. DELL U2724DE 42QR734";
-        scale = 1.0;
-      }
-    ];
-    modes = [
-      {
-        # Internal
-        nameDesc = "Samsung Display Corp. 0x414D";
-        width = 3456;
-        height = 2160;
-        hz = 60;
-        max = true;
-      }
-      {
-        # Home Tv
-        nameDesc = "Samsung Electric Company SAMSUNG 0x01000E00";
-        width = 3840;
-        height = 2160;
-        hz = 30;
-        # max = true;
-      }
-      {
-        # Home monitor
-        nameDesc = "HP Inc. HP Z40c G3 CN43090Z36";
-        max = true;
-      }
-
-      {
-        # Office thunderbold
-        nameDesc = "Dell Inc. DELL U2724DE 42QR734";
-        max = true;
-      }
-
-      # Office
-      {
-        nameDesc = "Dell Inc. DELL U2724D BW25834";
-        max = true;
-      }
-    ];
-    vrrOff = ["!.*$"];
-  };
+  # Disabled in favor of hyprdynamicmonitors - kept for reference during migration
+  # services.custom-way-displays = {
+  #   arrange = "COLUMN";
+  #   align = "MIDDLE";
+  #   scaling = true;
+  #   autoScale = false;
+  #   autoScaleMin = 1.0;
+  #   order = [
+  #     "!.*$"
+  #     "DP-7"
+  #     "eDP-1"
+  #   ];
+  #   scales = [
+  #     {
+  #       # Internal
+  #       nameDesc = "Samsung Display Corp. 0x414D";
+  #       scale = 1.5;
+  #     }
+  #     {
+  #       # home TV
+  #       nameDesc = "Samsung Electric Company SAMSUNG 0x01000E00";
+  #       scale = 1.5;
+  #     }
+  #     {
+  #       # Work
+  #       nameDesc = "Samsung Electric Company LU28R55 H4ZT400162";
+  #       scale = 1.0;
+  #     }
+  #     {
+  #       # Home monitor
+  #       nameDesc = "HP Inc. HP Z40c G3 CN43090Z36";
+  #       scale = 1.0;
+  #     }
+  #     {
+  #       # Office thunderbold
+  #       nameDesc = "Dell Inc. DELL U2724DE 42QR734";
+  #       scale = 1.0;
+  #     }
+  #   ];
+  #   modes = [
+  #     {
+  #       # Internal
+  #       nameDesc = "Samsung Display Corp. 0x414D";
+  #       width = 3456;
+  #       height = 2160;
+  #       hz = 60;
+  #       max = true;
+  #     }
+  #     {
+  #       # Home Tv
+  #       nameDesc = "Samsung Electric Company SAMSUNG 0x01000E00";
+  #       width = 3840;
+  #       height = 2160;
+  #       hz = 30;
+  #       # max = true;
+  #     }
+  #     {
+  #       # Home monitor
+  #       nameDesc = "HP Inc. HP Z40c G3 CN43090Z36";
+  #       max = true;
+  #     }
+  #
+  #     {
+  #       # Office thunderbold
+  #       nameDesc = "Dell Inc. DELL U2724DE 42QR734";
+  #       max = true;
+  #     }
+  #
+  #     # Office
+  #     {
+  #       nameDesc = "Dell Inc. DELL U2724D BW25834";
+  #       max = true;
+  #     }
+  #   ];
+  #   vrrOff = ["!.*$"];
+  # };
 }
