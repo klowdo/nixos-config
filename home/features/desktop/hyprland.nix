@@ -24,6 +24,7 @@ in {
     home.sessionVariables = {
       MOZ_ENABLE_WAYLAND = "1";
       NIXOS_OZONE_WL = "1";
+      ELECTRON_OZONE_PLATFORM_HINT = "wayland";
       T_QPA_PLATFORM = "wayland";
       GDK_BACKEND = "wayland";
       WLR_NO_HARDWARE_CURSORS = "1";
@@ -66,6 +67,11 @@ in {
           "XDG_SESSION_TYPE,wayland"
           "XDG_SESSION_DESKTOP,Hyprland"
         ];
+
+        # cursor = {
+        #   no_hardware_cursors = true;
+        #   default_monitor = "";
+        # };
 
         general = {
           gaps_in = 4;

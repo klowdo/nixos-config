@@ -10,5 +10,7 @@
     ./todo.nix
     ./thunar.nix
     ./darkman.nix
+    ./vicinae.nix
+    ./defaults.nix
   ];
 }

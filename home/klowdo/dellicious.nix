@@ -1,4 +1,8 @@
-{...}: {
+{
+  pkgs,
+  config,
+  ...
+}: {
   imports = [
     ./home.nix
     ./dotfiles
@@ -34,6 +38,28 @@
       calculator.enable = true;
       todo.enable = true;
       darkman.enable = true;
+      vicinae = {
+        enable = true;
+        enableHyprlandSupport = true;
+      };
+    };
+
+    defaults = {
+      enable = true;
+      launcher = {
+        command = "vicinae toggle";
+        inherit (config.programs.vicinae) package;
+        # "${pkgs.killall}/bin/killall wofi || wofi --show drun --allow-images"
+        dmenuMode = "vicinae dmenu";
+      };
+      browser = {
+        command = "firefox";
+        package = pkgs.firefox;
+      };
+      terminal = {
+        command = "kitty";
+        package = pkgs.kitty;
+      };
     };
     development = {
       tools = {
@@ -181,12 +207,12 @@
         max = true;
       }
 
-      # Office 
-      { 
+      # Office
+      {
         nameDesc = "Dell Inc. DELL U2724D BW25834";
         max = true;
       }
     ];
-    vrrOff = [ "!.*$" ];
+    vrrOff = ["!.*$"];
   };
 }

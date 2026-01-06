@@ -68,7 +68,23 @@
           dashboard = {
             powermenu.avatar.image = "~/.face.icon";
             directories.enabled = false;
-            # stats.enable_gpu = true;
+            # stats.enable_gpu = truews-vpn-toggle;
+            shortcuts = {
+              left = {
+                shortcut1 = {
+                  icon = "󰖂";
+                  command = "pkexec ws-vpn-toggle";
+                  tooltip = "Toggle VPN";
+                };
+              };
+              right = {
+                shortcut1 = {
+                  icon = "";
+                  command = "systemctl --user restart hyprpanel.service";
+                  tooltip = "Restart Panel";
+                };
+              };
+            };
           };
         };
 

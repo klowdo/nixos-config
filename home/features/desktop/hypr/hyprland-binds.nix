@@ -1,6 +1,7 @@
 {
   lib,
   pkgs,
+  config,
   ...
 }: let
   increments = "5";
@@ -109,7 +110,7 @@ in {
       };
 
       mainMod = "SUPER";
-      menu = "${pkgs.killall}/bin/killall wofi || wofi --show drun --allow-images";
+      menu = "${config.features.defaults.launcher.package}/bin/${config.features.defaults.launcher.command}";
       # browser = google-chrome-stable
       # browser = "${config.programs.go.package}/bin/swaylock";
       # $fileManager = dolphin

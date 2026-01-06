@@ -1,5 +1,5 @@
 {pkgs, ...}: let
-  audio-select-script = pkgs.writeShellScriptBin "audio-select-script" ./audio-select.sh;
+  audio-select-script = pkgs.writeShellScriptBin "audio-select-script" ./audio-select-new.sh;
   audio-select = pkgs.writeShellApplication {
     name = "audio-select";
     runtimeInputs = with pkgs; [ponymix yq-go];
