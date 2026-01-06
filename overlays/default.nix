@@ -11,6 +11,8 @@
     # ...
     # });
 
+    neovim =inputs.kixvim.packages.${prev.stdenv.hostPlatform.system}.default;
+
     pulseaudio-dlna = prev.pulseaudio-dlna.overrideAttrs (oldAttrs: {
       buildInputs = (oldAttrs.buildInputs or []) ++ [
         prev.gobject-introspection
@@ -28,6 +30,17 @@
           "--enable-bypass-lan"
         ];
     });
+
+    # Slack with native Wayland support - override installPhase to use explicit wayland
+    slack = prev.slack.overrideAttrs (oldAttrs: {
+      installPhase = builtins.replaceStrings
+        ["--ozone-platform-hint=auto"]
+        ["--ozone-platform=wayland"]
+        oldAttrs.installPhase;
+    });
+
+
+
     dotnet-combined = with final.unstable.dotnetCorePackages;
       (combinePackages [
         # sdk_8_0_3xx
@@ -58,13 +71,13 @@
   # be accessible through 'pkgs.unstable'
   unstable-packages = final: _prev: {
     unstable = import inputs.nixpkgs-unstable {
-      system = final.stdenv.hostPlatform.system;
+      inherit (final.stdenv.hostPlatform) system;
       config.allowUnfree = true;
     };
   };
   stable-packages = final: _prev: {
     stable = import inputs.nixpkgs-stable {
-      system = final.stdenv.hostPlatform.system;
+      inherit (final.stdenv.hostPlatform) system;
       config.allowUnfree = true;
     };
   };
