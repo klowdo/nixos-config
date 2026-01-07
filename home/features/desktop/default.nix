@@ -13,5 +13,6 @@
     ./vicinae.nix
     ./defaults.nix
     ./bar
+    ./bitwarden.nix
   ];
 }

@@ -38,6 +38,7 @@
       todo.enable = true;
       nautilus.enable = true;
       darkman.enable = true;
+      bitwarden.enable = true;
       vicinae = {
         enable = true;
         enableHyprlandSupport = true;
