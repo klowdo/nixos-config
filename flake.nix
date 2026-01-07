@@ -86,6 +86,12 @@
 
     nix-webapps.url = "github:TLATER/nix-webapps?ref=tlater/idiomatic-flake";
 
+    # JetBrains plugins
+    nix-jetbrains-plugins = {
+      url = "github:nix-community/nix-jetbrains-plugins";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     ## Theming
     catppuccin.url = "github:catppuccin/nix";
     stylix.url = "github:danth/stylix/release-25.11";
