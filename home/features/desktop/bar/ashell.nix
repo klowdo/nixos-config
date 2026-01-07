@@ -40,8 +40,8 @@ in {
 
           modules = {
             left = [["appLauncher" "Updates" "Workspaces"]];
-            center = ["WindowTitle"];
-            right = ["SystemInfo" ["Tray" "Clock" "Privacy" "Settings"]];
+            center = ["WindowTitle" "MediaPlayer"];
+            right = ["SystemInfo" ["Tray" "Clock" "darkman" "Privacy" "Settings"]];
           };
 
           # updates = {
@@ -55,23 +55,35 @@ in {
             show_empty = true;
           };
 
-          CustomModule = [{
-            name = "appLauncher";
-            icon = "󱗼";
-            command = defaultLauncher;
-          }];
+          CustomModule = [
+            {
+              name = "appLauncher";
+              icon = "󱗼";
+              command = defaultLauncher;
+            }
+            {
+              name = "darkman";
+              icon = "󰖔";
+              tooltip = "Current theme: {alt}";
+              listen_cmd = "${pkgs.darkman}/bin/darkman get | ${pkgs.jq}/bin/jq -Rc '{alt: .}'";
+              interval = 1000;
+              command  = "${pkgs.darkman}/bin/darkman toggle";
+              icons."dark.*" = "󰖙";
+              icons."light.*" = "󰖔";
+            }
+          ];
 
           window_title = {
             truncate_title_after_length = 100;
           };
 
           settings = {
-            lock_cmd = "hyprlock &";
-            audio_sinks_more_cmd = "pavucontrol -t 3";
-            audio_sources_more_cmd = "pavucontrol -t 4";
-            wifi_more_cmd = "nm-connection-editor";
-            vpn_more_cmd = "nm-connection-editor";
-            bluetooth_more_cmd = "blueberry";
+            lock_cmd = "${config.programs.hyprlock.package}/bin/hyprlock &";
+            audio_sinks_more_cmd = "${pkgs.pavucontrol}/bin/pavucontrol -t 3";
+            audio_sources_more_cmd = "${pkgs.pavucontrol}/bin/pavucontrol -t 4";
+            wifi_more_cmd = "${pkgs.networkmanagerapplet}/bin/nm-connection-editor";
+            vpn_more_cmd = "${pkgs.networkmanagerapplet}/bin/nm-connection-editor";
+            bluetooth_more_cmd = "${pkgs.blueberry}/bin/blueberry";
           };
 
           # appearance = {

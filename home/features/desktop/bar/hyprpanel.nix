@@ -108,7 +108,7 @@
           light = "󰖔";
         };
         tooltip = "Current theme: {alt}%";
-        execute = "darkman get | jq -R '{alt: .}'";
+        execute = "darkman get | jq -Rc '{alt: .}'";
         interval = 1000;
         actions = {
           onLeftClick = "darkman toggle";
