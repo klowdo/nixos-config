@@ -11,16 +11,21 @@
     # ...
     # });
 
-    neovim =inputs.kixvim.packages.${prev.stdenv.hostPlatform.system}.default;
+
+    neovim = inputs.kixvim.packages.${prev.stdenv.hostPlatform.system}.default;
 
     pulseaudio-dlna = prev.pulseaudio-dlna.overrideAttrs (oldAttrs: {
-      buildInputs = (oldAttrs.buildInputs or []) ++ [
-        prev.gobject-introspection
-      ];
-      nativeBuildInputs = (oldAttrs.nativeBuildInputs or []) ++ [
-        prev.wrapGAppsHook3
-        prev.gobject-introspection
-      ];
+      buildInputs =
+        (oldAttrs.buildInputs or [])
+        ++ [
+          prev.gobject-introspection
+        ];
+      nativeBuildInputs =
+        (oldAttrs.nativeBuildInputs or [])
+        ++ [
+          prev.wrapGAppsHook3
+          prev.gobject-introspection
+        ];
     });
 
     strongswan = prev.strongswan.overrideAttrs (oldAttrs: {
@@ -33,13 +38,12 @@
 
     # Slack with native Wayland support - override installPhase to use explicit wayland
     slack = prev.slack.overrideAttrs (oldAttrs: {
-      installPhase = builtins.replaceStrings
+      installPhase =
+        builtins.replaceStrings
         ["--ozone-platform-hint=auto"]
         ["--ozone-platform=wayland"]
         oldAttrs.installPhase;
     });
-
-
 
     dotnet-combined = with final.unstable.dotnetCorePackages;
       (combinePackages [
