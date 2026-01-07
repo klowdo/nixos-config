@@ -38,11 +38,11 @@ in {
       enable = true;
       settings = {
         "$mainMod" = "SUPER";
-        "$editor" = "nvim";
-        "$terminal" = "kitty";
-        "$browser" = "${config.programs.firefox.package}/bin/firefox";
-        "$menu" = "wofi --show drun --allow-images";
-        "$fileManager" = "thunar";
+        "$editor" = config.features.defaults.editor.command;
+        "$terminal" = config.features.defaults.terminal.command;
+        "$browser" = config.features.defaults.browser.command;
+        "$menu" = config.features.defaults.launcher.command;
+        "$fileManager" = config.features.defaults.fileManager.command;
         "$hyper" = "CONTROL_SHIFT_ALT_SUPER";
 
         source = ["~/.config/hypr/monitors.conf"];
@@ -52,8 +52,6 @@ in {
         };
 
         exec-once = [
-          "waybar"
-          # "hyprpaper"
           "hypridle"
           "wl-paste -p -t text --watch clipman store -P --histpath=\"~/.local/share/clipman-primary.json\""
           "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
@@ -129,6 +127,20 @@ in {
 
         gesture = [
           "3, horizontal, workspace"
+        ];
+
+        # Define persistent workspaces to ensure proper ordering
+        workspace = [
+          "1, persistent:true"
+          "2, persistent:true"
+          "3, persistent:true"
+          "4, persistent:true"
+          "5, persistent:true"
+          "6, persistent:false"
+          "7, persistent:false"
+          "8, persistent:false"
+          "9, persistent:false"
+          "0, persistent:false"
         ];
 
         # trigger when the switch is turning off
@@ -230,18 +242,18 @@ in {
         # ];
 
         windowrulev2 = [
-          "workspace 1,class:(Emacs)"
-          "workspace 2,class:(jetbrains-rider)"
-          "workspace 3,opacity 1.0, class:(brave-browser)"
-          "workspace 3,opacity 1.0, class:(firefox)"
-          "workspace 4,class:(spotify)"
-          "workspace 4,class:(Deezer)"
-          "workspace 4,class:(com.obsproject.Studio)"
-          "workspace 5,class:(Slack)"
+          "workspace 1, class:(Emacs)"
+          "workspace 2, class:(jetbrains-rider)"
+          "workspace 3, opacity 1.0, class:(brave-browser)"
+          "workspace 3, opacity 1.0, class:(firefox)"
+          "workspace 4, class:(spotify)"
+          "workspace 4, class:(Deezer)"
+          "workspace 4, class:(com.obsproject.Studio)"
+          "workspace 5, class:(Slack)"
           "animation none, class:(jetbrains-rider)"
           "animation none, initialClass:(jetbrains-rider)"
           "opaque, class:(jetbrains-rider)"
-          "opaque, initialTitle:(Huddle),initialClass:(Slack)"
+          "opaque, initialTitle:(Huddle), initialClass:(Slack)"
         ];
       };
     };

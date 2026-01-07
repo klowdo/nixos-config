@@ -36,6 +36,7 @@
       clipboard.enable = true;
       calculator.enable = true;
       todo.enable = true;
+      nautilus.enable = true;
       darkman.enable = true;
       vicinae = {
         enable = true;

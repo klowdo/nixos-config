@@ -8,7 +8,7 @@
     ./tailscale-systray.nix
     ./calculator.nix
     ./todo.nix
-    ./thunar.nix
+    ./filemanagers
     ./darkman.nix
     ./vicinae.nix
     ./defaults.nix

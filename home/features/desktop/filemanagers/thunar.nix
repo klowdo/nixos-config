@@ -3,11 +3,19 @@
   pkgs,
   lib,
   ...
-}: {
-  home.packages = with pkgs; [
+}:
+with lib; let
+  cfg = config.features.desktop.thunar;
+in {
+  options.features.desktop.thunar.enable = mkEnableOption "Thunar file manager configuration";
+
+  config = mkIf cfg.enable {
+    home.packages = with pkgs; [
     xfce.thunar
     xfce.thunar-archive-plugin
     xfce.thunar-volman
+    xfce.thunar-vcs-plugin # Git/SVN integration
+    xfce.thunar-media-tags-plugin # Media file tagging
     xfce.tumbler
     # papirus-icon-theme
     # catppuccin-papirus-folders
@@ -86,4 +94,5 @@ EOF
 EOF
     fi
   '';
+  };
 }

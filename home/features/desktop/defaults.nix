@@ -66,16 +66,28 @@ in {
     };
 
     fileManager = {
+      type = mkOption {
+        type = types.enum ["thunar" "nautilus"];
+        default = "thunar";
+        description = "Which file manager to use as default";
+      };
+
       command = mkOption {
         type = types.str;
-        default = "thunar";
+        default =
+          if cfg.fileManager.type == "nautilus"
+          then "nautilus"
+          else "thunar";
         example = "dolphin";
         description = "Command for file manager";
       };
 
       package = mkOption {
         type = types.package;
-        default = pkgs.xfce.thunar;
+        default =
+          if cfg.fileManager.type == "nautilus"
+          then pkgs.nautilus
+          else pkgs.xfce.thunar;
         example = "pkgs.dolphin";
         description = "Package for the file manager";
       };

@@ -110,11 +110,8 @@ in {
       };
 
       mainMod = "SUPER";
-      menu = "${config.features.defaults.launcher.package}/bin/${config.features.defaults.launcher.command}";
-      # browser = google-chrome-stable
-      # browser = "${config.programs.go.package}/bin/swaylock";
-      # $fileManager = dolphin
-      # $menu = wofi --show drun
+      # All application commands are now defined in hyprland.nix using config.features.defaults
+      # and available as Hyprland variables: $browser, $terminal, $fileManager, $menu, $editor
       # hyprlock = "${config.programs.hyprlock.package}/bin/hyprlock";
       #swaylock = "${config.programs.swaylock.package}/bin/swaylock";
       #playerctl = "${config.services.playerctld.package}/bin/playerctl";
@@ -156,15 +153,13 @@ in {
         "SUPERSHIFT,e,exit"
 
         #################### Program Launch ####################
-        # "$browser = google-chrome-stable"
-        # "$terminal = kitty"
-        # "$fileManager = dolphin"
-        # "$menu = wofi --show drun"
+        # All commands now use Hyprland variables defined in hyprland.nix
+        # which read from config.features.defaults
         "${mainMod}, B, exec, $browser"
         "${mainMod}, T, exec, $terminal -e 't'" # start tmux sesh
         "${mainMod}SHIFT, T, exec, $terminal"
         "${mainMod}, Q, killactive,"
-        "${mainMod}, R, exec, ${menu}"
+        "${mainMod}, R, exec, $menu"
         "${mainMod}, E, exec, $fileManager"
 
         #################### Basic Bindings ####################
@@ -201,14 +196,14 @@ in {
       # Change workspace
       (map
         (
-          n: "$mainMod,${n},workspace,name:${n}"
+          n: "$mainMod,${n},workspace,${n}"
         )
         workspaces)
       ++
       # Move window to workspace
       (map
         (
-          n: "SHIFTALT,${n},movetoworkspace,name:${n}"
+          n: "SHIFTALT,${n},movetoworkspace,${n}"
         )
         workspaces)
       ++
