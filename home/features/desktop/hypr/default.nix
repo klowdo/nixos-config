@@ -5,7 +5,6 @@
     ./wofi.nix
     ./hyprlock.nix
     ./hyprlock-music-script.nix
-    ./hyprpanel.nix
     ./polkit.nix
   ];
 }

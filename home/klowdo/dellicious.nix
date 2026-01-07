@@ -13,8 +13,6 @@
     ../common/optional/vial.nix
   ];
 
-  hyprpanel.enable = true;
-
   features = {
     cli = {
       kitty.enable = true;
@@ -42,6 +40,10 @@
       vicinae = {
         enable = true;
         enableHyprlandSupport = true;
+      };
+      bar = {
+        hyprpanel.enable = true;
+        # ashell.enable = true; 
       };
     };
 

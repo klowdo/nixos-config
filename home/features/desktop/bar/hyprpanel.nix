@@ -5,10 +5,11 @@
   pkgs,
   ...
 }: {
-  options = {
-    hyprpanel.enable = lib.mkEnableOption "Enable hyprpanel module";
+  options.features.desktop.bar.hyprpanel = {
+    enable = lib.mkEnableOption "Enable hyprpanel module";
   };
-  config = lib.mkIf config.hyprpanel.enable {
+
+  config = lib.mkIf config.features.desktop.bar.hyprpanel.enable {
     home.packages = [
       pkgs.upower
       pkgs.libgtop
@@ -48,7 +49,7 @@
         };
         bar = {
           launcher.autoDetectIcon = true;
-          # launcher.icon = " ";
+          # launcher.icon = " ";
           workspaces.show_icons = true;
           clock.format = "%a %b %d  %H:%M";
         };

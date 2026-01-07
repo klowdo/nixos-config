@@ -12,5 +12,6 @@
     ./darkman.nix
     ./vicinae.nix
     ./defaults.nix
+    ./bar
   ];
 }
