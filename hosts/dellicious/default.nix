@@ -13,6 +13,7 @@
     # disable nvidia in default config, enable in specialisation
     # inputs.hardware.nixosModules.common-gpu-nvidia-disable
     ./hardware/dual-gpu.nix
+    ./hardware/keychron.nix
 
     # inputs.hardware.nixosModules.common-cpu-intel
     # inputs.hardware.nixosModules.common-pc-laptop
