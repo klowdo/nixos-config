@@ -97,7 +97,7 @@
     communication = {
       zoom.enable = true;
       vesktop.enable = true;
-      neomutt.enable = true;
+      neomutt.enable = false;
     };
     hardware = {
       zsa-moonlander.enable = true;
