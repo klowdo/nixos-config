@@ -14,6 +14,9 @@ in {
   config = mkIf cfg.enable {
     services.darkman = {
       enable = true;
+      settings = {
+        usegeoclue = false;
+      };
       darkModeScripts = {
         gtk-theme = ''
           ${pkgs.dconf}/bin/dconf write \
@@ -27,5 +30,10 @@ in {
         '';
       };
     };
+
+    # Set dark mode as default on activation
+    # home.activation.darkmanDefault = lib.hm.dag.entryAfter ["writeBoundary"] ''
+    #   run ${pkgs.darkman}/bin/darkman set dark
+    # '';
   };
 }
