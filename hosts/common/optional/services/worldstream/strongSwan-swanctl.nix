@@ -9,6 +9,10 @@ with lib; let
   connectionName = "worldstream";
   homedns = "192.168.10.1";
 
+  # Local subnets to bypass VPN - third octets
+  localSubnetOctets = [10 20 30 31 50 60 70 80 90 100 110 120 254];
+  localSubnets = map (octet: "192.168.${toString octet}.0/24") localSubnetOctets;
+
   # Shell script for toggling VPN (for GUI button)
   toggleScript = pkgs.writeShellScriptBin "ws-vpn-toggle" ''
     #!/usr/bin/env bash
@@ -127,6 +131,11 @@ in {
               # Use resolvectl instead of legacy resolvconf
               resolvconf = resolvectl
             }
+            bypass-lan {
+              load = yes
+              subnets_include = ${concatStringsSep ", " localSubnets}
+              interfaces_ignore = tailscale0
+            }
           }
         }
       '';
@@ -181,13 +190,9 @@ in {
                 # ESP proposals
                 esp_proposals = ["aes256-sha256-modp2048"];
 
-                # Traffic selectors - Split tunneling configuration
-                # Only route Worldstream networks through VPN, keep local traffic local
+                # Traffic selectors
                 local_ts = ["dynamic"];
-                remote_ts = [
-                  "10.10.0.0/16"      # Worldstream internal network (DNS servers)
-                  "192.168.99.0/24"   # Worldstream office network
-                ];
+                remote_ts = ["0.0.0.0/0"];
 
                 # Rekey time (keylife = 12h = 43200s, margin = 3m = 180s)
                 rekey_time = "43020s";
@@ -197,10 +202,61 @@ in {
 
                 # DPD action
                 dpd_action = "restart";
+                updown = "${pkgs.writeShellScript "vpn-updown" ''
+                  case "$PLUTO_VERB" in
+                    up-client)
+                      for net in ${concatStringsSep " " localSubnets}; do
+                        ip xfrm policy add src 0.0.0.0/0 dst $net dir out priority 100 2>/dev/null || true
+                        ip xfrm policy add src $net dst 0.0.0.0/0 dir in priority 100 2>/dev/null || true
+                        ip route add throw $net table 220 2>/dev/null || true
+                      done
+                      ;;
+                    down-client)
+                      for net in ${concatStringsSep " " localSubnets}; do
+                        ip xfrm policy del src 0.0.0.0/0 dst $net dir out priority 100 2>/dev/null || true
+                        ip xfrm policy del src $net dst 0.0.0.0/0 dir in priority 100 2>/dev/null || true
+                        ip route del throw $net table 220 2>/dev/null || true
+                      done
+                      ;;
+                  esac
+                ''}";
               };
+
+              # "local-bypass" = {
+              #   local_ts = ["dynamic"];
+              #   remote_ts = [
+              #     "192.168.10.0/24" # Default
+              #     "192.168.20.0/24" # Guest
+              #     "192.168.30.0/24" # IoT
+              #     "192.168.31.0/24" # IoT Local
+              #     "192.168.50.0/24" # Felix
+              #     "192.168.60.0/24" # Emma
+              #     "192.168.70.0/24" # HA
+              #     "192.168.80.0/24" # Services
+              #     "192.168.90.0/24" # Cast
+              #     "192.168.100.0/24" # TV
+              #     "192.168.110.0/24" # Appliances
+              #     "192.168.120.0/24" # Bambu
+              #     "192.168.254.0/24" # Management
+              #   ];
+              #   mode = "pass";
+
+              #   start_action = trap
+              # };
             };
           };
         };
+        # passthrough-subnet = {
+        #   remote_addrs = "127.0.0.1";
+        #   children = {
+        #     passthrough-subnet = {
+        #       local_ts = "10.1.0.0/24";
+        #       remote_ts = "192.168.2.0/24";
+        #       mode = "pass";
+        #       start_action = "trap";
+        #     };
+        #   };
+        # };
       };
     };
   };
