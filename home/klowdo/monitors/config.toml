@@ -40,7 +40,7 @@ config_file = "hyprconfigs/office-thunderbolt.conf"
 config_file_type = "template"
 
 [[profiles.office_thunderbolt.conditions.required_monitors]]
-description = "Dell Inc. DELL U2724DE 42QR734"
+description = "Dell Inc. DELL U2724D BW25834"
 
 [[profiles.office_thunderbolt.conditions.required_monitors]]
 description = "Samsung Display Corp. 0x414D"
