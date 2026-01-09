@@ -45,8 +45,9 @@
       };
       bar = {
         hyprpanel.enable = true;
-        # ashell.enable = true; 
+        # ashell.enable = true;
       };
+      autoclaude.enable = true;
     };
 
     defaults = {

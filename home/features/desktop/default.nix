@@ -14,5 +14,6 @@
     ./defaults.nix
     ./bar
     ./bitwarden.nix
+    ./auto-claude.nix
   ];
 }
