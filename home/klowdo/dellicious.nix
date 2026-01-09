@@ -95,7 +95,7 @@
       pinta.enable = true;
     };
     communication = {
-      zoom.enable = true;
+      zoom.enable = false;
       vesktop.enable = true;
       neomutt.enable = false;
     };
