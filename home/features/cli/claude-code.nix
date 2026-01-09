@@ -6,7 +6,6 @@
 }:
 with lib; let
   cfg = config.features.cli.claude-code;
-  claudeCodeVersion = "2.0.37";
 in {
   options.features.cli.claude-code = {
     enable = mkEnableOption "Claude Code CLI tool";
@@ -18,20 +17,9 @@ in {
   };
 
   config = mkIf cfg.enable (let
-    # Claude Code package
-     claudeCodePackage = pkgs.unstable.claude-code;
-    # claudeCodePackage = pkgs.unstable.claude-code.overrideAttrs (oldAttrs: {
-    #   version = claudeCodeVersion;
-    #   src = pkgs.fetchzip {
-    #     url = "https://registry.npmjs.org/@anthropic-ai/claude-code/-/claude-code-${claudeCodeVersion}.tgz";
-    #     hash = "sha256-zyxQGVGkRRHyArnNZ3j03lTME4FXGdZtF8Z/xIW7HOs="; # Placeholder for fetchzip hash
-    #     stripRoot = false;
-    #   };
-    #   postPatch = ''
-    #     cp ${./claude-code-package-lock.json} package/package-lock.json
-    #   '';
-    #   npmDepsHash = "sha256-0000000000000000000000000000000000000000000=";  # Placeholder - build to get correct hash
-    # });
+    # Claude Code package (Bun variant for faster performance)
+    # From sadjow/claude-code-nix flake - auto-updates within 1 hour of release
+    claudeCodePackage = pkgs.claude-code;
     #
     # Post-operation notification hook script with proper substitutions
     notificationHookScript =

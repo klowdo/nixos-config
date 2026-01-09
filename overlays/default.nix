@@ -69,7 +69,7 @@
             done
           '';
       });
-  };
+  } // (inputs.claude-code.overlays.default final prev); # Claude Code overlay (auto-updates within 1 hour)
 
   # When applied, the unstable nixpkgs set (declared in the flake inputs) will
   # be accessible through 'pkgs.unstable'

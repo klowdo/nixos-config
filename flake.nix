@@ -70,6 +70,11 @@
       # inputs.flake-utils.follows = "flake-utils";
     };
 
+    claude-code = {
+      url = "github:sadjow/claude-code-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     ## helpers
     systems.url = "github:nix-systems/default-linux";
 
