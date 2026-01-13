@@ -18,6 +18,15 @@ in {
         disable_loading_bar = false;
       };
 
+      # AUTHENTICATION - Fingerprint configuration
+      auth = {
+        fingerprint = {
+          enabled = true;
+          ready_message = "Scan fingerprint to unlock";
+          present_message = "Scanning...";
+        };
+      };
+
       # BACKGROUND
       background = lib.mkForce [
         {
@@ -46,6 +55,7 @@ in {
           fade_on_empty = false;
           font_family = "SF Pro Display Bold";
           placeholder_text = ''<i><span foreground="##ffffff99">Enter Pass</span></i>'';
+          fail_text = ''<i>$PAMFAIL</i>'';
           hide_input = false;
           position = "0, -225";
           halign = "center";
@@ -86,6 +96,18 @@ in {
           font_size = 25;
           font_family = "SF Pro Display Bold";
           position = "0, -130";
+          halign = "center";
+          valign = "center";
+        }
+
+        # AUTHENTICATION STATUS - Shows fingerprint scanning or password prompt
+        {
+          monitor = "";
+          text = "Scan fingerprint or enter password";
+          color = "rgba(150, 205, 251, 0.85)";
+          font_size = 14;
+          font_family = "SF Pro Display Medium";
+          position = "0, -300";
           halign = "center";
           valign = "center";
         }
