@@ -6,8 +6,11 @@
     # package = inputs.hyprland.packages.${pkgs.system}.hyprland;
   };
 
-  ## to login with hyprlock
-  security.pam.services.hyprlock = {};
+  ## to login with hyprlock - enable fingerprint auth
+  security.pam.services.hyprlock = {
+    fprintAuth = true;
+  };
+
 
   # $ nix search wget
   environment.systemPackages = with pkgs; [

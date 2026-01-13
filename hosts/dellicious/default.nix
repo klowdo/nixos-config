@@ -14,6 +14,7 @@
     # inputs.hardware.nixosModules.common-gpu-nvidia-disable
     ./hardware/dual-gpu.nix
     ./hardware/keychron.nix
+    ./hardware/fingerprint.nix
 
     # inputs.hardware.nixosModules.common-cpu-intel
     # inputs.hardware.nixosModules.common-pc-laptop

@@ -8,7 +8,7 @@
     inputs.hardware.nixosModules.common-gpu-intel
     inputs.hardware.nixosModules.common-pc-laptop
     inputs.hardware.nixosModules.common-pc-laptop-ssd
-    # ./fingerprint
+    ./fingerprint.nix
   ];
 
   # options.hardware.intelgpu = "xe"; # default i915
