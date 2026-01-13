@@ -24,10 +24,10 @@ in {
     # Post-operation notification hook script with proper substitutions
     notificationHookScript =
       pkgs.writeShellScript "claude-notification-hook"
-      (builtins.readFile (pkgs.replaceVars ./hooks/claude-notification-hook.sh {
+      (pkgs.replaceVars ./hooks/claude-notification-hook.sh {
         jq = "${pkgs.jq}/bin/jq";
         notifysend = "${pkgs.libnotify}/bin/notify-send";
-      }));
+      });
   in {
     programs.zsh = {
       # From https://github.com/anthropics/claude-code/issues/2110#issuecomment-2996564886
@@ -47,9 +47,10 @@ in {
     home = {
       packages = with pkgs;
         [
-          (writeShellScriptBin "claude" ''
-            SHELL=${bash}/bin/bash exec ${claudeCodePackage}/bin/claude "$@"
-          '')
+          claudeCodePackage
+          # (writeShellScriptBin "claude" ''
+          #   SHELL=${bash}/bin/bash exec ${claudeCodePackage}/bin/claude "$@"
+          # '')
         ]
         ++ optionals cfg.enableNotifications [
           # Required packages for notifications
