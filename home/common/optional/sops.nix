@@ -25,6 +25,8 @@ in {
       };
 
       "weather-api-key" = {};
+
+      "claude/oauth-token" = {};
     };
   };
 }

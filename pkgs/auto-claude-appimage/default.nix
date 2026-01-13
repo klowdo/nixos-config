@@ -5,11 +5,11 @@
 }:
 let
   pname = "auto-claude";
-  version = "2.7.2";
+  version = "2.7.3";
 
   src = fetchurl {
     url = "https://github.com/AndyMik90/Auto-Claude/releases/download/v${version}/Auto-Claude-${version}-linux-x86_64.AppImage";
-    hash = "sha256-wI6jHRXnc2BcBEHzDDep5JJcpNLOFWzox4rWExBwUoA=";
+    hash = "sha256-8YXhViA3vwLPYq/1jPwCnGixuVx1M3IMbI4yHxDpz/A=";
     name = "Auto-Claude-${version}-linux-x86_64.AppImage";
   };
 
@@ -19,6 +19,10 @@ let
 in
 appimageTools.wrapType2 {
   inherit pname version src;
+
+  extraBwrapArgs = [
+    "--setenv APPIMAGE 1"
+  ];
 
   extraPkgs = pkgs:
     with pkgs; [
