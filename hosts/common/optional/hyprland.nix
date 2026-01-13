@@ -11,6 +11,12 @@
     fprintAuth = true;
   };
 
+  # Prevent systemd from handling lid switch (let Hyprland do it)
+  services.logind.settings.Login = {
+    HandleLidSwitch = "ignore";
+    HandleLidSwitchDocked = "ignore";
+    HandleLidSwitchExternalPower = "ignore";
+  };
 
   # $ nix search wget
   environment.systemPackages = with pkgs; [
