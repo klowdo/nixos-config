@@ -5,11 +5,11 @@
 }:
 let
   pname = "auto-claude";
-  version = "2.7.3";
+  version = "2.7.4";
 
   src = fetchurl {
     url = "https://github.com/AndyMik90/Auto-Claude/releases/download/v${version}/Auto-Claude-${version}-linux-x86_64.AppImage";
-    hash = "sha256-8YXhViA3vwLPYq/1jPwCnGixuVx1M3IMbI4yHxDpz/A=";
+    hash = "sha256-8aq8WEv64ZpeEVkEU3+L6n2doP8AFeKM8BcnA+thups=";
     name = "Auto-Claude-${version}-linux-x86_64.AppImage";
   };
 
