@@ -15,5 +15,6 @@
   claudia = pkgs.callPackage ./claudia {};
   deezer-linux = pkgs.callPackage ./deezer-linux {};
   numara-calculator = pkgs.callPackage ./numara-calculator {};
+  nss-docker-ng = pkgs.callPackage ./nss-docker-ng {};
   # zsh-term-title = pkgs.callPackage ./zsh-term-title { };
 }

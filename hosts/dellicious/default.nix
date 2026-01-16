@@ -52,6 +52,7 @@
     ../common/optional/icu.nix
     ../common/optional/dotnet-dev-certs.nix
     ../common/optional/steam.nix
+    ../common/optional/nss-docker-ng.nix
   ];
 
   powerManagement.enable = true;
@@ -66,6 +67,10 @@
     # strongSwan.enable = true;
     # strongSwan.
     strongSwan-swanctl.enable = true;
+    nss-docker-ng = {
+      enable = true;
+      dockerHost = "unix:///run/user/1000/docker.sock";
+    };
   };
 
   #TODO: fix this... use same names for modules
