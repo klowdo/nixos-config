@@ -16,6 +16,24 @@
       # pkgs.python313Packages.gpustat
       # pkgs.python313Packages.nvidia-ml-py
     ];
+
+    specialisation = {
+      nvidia.configuration = {
+        programs.hyprpanel = {
+          settings = {
+            menus = {
+              dashboard = {
+                stats.enable_gpu = true;
+              };
+            };
+          };
+        };
+        home.packages = [
+          pkgs.python313Packages.gpustat
+          pkgs.python313Packages.nvidia-ml-py
+        ];
+      };
+    };
     programs.hyprpanel = {
       package = inputs.hyprpanel.packages.${pkgs.stdenv.hostPlatform.system}.default;
       enable = true;
