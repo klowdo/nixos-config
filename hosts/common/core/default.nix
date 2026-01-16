@@ -2,6 +2,7 @@
   imports = [
     ./nh.nix
     ./firmware-update.nix
+    ./firewall.nix
     ./tailscale.nix
     ./yubikey.nix
     ./sops.nix
