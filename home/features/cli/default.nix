@@ -61,6 +61,7 @@
       zip
       wishlist
       unp
+      unstable.witr
     ]
     ++ [
       pkgs.unstable.isd
