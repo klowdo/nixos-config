@@ -1,7 +1,9 @@
 {
   outputs,
+  lib,
   inputs,
   pkgs,
+  config,
   ...
 }: {
   imports = [
@@ -13,6 +15,7 @@
     # disable nvidia in default config, enable in specialisation
     # inputs.hardware.nixosModules.common-gpu-nvidia-disable
     ./hardware/dual-gpu.nix
+    ./hardware/default-disable-nvidia.nix
     ./hardware/keychron.nix
     ./hardware/fingerprint.nix
 
@@ -70,21 +73,6 @@
     resolved.enable = true;
   };
 
-  # Disable Nvidia in default configuration
-  services.udev.extraRules = ''
-    # Remove NVIDIA USB xHCI Host Controller devices, if present
-    ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x10de", ATTR{class}=="0x0c0330", ATTR{power/control}="auto", ATTR{remove}="1"
-
-    # Remove NVIDIA USB Type-C UCSI devices, if present
-    ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x10de", ATTR{class}=="0x0c8000", ATTR{power/control}="auto", ATTR{remove}="1"
-
-    # Remove NVIDIA Audio devices, if present
-    ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x10de", ATTR{class}=="0x040300", ATTR{power/control}="auto", ATTR{remove}="1"
-
-    # Remove NVIDIA VGA/3D controller devices
-    ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x10de", ATTR{class}=="0x03[0-9]*", ATTR{power/control}="auto", ATTR{remove}="1"
-  '';
-
   # Kernel Bootloader.
   boot = {
     kernelPackages = pkgs.linuxPackages_latest;
@@ -92,8 +80,5 @@
     loader.systemd-boot.enable = true;
     loader.efi.canTouchEfiVariables = true;
     kernelParams = ["i915.force_probe=a7a0"];
-
-    # Blacklist nvidia/nouveau by default (overridden in nvidia specialisation)
-    blacklistedKernelModules = ["nouveau" "nvidia" "nvidia_drm" "nvidia_modeset"];
   };
 }
