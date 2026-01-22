@@ -17,96 +17,72 @@ in {
   };
 
   config = mkIf cfg.enable (let
-    # Claude Code package (Bun variant for faster performance)
-    # From sadjow/claude-code-nix flake - auto-updates within 1 hour of release
     claudeCodePackage = pkgs.claude-code;
-    #
-    # Post-operation notification hook script with proper substitutions
-    notificationHookScript =
-      pkgs.writeShellScript "claude-notification-hook"
-      (pkgs.replaceVars ./hooks/claude-notification-hook.sh {
+
+    notificationHookScript = pkgs.writeShellScript "claude-notification-hook" (
+      pkgs.replaceVars ./hooks/claude-notification-hook.sh {
         jq = "${pkgs.jq}/bin/jq";
         notifysend = "${pkgs.libnotify}/bin/notify-send";
-      });
+      }
+    );
   in {
     programs.zsh = {
-      # From https://github.com/anthropics/claude-code/issues/2110#issuecomment-2996564886
       envExtra = ''
         if command -v direnv >/dev/null; then
           if [[ ! -z "$CLAUDECODE" ]]; then
             eval "$(direnv hook zsh)"
-            eval "$(DIRENV_LOG_FORMAT= direnv export zsh)"  # Need to trigger "hook" manually
+            eval "$(DIRENV_LOG_FORMAT= direnv export zsh)"
 
-            # If the .envrc is not allowed, allow it
             direnv status --json | jq -e ".state.foundRC.allowed==0" >/dev/null || direnv allow >/dev/null 2>&1
           fi
         fi
       '';
     };
 
-    home = {
-      packages = with pkgs;
-        [
-          claudeCodePackage
-          # (writeShellScriptBin "claude" ''
-          #   SHELL=${bash}/bin/bash exec ${claudeCodePackage}/bin/claude "$@"
-          # '')
-        ]
-        ++ optionals cfg.enableNotifications [
-          # Required packages for notifications
-          libnotify # For desktop notifications
-          jq # For JSON parsing in hooks
-        ];
+    home.packages = with pkgs;
+      optionals cfg.enableNotifications [
+        libnotify
+        jq
+      ];
 
-      file =
-        {
-          ".claude/agents/meta-agent.md".source = ./claude/agents/meta-agent.md;
-          ".claude/commands/git_status.md".source = ./claude/commands/git_status.md;
-          ".claude/mcp_servers.json".source = ./claude/mcp_servers.json;
-        }
-        // (optionalAttrs cfg.enableNotifications {
-          ".claude/settings.json" = {
-            text = builtins.toJSON {
-              "includeCoAuthoredBy" = false;
-              "env" = {
-                "CLAUDE_BASH_MAINTAIN_PROJECT_WORKING_DIR" = "1";
-              };
-              "statusLine" = {
-                "type" = "command";
-                "command" = ./claude/status-line.sh;
-                "padding" = 0;
-              };
-              "hooks" = {
-                "PostToolUse" = [
-                  {
-                    "matcher" = "*";
-                    "hooks" = [
-                      {
-                        "type" = "command";
-                        "command" = "${notificationHookScript}";
-                      }
-                    ];
-                  }
-                ];
-              };
-            };
-          };
-        })
-        // (optionalAttrs (!cfg.enableNotifications) {
-          ".claude/settings.json" = {
-            text = builtins.toJSON {
-              "includeCoAuthoredBy" = false;
-              "env" = {
-                "CLAUDE_BASH_MAINTAIN_PROJECT_WORKING_DIR" = "1";
-              };
-              "statusLine" = {
-                "type" = "command";
-                "command" = ./claude/status-line.sh;
-                "padding" = 0;
-              };
-            };
-          };
-        });
+    programs.claude-code = {
+      enable = true;
+      package = claudeCodePackage;
+
+      agentsDir = ./claude/agents;
+      commandsDir = ./claude/commands;
+
+      mcpServers = {
+        nixos = {
+          command = "nix";
+          args = ["run" "github:utensils/mcp-nixos" "--"];
+        };
+      };
+
+      settings = {
+        includeCoAuthoredBy = false;
+        env = {
+          CLAUDE_BASH_MAINTAIN_PROJECT_WORKING_DIR = "1";
+        };
+        statusLine = {
+          type = "command";
+          command = ./claude/status-line.sh;
+          padding = 0;
+        };
+        hooks = mkIf cfg.enableNotifications {
+          PostToolUse = [
+            {
+              matcher = "*";
+              hooks = [
+                {
+                  type = "command";
+                  command = "${notificationHookScript}";
+                }
+              ];
+            }
+          ];
+        };
+      };
     };
   });
 }
