@@ -76,6 +76,7 @@
       languages = {
         dotnet.enable = true;
       };
+      mcp-gateway.enable = true;
       cura.enable = true;
       orca.enable = true;
       super-slicer.enable = true;

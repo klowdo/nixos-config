@@ -2,6 +2,7 @@
   imports = [
     ./languages
     ./tools
+    ./mcp-gateway.nix
     ./cura.nix
     ./orca.nix
     ./super-slicer.nix
