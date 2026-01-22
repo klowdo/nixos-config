@@ -16,5 +16,6 @@
   deezer-linux = pkgs.callPackage ./deezer-linux {};
   numara-calculator = pkgs.callPackage ./numara-calculator {};
   nss-docker-ng = pkgs.callPackage ./nss-docker-ng {};
+  mcp-gateway = pkgs.callPackage ./mcp-gateway {};
   # zsh-term-title = pkgs.callPackage ./zsh-term-title { };
 }
