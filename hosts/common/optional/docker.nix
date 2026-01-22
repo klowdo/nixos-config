@@ -64,6 +64,7 @@ in {
       unstable.dive
       slirp4netns
       fuse-overlayfs
+      docker-buildx
     ];
   };
 }
