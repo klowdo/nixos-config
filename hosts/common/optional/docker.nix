@@ -60,7 +60,7 @@ in {
     };
 
     environment.systemPackages = with pkgs; [
-      unstable.lazydocker
+      lazydocker
       unstable.dive
       slirp4netns
       fuse-overlayfs
