@@ -7,6 +7,8 @@
     gamescopeSession.enable = true;
   };
 
+  programs.gamemode.enable = true;
+
   # Enable 32-bit graphics support for Steam
   hardware.graphics.enable32Bit = true;
 
