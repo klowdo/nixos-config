@@ -6,5 +6,6 @@
     ./media
     ./communication
     ./hardware
+    ./gaming
   ];
 }

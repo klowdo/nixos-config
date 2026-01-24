@@ -104,6 +104,9 @@
     hardware = {
       zsa-moonlander.enable = true;
     };
+    gaming = {
+      heroic.enable = true;
+    };
   };
 
   wayland.windowManager.hyprland = {
