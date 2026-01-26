@@ -30,8 +30,10 @@ in {
     # GTK bookmarks (shared with Thunar)
     home.file.".config/gtk-3.0/bookmarks".text = ''
       file://${config.home.homeDirectory}/Downloads Downloads
+      file://${config.home.homeDirectory}/Documents Documents
       file://${config.home.homeDirectory}/Pictures Pictures
       file://${config.home.homeDirectory}/dev/worldstream Worldstream
+      file://${config.home.homeDirectory}/.dotfiles Dotfiles
     '';
 
     # Configure Nautilus preferences via dconf
