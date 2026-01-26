@@ -1,6 +1,12 @@
-{config, ...}: {
+{
+  config,
+  inputs,
+  ...
+}: {
   # HyprDynamicMonitors - Profile-based monitor management
-
+  imports = [
+    inputs.hyprdynamicmonitors.homeManagerModules.hyprdynamicmonitors
+  ];
   home = {
     packages = [
       config.home.hyprdynamicmonitors.package

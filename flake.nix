@@ -180,7 +180,6 @@
         extraSpecialArgs = {inherit inputs outputs;};
         modules = [
           # > Our main home-manager configuration file <
-          inputs.hyprdynamicmonitors.homeManagerModules.hyprdynamicmonitors
           ./home/klowdo/dellicious.nix
         ];
       };
