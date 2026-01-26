@@ -69,6 +69,10 @@ in {
           command = ./claude/status-line.sh;
           padding = 0;
         };
+        attribution = {
+          commit = "";
+          pr = "";
+        };
         hooks = mkIf cfg.enableNotifications {
           PostToolUse = [
             {
