@@ -48,6 +48,7 @@ in {
           dates = "daily";
           flags = [
             "--all"
+            "--volumes"
             "--filter=until=24h"
             "--filter=label!=important"
           ];
@@ -57,6 +58,24 @@ in {
 
     boot.kernel.sysctl = {
       "kernel.unprivileged_userns_clone" = "1";
+    };
+
+    systemd.user.services.docker-buildx-prune = {
+      description = "Prune Docker buildx cache";
+      serviceConfig = {
+        Type = "oneshot";
+        ExecStart = "${pkgs.docker}/bin/docker buildx prune -f --filter=until=24h";
+      };
+    };
+
+    systemd.user.timers.docker-buildx-prune = {
+      description = "Prune Docker buildx cache";
+      wantedBy = ["timers.target"];
+      timerConfig = {
+        OnBootSec = "5min";
+        OnCalendar = "*-*-* 09,12:00:00";
+        Persistent = true;
+      };
     };
 
     environment.systemPackages = with pkgs; [
