@@ -23,6 +23,7 @@ keys:
   # Keys look like: age1yubikey1q...
   - &yubikeys:
       - &yubikey-keychain age1yubikey1qdxu9y7v7pljxaq7ge5hx9zcdeyq8cld4af8d0meznwg02m0q4gt6mnvzyq
+      - &yubikey-home age1yubikey1qda2gdlsswzvc3mhwek8mzmjrg87mm2q06dad6pjdmu259npe5hkxyymsll
 
 
 creation_rules:
@@ -32,3 +33,4 @@ creation_rules:
           - *klowdo
           - *dellicious
           - *yubikey-keychain
+          - *yubikey-home
