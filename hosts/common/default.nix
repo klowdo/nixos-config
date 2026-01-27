@@ -74,10 +74,8 @@
   users.defaultUserShell = pkgs.zsh;
 
   # Host-wide configuration (used by various modules)
-  hostConfig = {
-    mainUser = "klowdo";
-    dotfilesPath = "/home/klowdo/.dotfiles";
-  };
+  # home and dotfilesPath have smart defaults based on mainUser
+  hostConfig.mainUser = "klowdo";
 
   system.stateVersion = "25.11";
 }

@@ -1,10 +1,15 @@
 {
   config,
   pkgs,
+  lib,
   ...
-}: {
+}: let
+  # Filter groups to only those that exist on this system
+  ifTheyExist = groups:
+    builtins.filter (group: builtins.hasAttr group config.users.groups) groups;
+in {
   hardware.keyboard.zsa.enable = true;
-  
+
   # Enable GNOME Keyring with SSH agent support (configured in optional/gnome-keyring.nix)
   services.gnome.gnome-keyring-ssh.enable = true;
 
@@ -16,18 +21,16 @@
     # password = lib.mkForce "nixos"; # Uncomment to set temporary password until sops passwords work
     isNormalUser = true;
     description = "Felix Svensson";
-    extraGroups = [
-      "wheel"
-      "networkmanager"
-      "libvirtd"
-      "flatpak"
-      "audio"
-      "video"
-      "plugdev"
-      "input"
-      "kvm"
-      "qemu-libvirtd"
-    ];
+    extraGroups =
+      ["wheel" "networkmanager" "audio" "video" "input"]
+      ++ ifTheyExist [
+        "libvirtd"
+        "flatpak"
+        "plugdev"
+        "kvm"
+        "qemu-libvirtd"
+        "docker"
+      ];
     openssh.authorizedKeys.keys = [
       (builtins.readFile ./klowdo/keys/id_ed25519.pub)
     ];
