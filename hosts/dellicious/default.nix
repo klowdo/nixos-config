@@ -50,6 +50,8 @@
     ../common/optional/dotnet-dev-certs.nix
     ../common/optional/steam.nix
     ../common/optional/nss-docker-ng.nix
+    ../common/optional/swaylock.nix
+    ../common/optional/power-profiles-daemon.nix
   ];
 
   networking.hostName = "dellicious";
