@@ -49,6 +49,16 @@ This is a sophisticated NixOS dotfiles configuration using Nix flakes that manag
 - `just yubikey-save-identity [slot]` - Save YubiKey identity to file for sops
 - `just ssh-to-age-convert [key]` - Convert SSH public key to age format
 
+### ISO & Installation
+- `just iso-build` - Build custom NixOS installer ISO
+- `just iso-write <device>` - Write ISO to USB drive (e.g., /dev/sdb)
+- `just disko-format <host>` - Format disk for a host using disko
+- `just disko-mount <host>` - Mount partitions after formatting
+- `just disko-dry-run <host>` - Preview disko changes without applying
+- `just install <host>` - Install NixOS for a host
+- `just hardware-config` - Generate hardware configuration
+- `just host-age-key` - Get age public key from SSH host key
+
 ## Architecture
 
 ### Directory Structure
@@ -57,8 +67,10 @@ This is a sophisticated NixOS dotfiles configuration using Nix flakes that manag
 - `hosts/` - Host-specific NixOS configurations
   - `common/core/` - Essential system configs
   - `common/optional/` - Optional system features
+  - `common/optional/disko/` - Disko disk partitioning modules
   - `dellicious/` - Dell XPS 15 laptop config
   - `virt-nix/` - Virtual machine config
+  - `iso/` - Custom installer ISO configuration
 - `home/` - Home Manager configurations
   - `features/` - Modular feature sets (cli, desktop, development, media)
   - `klowdo/` - User-specific configs
@@ -74,6 +86,7 @@ This is a sophisticated NixOS dotfiles configuration using Nix flakes that manag
 - **Home Manager** for user environment
 - **Hyprland** Wayland compositor with HyprPanel
 - **SOPS-nix** for secrets management (with YubiKey support via age-plugin-yubikey)
+- **Disko** for declarative disk partitioning
 - **Stylix + Catppuccin** theming
 - **Custom Neovim** (kixvim)
 
@@ -81,6 +94,7 @@ This is a sophisticated NixOS dotfiles configuration using Nix flakes that manag
 
 - `dellicious` - Production Dell XPS 15 with Intel CPU, disabled Nvidia, Hyprland
 - `virt-nix` - Testing virtual machine
+- `iso` - Custom installer ISO with disko, YubiKey support, and installation tools
 
 ### Feature System
 
