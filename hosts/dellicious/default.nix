@@ -38,14 +38,13 @@
     ../common/optional/printing.nix
     ../common/optional/keyboard.nix
     ../common/optional/ld.nix
-    ../common/optional/nerworking.nix
+    ../common/optional/networking.nix
     ../common/optional/thunar.nix
     ../common/optional/openssh.nix
     ../common/optional/graphics.nix
     ../common/optional/hyprland.nix
     ../common/optional/bluetooth.nix
     ../common/optional/avahi.nix
-    ../common/optional/default.nix
     ../common/optional/default.nix
     ../common/optional/tailscale-exit-node.nix
     ../common/optional/udev.nix
@@ -54,6 +53,8 @@
     ../common/optional/steam.nix
     ../common/optional/nss-docker-ng.nix
   ];
+
+  networking.hostName = "dellicious";
 
   powerManagement.enable = true;
 

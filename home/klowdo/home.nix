@@ -44,7 +44,6 @@ in {
     slack
     bluetuith
 
-    ydotool
     duf
     ncdu
     wl-clipboard
@@ -65,9 +64,7 @@ in {
 
     # wezterm
     cool-retro-term
-    wl-clipboard
     hyprland-protocols
-    hyprpicker
     swayidle
     xdg-desktop-portal-hyprland
     firefox
