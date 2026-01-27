@@ -1,9 +1,9 @@
 {
   inputs,
-  lib,
+  config,
   ...
 }: let
-  homeDirectory = "/home/klowdo";
+  homeDirectory = config.home.homeDirectory;
   sopsAgeDir = "${homeDirectory}/.config/sops/age";
 
   # YubiKey identity file (generated via: just yubikey-save-identity)
@@ -27,6 +27,8 @@ in {
     age.keyFile = regularKeyFile;
 
     defaultSopsFile = ../../../secrets.yaml;
+    # Disabled: secrets.yaml contains secrets for multiple hosts/users
+    # Validation would fail when a host doesn't use all defined secrets
     validateSopsFiles = false;
 
     secrets = {

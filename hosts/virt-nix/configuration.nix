@@ -94,8 +94,7 @@
     ];
   };
 
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
+  # Note: allowUnfree is set in hosts/common/core/default.nix
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget

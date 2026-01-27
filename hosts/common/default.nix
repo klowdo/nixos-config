@@ -45,10 +45,8 @@
       # })
     ];
     # Configure your nixpkgs instance
+    # Note: allowUnfree is set in ./core/default.nix
     config = {
-      # Disable if you don't want unfree packages
-      allowUnfree = true;
-
       allowUnfreePredicate = _: true;
     };
   };
