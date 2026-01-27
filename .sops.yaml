@@ -21,9 +21,9 @@ keys:
   # YubiKey-based age keys (hardware-backed, via age-plugin-yubikey)
   # Generate with: just yubikey-setup
   # Keys look like: age1yubikey1q...
-  - &yubikeys: []
-    # Example: Uncomment and add your YubiKey public key after running just yubikey-setup
-    # - &yubikey-klowdo age1yubikey1qv...your-key-here...
+  - &yubikeys:
+      - &yubikey-keychain age1yubikey1qdxu9y7v7pljxaq7ge5hx9zcdeyq8cld4af8d0meznwg02m0q4gt6mnvzyq
+
 
 creation_rules:
   - path_regex: secrets.yaml$
@@ -31,5 +31,4 @@ creation_rules:
       - age:
           - *klowdo
           - *dellicious
-          # Add YubiKey keys here after setup:
-          # - *yubikey-klowdo
+          - *yubikey-keychain
