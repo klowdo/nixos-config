@@ -11,9 +11,9 @@ in {
   config = mkIf cfg.enable {
     assertions = [
       {
-        assertion = !config.extraServices.tlp.enable;
+        assertion = !(config.extraServices.tlp.enable or false);
         message = ''
-          Only one power manager daemon is allowed at the time: tlp.enable and power-profiles-deamon.enable are mutually exclusive.
+          Only one power manager daemon is allowed at the time: tlp.enable and power-profiles-daemon.enable are mutually exclusive.
         '';
       }
     ];
