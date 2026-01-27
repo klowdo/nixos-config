@@ -24,8 +24,6 @@
     # inputs.hardware.nixosModules.common-pc-laptop-ssd
 
     # ========== Required Configs ==========
-    #
-    # TODO: combine theses
     ../common
 
     #
@@ -60,23 +58,18 @@
 
   extraServices = {
     docker.enable = true;
+    resolved.enable = true;
     # hyprlock.enable = true;
     swaylock.enable = true;
     # tlp.enable = true;
     # auto-cpufreq.enable = true;
     power-profiles-daemon.enable = true; # Already enables upower for hyprdynamicmonitors
     # strongSwan.enable = true;
-    # strongSwan.
     strongSwan-swanctl.enable = true;
     nss-docker-ng = {
       enable = true;
       dockerHost = "unix:///run/user/1000/docker.sock";
     };
-  };
-
-  #TODO: fix this... use same names for modules
-  modules = {
-    resolved.enable = true;
   };
 
   # Kernel Bootloader.

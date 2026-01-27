@@ -1,7 +1,12 @@
-# FIXME(lib.custom): Add some stuff from hmajid2301/dotfiles/lib/module/default.nix, as simplifies option declaration
-{lib, ...}: {
+{
+  lib,
+  config,
+  ...
+}: {
   # use path relative to the root of the project
   relativeToRoot = lib.path.append ../.;
+
+  # Scan a directory for .nix files and subdirectories
   scanPaths = path:
     builtins.map (f: (path + "/${f}")) (
       builtins.attrNames (
@@ -15,4 +20,9 @@
         ) (builtins.readDir path)
       )
     );
+
+  # Filter groups to only those that exist on the system
+  # Usage: extraGroups = ["wheel"] ++ lib.custom.ifTheyExist config ["docker" "libvirtd"];
+  ifTheyExist = cfg: groups:
+    builtins.filter (group: builtins.hasAttr group cfg.users.groups) groups;
 }
