@@ -18,23 +18,20 @@ in {
 
     homeDirectory = mkOption {
       type = types.str;
-      description = "The home directory of the user";
-      default =
-        if pkgs.stdenv.isLinux
-        then "/home/${cfg.username}"
-        else "/Users/${cfg.username}";
+      default = "";
+      description = "The home directory of the user (auto-detected if empty)";
     };
 
     dotfilesPath = mkOption {
       type = types.str;
-      default = "${cfg.homeDirectory}/.dotfiles";
-      description = "Path to the dotfiles/nix-config directory";
+      default = "";
+      description = "Path to the dotfiles/nix-config directory (defaults to ~/.dotfiles)";
     };
 
     projectsPath = mkOption {
       type = types.str;
-      default = "${cfg.homeDirectory}/dev";
-      description = "Path to the projects/development directory";
+      default = "";
+      description = "Path to the projects/development directory (defaults to ~/dev)";
     };
 
     fullName = mkOption {
@@ -50,15 +47,33 @@ in {
     };
   };
 
-  config = {
+  config = let
+    # Compute effective values with smart defaults
+    effectiveHome =
+      if cfg.homeDirectory != ""
+      then cfg.homeDirectory
+      else if pkgs.stdenv.isLinux
+      then "/home/${cfg.username}"
+      else "/Users/${cfg.username}";
+
+    effectiveDotfiles =
+      if cfg.dotfilesPath != ""
+      then cfg.dotfilesPath
+      else "${effectiveHome}/.dotfiles";
+
+    effectiveProjects =
+      if cfg.projectsPath != ""
+      then cfg.projectsPath
+      else "${effectiveHome}/dev";
+  in {
     # Set home-manager's username and homeDirectory from userConfig
     home.username = mkDefault cfg.username;
-    home.homeDirectory = mkDefault cfg.homeDirectory;
+    home.homeDirectory = mkDefault effectiveHome;
 
     # Export as environment variables for shell access
     home.sessionVariables = {
-      NH_FLAKE = cfg.dotfilesPath;
-      PROJECT_FOLDERS = cfg.projectsPath;
+      NH_FLAKE = effectiveDotfiles;
+      PROJECT_FOLDERS = effectiveProjects;
     };
   };
 }
