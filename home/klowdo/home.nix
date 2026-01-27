@@ -11,15 +11,11 @@ in {
     ../../modules/home-manager/stylix.nix
     inputs.catppuccin.homeModules.catppuccin
   ];
-  # Home Manager needs a bit of information about you and the paths it should
-  # manage.
-  home.username = lib.mkDefault "klowdo";
-  home.homeDirectory = lib.mkDefault "/home/klowdo";
 
   # User-specific configuration (used by various modules)
+  # home.username and home.homeDirectory are derived from userConfig
   userConfig = {
-    dotfilesPath = "${config.home.homeDirectory}/.dotfiles";
-    projectsPath = "${config.home.homeDirectory}/dev";
+    username = "klowdo";
     fullName = "Felix Svensson";
     email = "klowdo.fs@gmail.com";
   };
