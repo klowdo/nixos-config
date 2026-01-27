@@ -110,9 +110,9 @@ yubikey-list:
 
 # Save YubiKey age identity to file for sops decryption
 yubikey-save-identity slot="1":
-  @echo "Saving YubiKey identity from slot {{slot}} to ~/.config/sops/age/yubikey-identity.txt..."
+  @echo "Saving YubiKey identity from slot {{slot}} to ~/.config/sops/age/yubikey-identity-{{slot}}.txt..."
   mkdir -p ~/.config/sops/age
-  nix-shell -p age-plugin-yubikey --run "age-plugin-yubikey --identity --slot {{slot}} > ~/.config/sops/age/yubikey-identity.txt"
+  nix-shell -p age-plugin-yubikey --run "age-plugin-yubikey --identity --slot {{slot}} > ~/.config/sops/age/yubikey-identity-{{slot}}.txt"
   @echo "Identity saved. Add this file path to your sops.nix configuration."
   @echo "Public key (add to .sops.yaml):"
   @grep "public key:" ~/.config/sops/age/yubikey-identity.txt | cut -d: -f2 | tr -d ' '
