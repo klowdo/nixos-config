@@ -8,8 +8,8 @@
 with lib; let
   cfg = config.features.development.tools.goland;
   year = "2025";
-  version = "2";
-  patch = ""; #".2"
+  version = "3";
+  patch = ".1.1"; #".2"
   # Get JetBrains plugins from the flake
   # https://www.jetbrains.com/go/download/other.html
   golandPkg =
@@ -19,11 +19,11 @@ with lib; let
     (_old: {
       src = pkgs.fetchurl {
         url = "https://download.jetbrains.com/go/goland-${year}.${version}${patch}.tar.gz";
-        hash = "sha256-0oXBAFWvkALbjJE1V1NbpG4xWMVzOyNq3T1x+Thz6Fo=";
+        hash = "sha256-+4A+rTMwiXjKuBI2dUf90F9KUFaGlB2xgO+BX09WnWw=";
       };
       # https://www.jetbrains.com/rider/download/other.html
       version = "${year}.${version}${patch}";
-      build_number = "253.28294.337";
+      build_number = "253.29346.379";
     });
   # golandVersion = "${year}.${version}";
   pluginList = with inputs.nix-jetbrains-plugins.plugins."${pkgs.stdenv.hostPlatform.system}".goland."${year}.${version}"; [
