@@ -35,6 +35,7 @@
 {
   imports = [
     ../common
+    ../common/optional/podman.nix
     ./configuration.nix
     ./services
   ];
