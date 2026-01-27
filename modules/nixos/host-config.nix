@@ -8,6 +8,19 @@
 }:
 with lib; let
   cfg = config.hostConfig;
+
+  # Compute effective values with smart defaults
+  effectiveHome =
+    if cfg.home != ""
+    then cfg.home
+    else if pkgs.stdenv.isLinux
+    then "/home/${cfg.mainUser}"
+    else "/Users/${cfg.mainUser}";
+
+  effectiveDotfiles =
+    if cfg.dotfilesPath != ""
+    then cfg.dotfilesPath
+    else "${effectiveHome}/.dotfiles";
 in {
   options.hostConfig = {
     mainUser = mkOption {
@@ -18,22 +31,19 @@ in {
 
     home = mkOption {
       type = types.str;
-      description = "The home directory of the main user";
-      default =
-        if pkgs.stdenv.isLinux
-        then "/home/${cfg.mainUser}"
-        else "/Users/${cfg.mainUser}";
+      default = "";
+      description = "The home directory of the main user (auto-detected if empty)";
     };
 
     dotfilesPath = mkOption {
       type = types.str;
-      description = "Path to the dotfiles/nix-config directory";
-      default = "${cfg.home}/.dotfiles";
+      default = "";
+      description = "Path to the dotfiles/nix-config directory (defaults to ~/.dotfiles)";
     };
   };
 
   config = {
-    # Use the dotfiles path for nh if it's set
-    programs.nh.flake = mkIf (cfg.dotfilesPath != "") cfg.dotfilesPath;
+    # Use the dotfiles path for nh
+    programs.nh.flake = effectiveDotfiles;
   };
 }
