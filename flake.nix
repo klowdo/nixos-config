@@ -17,6 +17,20 @@
     # Hardware helpers
     hardware.url = "github:nixos/nixos-hardware";
 
+    # Disko - Declarative disk partitioning
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    # hyprland
+    # hyprlock = {
+    #   url = "github:hyprwm/hyprlock";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
+
+    # hyprland.url = "github:hyprwm/Hyprland";
+
     hyprpanel = {
       url = "github:Jas-SinghFSU/HyprPanel";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -162,6 +176,15 @@
         modules = [
           # > Our main nixos configuration file <
           ./hosts/virt-nix
+        ];
+      };
+
+      # Installation ISO with disko and tools pre-configured
+      iso = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = {inherit inputs outputs;};
+        modules = [
+          ./hosts/iso
         ];
       };
     };
