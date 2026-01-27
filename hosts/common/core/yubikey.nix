@@ -15,7 +15,7 @@
   environment.systemPackages = with pkgs; [
     # YubiKey management tools
     yubikey-personalization
-    yubikey-personalization-gui
+    yubioath-flutter
     yubikey-manager # ykman CLI
     yubico-piv-tool
 
