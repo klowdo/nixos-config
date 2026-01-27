@@ -17,14 +17,6 @@
     # Hardware helpers
     hardware.url = "github:nixos/nixos-hardware";
 
-    # hyprland
-    # hyprlock = {
-    #   url = "github:hyprwm/hyprlock";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
-
-    # hyprland.url = "github:hyprwm/Hyprland";
-
     hyprpanel = {
       url = "github:Jas-SinghFSU/HyprPanel";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -177,7 +169,7 @@
     # Available through 'home-manager --flake .#your-username@your-hostname'
     homeConfigurations = {
       "klowdo@dellicious" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
+        pkgs = pkgsFor.x86_64-linux;
         extraSpecialArgs = {inherit inputs outputs;};
         modules = [
           # > Our main home-manager configuration file <
@@ -185,7 +177,7 @@
         ];
       };
       "klowdo@virt-nix" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
+        pkgs = pkgsFor.x86_64-linux;
         extraSpecialArgs = {inherit inputs outputs;};
         modules = [
           ./home/klowdo/virt-nix.nix

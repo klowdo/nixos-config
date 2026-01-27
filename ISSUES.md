@@ -1,44 +1,50 @@
 # Dotfiles Issues & TODOs
 
-## High Priority (Fix First)
+## Fixed Issues
 
-### 1. Duplicate Import
-- **File**: `hosts/dellicious/default.nix:42-43`
-- **Issue**: `../common/optional/default.nix` imported twice
-- **Fix**: Remove one of the duplicate lines
+### 1. ~~Duplicate Import~~ FIXED
+- **File**: `hosts/dellicious/default.nix`
+- **Fix**: Removed duplicate `../common/optional/default.nix` import
 
-### 2. Undefined nixpkgs-stable Input
-- **File**: `overlays/default.nix:65`
-- **Issue**: References `inputs.nixpkgs-stable` but not defined in `flake.nix`
-- **Fix**: Either add `nixpkgs-stable` input to flake.nix or remove stable-packages overlay
+### 2. ~~Undefined nixpkgs-stable Input~~ FIXED
+- **File**: `flake.nix`
+- **Fix**: Added `nixpkgs-stable` input pointing to nixos-25.05
 
-## Medium Priority
+### 3. ~~Networking Filename Typo~~ FIXED
+- **File**: `hosts/common/optional/nerworking.nix`
+- **Fix**: Renamed to `networking.nix` and moved hostname to host-specific config
 
-### 3. Centralize allowUnfree Configuration
+### 4. ~~Duplicate Packages~~ FIXED
+- **File**: `home/klowdo/home.nix`
+- **Fix**: Removed duplicate `ydotool`, `wl-clipboard`, and `hyprpicker`
+
+### 5. ~~Hardcoded pkgs in homeConfigurations~~ FIXED
+- **File**: `flake.nix`
+- **Fix**: Using `pkgsFor.x86_64-linux` instead of `nixpkgs.legacyPackages.x86_64-linux`
+
+## Medium Priority (Remaining)
+
+### 6. Centralize allowUnfree Configuration
 - **Files**: Multiple files have scattered `allowUnfree = true`
 - **Issue**: Inconsistent configuration management
 - **Fix**: Centralize in common configuration
 
-### 4. SOPS Validation Disabled
+### 7. SOPS Validation Disabled
 - **File**: `hosts/common/core/sops.nix:7`
 - **Issue**: `validateSopsFiles = false` bypasses security checks
 - **Fix**: Enable validation or document why it's disabled
 
-## Low Priority
+## Low Priority (Remaining)
 
-### 5. Networking Filename Typo
-- **File**: `hosts/common/optional/nerworking.nix`
-- **Fix**: Rename to `networking.nix`
-
-### 6. Latest Kernel Usage
-- **File**: `hosts/dellicious/default.nix:69`
+### 8. Latest Kernel Usage
+- **File**: `hosts/dellicious/default.nix`
 - **Issue**: `linuxPackages_latest` can be unstable
 - **Fix**: Consider using stable kernel for production
 
-### 7. Review Existing TODOs
+### 9. Review Existing TODOs
 - **Files**: Various files contain TODO comments
 - **Fix**: Review and complete or remove obsolete TODOs
 
 ## Analysis Summary
 
-Your dotfiles setup is well-structured overall with good modular design. The main concerns are build-breaking configuration issues (duplicate imports, undefined inputs) and some security/stability considerations.
+Your dotfiles setup is well-structured overall with good modular design. The main build-breaking issues have been resolved in this PR.
