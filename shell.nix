@@ -27,7 +27,9 @@
         git
         just
         pre-commit
+        # Secrets management with age + YubiKey support
         age
+        age-plugin-yubikey
         ssh-to-age
         sops
         ;

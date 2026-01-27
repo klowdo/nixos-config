@@ -1,8 +1,29 @@
+# SOPS Configuration for NixOS secrets management
+# Supports both regular age keys and YubiKey-based age keys (via age-plugin-yubikey)
+#
+# To add a YubiKey:
+#   1. Run: just yubikey-setup (interactive) or just yubikey-identity
+#   2. Copy the public key (starts with age1yubikey1...)
+#   3. Add it to the yubikeys section below
+#   4. Run: just sops-updatekeys
+#
+# To generate a new regular age key:
+#   1. Run: just sops-init (user) or just age-keys (host)
+#   2. Get public key: age-keygen -y ~/.config/sops/age/keys.txt
+
 keys:
+  # Regular age keys (software-based)
   - &users:
     - &klowdo age1xp5xypym54k4svxs7f4kad4pfkfx6uwgcjeh5ut9p9rhnhc7sa8s9ag868
   - &hosts:
     - &dellicious age13ph0tj5f8k752hure0wrw38g3g4ydmugew4exd8rahh95ngsfuvsyfjnvj
+
+  # YubiKey-based age keys (hardware-backed, via age-plugin-yubikey)
+  # Generate with: just yubikey-setup
+  # Keys look like: age1yubikey1q...
+  - &yubikeys: []
+    # Example: Uncomment and add your YubiKey public key after running just yubikey-setup
+    # - &yubikey-klowdo age1yubikey1qv...your-key-here...
 
 creation_rules:
   - path_regex: secrets.yaml$
@@ -10,3 +31,5 @@ creation_rules:
       - age:
           - *klowdo
           - *dellicious
+          # Add YubiKey keys here after setup:
+          # - *yubikey-klowdo
