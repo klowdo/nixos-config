@@ -13,8 +13,8 @@
     package = pkgs.gitFull;
     settings = {
       user = {
-        name = "Felix Svensson";
-        email = "klowdo.fs@gmail.com";
+        name = config.userConfig.fullName;
+        email = config.userConfig.email;
       };
       alias = {
         ci = "commit";

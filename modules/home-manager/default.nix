@@ -2,6 +2,7 @@
 # These should be stuff you would like to share with others, not your personal configurations.
 {
   # List your module files her
+  user-config = import ./user-config.nix;
   way-displays = import ./way-displays.nix;
   claudia = import ./claudia.nix;
   # vivid-stub = import ./vivid-stub.nix;
