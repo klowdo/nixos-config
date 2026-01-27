@@ -33,6 +33,15 @@ This is a sophisticated NixOS dotfiles configuration using Nix flakes that manag
 - `just sops-init` - Generate SOPS age key
 - `just age-keys` - Generate age key for host decryption
 - `just serets-update` - Update mysecrets flake input
+- `just sops-edit` - Edit secrets.yaml with sops
+- `just sops-updatekeys` - Re-encrypt secrets after adding new keys
+
+### YubiKey + SOPS
+- `just yubikey-setup` - Interactive setup to create age identity on YubiKey
+- `just yubikey-identity [slot]` - Generate age identity from YubiKey slot
+- `just yubikey-list` - List age recipients from connected YubiKeys
+- `just yubikey-save-identity [slot]` - Save YubiKey identity to file for sops
+- `just ssh-to-age-convert [key]` - Convert SSH public key to age format
 
 ## Architecture
 
@@ -56,7 +65,7 @@ This is a sophisticated NixOS dotfiles configuration using Nix flakes that manag
 - **NixOS 25.11** stable with unstable overlay
 - **Home Manager** for user environment
 - **Hyprland** Wayland compositor with HyprPanel
-- **SOPS-nix** for secrets management
+- **SOPS-nix** for secrets management (with YubiKey support via age-plugin-yubikey)
 - **Stylix + Catppuccin** theming
 - **Custom Neovim** (kixvim)
 
@@ -87,6 +96,17 @@ Home Manager uses feature flags in `home/features/`:
 - SOPS validation runs automatically after rebuilds
 - The configuration uses impure evaluation for Home Manager
 - Custom packages are defined in `pkgs/` with overlays in `overlays/`
-- Secrets are managed via SOPS with age encryption
+- Secrets are managed via SOPS with age encryption (supports YubiKey via age-plugin-yubikey)
 - Pre-commit hooks enforce code quality (nixpkgs formatting, shellcheck)
 - Always commit new features
+
+## YubiKey Setup for SOPS
+
+To use a YubiKey for hardware-backed secret encryption:
+
+1. **Generate YubiKey identity**: `just yubikey-setup` (interactive)
+2. **Save identity file**: `just yubikey-save-identity`
+3. **Add public key to .sops.yaml**: Copy the age1yubikey1... key
+4. **Re-encrypt secrets**: `just sops-updatekeys`
+
+The YubiKey provides hardware-backed encryption keys. Host keys (derived from SSH host keys) are used for decryption during system activation, while the YubiKey can be used for encrypting new secrets.

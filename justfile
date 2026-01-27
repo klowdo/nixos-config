@@ -88,6 +88,50 @@ check-sops:
 serets-update:
   nix flake lock --update-input mysecrets
 
+#################### YubiKey + SOPS ####################
+
+# Generate a new age identity on YubiKey (interactive setup)
+yubikey-setup:
+  @echo "Setting up YubiKey for age encryption..."
+  @echo "This will create a new age identity on your YubiKey."
+  @echo "Make sure your YubiKey is inserted."
+  @echo ""
+  nix-shell -p age-plugin-yubikey --run "age-plugin-yubikey"
+
+# Generate age identity from existing YubiKey slot (non-interactive)
+yubikey-identity slot="1":
+  @echo "Generating age identity from YubiKey slot {{slot}}..."
+  nix-shell -p age-plugin-yubikey --run "age-plugin-yubikey --identity --slot {{slot}}"
+
+# List all age recipients from connected YubiKeys
+yubikey-list:
+  @echo "Listing age recipients from connected YubiKeys..."
+  nix-shell -p age-plugin-yubikey --run "age-plugin-yubikey --list"
+
+# Save YubiKey age identity to file for sops decryption
+yubikey-save-identity slot="1":
+  @echo "Saving YubiKey identity from slot {{slot}} to ~/.config/sops/age/yubikey-identity.txt..."
+  mkdir -p ~/.config/sops/age
+  nix-shell -p age-plugin-yubikey --run "age-plugin-yubikey --identity --slot {{slot}} > ~/.config/sops/age/yubikey-identity.txt"
+  @echo "Identity saved. Add this file path to your sops.nix configuration."
+  @echo "Public key (add to .sops.yaml):"
+  @grep "public key:" ~/.config/sops/age/yubikey-identity.txt | cut -d: -f2 | tr -d ' '
+
+# Convert SSH key to age format (useful for ed25519-sk keys on YubiKey)
+ssh-to-age-convert key="~/.ssh/id_ed25519.pub":
+  @echo "Converting SSH public key to age format..."
+  nix-shell -p ssh-to-age --run "cat {{key}} | ssh-to-age"
+
+# Re-encrypt secrets.yaml after adding new keys to .sops.yaml
+sops-updatekeys:
+  @echo "Updating keys for secrets.yaml based on .sops.yaml..."
+  nix-shell -p sops --run "sops updatekeys secrets.yaml"
+
+# Edit secrets.yaml with sops
+sops-edit:
+  @echo "Editing secrets.yaml..."
+  nix-shell -p sops age age-plugin-yubikey --run "sops secrets.yaml"
+
 #################### Password Store ####################
 
 # Initialize password store with GPG key generation and setup
