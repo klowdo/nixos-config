@@ -1,8 +1,4 @@
-{
-  inputs,
-  config,
-  ...
-}: let
+{config, ...}: let
   homeDirectory = config.home.homeDirectory;
   sopsAgeDir = "${homeDirectory}/.config/sops/age";
 
@@ -12,7 +8,7 @@
   # Regular age key file (generated via: just sops-init)
   regularKeyFile = "${sopsAgeDir}/keys.txt";
 in {
-  imports = [inputs.sops-nix.homeManagerModules.sops];
+  # sops-nix module is loaded via sharedModules in hosts/common/default.nix
   sops = {
     # Age key configuration for decryption
     # Priority: YubiKey identity if exists, otherwise regular age key
