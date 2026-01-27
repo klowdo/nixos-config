@@ -17,9 +17,9 @@ in {
       accounts = {
         gmail = {
           primary = true;
-          address = "klowdo.fs@gmail.com";
-          userName = "klowdo.fs@gmail.com";
-          realName = "Felix Svensson";
+          address = config.userConfig.email;
+          userName = config.userConfig.email;
+          realName = config.userConfig.fullName;
 
           # IMAP settings for Gmail
           imap = {
@@ -55,7 +55,7 @@ in {
         office365 = {
           address = "felix@flixen.se";
           userName = "felix@flixen.se";
-          realName = "Felix Svensson";
+          realName = config.userConfig.fullName;
 
           # IMAP settings for Office365
           imap = {

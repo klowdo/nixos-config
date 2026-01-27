@@ -16,6 +16,14 @@ in {
   home.username = lib.mkDefault "klowdo";
   home.homeDirectory = lib.mkDefault "/home/klowdo";
 
+  # User-specific configuration (used by various modules)
+  userConfig = {
+    dotfilesPath = "${config.home.homeDirectory}/.dotfiles";
+    projectsPath = "${config.home.homeDirectory}/dev";
+    fullName = "Felix Svensson";
+    email = "klowdo.fs@gmail.com";
+  };
+
   catppuccin.flavor = "macchiato";
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release
@@ -153,10 +161,9 @@ in {
   #
   #  /etc/profiles/per-user/m3tam3re/etc/profile.d/hm-session-vars.sh
   #
+  # NH_FLAKE and PROJECT_FOLDERS are set by userConfig module
   home.sessionVariables = {
-    NH_FLAKE = "/home/klowdo/.dotfiles/";
     NIX_PATH = lib.concatStringsSep ":" (lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs);
-    PROJECT_FOLDERS = "/home/klowdo/dev/";
     NIXOS_OZONE_WL = "1";
   };
 

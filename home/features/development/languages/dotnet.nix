@@ -44,7 +44,7 @@ in {
     };
 
     home.sessionPath = [
-      "/home/klowdo/.dotnet/tools"
+      "${config.home.homeDirectory}/.dotnet/tools"
     ];
   };
 }

@@ -1,8 +1,7 @@
 {
+  # nh flake path is set via hostConfig.dotfilesPath in host-config module
   programs.nh = {
     enable = true;
-    # flake = "/home/user/${config.hostSpec.home}/nix-config";
-    flake = "/home/klowdo/.dotfiles/";
     clean = {
       enable = true;
       extraArgs = "--keep-since 4d --keep 3";
