@@ -3,6 +3,8 @@
   sops = {
     # Default secrets file for the system
     defaultSopsFile = ../../../secrets.yaml;
+    # Disabled: secrets.yaml contains secrets for multiple hosts/users
+    # Validation would fail when a host doesn't use all defined secrets
     validateSopsFiles = false;
 
     age = {
