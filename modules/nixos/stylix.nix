@@ -23,5 +23,8 @@
         popups = 12;
       };
     };
+    targets = {
+      gnome.enable = false;
+    };
   };
 }
