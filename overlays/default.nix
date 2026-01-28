@@ -45,6 +45,8 @@
           oldAttrs.installPhase;
       });
 
+      git-repo-manager = inputs.git-repo-manager.packages.${prev.stdenv.hostPlatform.system}.default;
+
       dotnet-combined = with final.unstable.dotnetCorePackages;
         (combinePackages [
           # sdk_8_0_3xx

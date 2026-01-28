@@ -27,6 +27,7 @@
       claude-code.enable = true;
       bitwarden-wofi.enable = true;
       ssh.enable = true;
+      git-repo-manager.enable = true;
     };
     desktop = {
       wayland.enable = true;
