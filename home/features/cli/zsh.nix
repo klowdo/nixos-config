@@ -45,6 +45,11 @@ in {
         }
       ];
 
+      initExtraFirst = ''
+        # Add just command runner completions to fpath (before compinit)
+        fpath=(${pkgs.just}/share/zsh/site-functions $fpath)
+      '';
+
       initContent = ''
         function sesh-sessions() {
           {
