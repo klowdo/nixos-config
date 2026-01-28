@@ -129,9 +129,9 @@
 
     # Dev shells - inherits pre-commit hooks from checks
     devShells = forEachSystem (pkgs:
-      import ./shells {
+      import ./shells.nix {
         inherit pkgs;
-        pre-commit-check = self.checks.${pkgs.stdenv.hostPlatform.system}.pre-commit-check;
+        inherit (self.checks.${pkgs.stdenv.hostPlatform.system}) pre-commit-check;
       });
 
     # Formatter for your nix files, available through 'nix fmt'
