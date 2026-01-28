@@ -1,4 +1,9 @@
-{config, lib, pkgs, ...}: let
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}: let
   # Image paths from lib directory
   wallpaperPath = ../../../../lib/nix-wallpaper-nineish-catppuccin-macchiato.png;
   userPhotoPath = ../../../../lib/felix_evolve.jpg;

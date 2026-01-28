@@ -5,7 +5,6 @@
   ...
 }:
 # Example showing how to reference default applications in your config
-
 {
   # Example 1: Using defaults in Hyprland keybindings
   wayland.windowManager.hyprland.settings.bind = [
@@ -35,7 +34,8 @@
   ];
 
   # Example 3: Conditionally enable features based on defaults
-  programs.something.enable = lib.mkIf
+  programs.something.enable =
+    lib.mkIf
     (config.features.defaults.browser.command == "firefox")
     true;
 

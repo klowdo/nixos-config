@@ -15,6 +15,7 @@ This package wraps the official Auto-Claude AppImage with a patch to fix immutab
 The package applies the fix from [GitHub Issue #143](https://github.com/AndyMik90/Auto-Claude/issues/143#issuecomment-3736686937) which adds code to detect immutable environments (like NixOS) and copy the backend to a writable temporary location.
 
 The patching happens at build time by:
+
 - Extracting `resources/app.asar` using the `asar` tool
 - Finding `path-resolver.js` (the compiled TypeScript)
 - Injecting the immutable environment handler using `sed`
@@ -52,6 +53,7 @@ Add to your NixOS configuration:
 ```
 
 Then run:
+
 ```bash
 auto-claude
 ```
@@ -69,13 +71,17 @@ auto-claude
 ## Troubleshooting
 
 ### AppImage won't launch
+
 Check that all dependencies are included in `extraPkgs`. The current list includes all standard Electron dependencies.
 
 ### Backend not found
+
 This is the issue the patch fixes. If you still see this, the patch may not have been applied correctly. Check build logs for "Patching path-resolver.js" messages.
 
 ### Permission errors
+
 The FHS environment should handle this, but ensure XDG directories are writable:
+
 - `~/.cache/auto-claude`
 - `~/.config/auto-claude`
 - `~/.local/share/auto-claude`

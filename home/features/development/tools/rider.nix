@@ -15,7 +15,8 @@ with lib; let
   riderpkg =
     (pkgs.unstable.jetbrains.rider.override {
       forceWayland = true;
-    }).overrideAttrs
+    })
+    .overrideAttrs
     (_old: {
       src = pkgs.fetchurl {
         url = "https://download.jetbrains.com/rider/JetBrains.Rider-${year}.${version}${patch}.tar.gz";
