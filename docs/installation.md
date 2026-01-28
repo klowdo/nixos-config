@@ -193,7 +193,48 @@ EOF
 sudo nix --experimental-features "nix-command flakes" run github:nix-community/disko -- --mode disko /tmp/disk-config.nix
 ```
 
-### Step 7: Install NixOS
+### Step 7: Setup SOPS for New Host (IMPORTANT!)
+
+**This step is required because user passwords are SOPS-encrypted.**
+
+The new host needs an age key derived from its SSH host key before installation.
+
+```bash
+# 1. Generate SSH host keys for the new system
+sudo mkdir -p /mnt/etc/ssh
+sudo ssh-keygen -t ed25519 -f /mnt/etc/ssh/ssh_host_ed25519_key -N ""
+
+# 2. Get the age public key from the new host's SSH key
+cat /mnt/etc/ssh/ssh_host_ed25519_key.pub | nix-shell -p ssh-to-age --run 'ssh-to-age'
+# Output: age1xxxxxxxxx... (copy this!)
+
+# 3. Add the new host's age key to .sops.yaml
+# Edit .sops.yaml and add the new key under the hosts section:
+#   - &myhost age1xxxxxxxxx...
+# Then add it to the creation_rules keys list
+
+# 4. Re-encrypt secrets with the new host's key
+nix-shell -p sops --run "sops updatekeys secrets.yaml"
+
+# 5. Commit and push the updated .sops.yaml (from another machine or later)
+```
+
+**Alternative: Temporarily use a password instead of SOPS**
+
+If you want to skip SOPS setup during initial install, temporarily edit
+`hosts/common/users/klowdo.nix` and uncomment the password line:
+
+```nix
+users.users.klowdo = {
+  # hashedPasswordFile = config.sops.secrets."passwords/klowdo".path;
+  initialPassword = "changeme";  # Temporary - change after first boot!
+  ...
+};
+```
+
+Then after first boot, set up SOPS and switch back to the SOPS-managed password.
+
+### Step 8: Install NixOS
 
 ```bash
 # If using disko module (disks are already mounted at /mnt)
@@ -202,7 +243,7 @@ sudo nixos-install --flake /mnt/etc/nixos#myhost --no-root-passwd
 # Set root password when prompted (or skip if using sops)
 ```
 
-### Step 8: Reboot
+### Step 9: Reboot
 
 ```bash
 reboot
