@@ -40,6 +40,7 @@
       bat.enable = false;
       hyprland.enable = true;
       mako.enable = false;
+      gnome.enable = false;
     };
   };
 }
