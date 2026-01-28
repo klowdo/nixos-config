@@ -123,22 +123,26 @@
     # Your custom packages
     # Accessible through 'nix build', 'nix shell', etc
     packages = forEachSystem (pkgs: import ./pkgs {inherit pkgs;});
-    # dev shells
-    devShells = forEachSystem (pkgs: import ./shell.nix {inherit pkgs;});
+
+    # Checks - includes pre-commit hooks for `nix flake check`
+    checks = forEachSystem (pkgs: import ./checks.nix {inherit inputs pkgs;});
+
+    # Dev shells - inherits pre-commit hooks from checks
+    devShells = forEachSystem (pkgs:
+      import ./shells {
+        inherit pkgs;
+        pre-commit-check = self.checks.${pkgs.stdenv.hostPlatform.system}.pre-commit-check;
+      });
+
     # Formatter for your nix files, available through 'nix fmt'
-    # Other options beside 'alejandra' include 'nixpkgs-fmt'
     formatter = forEachSystem (pkgs: pkgs.alejandra);
 
     # Your custom packages and modifications, exported as overlays
     overlays = import ./overlays {inherit inputs;};
     # Reusable nixos modules you might want to export
-    # These are usually stuff you would upstream into nixpkgs
     nixosModules = import ./modules/nixos;
     # Reusable home-manager modules you might want to export
-    # These are usually stuff you would upstream into home-manager
     homeModules = import ./modules/home-manager;
-
-    checks = forEachSystem (pkgs: import ./checks.nix {inherit inputs pkgs;});
 
     # NixOS configuration entrypoint
     # Available through 'nixos-rebuild --flake .#your-hostname'

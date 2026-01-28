@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 # Source the defaults configuration
+# shellcheck source=/dev/null
 source ~/.config/defaults.sh
 
 selectedSink=$(

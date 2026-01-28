@@ -6,17 +6,6 @@
 }:
 with lib; let
   cfg = config.features.development.cura;
-
-  curaAppImage = pkgs.fetchurl {
-    url = "https://github.com/Ultimaker/Cura/releases/download/5.10.0/UltiMaker-Cura-5.10.0-linux-X64.AppImage";
-    sha256 = "153zsp50aanb04zv02hlv6gvhk0g94rcm5yc78kqd6vlvgivdagh";
-    name = "UltiMaker-Cura-5.10.0-linux-X64.AppImage";
-  };
-
-  curaWrapper = pkgs.writeShellScriptBin "ultimaker-cura" ''
-    #!${pkgs.bash}/bin/bash
-    exec ${pkgs.appimage-run}/bin/appimage-run ${curaAppImage} "$@"
-  '';
 in {
   options.features.development.cura.enable = mkEnableOption "enable UltiMaker Cura 3D printing slicer";
 
