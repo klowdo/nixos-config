@@ -49,6 +49,7 @@
     ../common/optional/nss-docker-ng.nix
     ../common/optional/swaylock.nix
     ../common/optional/power-profiles-daemon.nix
+    ../common/optional/auto-upgrade.nix
   ];
 
   networking.hostName = "dellicious";
