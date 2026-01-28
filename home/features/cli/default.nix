@@ -19,6 +19,7 @@
     ./bitwarden-wofi.nix
     ./ssh.nix
     ./lazygit.nix
+    ./git-repo-manager.nix
   ];
 
   programs.zoxide = {
