@@ -9,26 +9,31 @@ This is a sophisticated NixOS dotfiles configuration using Nix flakes that manag
 ## Common Commands
 
 ### Primary Build & Deploy (NH Tool)
+
 - `nh os switch` - Rebuild and switch to new NixOS configuration
 - `nh os test` - Test NixOS configuration without applying changes
 
 ### Legacy Commands (Deprecated)
+
 - `just rebuild` - Stage files, rebuild system flake, and validate SOPS
 - `just rebuild-trace` - Same as rebuild with `--show-trace` for debugging
 - `just home` - Rebuild Home Manager configuration only
 - `just build` - Stage files and run build script
 
 ### Other Commands
+
 - `just update` - Update flake inputs (`nix flake update`)
 - `just rebuild-update` - Update flakes then rebuild system
 
 ### Development & Testing
+
 - `just ci` - Run pre-commit hooks
 - `just ci-all` - Run pre-commit hooks on all files
 - `just diff` - Show git diff excluding flake.lock
 - `just investigate` - Analyze current system with nix-tree
 
 ### Secrets Management
+
 - `just check-sops` - Validate SOPS activation
 - `just sops-init` - Generate SOPS age key
 - `just age-keys` - Generate age key for host decryption
@@ -37,6 +42,7 @@ This is a sophisticated NixOS dotfiles configuration using Nix flakes that manag
 - `just sops-updatekeys` - Re-encrypt secrets after adding new keys
 
 ### YubiKey + SOPS
+
 - `just yubikey-setup` - Interactive setup to create age identity on YubiKey
 - `just yubikey-identity [slot]` - Generate age identity from YubiKey slot
 - `just yubikey-list` - List age recipients from connected YubiKeys
@@ -46,6 +52,7 @@ This is a sophisticated NixOS dotfiles configuration using Nix flakes that manag
 ## Architecture
 
 ### Directory Structure
+
 - `flake.nix` - Main entry point defining inputs/outputs for hosts
 - `hosts/` - Host-specific NixOS configurations
   - `common/core/` - Essential system configs
@@ -62,6 +69,7 @@ This is a sophisticated NixOS dotfiles configuration using Nix flakes that manag
 - `scripts/` - Management and build scripts
 
 ### Key Technologies
+
 - **NixOS 25.11** stable with unstable overlay
 - **Home Manager** for user environment
 - **Hyprland** Wayland compositor with HyprPanel
@@ -70,11 +78,14 @@ This is a sophisticated NixOS dotfiles configuration using Nix flakes that manag
 - **Custom Neovim** (kixvim)
 
 ### Host Configurations
+
 - `dellicious` - Production Dell XPS 15 with Intel CPU, disabled Nvidia, Hyprland
 - `virt-nix` - Testing virtual machine
 
 ### Feature System
+
 Home Manager uses feature flags in `home/features/`:
+
 - `cli/` - Terminal tools (kitty, zsh, tmux, fzf, yazi)
 - `desktop/` - Wayland/Hyprland desktop environment
 - `development/` - Programming tools (.NET, Rider, LibreOffice)

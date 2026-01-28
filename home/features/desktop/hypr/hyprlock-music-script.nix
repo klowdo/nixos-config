@@ -3,8 +3,7 @@
   lib,
   pkgs,
   ...
-}:
-let
+}: let
   hyprlock-music = pkgs.writeShellScriptBin "hyprlock-music.sh" ''
     #!/usr/bin/env bash
     # hyprlock-music.sh - Music player integration for Hyprlock
@@ -428,8 +427,7 @@ let
       ;;
     esac
   '';
-in
-{
+in {
   config = lib.mkIf config.programs.hyprlock.enable {
     # Install the script in user's home
     home.file.".config/hypr/scripts/hyprlock-music.sh" = {

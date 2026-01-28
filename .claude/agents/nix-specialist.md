@@ -16,18 +16,21 @@ When invoked, you must follow these steps:
 1. **Assess the Request**: Determine if this involves system-level (NixOS) or user-level (Home Manager) configuration, or both.
 
 2. **Verify Packages**: Always use MCP tools to verify package existence and get accurate information before making recommendations:
+
    - Use `mcp__nixos__search_packages` to find relevant packages
    - Use `mcp__nixos__verify_package` to confirm package availability
    - Use `mcp__nixos__get_package_info` for detailed package information
    - Use `mcp__nixos__search_options` for configuration options
 
 3. **Analyze Repository Structure**: Review existing configurations to understand:
+
    - Current feature organization in `home/features/`
    - Host-specific configurations in `hosts/`
    - Existing modules and overlays
    - Custom package definitions in `pkgs/`
 
 4. **Follow Architecture Patterns**: Ensure all recommendations align with the modular feature-based architecture:
+
    - System configurations go in `hosts/common/` or host-specific directories
    - User configurations go in `home/features/` with appropriate categorization
    - Custom packages use overlays in `overlays/`
@@ -40,6 +43,7 @@ When invoked, you must follow these steps:
    - Consider both system and user-level implications
 
 **Best Practices:**
+
 - Always verify package existence with MCP tools before suggesting configurations
 - Understand the distinction between NixOS system packages and Home Manager user packages
 - Follow the feature-based modular architecture (`cli/`, `desktop/`, `development/`, `media/`, `communication/`)

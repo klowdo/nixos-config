@@ -6,7 +6,9 @@
 ![Nix Check](https://github.com/klowdo/nixos-config/actions/workflows/check.yml/badge.svg)
 
 Welcome to my **NixOS configuration**! This repository manages my declarative NixOS setup, optimized with [NH](https://github.com/viperML/nh) for easy management. Inspired by clean, modular designs like [Misterio77's](https://github.com/Misterio77/nix-config).
+
 ## Todos 📒
+
 Checkout [TODOs](./docs/todo.md)
 
 ## 🚀 Installation
@@ -75,7 +77,7 @@ Optimized for productivity with **Hyprland**:
 
 ## 📸 Screenshots
 
-*Add screenshots here to showcase your setup!*
+_Add screenshots here to showcase your setup!_
 
 ## 📜 License
 
@@ -83,4 +85,4 @@ This project is licensed under the MIT License.
 
 ---
 
-*Inspired by the NixOS community and modular configuration principles.*
+_Inspired by the NixOS community and modular configuration principles._

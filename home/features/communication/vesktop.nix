@@ -14,35 +14,35 @@ in {
       settings = {
         # Discord branch
         discordBranch = "stable";
-        
+
         # System tray and window behavior
         tray = true;
         minimizeToTray = true;
         clickTrayToShowHide = true;
-        
+
         # Window customization
         customTitleBar = true;
         enableMenu = true;
         staticTitle = false;
-        
+
         # Performance
         hardwareAcceleration = true;
         disableSmoothScroll = false;
-        
+
         # Links and external behavior
         openLinksWithElectron = false;
-        
+
         # Audio settings
         audio = {
           workaround = false;
           deviceSelect = true;
         };
-        
+
         # Splash screen
         enableSplashScreen = true;
         splashTheming = true;
       };
-      
+
       vencord = {
         useSystem = true;
         settings = {

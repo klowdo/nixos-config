@@ -67,7 +67,7 @@ in {
               tooltip = "Current theme: {alt}";
               listen_cmd = "${pkgs.darkman}/bin/darkman get | ${pkgs.jq}/bin/jq -Rc '{alt: .}'";
               interval = 1000;
-              command  = "${pkgs.darkman}/bin/darkman toggle";
+              command = "${pkgs.darkman}/bin/darkman toggle";
               icons."dark.*" = "󰖙";
               icons."light.*" = "󰖔";
             }

@@ -10,6 +10,7 @@ This directory contains two strongSwan VPN configurations for connecting to Worl
 ### Using the Modern swanctl Configuration (Recommended)
 
 1. **Create the secrets file** in swanctl format using the template:
+
    ```bash
    # Copy the example
    cp swanctl-secrets.conf.example /tmp/swanctl-secrets.conf
@@ -20,12 +21,14 @@ This directory contains two strongSwan VPN configurations for connecting to Worl
    ```
 
 2. **Encrypt the secrets file with SOPS**:
+
    ```bash
    # Assuming you have SOPS configured for this host
    sops encrypt /tmp/swanctl-secrets.conf > secrets/strong-swan.swanctl-secrets.yaml
    ```
 
 3. **Enable the swanctl configuration** in your host config:
+
    ```nix
    {
      # Disable the old configuration
@@ -37,6 +40,7 @@ This directory contains two strongSwan VPN configurations for connecting to Worl
    ```
 
 4. **Rebuild your system**:
+
    ```bash
    nh os switch
    ```
@@ -51,6 +55,7 @@ This directory contains two strongSwan VPN configurations for connecting to Worl
 ## Configuration Files
 
 ### strongSwan-swanctl.nix (New - Recommended)
+
 - **Service**: `strongswan-swanctl.service`
 - **Command tool**: `swanctl`
 - **Config format**: Modern hierarchical swanctl.conf
@@ -59,6 +64,7 @@ This directory contains two strongSwan VPN configurations for connecting to Worl
 - **Key benefit**: Proper systemd-resolved integration, no resolvconf errors
 
 ### strongSwan.nix (Legacy)
+
 - **Service**: `strongswan.service`
 - **Command tool**: `ipsec`
 - **Config format**: Legacy flat ipsec.conf
@@ -80,6 +86,7 @@ plugins {
 ```
 
 When you connect, strongSwan automatically:
+
 1. Receives DNS servers from the VPN server (10.10.16.10, 10.10.17.10)
 2. Installs them via `resolvectl`
 3. No manual DNS configuration needed!
@@ -107,6 +114,7 @@ The `ws-vpn` script automatically detects which strongSwan service is running an
 - If `strongswan.service` is active → uses `ipsec` commands + manual DNS
 
 ### Commands:
+
 ```bash
 ws-vpn up       # Connect to VPN (DNS auto-configured with swanctl)
 ws-vpn down     # Disconnect from VPN and restore home DNS
@@ -119,12 +127,14 @@ ws-vpn status   # Show VPN connection status
 ### Converting from ipsec.secrets to swanctl
 
 **ipsec.secrets format (legacy):**
+
 ```
 @10 185.182.195.244 : PSK "password"
 felix.svensson@nl.worldstream.com : XAUTH "SHARED_PASSWORD"
 ```
 
 **swanctl-secrets.conf format (modern):**
+
 ```
 secrets {
   # IKE Pre-Shared Key for first auth round
@@ -146,6 +156,7 @@ secrets {
 ```
 
 **Key differences:**
+
 - Section names use descriptive suffixes (`-worldstream`) instead of numbers
 - PSK uses `id-1` (local) and `id-2` (remote) instead of colon-separated format
 - XAuth/EAP uses `eap-` prefix instead of `XAUTH` keyword
@@ -165,12 +176,14 @@ See `swanctl-secrets.conf.example` for the complete template.
 ## Troubleshooting
 
 ### Check which service is running:
+
 ```bash
 systemctl status strongswan.service
 systemctl status strongswan-swanctl.service
 ```
 
 ### View connection logs:
+
 ```bash
 # For swanctl
 journalctl -u strongswan-swanctl.service -f
@@ -180,6 +193,7 @@ journalctl -u strongswan.service -f
 ```
 
 ### List active connections:
+
 ```bash
 # swanctl mode
 swanctl --list-sas
@@ -189,6 +203,7 @@ ipsec status
 ```
 
 ### Debug DNS issues:
+
 ```bash
 # Check current DNS settings
 resolvectl status
@@ -208,16 +223,16 @@ resolvectl query some-internal-server.worldstream.com
 
 ## Key Differences: ipsec.conf vs swanctl
 
-| Feature | ipsec.conf (Legacy) | swanctl (Modern) |
-|---------|-------------------|------------------|
-| Config format | Flat, connection-based | Hierarchical |
-| IKE version | `keyexchange=ikev1` | `version = 1` |
-| Proposals | `ike=`, `esp=` | `proposals=`, `esp_proposals=` |
-| Auth | `leftauth`, `rightauth` | `local.auth`, `remote.auth` |
-| Secrets | Separate ipsec.secrets | Embedded in swanctl config |
-| Multi-round auth | Numeric suffixes | Named sections (local.1, local.2) |
-| DNS control | Limited | Full control via plugins |
-| Virtual IP | `leftsourceip` | `vips` |
+| Feature          | ipsec.conf (Legacy)     | swanctl (Modern)                  |
+| ---------------- | ----------------------- | --------------------------------- |
+| Config format    | Flat, connection-based  | Hierarchical                      |
+| IKE version      | `keyexchange=ikev1`     | `version = 1`                     |
+| Proposals        | `ike=`, `esp=`          | `proposals=`, `esp_proposals=`    |
+| Auth             | `leftauth`, `rightauth` | `local.auth`, `remote.auth`       |
+| Secrets          | Separate ipsec.secrets  | Embedded in swanctl config        |
+| Multi-round auth | Numeric suffixes        | Named sections (local.1, local.2) |
+| DNS control      | Limited                 | Full control via plugins          |
+| Virtual IP       | `leftsourceip`          | `vips`                            |
 
 ## Connection Details
 

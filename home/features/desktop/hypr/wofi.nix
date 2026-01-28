@@ -1,8 +1,7 @@
 {lib, ...}: {
   programs.wofi = {
     enable = true;
-    settings = {
-    };
+    settings = {};
     style = lib.mkForce ''
       @define-color	rosewater  #f5e0dc;
       @define-color	rosewater-rgb  rgb(245, 224, 220);

@@ -6,7 +6,6 @@
 }:
 with lib; let
   cfg = config.features.desktop.calculator;
-
 in {
   options.features.desktop.calculator.enable =
     mkEnableOption "calculator application with Hyprland integration";

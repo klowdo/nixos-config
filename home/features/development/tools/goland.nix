@@ -15,7 +15,8 @@ with lib; let
   golandPkg =
     (pkgs.unstable.jetbrains.goland.override {
       forceWayland = true;
-    }).overrideAttrs
+    })
+    .overrideAttrs
     (_old: {
       src = pkgs.fetchurl {
         url = "https://download.jetbrains.com/go/goland-${year}.${version}${patch}.tar.gz";

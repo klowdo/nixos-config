@@ -13,7 +13,7 @@ with lib; let
     export XDG_CURRENT_DESKTOP=hyprland
     export QT_QPA_PLATFORM=wayland
     export GDK_BACKEND=wayland
-    
+
     # Check if Keymapp is already running
     if pgrep -x "keymapp" > /dev/null; then
       notify-send "Keymapp" "Already running" -t 2000
@@ -65,14 +65,14 @@ with lib; let
       echo "Please compile and download your firmware from:"
       echo "https://configure.zsa.io/moonlander"
       ${pkgs.xdg-utils}/bin/xdg-open "https://configure.zsa.io/moonlander" || true
-      
+
       echo ""
       echo "After downloading, move the .bin file to: $FIRMWARE_DIR"
     }
 
     flash_firmware() {
       local firmware_file="$1"
-      
+
       if [[ ! -f "$firmware_file" ]]; then
         echo "Error: Firmware file not found: $firmware_file"
         exit 1
@@ -100,7 +100,7 @@ with lib; let
     select_firmware() {
       local firmware_files
       firmware_files=($(find "$FIRMWARE_DIR" -name "*.bin" 2>/dev/null | sort -r))
-      
+
       if [[ ''${#firmware_files[@]} -eq 0 ]]; then
         echo "No firmware files found in $FIRMWARE_DIR"
         echo "Use --download to get firmware from Oryx or place .bin files manually"
@@ -163,7 +163,7 @@ with lib; let
   # Moonlander configuration script
   moonlander-config = pkgs.writeShellScriptBin "moonlander-config" ''
     #!/usr/bin/env bash
-    
+
     CONFIG_DIR="$HOME/.config/moonlander"
     mkdir -p "$CONFIG_DIR"
 
@@ -184,7 +184,7 @@ with lib; let
     show_device_info() {
       echo "Moonlander Device Information:"
       echo "============================="
-      
+
       # Check if device is connected
       if lsusb | grep -i "ZSA Technology Labs"; then
         echo "✓ Moonlander detected via USB"
@@ -212,7 +212,7 @@ with lib; let
     while true; do
       show_menu
       read -r choice
-      
+
       case $choice in
         1)
           echo "Starting Keymapp..."
@@ -253,19 +253,19 @@ with lib; let
 in {
   options.features.hardware.zsa-moonlander = {
     enable = mkEnableOption "ZSA Moonlander keyboard support and configuration tools";
-    
+
     enableKeymapp = mkOption {
       type = types.bool;
       default = true;
       description = "Enable ZSA Keymapp (official configuration tool)";
     };
-    
+
     enableQmkTools = mkOption {
       type = types.bool;
       default = true;
       description = "Enable QMK CLI tools for firmware management";
     };
-    
+
     enableDesktopIntegration = mkOption {
       type = types.bool;
       default = true;
@@ -275,11 +275,13 @@ in {
 
   config = mkIf cfg.enable {
     # Install configuration packages
-    home.packages = with pkgs; [
-      moonlander-config
-      moonlander-flash
-      keymapp-launcher
-    ] ++ optional cfg.enableKeymapp keymapp
+    home.packages = with pkgs;
+      [
+        moonlander-config
+        moonlander-flash
+        keymapp-launcher
+      ]
+      ++ optional cfg.enableKeymapp keymapp
       ++ optional cfg.enableQmkTools qmk;
 
     # Desktop integration
@@ -291,7 +293,7 @@ in {
         icon = "input-keyboard";
         categories = ["Utility" "System" "HardwareSettings"];
       };
-      
+
       keymapp = mkIf cfg.enableKeymapp {
         name = "Keymapp";
         comment = "ZSA Keyboard Configuration";
