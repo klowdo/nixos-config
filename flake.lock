@@ -436,6 +436,26 @@
         "type": "github"
       }
     },
+    "git-repo-manager": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1768654375,
+        "narHash": "sha256-i3RdsvI3NeyrurMCxUk0sREBnuHDXDpNSBdh/lKOAxM=",
+        "owner": "hakoerber",
+        "repo": "git-repo-manager",
+        "rev": "d26f8d803b489285666b68bf75697f5726ad97de",
+        "type": "github"
+      },
+      "original": {
+        "owner": "hakoerber",
+        "repo": "git-repo-manager",
+        "type": "github"
+      }
+    },
     "gitignore": {
       "inputs": {
         "nixpkgs": ["kixvim", "git-hooks-nix", "nixpkgs"]
@@ -1158,6 +1178,7 @@
         "ashell": "ashell",
         "catppuccin": "catppuccin",
         "claude-code": "claude-code",
+        "git-repo-manager": "git-repo-manager",
         "hardware": "hardware",
         "home-manager": "home-manager",
         "hyprdynamicmonitors": "hyprdynamicmonitors",

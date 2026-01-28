@@ -5,6 +5,7 @@
   user-config = import ./user-config.nix;
   way-displays = import ./way-displays.nix;
   claudia = import ./claudia.nix;
+  vcstool = import ./vcstool.nix;
   # vivid-stub = import ./vivid-stub.nix;
   # delta-stub = import ./delta-stub.nix;
 }

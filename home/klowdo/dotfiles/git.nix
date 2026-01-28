@@ -14,7 +14,7 @@
     settings = {
       user = {
         name = config.userConfig.fullName;
-        email = config.userConfig.email;
+        inherit (config.userConfig) email;
       };
       alias = {
         ci = "commit";
