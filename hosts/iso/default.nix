@@ -13,11 +13,10 @@
     inputs.disko.nixosModules.disko
   ];
 
-  # ISO image settings
+  # ISO image settings (using new option names)
+  image.fileName = lib.mkForce "nixos-klowdo-installer.iso";
   isoImage = {
-    isoName = lib.mkForce "nixos-klowdo-installer.iso";
     volumeID = lib.mkForce "NIXOS_KLOWDO";
-    # Include memtest
     includeSystemBuildDependencies = false;
   };
 
@@ -30,7 +29,10 @@
     };
   };
 
-  # Set a default password for the nixos user (change this!)
+  # Override the default empty password with "nixos" for both users
+  # The installer sets initialHashedPassword = "", we override with initialPassword
+  users.users.nixos.initialHashedPassword = lib.mkForce null;
+  users.users.root.initialHashedPassword = lib.mkForce null;
   users.users.nixos.initialPassword = "nixos";
   users.users.root.initialPassword = "nixos";
 
