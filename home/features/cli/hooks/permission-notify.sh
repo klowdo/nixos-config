@@ -40,13 +40,13 @@ if [ "$hook_event_name" = "PreToolUse" ]; then
 			notify-send -i dialog-information "File Modified (Auto-approved)" "${file_path##*/}" -t 1500
 		elif command -v zenity &>/dev/null; then
 			# Show interactive dialog with three options
-			result=$(zenity --question --title="🤖 Claude Code Permission" \
+			zenity --question --title="🤖 Claude Code Permission" \
 				--text="Claude wants to modify file:\n$file_path\n\nAllow this operation?" \
 				--width=400 \
 				--extra-button="Allow (don't ask again)" \
 				--ok-label="Allow" \
 				--cancel-label="Deny" \
-				$ICON_ARG 2>&1)
+				"$ICON_ARG" 2>&1
 
 			exit_code=$?
 

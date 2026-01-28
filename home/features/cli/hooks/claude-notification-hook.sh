@@ -10,7 +10,6 @@ input=$(cat)
 hook_event_name=$(echo "$input" | @jq@ -r '.hook_event_name')
 tool_name=$(echo "$input" | @jq@ -r '.tool_name // empty')
 tool_input=$(echo "$input" | @jq@ '.tool_input // empty')
-tool_output=$(echo "$input" | @jq@ '.tool_output // empty')
 
 # Only process PostToolUse events
 if [ "$hook_event_name" = "PostToolUse" ]; then

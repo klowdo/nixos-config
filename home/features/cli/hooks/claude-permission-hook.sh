@@ -42,7 +42,7 @@ if [ "$hook_event_name" = "PreToolUse" ]; then
 				--extra-button="Allow (don't ask again)" \
 				--ok-label="Allow" \
 				--cancel-label="Deny" \
-				$ICON_ARG 2>&1)
+				"$ICON_ARG" 2>&1)
 
 			exit_code=$?
 
