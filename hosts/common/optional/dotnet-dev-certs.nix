@@ -1,4 +1,4 @@
-{config, ...}: {
+{...}: {
   ##dotnet dev-certs https --format PEM -ep server.crt
   sops.secrets.dotnet-dev-cert = {
     # owner = config.systemd.services.drone-server.serviceConfig.User;

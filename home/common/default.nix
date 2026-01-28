@@ -1,7 +1,6 @@
 {
   lib,
   outputs,
-  inputs,
   pkgs,
   ...
 }: {

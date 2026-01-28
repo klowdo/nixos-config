@@ -1,7 +1,6 @@
 {
   config,
   pkgs,
-  lib,
   ...
 }: let
   # Filter groups to only those that exist on this system
