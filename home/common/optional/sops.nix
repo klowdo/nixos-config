@@ -2,10 +2,8 @@
   homeDirectory = config.home.homeDirectory;
   sopsAgeDir = "${homeDirectory}/.config/sops/age";
 
-  # YubiKey identity file (generated via: just yubikey-save-identity)
-  yubikeyIdentityFile = "${sopsAgeDir}/yubikey-identity.txt";
-
   # Regular age key file (generated via: just sops-init)
+  # For YubiKey setup, use: just yubikey-save-identity to generate yubikey-identity.txt
   regularKeyFile = "${sopsAgeDir}/keys.txt";
 in {
   # sops-nix module is loaded via sharedModules in hosts/common/default.nix

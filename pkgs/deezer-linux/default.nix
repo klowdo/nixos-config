@@ -1,10 +1,7 @@
 {
   lib,
-  stdenv,
   fetchurl,
   appimageTools,
-  makeWrapper,
-  writeShellScript,
 }: let
   pname = "deezer-linux";
   version = "7.0.110";
