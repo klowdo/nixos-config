@@ -19,10 +19,16 @@
       end-of-file-fixer.enable = true;
 
       # Nix
-      alejandra.enable = true;
+      alejandra = {
+        enable = true;
+        settings.check = false;
+      };
       deadnix = {
         enable = true;
-        settings.noLambdaArg = true;
+        settings = {
+          edit = true;
+          noLambdaArg = true;
+        };
       };
 
       # Shell
