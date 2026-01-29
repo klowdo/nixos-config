@@ -18,17 +18,10 @@ with lib; let
         sha256 = "sha256-cPZCV8xk9QpU49/7H8iGhQYK6JwWjviL29eWabuqruc=";
       };
     };
-
-  t-sesh-cmd = pkgs.writeShellScriptBin "t" ''
-    sesh connect $(sesh list -i | gum filter  --limit 1 --no-sort --fuzzy --placeholder 'Pick a sesh' --height 50 --prompt='⚡')
-  '';
 in {
   options.features.cli.tmux.enable = mkEnableOption "enable tmux tool";
 
   config = mkIf cfg.enable {
-    xdg.configFile."sesh/sesh.toml" = {
-      source = config.lib.file.mkOutOfStoreSymlink ./sesh.toml;
-    };
     catppuccin.tmux = {
       enable = true;
       extraConfig = ''
@@ -164,9 +157,6 @@ in {
     # };
 
     home.packages = [
-      pkgs.unstable.sesh
-      pkgs.unstable.gum
-      t-sesh-cmd
       # Open tmux for current project.
       (pkgs.writeShellApplication {
         name = "pux";
