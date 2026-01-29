@@ -23,6 +23,7 @@
       password-store.enable = false;
       taskwarrior.enable = true;
       tmux.enable = true;
+      sesh.enable = true;
       gh.enable = true;
       claude-code.enable = true;
       bitwarden-wofi.enable = true;

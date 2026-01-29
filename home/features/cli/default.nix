@@ -13,6 +13,7 @@
     ./taskwarrior.nix
     ./kitty.nix
     ./tmux.nix
+    ./sesh.nix
     ./gh.nix
     ./nix.nix
     ./claude-code.nix
