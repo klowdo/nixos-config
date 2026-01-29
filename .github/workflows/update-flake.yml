@@ -10,6 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      pull-requests: write
     steps:
       - uses: actions/checkout@v4
 
@@ -18,16 +19,23 @@ jobs:
       - uses: DeterminateSystems/magic-nix-cache-action@main
 
       - name: Update flake.lock
-        run: nix flake update
+        uses: DeterminateSystems/update-flake-lock@main
+        with:
+          pr-title: "chore(flake): update flake.lock"
+          pr-labels: |
+            dependencies
+            automated
+          token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Commit and push changes
+      - name: Enable auto-merge
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add flake.lock
-          if git diff --staged --quiet; then
-            echo "No changes to commit"
+          # Get the PR number from the update-flake-lock action output
+          PR_URL=$(gh pr list --head update_flake_lock_action --json url --jq '.[0].url')
+          if [ -n "$PR_URL" ]; then
+            gh pr merge --auto --squash "$PR_URL"
+            echo "Auto-merge enabled for $PR_URL"
           else
-            git commit -m "chore(flake): update flake.lock"
-            git push
+            echo "No PR found to auto-merge"
           fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
