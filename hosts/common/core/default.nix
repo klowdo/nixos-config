@@ -7,6 +7,7 @@
     ./yubikey.nix
     ./sops.nix
     ./locale.nix
+    ./nix.nix
   ];
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
