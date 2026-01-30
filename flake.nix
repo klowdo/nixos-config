@@ -62,9 +62,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    ## helpers
-    systems.url = "github:nix-systems/default-linux";
-
     nsearch = {
       url = "github:niksingh710/nsearch";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -105,14 +102,14 @@
     self,
     nixpkgs,
     home-manager,
-    systems,
     ...
   } @ inputs: let
     inherit (self) outputs;
+    systems = ["x86_64-linux"];
     # Thanks Misterio77
     lib = (nixpkgs.lib // home-manager.lib).extend (_self: _super: {custom = import ./lib {inherit (nixpkgs) lib;};});
-    forEachSystem = f: lib.genAttrs (import systems) (system: f pkgsFor.${system});
-    pkgsFor = lib.genAttrs (import systems) (
+    forEachSystem = f: lib.genAttrs systems (system: f pkgsFor.${system});
+    pkgsFor = lib.genAttrs systems (
       system:
         import nixpkgs {
           inherit system;
