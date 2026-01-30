@@ -50,6 +50,7 @@ in {
         enable = true;
         package = claudeCodePackage;
 
+        memory.source = ./claude/CLAUDE.md;
         agentsDir = ./claude/agents;
         commandsDir = ./claude/commands;
 
