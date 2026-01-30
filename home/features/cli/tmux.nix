@@ -85,6 +85,11 @@ in {
         set-option -ga terminal-overrides ",xterm-256color:Tc"
         set-environment -g COLORTERM "truecolor"
 
+        # Enable Ctrl+Arrow and other extended key sequences for applications
+        set-window-option -g xterm-keys on
+        set -s extended-keys on
+        set -as terminal-features 'xterm*:extkeys'
+
         set-option -g status-position top
 
         set -g detach-on-destroy off
