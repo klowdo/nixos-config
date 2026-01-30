@@ -66,10 +66,10 @@
     power-profiles-daemon.enable = true; # Already enables upower for hyprdynamicmonitors
     # strongSwan.enable = true;
     strongSwan-swanctl.enable = true;
-    nss-docker-ng = {
-      enable = true;
-      dockerHost = "unix:///run/user/1000/docker.sock";
-    };
+    # nss-docker-ng = {
+    #   enable = true;
+    #   dockerHost = "unix:///run/user/1000/docker.sock";
+    # };
   };
 
   # Kernel Bootloader.
