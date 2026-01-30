@@ -7,13 +7,21 @@ on:
   pull_request:
     branches:
       - "main"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   check:
     name: Run flake checks
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
-      - uses: cachix/install-nix-action@v31
+      - uses: DeterminateSystems/nix-installer-action@v21
+
+      - uses: DeterminateSystems/magic-nix-cache-action@v31
         with:
-          github_access_token: ${{ secrets.GITHUB_TOKEN }}
+          use-flakehub: false
+
       - run: nix flake check -L
