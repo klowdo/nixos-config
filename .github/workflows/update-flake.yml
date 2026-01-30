@@ -17,9 +17,15 @@ jobs:
 
       - uses: DeterminateSystems/nix-installer-action@v21
 
-      - uses: DeterminateSystems/magic-nix-cache-action@v31
+      # Disabled: GitHub-only cache, not available locally
+      # - uses: DeterminateSystems/magic-nix-cache-action@v31
+      #   with:
+      #     use-flakehub: false
+
+      - uses: cachix/cachix-action@v15
         with:
-          use-flakehub: false
+          name: klowdo
+          authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
 
       - name: Update flake.lock
         run: nix flake update
