@@ -108,6 +108,7 @@
     };
     gaming = {
       heroic.enable = true;
+      steam-link.enable = true;
     };
     sync = {
       syncthing.enable = true;
