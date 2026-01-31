@@ -109,6 +109,9 @@
     gaming = {
       heroic.enable = true;
     };
+    sync = {
+      syncthing.enable = true;
+    };
   };
 
   wayland.windowManager.hyprland = {

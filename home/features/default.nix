@@ -7,5 +7,6 @@
     ./communication
     ./hardware
     ./gaming
+    ./sync
   ];
 }
