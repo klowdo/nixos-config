@@ -69,6 +69,7 @@
       };
     };
     development = {
+      wakapi.enable = true;
       tools = {
         rider.enable = false;
         goland.enable = true;

@@ -10,6 +10,7 @@
     ./nix-flatpak.nix
     ./freecad.nix
     ./mongo-compass.nix
+    ./wakapi.nix
   ];
 
   home.packages = with pkgs; [
