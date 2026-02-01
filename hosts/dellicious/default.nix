@@ -51,6 +51,7 @@
     ../common/optional/swaylock.nix
     ../common/optional/power-profiles-daemon.nix
     ../common/optional/auto-upgrade.nix
+    ../common/optional/systemd-notify.nix
   ];
 
   networking.hostName = "dellicious";
