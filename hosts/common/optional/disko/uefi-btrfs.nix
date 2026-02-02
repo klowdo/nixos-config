@@ -30,9 +30,76 @@ in {
       default = false;
       description = "Enable LUKS encryption for the root partition";
     };
+
+    enableTpm2 = lib.mkOption {
+      type = lib.types.bool;
+      default = false;
+      description = "Enable TPM2 auto-unlock with password fallback (requires enableEncryption)";
+    };
+
+    enableFido2 = lib.mkOption {
+      type = lib.types.bool;
+      default = false;
+      description = "Enable FIDO2/YubiKey unlock with password fallback (requires enableEncryption)";
+    };
+
+    enableHibernation = lib.mkOption {
+      type = lib.types.bool;
+      default = false;
+      description = "Enable hibernation support. When true, set swapSize >= RAM size (e.g., '64G' for 64GB RAM)";
+    };
+
+    hibernationResumeOffset = lib.mkOption {
+      type = lib.types.nullOr lib.types.str;
+      default = null;
+      description = ''
+        Resume offset for btrfs swapfile hibernation. Required for hibernation to work.
+        After first boot, run: btrfs inspect-internal map-swapfile -r /.swapvol/swapfile
+        Then set this to the returned offset value.
+      '';
+    };
   };
 
   config = lib.mkIf cfg.enable {
+    assertions = [
+      {
+        assertion = cfg.enableTpm2 -> cfg.enableEncryption;
+        message = "disko-btrfs.enableTpm2 requires disko-btrfs.enableEncryption to be true";
+      }
+      {
+        assertion = cfg.enableFido2 -> cfg.enableEncryption;
+        message = "disko-btrfs.enableFido2 requires disko-btrfs.enableEncryption to be true";
+      }
+      {
+        assertion = cfg.enableHibernation -> cfg.hibernationResumeOffset != null;
+        message = ''
+          disko-btrfs.enableHibernation requires hibernationResumeOffset to be set.
+          After first boot, run: btrfs inspect-internal map-swapfile -r /.swapvol/swapfile
+          Then set disko-btrfs.hibernationResumeOffset to the returned value.
+        '';
+      }
+    ];
+
+    boot = {
+      initrd = lib.mkIf cfg.enableEncryption {
+        systemd.enable = cfg.enableTpm2 || cfg.enableFido2;
+        luks.devices."cryptroot" = lib.mkIf (cfg.enableTpm2 || cfg.enableFido2) {
+          device = "/dev/disk/by-partlabel/disk-main-root";
+          crypttabExtraOpts =
+            lib.optional cfg.enableTpm2 "tpm2-device=auto"
+            ++ lib.optional cfg.enableFido2 "fido2-device=auto";
+        };
+      };
+      resumeDevice = lib.mkIf cfg.enableHibernation (
+        if cfg.enableEncryption
+        then "/dev/mapper/cryptroot"
+        else "/dev/disk/by-partlabel/disk-main-root"
+      );
+      kernelParams = lib.mkIf (cfg.enableHibernation && cfg.hibernationResumeOffset != null) [
+        "resume_offset=${cfg.hibernationResumeOffset}"
+      ];
+    };
+
     disko.devices = {
       disk = {
         main = {
@@ -43,7 +110,7 @@ in {
             partitions = {
               ESP = {
                 size = "512M";
-                type = "EF00";
+                type = "EF0a0";
                 content = {
                   type = "filesystem";
                   format = "vfat";
@@ -61,9 +128,15 @@ in {
                     content = {
                       type = "luks";
                       name = "cryptroot";
-                      settings = {
-                        allowDiscards = true;
-                      };
+                      settings =
+                        {
+                          allowDiscards = true;
+                        }
+                        // lib.optionalAttrs (cfg.enableTpm2 || cfg.enableFido2) {
+                          crypttabExtraOpts =
+                            lib.optional cfg.enableTpm2 "tpm2-device=auto"
+                            ++ lib.optional cfg.enableFido2 "fido2-device=auto";
+                        };
                       content = {
                         type = "btrfs";
                         extraArgs = ["-f"];
