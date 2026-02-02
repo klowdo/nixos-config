@@ -348,16 +348,53 @@ sudo cat /etc/ssh/ssh_host_ed25519_key.pub | nix-shell -p ssh-to-age --run 'ssh-
 just sops-updatekeys
 ```
 
-### 4. YubiKey Setup (Optional)
+### 4. Enroll TPM2/FIDO2 for Disk Encryption (If Using LUKS)
 
-If using YubiKey for secrets:
+If you enabled `enableEncryption` with TPM2 or FIDO2, enroll devices after installation.
+
+**Enroll TPM2:**
+```bash
+# Find your encrypted partition (usually the root partition)
+lsblk
+# e.g., /dev/nvme0n1p2 for the root partition
+
+# Enroll TPM2 (you'll be prompted for your LUKS password)
+sudo systemd-cryptenroll --tpm2-device=auto /dev/nvme0n1p2
+```
+
+**Enroll YubiKey (FIDO2):**
+```bash
+# Insert your YubiKey first
+sudo systemd-cryptenroll --fido2-device=auto /dev/nvme0n1p2
+
+# For YubiKey with PIN requirement (more secure):
+sudo systemd-cryptenroll --fido2-device=auto --fido2-with-client-pin=yes /dev/nvme0n1p2
+```
+
+**Verify enrolled methods:**
+```bash
+sudo systemd-cryptenroll /dev/nvme0n1p2
+```
+
+**Remove a method (if needed):**
+```bash
+# List slots
+sudo cryptsetup luksDump /dev/nvme0n1p2
+
+# Remove by slot number
+sudo systemd-cryptenroll --wipe-slot=SLOT_NUMBER /dev/nvme0n1p2
+```
+
+### 5. YubiKey Setup for SOPS (Optional)
+
+If using YubiKey for secrets encryption (separate from disk encryption):
 
 ```bash
 just yubikey-setup
 just yubikey-save-identity
 ```
 
-### 5. Rebuild System
+### 6. Rebuild System
 
 ```bash
 nh os switch
@@ -375,6 +412,8 @@ disko-btrfs = {
   device = "/dev/nvme0n1";
   swapSize = "8G";
   enableEncryption = true;  # Optional LUKS
+  enableTpm2 = true;        # TPM2 auto-unlock (requires enableEncryption)
+  enableFido2 = true;       # YubiKey unlock (requires enableEncryption)
 };
 ```
 
@@ -392,8 +431,45 @@ disko-ext4 = {
   device = "/dev/nvme0n1";
   swapSize = "8G";  # Set to "0" to disable
   enableEncryption = false;
+  enableTpm2 = false;
+  enableFido2 = false;
 };
 ```
+
+### Encryption Options
+
+| Option | Default | Description |
+|--------|---------|-------------|
+| `enableEncryption` | `false` | Enable LUKS encryption for root partition |
+| `enableTpm2` | `false` | TPM2 auto-unlock with password fallback |
+| `enableFido2` | `false` | FIDO2/YubiKey unlock with password fallback |
+| `enableHibernation` | `false` | Enable hibernation (set swapSize >= RAM) |
+| `hibernationResumeOffset` | `null` | (btrfs only) Required offset for swapfile hibernation |
+
+**Unlock priority at boot:**
+1. TPM2 tries to auto-unlock (if enabled)
+2. FIDO2/YubiKey prompted (if enabled and TPM fails)
+3. Password prompt as final fallback
+
+You can enable both TPM2 and FIDO2 simultaneously for redundancy.
+
+### Hibernation Setup
+
+**For ext4:** Just set `enableHibernation = true` and ensure `swapSize` >= RAM.
+
+**For btrfs:** Requires an extra step after first boot:
+```bash
+# Get the swapfile offset
+sudo btrfs inspect-internal map-swapfile -r /.swapvol/swapfile
+
+# Add the returned value to your config:
+# hibernationResumeOffset = "XXXXX";
+
+# Rebuild
+nh os switch
+```
+
+**Note:** With TPM2 + hibernation, you may need to re-enroll after hibernation if PCR values change. Consider using `--tpm2-pcrs=0,7` during enrollment to avoid volatile PCRs.
 
 ---
 
