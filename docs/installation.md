@@ -473,13 +473,110 @@ nh os switch
 
 ---
 
+## Secure Boot Setup (Optional)
+
+This configuration supports UEFI Secure Boot via [lanzaboote](https://github.com/nix-community/lanzaboote). Secure Boot protects against bootkits and unauthorized boot modifications.
+
+### Prerequisites
+
+- UEFI firmware with Secure Boot support
+- BIOS/UEFI password set (recommended)
+- Disk encryption enabled (recommended)
+
+### Step 1: Enable the Module
+
+Add the secure-boot module to your host configuration:
+
+```nix
+{
+  imports = [
+    ../common/optional/secure-boot.nix
+    # ... other imports
+  ];
+}
+```
+
+### Step 2: Create Signing Keys
+
+```bash
+# Create the Secure Boot signing keys
+sudo sbctl create-keys
+```
+
+### Step 3: Rebuild NixOS
+
+```bash
+# Rebuild with lanzaboote (still boots without Secure Boot enabled)
+nh os switch
+```
+
+### Step 4: Verify Signing
+
+```bash
+# Check that all boot files are signed
+sudo sbctl verify
+
+# You should see all files marked as "Signed"
+```
+
+### Step 5: Enroll Keys in Firmware
+
+1. Reboot and enter BIOS/UEFI settings
+2. Find Secure Boot settings and put it in **Setup Mode** (clears existing keys)
+3. Boot back into NixOS
+
+```bash
+# Enroll your keys (includes Microsoft keys for compatibility with hardware)
+sudo sbctl enroll-keys --microsoft
+```
+
+### Step 6: Enable Secure Boot
+
+1. Reboot and enter BIOS/UEFI settings
+2. Enable Secure Boot
+3. Boot NixOS
+
+### Verification
+
+```bash
+# Check Secure Boot status
+bootctl status
+
+# Should show: Secure Boot: enabled
+```
+
+### Optional: TPM + Secure Boot for LUKS
+
+For maximum security, bind LUKS decryption to both TPM and Secure Boot state:
+
+```bash
+# Enroll TPM with PCRs that include Secure Boot state
+sudo systemd-cryptenroll --tpm2-device=auto \
+  --tpm2-pcrs=0+2+7+12+13+14+15 \
+  --wipe-slot=tpm2 \
+  /dev/nvme0n1p2
+```
+
+PCR meanings:
+- **PCR 0+2**: UEFI firmware integrity
+- **PCR 7**: Secure Boot state (keys enrolled, SB enabled)
+- **PCR 12+13+14**: Boot loader integrity
+- **PCR 15**: No LUKS partition opened yet
+
+This ensures the disk only auto-unlocks when:
+- Secure Boot is enabled with your keys
+- Boot files haven't been tampered with
+- Firmware hasn't been modified
+
+---
+
 ## Troubleshooting
 
 ### Boot Issues
 
-1. **Secure Boot**: Disable in BIOS
+1. **Secure Boot**: Disable in BIOS for initial install, or use lanzaboote (see Secure Boot Setup)
 2. **Wrong boot mode**: Ensure UEFI mode, not Legacy/CSM
-3. **Missing bootloader**: Re-run `bootctl install` from live USB
+3. **Missing bootloader**: Re-run `bootctl install` from live USB (or `sbctl sign` if using Secure Boot)
 
 ### Network Issues
 
@@ -511,6 +608,28 @@ cat ~/.config/sops/age/keys.txt
 # Test decryption
 sops -d secrets.yaml
 ```
+
+### Secure Boot Issues
+
+```bash
+# Check Secure Boot status
+bootctl status
+
+# Check if files are signed
+sudo sbctl verify
+
+# Re-sign all boot files after kernel update
+sudo sbctl sign-all
+
+# If keys weren't enrolled properly, re-enroll
+sudo sbctl enroll-keys --microsoft
+```
+
+If boot fails after enabling Secure Boot:
+1. Enter BIOS and disable Secure Boot temporarily
+2. Boot NixOS and run `sudo sbctl verify` to check signatures
+3. Re-run `nh os switch` to ensure everything is signed
+4. Re-enable Secure Boot
 
 ---
 

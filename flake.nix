@@ -87,6 +87,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # Secure Boot
+    lanzaboote = {
+      url = "github:nix-community/lanzaboote/v0.4.2";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     nix-webapps.url = "github:TLATER/nix-webapps?ref=tlater/idiomatic-flake";
 
     # JetBrains plugins
