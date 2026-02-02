@@ -45,6 +45,9 @@
 
   # Include useful packages for installation
   environment.systemPackages = with pkgs; [
+    # Custom install scripts
+    (writeShellScriptBin "dual-boot-partition" (builtins.readFile ../../scripts/dual-boot-partition.sh))
+
     # Disk tools
     parted
     gptfdisk
@@ -53,6 +56,7 @@
     btrfs-progs
     cryptsetup
     lvm2
+    bc
 
     # Network tools
     wget
