@@ -67,6 +67,15 @@ with lib; let
         ${cfg.package}/bin/vcs import --skip-existing "${root}" < "${configFile}"
       '')
       cfg.workspaces)}
+
+    ${concatStringsSep "\n" (map (extra: ''
+        if [[ -f "${extra.file}" ]]; then
+          echo "Syncing extra import: ${extra.root}"
+          mkdir -p "${extra.root}"
+          ${cfg.package}/bin/vcs import --skip-existing "${extra.root}" < "${extra.file}"
+        fi
+      '')
+      cfg.extraImports)}
   '';
 
   workspaceConfigs = listToAttrs (imap0 (i: workspace: {
@@ -104,6 +113,31 @@ in {
                 url = "git@github.com:user/another.git";
               };
             };
+          }
+        ]
+      '';
+    };
+
+    extraImports = mkOption {
+      type = types.listOf (types.submodule {
+        options = {
+          root = mkOption {
+            type = types.str;
+            description = "Root directory for this import";
+          };
+          file = mkOption {
+            type = types.str;
+            description = "Path to .repos file (can be a SOPS secret path)";
+          };
+        };
+      });
+      default = [];
+      description = "Extra .repos files to import at runtime (useful for SOPS secrets)";
+      example = literalExpression ''
+        [
+          {
+            root = "~/dev/work";
+            file = config.sops.secrets."vcstool-work".path;
           }
         ]
       '';

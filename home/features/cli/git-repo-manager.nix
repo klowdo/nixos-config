@@ -37,11 +37,20 @@ in {
         }
       ];
 
+      extraImports = [
+        {
+          root = "${config.home.homeDirectory}/dev/work/worldstream";
+          file = config.sops.secrets."vcstool-work".path;
+        }
+      ];
+
       service = {
         enable = true;
         onCalendar = "daily";
       };
     };
+
+    sops.secrets."vcstool-work" = {};
 
     programs.mr = {
       enable = true;
