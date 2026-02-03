@@ -38,8 +38,10 @@ This is a sophisticated NixOS dotfiles configuration using Nix flakes that manag
 - `just sops-init` - Generate SOPS age key
 - `just age-keys` - Generate age key for host decryption
 - `just serets-update` - Update mysecrets flake input
-- `just sops-edit` - Edit secrets.yaml with sops
-- `just sops-updatekeys` - Re-encrypt secrets after adding new keys
+- `just sops-edit [identity]` - Edit secrets.yaml with sops (identity: auto, default, tpm, yubikey)
+- `just sops-updatekeys [identity]` - Re-encrypt secrets after adding new keys
+- `just sops-get <key> [identity]` - Decrypt a specific key from secrets.yaml
+- `just sops-which [identity]` - Show which identity would be used (for debugging)
 
 ### YubiKey + SOPS
 
