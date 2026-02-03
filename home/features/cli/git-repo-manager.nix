@@ -30,6 +30,9 @@ in {
             "tailswan" = {
               url = "git@github.com:klowdo/tailswan.git";
             };
+            "kixvim" = {
+              url = "git@github.com:klowdo/kixvim.git";
+            };
           };
         }
       ];
@@ -49,6 +52,9 @@ in {
         };
         "${config.home.homeDirectory}/dev/github/tailswan" = {
           checkout = "git clone 'git@github.com:klowdo/tailswan.git'";
+        };
+        "${config.home.homeDirectory}/dev/github/kixvim" = {
+          checkout = "git clone 'git@github.com:klowdo/kixvim.git'";
         };
       };
     };
