@@ -47,6 +47,8 @@ in {
       "applications/homeassistant/token" = {};
 
       "applications/linkding/token" = {};
+
+      "applications/gitlab/token" = {};
     };
   };
 }
