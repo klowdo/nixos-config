@@ -36,7 +36,9 @@
   imports = [
     ../common
     ../common/optional/podman.nix
+    ../common/optional/gnome.nix
     ./configuration.nix
+    ./disko.nix
     ./services
   ];
 

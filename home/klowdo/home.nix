@@ -31,64 +31,56 @@ in {
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
+  # NOTE: Hyprland-specific packages are in home/features/desktop/hyprland.nix
+  # NOTE: GNOME-specific packages are in home/features/desktop/gnome.nix
   home.packages = with pkgs; [
+    # System info and utilities
     fastfetch
     gsettings-desktop-schemas
-    swaynotificationcenter
-    wlr-randr
-    ydotool
-    # hyprland-share-picker
-    pyprland
-    hyprpicker
-    hyprcursor
-    hyprlock
-    hypridle
-    hyprpaper
-    slack
-    bluetuith
-
     duf
     ncdu
     wl-clipboard
     pciutils
     zellij
+    zellij-ps
 
+    # Archives
     unzip
     unrar
     p7zip
 
+    # Development
     ninja
+    git-absorb
+    git-extras
+
+    # Hardware
     brightnessctl
     virt-viewer
-    swappy
     appimage-run
 
+    # Browser
     brave
 
-    # wezterm
-    cool-retro-term
-    hyprland-protocols
-    swayidle
-    xdg-desktop-portal-hyprland
-    swww
-    grim
+    # Communication
+    slack
+    bluetuith
 
+    # Audio
     pavucontrol
-    zellij-ps
-    git-absorb
-    wofi-pass
-    wofi-emoji
 
+    # YubiKey
     yubikey-agent
     yubico-pam
     yubikey-manager
     yubioath-flutter
     pcsclite
-    # pam_u2f
-    # rpi-imager  # Broken in current nixpkgs - Qt6 CMake issue
-    git-extras
+
+    # Nix tools
     nix-search-cli
     nix-search-tv
+
+    # Other
     circumflex
     numara-calculator
   ];
@@ -108,21 +100,9 @@ in {
     # '';
   };
 
-  # for screensharing
-  xdg = {
-    portal = {
-      enable = true;
-      config = {
-        common.default = ["gtk"];
-        hyprland.default = ["gtk" "hyprland"];
-      };
-      extraPortals = with pkgs; [
-        # xdg-desktop-portal-wlr
-        xdg-desktop-portal-gtk
-        xdg-desktop-portal-hyprland
-      ];
-    };
-  };
+  # XDG portal configuration is handled by desktop feature modules:
+  # - Hyprland: home/features/desktop/hyprland.nix
+  # - GNOME: home/features/desktop/gnome.nix
 
   programs = {
     direnv = {

@@ -41,11 +41,6 @@
     LC_TIME = "sv_SE.UTF-8";
   };
   programs = {
-    hyprland = {
-      enable = true;
-      xwayland.enable = true;
-    };
-
     zsh.enable = true;
 
     # Some programs need SUID wrappers, can be configured further or are
@@ -58,11 +53,9 @@
   };
 
   # Configure keymap in X11
-  services.xserver = {
-    xkb = {
-      layout = "us";
-      variant = "";
-    };
+  services.xserver.xkb = {
+    layout = "us";
+    variant = "";
   };
 
   # Enable CUPS to print documents.
