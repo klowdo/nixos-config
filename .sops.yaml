@@ -17,6 +17,7 @@ keys:
     - &klowdo age1wt9qhrn6u338ajank9d0vjsgs5ayaky67auewm3065zprhdahaxsjcmsnk
   - &hosts:
     - &dellicious age1k4tndfec2ly2myp2tfrhhqhh4dxqsw25c0rwl92x90tyzmed947qk402t7
+    - &tmpdellicious age1tpm1qdfzkk7fq8hk0zdr2g8fyny309898rzgy533z7slv6v87v3c2tg2suaxn7d
 
   # YubiKey-based age keys (hardware-backed, via age-plugin-yubikey)
   # Generate with: just yubikey-setup
@@ -31,5 +32,6 @@ creation_rules:
       - age:
           - *klowdo
           - *dellicious
+          - *tmpdellicious
           - *yubikey-keychain
           - *yubikey-home
