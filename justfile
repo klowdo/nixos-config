@@ -127,9 +127,38 @@ sops-updatekeys:
   @echo "Updating keys for secrets.yaml based on .sops.yaml..."
   nix-shell -p sops --run "sops updatekeys secrets.yaml"
 
-# Edit secrets.yaml with sops (with YubiKey and TPM plugins)
-sops-edit:
-  @echo "Editing secrets.yaml..."
+# Edit secrets.yaml with sops using specified identity: default, tpm, or yubikey
+sops-edit identity="default":
+  #!/usr/bin/env bash
+  set -euo pipefail
+  SOPS_AGE_DIR="$HOME/.config/sops/age"
+  case "{{identity}}" in
+    default)
+      echo "Using default age key: $SOPS_AGE_DIR/keys.txt"
+      export SOPS_AGE_KEY_FILE="$SOPS_AGE_DIR/keys.txt"
+      ;;
+    tpm)
+      echo "Using TPM identity: $SOPS_AGE_DIR/tpm-identity.txt"
+      export SOPS_AGE_KEY_FILE="$SOPS_AGE_DIR/tpm-identity.txt"
+      ;;
+    yubikey)
+      echo "Using YubiKey identity: $SOPS_AGE_DIR/yubikey-identity-1.txt"
+      export SOPS_AGE_KEY_FILE="$SOPS_AGE_DIR/yubikey-identity-1.txt"
+      ;;
+    *)
+      echo "Unknown identity: {{identity}}"
+      echo "Usage: just sops-edit [default|tpm|yubikey]"
+      exit 1
+      ;;
+  esac
+  if [[ ! -f "$SOPS_AGE_KEY_FILE" ]]; then
+    echo "Error: Identity file not found: $SOPS_AGE_KEY_FILE"
+    echo "Run the appropriate setup command first:"
+    echo "  default: just sops-init"
+    echo "  tpm:     just tpm-save-identity"
+    echo "  yubikey: just yubikey-save-identity"
+    exit 1
+  fi
   nix-shell -p sops age age-plugin-yubikey age-plugin-tpm --run "sops secrets.yaml"
 
 #################### TPM 2.0 + SOPS ####################

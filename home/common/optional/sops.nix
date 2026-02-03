@@ -1,4 +1,8 @@
-{config, ...}: let
+{
+  config,
+  pkgs,
+  ...
+}: let
   homeDirectory = config.home.homeDirectory;
   sopsAgeDir = "${homeDirectory}/.config/sops/age";
 
@@ -35,6 +39,12 @@ in {
     # Note: TPM is always present, ideal for automatic decryption
     #
     age.keyFile = regularKeyFile;
+
+    # Hardware security plugins for age encryption/decryption
+    age.plugins = [
+      pkgs.age-plugin-yubikey
+      pkgs.age-plugin-tpm
+    ];
 
     defaultSopsFile = ../../../secrets.yaml;
     # Disabled: secrets.yaml contains secrets for multiple hosts/users

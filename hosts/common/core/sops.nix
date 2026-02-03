@@ -1,4 +1,8 @@
-{inputs, ...}: {
+{
+  inputs,
+  pkgs,
+  ...
+}: {
   imports = [inputs.sops-nix.nixosModules.sops];
   sops = {
     # Default secrets file for the system
@@ -18,6 +22,12 @@
 
       # Generate age key from SSH host key if it doesn't exist
       generateKey = true;
+
+      # Hardware security plugins for age encryption/decryption
+      plugins = [
+        pkgs.age-plugin-yubikey
+        pkgs.age-plugin-tpm
+      ];
 
       # ============================================================
       # Hardware Security Options (YubiKey / TPM)
