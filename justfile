@@ -127,10 +127,46 @@ sops-updatekeys:
   @echo "Updating keys for secrets.yaml based on .sops.yaml..."
   nix-shell -p sops --run "sops updatekeys secrets.yaml"
 
-# Edit secrets.yaml with sops
+# Edit secrets.yaml with sops (with YubiKey and TPM plugins)
 sops-edit:
   @echo "Editing secrets.yaml..."
-  nix-shell -p sops age age-plugin-yubikey --run "sops secrets.yaml"
+  nix-shell -p sops age age-plugin-yubikey age-plugin-tpm --run "sops secrets.yaml"
+
+#################### TPM 2.0 + SOPS ####################
+
+# Check if TPM 2.0 is available and working
+tpm-check:
+  @echo "Checking TPM 2.0 status..."
+  @if [ -c /dev/tpm0 ] || [ -c /dev/tpmrm0 ]; then \
+    echo "✓ TPM device found"; \
+    tpm2_getcap properties-fixed 2>/dev/null | head -20 || echo "Run 'tpm2_getcap properties-fixed' for details"; \
+  else \
+    echo "✗ No TPM device found at /dev/tpm0 or /dev/tpmrm0"; \
+    echo "  Ensure TPM is enabled in BIOS and security.tpm2.enable = true in NixOS config"; \
+  fi
+
+# Generate a new age identity sealed to TPM (stores key in TPM, outputs identity file)
+tpm-setup:
+  @echo "Setting up TPM 2.0 for age encryption..."
+  @echo "This will create a new age identity sealed to your TPM."
+  @echo ""
+  nix-shell -p age-plugin-tpm --run "age-plugin-tpm --generate"
+
+# Generate TPM identity and save to file for sops
+tpm-save-identity:
+  @echo "Generating TPM identity and saving to ~/.config/sops/age/tpm-identity.txt..."
+  mkdir -p ~/.config/sops/age
+  nix-shell -p age-plugin-tpm --run "age-plugin-tpm --generate > ~/.config/sops/age/tpm-identity.txt"
+  @echo "Identity saved to ~/.config/sops/age/tpm-identity.txt"
+  @echo ""
+  @echo "Public key (add this to .sops.yaml):"
+  @grep "public key:" ~/.config/sops/age/tpm-identity.txt | cut -d: -f2 | tr -d ' ' || \
+    grep "^age1tpm1" ~/.config/sops/age/tpm-identity.txt
+
+# List TPM-sealed age identities
+tpm-list:
+  @echo "Listing TPM-sealed age identities..."
+  nix-shell -p age-plugin-tpm --run "age-plugin-tpm --list" 2>/dev/null || echo "No TPM identities found"
 
 #################### Password Store ####################
 
