@@ -17,6 +17,12 @@
     # Hardware helpers
     hardware.url = "github:nixos/nixos-hardware";
 
+    # Disko - declarative disk partitioning
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     hyprpanel = {
       url = "github:Jas-SinghFSU/HyprPanel";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -167,6 +173,7 @@
         specialArgs = {inherit inputs outputs;};
         modules = [
           # > Our main nixos configuration file <
+          inputs.disko.nixosModules.disko
           ./hosts/virt-nix
         ];
       };

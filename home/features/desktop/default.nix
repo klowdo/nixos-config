@@ -3,6 +3,7 @@
     ./fonts.nix
     ./wayland.nix
     ./hyprland.nix
+    ./gnome.nix
     ./notification.nix
     ./clipboard.nix
     ./tailscale-systray.nix
