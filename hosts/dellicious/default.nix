@@ -34,6 +34,7 @@
     ../common/optional/keyboard.nix
     ../common/optional/ld.nix
     ../common/optional/networking.nix
+    ./wifi.nix
     ../common/optional/thunar.nix
     ../common/optional/openssh.nix
     ../common/optional/graphics.nix
