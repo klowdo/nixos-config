@@ -44,7 +44,9 @@ in {
 
       "claude/oauth-token" = {};
 
-      "application/homeassistant/token" = {};
+      "applications/homeassistant/token" = {};
+
+      "applications/linkding/token" = {};
     };
   };
 }
