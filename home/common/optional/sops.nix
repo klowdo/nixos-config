@@ -43,6 +43,8 @@ in {
       "weather-api-key" = {};
 
       "claude/oauth-token" = {};
+
+      "application/homeassistant/token" = {};
     };
   };
 }

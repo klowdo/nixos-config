@@ -7,7 +7,6 @@
 with lib; let
   cfg = config.features.desktop.vicinae;
 
-  # Vicinae extensions repository
   vicinaeExtensions = pkgs.fetchFromGitHub {
     owner = "vicinaehq";
     repo = "extensions";
@@ -24,9 +23,29 @@ in {
     programs.vicinae = {
       enable = true;
 
-      # Extensions
+      setupExtensionPreferences = true;
+
+      extensionSettings = [
+        {
+          id = "extension.homeassistant";
+          attributes = {
+            camerarefreshinterval = "3000";
+            ignorecerts = false;
+            instance = "https://assistant.home.flixen.se";
+            preferredapp = "browser";
+            showEntityId = false;
+            token = "@TOKEN@";
+            usePing = true;
+          };
+          secrets."@TOKEN@" = config.sops.secrets."applications/homeassistant/token".path;
+        }
+        {
+          id = "extension.hypr-keybinds";
+          attributes.keybindsConfigPath = "${config.xdg.configHome}/hypr/hyprland.conf";
+        }
+      ];
+
       extensions = [
-        # Vicinae native extensions
         (config.lib.vicinae.mkExtension {
           name = "hypr-keybinds";
           src = vicinaeExtensions + "/extensions/hypr-keybinds";
@@ -47,45 +66,25 @@ in {
           name = "firefox";
           src = vicinaeExtensions + "/extensions/firefox";
         })
-        # NOTE: systemd extension removed due to node-gyp compatibility issues with Node.js 22
-        # Error: TypeError: Cannot assign to read only property 'cflags'
-        # (config.lib.vicinae.mkExtension {
-        #   name = "systemd";
-        #   src = vicinaeExtensions + "/extensions/systemd";
-        # })
-
-        # Raycast extension - Home Assistant
         (config.lib.vicinae.mkRayCastExtension {
           name = "homeassistant";
           rev = "cc18ab11d5144dc02ae56ad43e42b3ed889bcce6";
           sha256 = "sha256-WwWiptPBQHRg/xJP63UWiRxARHWd/XiSoe+ew1cfZqY=";
         })
-        # NOTE: gif-search removed - dependency download fails with 404
-        # (config.lib.vicinae.mkRayCastExtension {
-        #   name = "gif-search";
-        #   sha256 = "sha256-G7il8T1L+P/2mXWJsb68n4BCbVKcrrtK8GnBNxzt73Q=";
-        #   rev = "4d417c2dfd86a5b2bea202d4a7b48d8eb3dbaeb1";
-        # })
       ];
 
       settings = {
         faviconService = "twenty";
-        font = {
-          size = 10;
-        };
+        font.size = 10;
         poptorootonclose = false;
-        rootsearch = {
-          searchfiles = false;
-        };
+        rootsearch.searchfiles = false;
         window = {
           csd = true;
-          # opacity = 0.95;
           rounding = 10;
         };
       };
     };
 
-    # custom systemd service with proper path
     systemd.user.services.vicinae-server = {
       Unit = {
         Description = "Vicinae Launcher Server";
@@ -111,32 +110,17 @@ in {
         ];
       };
 
-      Install = {
-        WantedBy = ["graphical-session.target"];
-      };
+      Install.WantedBy = ["graphical-session.target"];
     };
 
-    # Hyprland integration
     wayland.windowManager.hyprland.settings = mkIf cfg.enableHyprlandSupport {
-      # Keybindings
-      # bind = [
-      #   # Toggle vicinae launcher (using Space since R is already used for menu)
-      #   "SUPER, Space, exec, ${config.programs.vicinae.package}/bin/vicinae toggle"
-      #   # Clipboard history
-      #   "SUPER, C, exec, ${config.programs.vicinae.package}/bin/vicinae vicinae://extensions/vicinae/clipboard/history"
-      # ];
-
-      # Window rules for optimal appearance
       layerrule = [
         "blur,vicinae"
         "ignorealpha 0,vicinae"
         "noanim,vicinae"
       ];
 
-      # Auto-focus windows after vicinae triggers actions
-      misc = {
-        focus_on_activate = true;
-      };
+      misc.focus_on_activate = true;
     };
   };
 }
