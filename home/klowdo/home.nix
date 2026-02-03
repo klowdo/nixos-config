@@ -70,7 +70,6 @@ in {
     hyprland-protocols
     swayidle
     xdg-desktop-portal-hyprland
-    firefox
     swww
     grim
 

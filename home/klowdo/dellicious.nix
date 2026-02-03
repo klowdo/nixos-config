@@ -62,7 +62,7 @@
       };
       browser = {
         command = "firefox";
-        package = pkgs.firefox;
+        package = config.programs.firefox.finalPackage;
       };
       terminal = {
         command = "kitty";
@@ -89,6 +89,7 @@
       mongo-compass.enable = true;
     };
     media = {
+      firefox.enable = true;
       spicetify.enable = true;
       spotify-player.enable = true;
       zathura.enable = true;
