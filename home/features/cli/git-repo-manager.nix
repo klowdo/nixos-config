@@ -16,7 +16,7 @@ in {
 
       workspaces = [
         {
-          root = "~";
+          root = config.home.homeDirectory;
           repos = {
             ".dotfiles" = {
               url = "git@github.com:klowdo/nixos-config.git";
@@ -25,7 +25,7 @@ in {
           };
         }
         {
-          root = "~/dev/github";
+          root = "${config.home.homeDirectory}/dev/github";
           repos = {
             "tailswan" = {
               url = "git@github.com:klowdo/tailswan.git";
@@ -44,10 +44,10 @@ in {
       enable = true;
 
       settings = {
-        ".dotfiles" = {
+        "${config.home.homeDirectory}/.dotfiles" = {
           checkout = "git clone 'git@github.com:klowdo/nixos-config.git' '.dotfiles'";
         };
-        "dev/github/tailswan" = {
+        "${config.home.homeDirectory}/dev/github/tailswan" = {
           checkout = "git clone 'git@github.com:klowdo/tailswan.git'";
         };
       };
