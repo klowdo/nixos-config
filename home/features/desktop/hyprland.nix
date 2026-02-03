@@ -1,10 +1,12 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }:
 with lib; let
   cfg = config.features.desktop.hyprland;
+  gnomeCfg = config.features.desktop.gnome;
 in {
   options.features.desktop.hyprland.enable = mkEnableOption "hyprland config";
 
@@ -16,6 +18,48 @@ in {
   ];
 
   config = mkIf cfg.enable {
+    # Assertion to prevent enabling both GNOME and Hyprland
+    assertions = [
+      {
+        assertion = !gnomeCfg.enable;
+        message = "Cannot enable both GNOME and Hyprland desktop features simultaneously.";
+      }
+    ];
+
+    # Hyprland-specific packages
+    home.packages = with pkgs; [
+      swaynotificationcenter
+      wlr-randr
+      ydotool
+      pyprland
+      hyprpicker
+      hyprcursor
+      hyprlock
+      hypridle
+      hyprpaper
+      hyprland-protocols
+      swayidle
+      xdg-desktop-portal-hyprland
+      swww
+      grim
+      swappy
+      cool-retro-term
+      wofi-pass
+      wofi-emoji
+    ];
+
+    # XDG portal configuration for Hyprland
+    xdg.portal = {
+      enable = true;
+      config = {
+        common.default = ["gtk"];
+        hyprland.default = ["gtk" "hyprland"];
+      };
+      extraPortals = with pkgs; [
+        xdg-desktop-portal-gtk
+        xdg-desktop-portal-hyprland
+      ];
+    };
     services.custom-way-displays = {
       enable = false; # Disabled in favor of hyprdynamicmonitors
       logThreshold = "WARNING";

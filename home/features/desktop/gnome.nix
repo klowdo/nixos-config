@@ -6,10 +6,18 @@
 }:
 with lib; let
   cfg = config.features.desktop.gnome;
+  hyprlandCfg = config.features.desktop.hyprland;
 in {
   options.features.desktop.gnome.enable = mkEnableOption "GNOME desktop configuration";
 
   config = mkIf cfg.enable {
+    # Assertion to prevent enabling both GNOME and Hyprland
+    assertions = [
+      {
+        assertion = !hyprlandCfg.enable;
+        message = "Cannot enable both GNOME and Hyprland desktop features simultaneously.";
+      }
+    ];
     # GNOME-specific packages
     home.packages = with pkgs; [
       gnome-tweaks
