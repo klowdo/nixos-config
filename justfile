@@ -115,7 +115,7 @@ yubikey-save-identity slot="1":
   nix-shell -p age-plugin-yubikey --run "age-plugin-yubikey --identity --slot {{slot}} > ~/.config/sops/age/yubikey-identity-{{slot}}.txt"
   @echo "Identity saved. Add this file path to your sops.nix configuration."
   @echo "Public key (add to .sops.yaml):"
-  @grep "public key:" ~/.config/sops/age/yubikey-identity.txt | cut -d: -f2 | tr -d ' '
+  @grep "public key:" ~/.config/sops/age/yubikey-identity-{{slot}}.txt | cut -d: -f2 | tr -d ' '
 
 # Convert SSH key to age format (useful for ed25519-sk keys on YubiKey)
 ssh-to-age-convert key="~/.ssh/id_ed25519.pub":

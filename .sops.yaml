@@ -14,9 +14,9 @@
 keys:
   # Regular age keys (software-based)
   - &users:
-    - &klowdo age1xp5xypym54k4svxs7f4kad4pfkfx6uwgcjeh5ut9p9rhnhc7sa8s9ag868
+    - &klowdo age1wt9qhrn6u338ajank9d0vjsgs5ayaky67auewm3065zprhdahaxsjcmsnk
   - &hosts:
-    - &dellicious age13ph0tj5f8k752hure0wrw38g3g4ydmugew4exd8rahh95ngsfuvsyfjnvj
+    - &dellicious age1k4tndfec2ly2myp2tfrhhqhh4dxqsw25c0rwl92x90tyzmed947qk402t7
 
   # YubiKey-based age keys (hardware-backed, via age-plugin-yubikey)
   # Generate with: just yubikey-setup
