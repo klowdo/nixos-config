@@ -26,6 +26,7 @@ in {
         import = [
           "~/dev/sesh.toml"
           "~/dev/github/sesh.toml"
+          config.sops.secrets."sesh-work".path
         ];
 
         session = [
@@ -65,6 +66,8 @@ in {
       pkgs.unstable.gum
       t-sesh-cmd
     ];
+
+    sops.secrets."sesh-work" = {};
 
     # Zsh integration for Alt+s keybinding
     programs.zsh.initContent = ''
