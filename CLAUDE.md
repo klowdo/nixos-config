@@ -49,6 +49,13 @@ This is a sophisticated NixOS dotfiles configuration using Nix flakes that manag
 - `just yubikey-save-identity [slot]` - Save YubiKey identity to file for sops
 - `just ssh-to-age-convert [key]` - Convert SSH public key to age format
 
+### TPM 2.0 + SOPS
+
+- `just tpm-check` - Verify TPM 2.0 is available and working
+- `just tpm-setup` - Generate a new age identity sealed to TPM
+- `just tpm-save-identity` - Save TPM identity to file for sops decryption
+- `just tpm-list` - List TPM-sealed age identities
+
 ## Architecture
 
 ### Directory Structure
@@ -73,7 +80,7 @@ This is a sophisticated NixOS dotfiles configuration using Nix flakes that manag
 - **NixOS 25.11** stable with unstable overlay
 - **Home Manager** for user environment
 - **Hyprland** Wayland compositor with HyprPanel
-- **SOPS-nix** for secrets management (with YubiKey support via age-plugin-yubikey)
+- **SOPS-nix** for secrets management (with YubiKey and TPM 2.0 support via age plugins)
 - **Stylix + Catppuccin** theming
 - **Custom Neovim** (kixvim)
 
@@ -111,7 +118,9 @@ Home Manager uses feature flags in `home/features/`:
 - Pre-commit hooks enforce code quality (nixpkgs formatting, shellcheck)
 - Always commit new features
 
-## YubiKey Setup for SOPS
+## Hardware Security Setup for SOPS
+
+### YubiKey Setup
 
 To use a YubiKey for hardware-backed secret encryption:
 
@@ -121,3 +130,14 @@ To use a YubiKey for hardware-backed secret encryption:
 4. **Re-encrypt secrets**: `just sops-updatekeys`
 
 The YubiKey provides hardware-backed encryption keys. Host keys (derived from SSH host keys) are used for decryption during system activation, while the YubiKey can be used for encrypting new secrets.
+
+### TPM 2.0 Setup
+
+To use TPM 2.0 for hardware-backed secret encryption:
+
+1. **Verify TPM availability**: `just tpm-check`
+2. **Generate TPM identity**: `just tpm-save-identity`
+3. **Add public key to .sops.yaml**: Copy the age1tpm1... key
+4. **Re-encrypt secrets**: `just sops-updatekeys`
+
+TPM 2.0 provides hardware-backed encryption that is always present (no external hardware needed). This makes it ideal for unattended decryption scenarios where a YubiKey cannot be inserted.

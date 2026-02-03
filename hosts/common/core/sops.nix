@@ -19,13 +19,32 @@
       # Generate age key from SSH host key if it doesn't exist
       generateKey = true;
 
-      # YubiKey Support:
-      # If using a YubiKey for system-level decryption, add the YubiKey identity file:
-      # Note: This requires the YubiKey to be present during boot/activation
-      # keyFile = "/etc/sops/age/yubikey-identity.txt";
+      # ============================================================
+      # Hardware Security Options (YubiKey / TPM)
+      # ============================================================
       #
-      # Alternatively, add YubiKey public key to .sops.yaml and use regular host key for decryption
-      # This is the recommended approach - YubiKey for encryption only, host key for decryption
+      # The recommended approach is to use hardware keys (YubiKey/TPM) for ENCRYPTION only,
+      # while using the host's SSH-derived age key for DECRYPTION during system activation.
+      # This avoids requiring hardware presence during boot.
+      #
+      # --- YubiKey Support ---
+      # If using a YubiKey for system-level decryption:
+      # 1. Generate identity: just yubikey-setup
+      # 2. Save identity: just yubikey-save-identity
+      # 3. Copy identity file to: /etc/sops/age/yubikey-identity.txt
+      # 4. Uncomment: keyFile = "/etc/sops/age/yubikey-identity.txt";
+      # Note: Requires YubiKey to be present during boot/activation
+      #
+      # --- TPM 2.0 Support ---
+      # If using TPM for system-level decryption:
+      # 1. Check TPM: just tpm-check
+      # 2. Generate identity: just tpm-save-identity
+      # 3. Copy identity file to: /etc/sops/age/tpm-identity.txt
+      # 4. Uncomment: keyFile = "/etc/sops/age/tpm-identity.txt";
+      # Note: TPM is always present, making it ideal for unattended decryption
+      #
+      # For encryption, add the public keys (age1yubikey1... or age1tpm1...) to .sops.yaml
+      # Then run: just sops-updatekeys
     };
 
     # Secrets are available at runtime in $XDG_RUNTIME_DIR (Linux) or DARWIN_USER_TEMP_DIR (Darwin)

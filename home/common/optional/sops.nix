@@ -3,21 +3,36 @@
   sopsAgeDir = "${homeDirectory}/.config/sops/age";
 
   # Regular age key file (generated via: just sops-init)
-  # For YubiKey setup, use: just yubikey-save-identity to generate yubikey-identity.txt
   regularKeyFile = "${sopsAgeDir}/keys.txt";
+  # Hardware security identity files (generated via just commands)
+  # yubikeyIdentityFile = "${sopsAgeDir}/yubikey-identity-1.txt";
+  # tpmIdentityFile = "${sopsAgeDir}/tpm-identity.txt";
 in {
   # sops-nix module is loaded via sharedModules in hosts/common/default.nix
   sops = {
     # Age key configuration for decryption
-    # Priority: YubiKey identity if exists, otherwise regular age key
+    # Default: software-based age key at ~/.config/sops/age/keys.txt
     #
-    # For YubiKey setup:
+    # ============================================================
+    # Hardware Security Options (YubiKey / TPM)
+    # ============================================================
+    #
+    # --- YubiKey Setup ---
     #   1. Run: just yubikey-setup (interactive setup on YubiKey)
-    #   2. Run: just yubikey-save-identity (saves identity to ~/.config/sops/age/yubikey-identity.txt)
-    #   3. Add the public key to .sops.yaml
+    #   2. Run: just yubikey-save-identity (saves to ~/.config/sops/age/yubikey-identity-1.txt)
+    #   3. Add the public key (age1yubikey1...) to .sops.yaml
     #   4. Run: just sops-updatekeys
+    #   5. Change keyFile below to: yubikeyIdentityFile
+    # Note: YubiKey must be present for secret decryption
     #
-    # Note: When using YubiKey, it must be present for secret decryption
+    # --- TPM 2.0 Setup ---
+    #   1. Run: just tpm-check (verify TPM is available)
+    #   2. Run: just tpm-save-identity (saves to ~/.config/sops/age/tpm-identity.txt)
+    #   3. Add the public key (age1tpm1...) to .sops.yaml
+    #   4. Run: just sops-updatekeys
+    #   5. Change keyFile below to: tpmIdentityFile
+    # Note: TPM is always present, ideal for automatic decryption
+    #
     age.keyFile = regularKeyFile;
 
     defaultSopsFile = ../../../secrets.yaml;
