@@ -24,7 +24,6 @@ in {
 
       settings = {
         import = [
-          "~/dev/sesh.toml"
           "~/dev/github/sesh.toml"
           config.sops.secrets."sesh-work".path
         ];
@@ -33,6 +32,10 @@ in {
           {
             name = "home 🏠";
             path = "~";
+          }
+          {
+            name = "github 😸";
+            path = "~/dev/github/";
           }
           {
             name = "code 💻";
