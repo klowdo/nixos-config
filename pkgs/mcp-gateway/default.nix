@@ -10,8 +10,8 @@ buildGoModule rec {
   src = fetchFromGitHub {
     owner = "docker";
     repo = "mcp-gateway";
-    rev = "f7c2474530100c96687f9bf60c705c40fed68ecc";
-    hash = "sha256-GY+YIbGCqyQKay6hQwowMrxqLSBR0Q6/F/CDgUG1cBw=";
+    rev = "1b8ff5774ce689941cd7e65591950180a7d45043";
+    hash = "sha256-fi7rL/s5P/7KaSSA7K5fRKmnqf4xx/uFLCju6YKJLic=";
   };
 
   vendorHash = null;

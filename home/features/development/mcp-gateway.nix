@@ -10,7 +10,21 @@ in {
   options.features.development.mcp-gateway.enable =
     mkEnableOption "enable mcp-gateway Docker CLI plugin with Claude Desktop integration";
 
+  # looking at https://github.com/docker/mcp-gateway/blob/main/Makefile it installs it
+  #    as $HOME/.docker/cli-plugins/docker-mcp is that handled somehere?
   config = mkIf cfg.enable {
+    home = {
+      file.".docker/cli-plugins/docker-mcp".source = lib.getExe pkgs.mcp-gateway;
+      packages = [
+        pkgs.mcp-gateway
+      ];
+
+      sessionVariables = {
+        DOCKER_MCP_IN_CONTAINER = 1;
+        CLAUDE_CONFIG_DIR = "${config.xdg.configHome}/claude";
+      };
+    };
+
     programs.claude-code.mcpServers = {
       MCP_DOCKER = {
         command = "docker";
@@ -20,13 +34,6 @@ in {
           "run"
         ];
       };
-    };
-    home.packages = [
-      pkgs.mcp-gateway
-    ];
-
-    home.sessionVariables = {
-      CLAUDE_CONFIG_DIR = "${config.xdg.configHome}/claude";
     };
   };
 }
