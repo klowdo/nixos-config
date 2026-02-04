@@ -57,6 +57,8 @@ in {
         settings = {
           "browser.startup.homepage" = "https://home.flixen.se";
           "browser.startup.page" = 1;
+          "signon.rememberSignons" = false;
+          "signon.autofillForms" = false;
         };
       };
     };
