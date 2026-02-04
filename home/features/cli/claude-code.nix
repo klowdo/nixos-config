@@ -11,23 +11,31 @@ with lib; let
   # Import plugins configuration
   pluginsConfig = import ./claude/plugins {inherit lib inputs;};
 
-  # Import skills configuration
-  skillsConfig = import ./claude/skills {inherit lib inputs;};
+  # Helper to create commands from cookbook paths
+  mkCookbookCommands = commands:
+    lib.mapAttrs (_name: cmd: {source = cmd.sourcePath;}) commands;
 
-  # Helper to copy cookbook files to .claude directory
-  mkCookbookFiles = skills:
-    lib.mapAttrs' (name: skill:
-      lib.nameValuePair ".claude/commands/${name}.md" {
-        source = skill.sourcePath;
-      })
-    skills;
-
+  # Helper to create agents from cookbook paths
   mkCookbookAgents = agents:
-    lib.mapAttrs' (name: agent:
-      lib.nameValuePair ".claude/agents/${name}.md" {
-        source = agent.sourcePath;
-      })
-    agents;
+    lib.mapAttrs (_name: agent: {source = agent.sourcePath;}) agents;
+
+  # Skills configuration from various sources
+  skillsFromInputs = lib.optionalAttrs (inputs ? claude-skills) {
+    # Skills from claude-skills marketplace
+    claude-skills = {
+      source = "${inputs.claude-skills}";
+    };
+  } // lib.optionalAttrs (inputs ? anthropic-skills) {
+    # Skills from Anthropic
+    anthropic-skills = {
+      source = "${inputs.anthropic-skills}";
+    };
+  } // lib.optionalAttrs (inputs ? superpowers-marketplace) {
+    # Skills from superpowers marketplace
+    superpowers = {
+      source = "${inputs.superpowers-marketplace}";
+    };
+  };
 in {
   options.features.cli.claude-code = {
     enable = mkEnableOption "Claude Code CLI tool";
@@ -68,6 +76,18 @@ in {
           source = mp.source;
         }) pluginsConfig.marketplaces;
       };
+
+      # Cookbook commands (if available)
+      cookbookCommands = lib.optionalAttrs (cfg.enableCookbookSkills && inputs ? claude-cookbooks) {
+        review-issue = {source = "${inputs.claude-cookbooks}/claude-code/commands/review-issue.md";};
+        notebook-review = {source = "${inputs.claude-cookbooks}/claude-code/commands/notebook-review.md";};
+        model-check = {source = "${inputs.claude-cookbooks}/claude-code/commands/model-check.md";};
+      };
+
+      # Cookbook agents (if available)
+      cookbookAgents = lib.optionalAttrs (cfg.enableCookbookSkills && inputs ? claude-cookbooks) {
+        code-reviewer = {source = "${inputs.claude-cookbooks}/claude-code/agents/code-reviewer.md";};
+      };
     in {
       programs.zsh = {
         envExtra = ''
@@ -94,31 +114,29 @@ in {
           jq
         ];
 
-      # Copy cookbook commands and agents to .claude directory
-      home.file = lib.mkMerge [
-        # Cookbook commands (if enabled and inputs available)
-        (lib.mkIf (cfg.enableCookbookSkills && inputs ? claude-cookbooks)
-          (mkCookbookFiles skillsConfig.commands))
-
-        # Cookbook agents (if enabled and inputs available)
-        (lib.mkIf (cfg.enableCookbookSkills && inputs ? claude-cookbooks)
-          (mkCookbookAgents skillsConfig.agents))
-
-        # Marketplace registry
-        (lib.mkIf cfg.enablePlugins {
-          ".claude/plugins/known_marketplaces.json" = {
-            text = marketplacesJson;
-          };
-        })
-      ];
+      # Marketplace registry file
+      home.file = lib.mkIf cfg.enablePlugins {
+        ".claude/plugins/known_marketplaces.json" = {
+          text = marketplacesJson;
+        };
+      };
 
       programs.claude-code = {
         enable = true;
         package = claudeCodePackage;
 
         memory.source = ./claude/CLAUDE.md;
+
+        # Local agents + cookbook agents
         agentsDir = ./claude/agents;
+        agents = cookbookAgents;
+
+        # Local commands + cookbook commands
         commandsDir = ./claude/commands;
+        commands = cookbookCommands;
+
+        # Skills from various marketplaces
+        skills = lib.mkIf cfg.enableCookbookSkills skillsFromInputs;
 
         mcpServers = {
           nixos = {
