@@ -40,6 +40,12 @@ in {
         '';
       };
 
+      sops.secrets."claude/oauth-token" = {
+        sopsFile = ../../../secrets.yaml;
+        mode = "0600";
+        path = ".claude/.credentials.json";
+      };
+
       home.packages = with pkgs;
         optionals cfg.enableNotifications [
           libnotify
