@@ -55,4 +55,14 @@
     flakeInput = inputs.claude-code-workflows or null;
     description = "Backend and testing workflows";
   };
+
+  # Time tracking
+  claude-code-wakatime = {
+    source = {
+      type = "github";
+      url = "github:wakatime/claude-code-wakatime";
+    };
+    flakeInput = inputs.claude-code-wakatime or null;
+    description = "WakaTime time tracking integration for Claude Code";
+  };
 }

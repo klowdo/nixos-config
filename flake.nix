@@ -87,6 +87,10 @@
       url = "github:wshobson/agents";
       flake = false;
     };
+    claude-code-wakatime = {
+      url = "github:wakatime/claude-code-wakatime";
+      flake = false;
+    };
 
     nsearch = {
       url = "github:niksingh710/nsearch";
