@@ -26,6 +26,8 @@ in {
           notifysend = "${pkgs.libnotify}/bin/notify-send";
         }
       );
+
+      preGitPushHook = pkgs.writers.writePython3 "pre-git-push" {} ./claude/hooks/pre-git-push.py;
     in {
       programs.zsh = {
         envExtra = ''
@@ -81,7 +83,19 @@ in {
             commit = "";
             pr = "";
           };
-          hooks = mkIf cfg.enableNotifications {
+          hooks = {
+            PreToolUse = [
+              {
+                matcher = "Bash";
+                hooks = [
+                  {
+                    type = "command";
+                    command = "${preGitPushHook}";
+                  }
+                ];
+              }
+            ];
+          } // (mkIf cfg.enableNotifications {
             PostToolUse = [
               {
                 matcher = "*";
@@ -93,7 +107,7 @@ in {
                 ];
               }
             ];
-          };
+          });
         };
       };
     }
