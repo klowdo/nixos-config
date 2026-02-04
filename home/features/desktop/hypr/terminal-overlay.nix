@@ -1,7 +1,7 @@
-{...}: {
+{
   wayland.windowManager.hyprland.settings = {
     workspace = [
-      "special:terminal, on-created-empty:kitty"
+      "special:terminal, on-created-empty:$terminal"
     ];
 
     windowrulev2 = [
@@ -12,6 +12,7 @@
 
     bind = [
       "SUPER, o, togglespecialworkspace, terminal"
+      "SUPER CTRL, 1, togglespecialworkspace, terminal"
     ];
   };
 }
