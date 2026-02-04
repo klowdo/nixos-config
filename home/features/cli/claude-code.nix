@@ -12,18 +12,19 @@ with lib; let
   pluginsConfig = import ./claude/plugins {inherit lib inputs;};
 
   # Skills configuration from various sources (paths to directories)
+  # Convert flake inputs to path type using /. + outPath
   skillsFromInputs =
     lib.optionalAttrs (inputs ? claude-skills) {
       # Skills from claude-skills marketplace (directory)
-      claude-skills = inputs.claude-skills;
+      claude-skills = /. + inputs.claude-skills.outPath;
     }
     // lib.optionalAttrs (inputs ? anthropic-skills) {
       # Skills from Anthropic (directory)
-      anthropic-skills = inputs.anthropic-skills;
+      anthropic-skills = /. + inputs.anthropic-skills.outPath;
     }
     // lib.optionalAttrs (inputs ? superpowers-marketplace) {
       # Skills from superpowers marketplace (directory)
-      superpowers = inputs.superpowers-marketplace;
+      superpowers = /. + inputs.superpowers-marketplace.outPath;
     };
 in {
   options.features.cli.claude-code = {
