@@ -77,6 +77,16 @@ in {
       cookbookAgents = lib.optionalAttrs (cfg.enableCookbookSkills && inputs ? claude-cookbooks) {
         code-reviewer = "${inputs.claude-cookbooks}/claude-code/agents/code-reviewer.md";
       };
+
+      # Local commands
+      localCommands = {
+        git_status = ./claude/commands/git_status.md;
+      };
+
+      # Local agents
+      localAgents = {
+        meta-agent = ./claude/agents/meta-agent.md;
+      };
     in {
       programs.zsh = {
         envExtra = ''
@@ -116,13 +126,11 @@ in {
 
         memory.source = ./claude/CLAUDE.md;
 
-        # Local agents + cookbook agents
-        agentsDir = ./claude/agents;
-        agents = cookbookAgents;
+        # Agents: local + cookbook
+        agents = localAgents // cookbookAgents;
 
-        # Local commands + cookbook commands
-        commandsDir = ./claude/commands;
-        commands = cookbookCommands;
+        # Commands: local + cookbook
+        commands = localCommands // cookbookCommands;
 
         # Skills from various marketplaces
         skills = lib.mkIf cfg.enableCookbookSkills skillsFromInputs;
