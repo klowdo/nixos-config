@@ -62,6 +62,32 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # Claude plugins and skills (non-flake sources)
+    claude-cookbooks = {
+      url = "github:anthropics/claude-cookbooks";
+      flake = false;
+    };
+    claude-plugins-official = {
+      url = "github:anthropics/claude-plugins-official";
+      flake = false;
+    };
+    anthropic-skills = {
+      url = "github:anthropics/skills";
+      flake = false;
+    };
+    claude-skills = {
+      url = "github:secondsky/claude-skills";
+      flake = false;
+    };
+    superpowers-marketplace = {
+      url = "github:obra/superpowers-marketplace";
+      flake = false;
+    };
+    claude-code-workflows = {
+      url = "github:wshobson/agents";
+      flake = false;
+    };
+
     nsearch = {
       url = "github:niksingh710/nsearch";
       inputs.nixpkgs.follows = "nixpkgs";
