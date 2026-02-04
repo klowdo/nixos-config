@@ -168,16 +168,10 @@ investigate:
 
 #################### ISO & Installation ####################
 
-# Build the graphical NixOS installer ISO (default)
-iso-build:
-  @echo "Building graphical NixOS installer ISO..."
-  nix build .#nixosConfigurations.iso.config.system.build.isoImage
-  @echo "ISO built at: result/iso/nixos-klowdo-installer.iso"
-
-# Build the minimal NixOS installer ISO (CLI only)
-iso-build-minimal:
-  @echo "Building minimal NixOS installer ISO..."
-  nix build .#nixosConfigurations.iso-minimal.config.system.build.isoImage
+# Build NixOS installer ISO (graphical by default, use "minimal" for CLI only)
+iso-build variant="graphical":
+  @echo "Building {{variant}} NixOS installer ISO..."
+  nix build .#nixosConfigurations.{{ if variant == "minimal" { "iso-minimal" } else { "iso" } }}.config.system.build.isoImage
   @echo "ISO built at: result/iso/nixos-klowdo-installer.iso"
 
 # Write ISO to USB drive (requires sudo, device e.g. /dev/sdb)
