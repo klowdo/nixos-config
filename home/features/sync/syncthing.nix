@@ -65,6 +65,16 @@ in {
               params.keep = "5";
             };
           };
+          "Keyrings" = {
+            id = "keyrings";
+            path = "~/.local/share/keyrings";
+            devices = ["pve-server"];
+            enable = true;
+            versioning = {
+              type = "simple";
+              params.keep = "10";
+            };
+          };
         };
         gui = {
           user = "klowdo";
