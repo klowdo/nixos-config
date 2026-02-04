@@ -23,12 +23,13 @@ in {
     extraGroups =
       ["wheel" "networkmanager" "audio" "video" "input"]
       ++ ifTheyExist [
-        "libvirtd"
-        "flatpak"
-        "plugdev"
-        "kvm"
-        "qemu-libvirtd"
-        "docker"
+        "libvirtd" # Virtual machine management
+        "flatpak" # Flatpak application management
+        "plugdev" # USB and other pluggable device access
+        "kvm" # Hardware virtualization acceleration
+        "qemu-libvirtd" # QEMU/libvirt integration
+        "docker" # Docker container management
+        "tss" # TPM 2.0 hardware security access
       ];
     openssh.authorizedKeys.keys = [
       (builtins.readFile ./klowdo/keys/id_ed25519.pub)
