@@ -11,31 +11,20 @@ with lib; let
   # Import plugins configuration
   pluginsConfig = import ./claude/plugins {inherit lib inputs;};
 
-  # Helper to create commands from cookbook paths
-  mkCookbookCommands = commands:
-    lib.mapAttrs (_name: cmd: {source = cmd.sourcePath;}) commands;
-
-  # Helper to create agents from cookbook paths
-  mkCookbookAgents = agents:
-    lib.mapAttrs (_name: agent: {source = agent.sourcePath;}) agents;
-
-  # Skills configuration from various sources
-  skillsFromInputs = lib.optionalAttrs (inputs ? claude-skills) {
-    # Skills from claude-skills marketplace
-    claude-skills = {
-      source = "${inputs.claude-skills}";
+  # Skills configuration from various sources (paths to directories)
+  skillsFromInputs =
+    lib.optionalAttrs (inputs ? claude-skills) {
+      # Skills from claude-skills marketplace (directory)
+      claude-skills = inputs.claude-skills;
+    }
+    // lib.optionalAttrs (inputs ? anthropic-skills) {
+      # Skills from Anthropic (directory)
+      anthropic-skills = inputs.anthropic-skills;
+    }
+    // lib.optionalAttrs (inputs ? superpowers-marketplace) {
+      # Skills from superpowers marketplace (directory)
+      superpowers = inputs.superpowers-marketplace;
     };
-  } // lib.optionalAttrs (inputs ? anthropic-skills) {
-    # Skills from Anthropic
-    anthropic-skills = {
-      source = "${inputs.anthropic-skills}";
-    };
-  } // lib.optionalAttrs (inputs ? superpowers-marketplace) {
-    # Skills from superpowers marketplace
-    superpowers = {
-      source = "${inputs.superpowers-marketplace}";
-    };
-  };
 in {
   options.features.cli.claude-code = {
     enable = mkEnableOption "Claude Code CLI tool";
@@ -77,16 +66,16 @@ in {
         }) pluginsConfig.marketplaces;
       };
 
-      # Cookbook commands (if available)
+      # Cookbook commands (if available) - paths to .md files
       cookbookCommands = lib.optionalAttrs (cfg.enableCookbookSkills && inputs ? claude-cookbooks) {
-        review-issue = {source = "${inputs.claude-cookbooks}/claude-code/commands/review-issue.md";};
-        notebook-review = {source = "${inputs.claude-cookbooks}/claude-code/commands/notebook-review.md";};
-        model-check = {source = "${inputs.claude-cookbooks}/claude-code/commands/model-check.md";};
+        review-issue = "${inputs.claude-cookbooks}/claude-code/commands/review-issue.md";
+        notebook-review = "${inputs.claude-cookbooks}/claude-code/commands/notebook-review.md";
+        model-check = "${inputs.claude-cookbooks}/claude-code/commands/model-check.md";
       };
 
-      # Cookbook agents (if available)
+      # Cookbook agents (if available) - paths to .md files
       cookbookAgents = lib.optionalAttrs (cfg.enableCookbookSkills && inputs ? claude-cookbooks) {
-        code-reviewer = {source = "${inputs.claude-cookbooks}/claude-code/agents/code-reviewer.md";};
+        code-reviewer = "${inputs.claude-cookbooks}/claude-code/agents/code-reviewer.md";
       };
     in {
       programs.zsh = {
