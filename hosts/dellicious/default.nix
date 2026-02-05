@@ -40,6 +40,7 @@
     ../common/optional/openssh.nix
     ../common/optional/graphics.nix
     ../common/optional/hyprland.nix
+    ../common/optional/plymouth.nix
     ../common/optional/bluetooth.nix
     ../common/optional/avahi.nix
     ../common/optional/default.nix
