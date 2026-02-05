@@ -155,6 +155,9 @@ in {
         "SUPERSHIFT, V, exec, clipboard-clear"
         "SUPERALT, V, exec, clipboard-delete"
 
+        #################### Slack Global Keybind ####################
+        "CTRL SHIFT, space, pass, class:^(Slack)$"
+
         #################### Computer Mange ####################
 
         "SUPERSHIFT,e,exit"
