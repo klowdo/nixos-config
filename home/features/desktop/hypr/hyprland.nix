@@ -240,6 +240,8 @@ in {
           "workspace 4, class:(com.obsproject.Studio)"
           "workspace 5, class:(Slack)"
           "animation slide top, class:(kitty)"
+          "float, title:^(Extension:.*Bitwarden).*"
+          "size 1266 687, title:^(Extension:.*Bitwarden).*"
           "animation none, class:(jetbrains-rider)"
           "animation none, initialClass:(jetbrains-rider)"
           "opaque, class:(jetbrains-rider)"
