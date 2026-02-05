@@ -116,6 +116,11 @@
             size = "12px";
           };
         };
+
+        notifications = {
+          position = "top right";
+          animation_style = "slide_from_right";
+        };
       };
     };
 
