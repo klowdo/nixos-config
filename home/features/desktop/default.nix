@@ -2,7 +2,7 @@
   imports = [
     ./fonts.nix
     ./wayland.nix
-    ./hyprland.nix
+    ./hypr
     ./notification.nix
     ./clipboard.nix
     ./tailscale-systray.nix

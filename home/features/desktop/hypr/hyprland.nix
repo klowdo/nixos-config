@@ -9,8 +9,7 @@ in {
   options.features.desktop.hyprland.enable = mkEnableOption "hyprland config";
 
   imports = [
-    ./hypr
-    ./wlogout.nix
+    ../wlogout.nix
     ## To use the absolute latest
     # inputs.hyprland.homeManagerModules.default
   ];

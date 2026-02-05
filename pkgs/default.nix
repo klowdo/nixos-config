@@ -17,5 +17,6 @@
   numara-calculator = pkgs.callPackage ./numara-calculator {};
   nss-docker-ng = pkgs.callPackage ./nss-docker-ng {};
   mcp-gateway = pkgs.callPackage ./mcp-gateway {};
+  hyprland-preview-share-picker = pkgs.callPackage ./hyprland-preview-share-picker {};
   # zsh-term-title = pkgs.callPackage ./zsh-term-title { };
 }

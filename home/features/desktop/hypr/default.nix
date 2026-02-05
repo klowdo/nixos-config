@@ -1,5 +1,7 @@
 {...}: {
   imports = [
+    ./hyprland.nix
+    ./hyprland-xdg-portal.nix
     ./hypridle.nix
     ./hyprland-binds.nix
     ./terminal-overlay.nix

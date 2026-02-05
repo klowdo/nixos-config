@@ -69,7 +69,6 @@ in {
     cool-retro-term
     hyprland-protocols
     swayidle
-    xdg-desktop-portal-hyprland
     swww
     grim
 
