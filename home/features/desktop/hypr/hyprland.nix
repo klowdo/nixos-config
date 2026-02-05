@@ -44,7 +44,10 @@ in {
         "$fileManager" = config.features.defaults.fileManager.command;
         "$hyper" = "CONTROL_SHIFT_ALT_SUPER";
 
-        source = ["~/.config/hypr/monitors.conf"];
+        source = [
+          "~/.config/hypr/monitors.conf"
+          "~/.config/hypr/animations.conf"
+        ];
 
         xwayland = {
           force_zero_scaling = true;
@@ -98,19 +101,6 @@ in {
           };
           active_opacity = 1.0;
           inactive_opacity = 0.7;
-        };
-
-        animations = {
-          enabled = false;
-          bezier = "myBezier, 0.05, 0.9, 0.1, 1.05";
-          animation = [
-            "windows, 1, 7, myBezier"
-            "windowsOut, 1, 7, default, popin 80%"
-            "border, 1, 10, default"
-            "borderangle, 1, 8, default"
-            "fade, 1, 7, default"
-            "workspaces, 1, 6, default"
-          ];
         };
 
         dwindle = {
@@ -249,6 +239,7 @@ in {
           "workspace 4, class:(Deezer)"
           "workspace 4, class:(com.obsproject.Studio)"
           "workspace 5, class:(Slack)"
+          "animation slide top, class:(kitty)"
           "animation none, class:(jetbrains-rider)"
           "animation none, initialClass:(jetbrains-rider)"
           "opaque, class:(jetbrains-rider)"

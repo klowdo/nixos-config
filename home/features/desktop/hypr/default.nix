@@ -9,5 +9,6 @@
     ./hyprlock.nix
     ./hyprlock-music-script.nix
     ./polkit.nix
+    ./animations.nix
   ];
 }
