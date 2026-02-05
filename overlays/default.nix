@@ -36,15 +36,6 @@
           ];
       });
 
-      # Slack with native Wayland support - override installPhase to use explicit wayland
-      slack = prev.slack.overrideAttrs (oldAttrs: {
-        installPhase =
-          builtins.replaceStrings
-          ["--ozone-platform-hint=auto"]
-          ["--ozone-platform=wayland"]
-          oldAttrs.installPhase;
-      });
-
       git-repo-manager = inputs.git-repo-manager.packages.${prev.stdenv.hostPlatform.system}.default;
 
       dotnet-combined = with final.unstable.dotnetCorePackages;
