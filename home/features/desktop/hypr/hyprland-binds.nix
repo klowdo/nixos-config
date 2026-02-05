@@ -28,6 +28,13 @@
     ${sound-change}/bin/sound-change mute
   '';
 in {
+  home.packages = with pkgs; [
+    wl-mirror
+    wl-clipboard
+    grim
+    slurp
+    satty
+  ];
   wayland.windowManager.hyprland.settings = {
     bindm = [
       "SUPER,mouse:272,movewindow"
@@ -133,8 +140,9 @@ in {
     in
       [
         # Screen shot # https://wiki.hyprland.org/FAQ/#how-do-i-screenshot
-        ", Print, exec, grim -g \"$(slurp -d)\" - | wl-copy"
-        "SHIFTCTRL, P, exec, grim -g \"$(slurp -d)\" - | wl-copy"
+        ", Print, exec, grim -g \"$(slurp)\" - | wl-copy"
+        "SHIFTCTRL, P, exec, grim -g \"$(slurp)\" - | satty -f -"
+        "$hyper, P, exec, grim -g \"$(slurp)\" - | satty -f -"
         #TODO: referece the audio-select bin
         "$hyper, A, exec, audio-select"
         # "$hyper, P, exec, wofi-pass"
