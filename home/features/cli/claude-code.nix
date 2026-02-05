@@ -18,7 +18,15 @@ in {
 
   config = mkIf cfg.enable (
     let
-      claudeCodePackage = pkgs.claude-code;
+      claudeCodePackage = pkgs.symlinkJoin {
+        name = "claude-code-wrapped";
+        paths = [pkgs.claude-code];
+        buildInputs = [pkgs.makeWrapper];
+        postBuild = ''
+          wrapProgram $out/bin/claude \
+            --prefix PATH : ${lib.makeBinPath [pkgs.nodejs_22]}
+        '';
+      };
 
       notificationHookScript = pkgs.writeShellScript "claude-notification-hook" (
         pkgs.replaceVars ./hooks/claude-notification-hook.sh {
