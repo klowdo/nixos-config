@@ -29,14 +29,20 @@
       log.date = "iso";
       column.ui = "auto";
       branch.sort = "committerdate";
-      # Automatically track remote branch
       push.autoSetupRemote = true;
-      # Reuse merge conflict fixes when rebasing
       rerere.enabled = true;
       rebase.updateRefs = true;
       pull.rebase = true;
       credential.helper = "store";
     };
+    includes = [
+      {
+        condition = "gitdir:~/dev/work/";
+        contents = {
+          user.email = "felix@flixen.se";
+        };
+      }
+    ];
   };
 
   programs.difftastic = {
