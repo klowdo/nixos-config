@@ -11,7 +11,7 @@
 
     # Disko configuration (only needed for fresh installations)
     # Uncomment during installation, then comment out after first boot
-    # ./disko.nix
+    ./disko.nix
     inputs.hardware.nixosModules.dell-xps-15-9530
     # disable nvidia in default config, enable in specialisation
     # inputs.hardware.nixosModules.common-gpu-nvidia-disable
