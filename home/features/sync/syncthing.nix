@@ -19,14 +19,16 @@ in {
   };
 
   config = mkIf cfg.enable {
-    sops.secrets."syncthing/cert" = {
-      mode = "0600";
-    };
-    sops.secrets."syncthing/key" = {
-      mode = "0600";
-    };
-    sops.secrets."syncthing/gui-password" = {
-      mode = "0600";
+    sops.secrets = {
+      "syncthing/cert" = {
+        mode = "0600";
+      };
+      "syncthing/key" = {
+        mode = "0600";
+      };
+      "syncthing/gui-password" = {
+        mode = "0600";
+      };
     };
 
     services.syncthing = {
