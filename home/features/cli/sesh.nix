@@ -24,7 +24,6 @@ in {
 
       settings = {
         import = [
-          "~/dev/github/sesh.toml"
           config.sops.secrets."sesh-work".path
         ];
 
