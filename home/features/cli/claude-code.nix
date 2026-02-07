@@ -51,7 +51,7 @@ in {
       sops.secrets."claude/oauth-token" = {
         sopsFile = ../../../secrets.yaml;
         mode = "0600";
-        path = ".claude/.credentials.json";
+        path = ".config/claude/.credentials.json";
       };
 
       home.packages = with pkgs;
@@ -76,6 +76,7 @@ in {
         };
 
         settings = {
+          theme = "dark";
           includeCoAuthoredBy = false;
           env = {
             CLAUDE_BASH_MAINTAIN_PROJECT_WORKING_DIR = "1";
