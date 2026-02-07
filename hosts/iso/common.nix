@@ -43,6 +43,7 @@
   environment.systemPackages = with pkgs; [
     # Custom install scripts
     (writeShellScriptBin "dual-boot-partition" (builtins.readFile ../../scripts/dual-boot-partition.sh))
+    (writeShellScriptBin "install-helper" (builtins.readFile ../../scripts/install-helper.sh))
 
     # Disk tools
     parted
