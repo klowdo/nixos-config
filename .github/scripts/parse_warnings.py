@@ -13,7 +13,7 @@ WARNING_PATTERNS = [
     r"error: (.+) (?:deprecated|obsolete)",
 ]
 
-FILE_LOCATION_PATTERN = r"at (.+?):(\d+):(\d+)"
+FILE_LOCATION_PATTERN = r"at ([/~][\S]+):(\d+):(\d+)"
 
 
 def parse_nix_output(output: str) -> List[Dict]:
@@ -29,6 +29,7 @@ def parse_nix_output(output: str) -> List[Dict]:
                     "message": line.strip(),
                     "file": None,
                     "line": None,
+                    "column": None,
                     "context": "",
                     "full_output": output,
                 }
@@ -39,6 +40,7 @@ def parse_nix_output(output: str) -> List[Dict]:
                     if loc_match:
                         warning["file"] = loc_match.group(1)
                         warning["line"] = int(loc_match.group(2))
+                        warning["column"] = int(loc_match.group(3))
                         break
 
                 # Extract context (5 lines before and after)
@@ -48,7 +50,7 @@ def parse_nix_output(output: str) -> List[Dict]:
 
                 # Generate ID
                 id_str = f"{warning['message']}{warning['file']}{warning['line']}"
-                warning["id"] = hashlib.md5(id_str.encode()).hexdigest()[:8]
+                warning["id"] = hashlib.md5(id_str.encode()).hexdigest()
 
                 warnings.append(warning)
                 break

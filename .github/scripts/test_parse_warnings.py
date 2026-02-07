@@ -15,6 +15,7 @@ continuing...
     assert warnings[0]["message"] == "warning: foo is deprecated, use bar instead"
     assert warnings[0]["file"] == "/home/user/flake.nix"
     assert warnings[0]["line"] == 42
+    assert warnings[0]["column"] == 5
 
 
 def test_parse_trace_warning():
@@ -29,9 +30,9 @@ trace: warning: obsolete option used
 
 def test_deduplicate_warnings():
     warnings = [
-        {"id": "hash1", "message": "warn1", "file": "a.nix", "line": 10},
-        {"id": "hash1", "message": "warn1", "file": "a.nix", "line": 10},
-        {"id": "hash2", "message": "warn2", "file": "b.nix", "line": 20},
+        {"id": "hash1", "message": "warn1", "file": "a.nix", "line": 10, "column": None},
+        {"id": "hash1", "message": "warn1", "file": "a.nix", "line": 10, "column": None},
+        {"id": "hash2", "message": "warn2", "file": "b.nix", "line": 20, "column": None},
     ]
     deduplicated = deduplicate_warnings(warnings)
     assert len(deduplicated) == 2
