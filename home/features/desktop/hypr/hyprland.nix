@@ -239,6 +239,7 @@ in {
           "workspace 4, class:(Deezer)"
           "workspace 4, class:(com.obsproject.Studio)"
           "workspace 5, class:(Slack)"
+          "tile, class:(Slack)"
           "animation slide top, class:(kitty)"
           "float, title:^(Extension:.*Bitwarden).*"
           "size 1266 687, title:^(Extension:.*Bitwarden).*"
