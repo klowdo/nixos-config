@@ -6,7 +6,7 @@
   disko-btrfs = {
     enable = true;
     device = "/dev/nvme0n1";
-    swapSize = "32G";
+    swapSize = "64G";
     enableEncryption = true;
     enableTpm2 = true;
     enablePersist = true;
