@@ -78,7 +78,7 @@ in {
           exec </dev/tty
           exec <&1
           local session
-          session=$(sesh list -t -c | fzf --height 40% --reverse --border-label ' sesh ' --border --prompt '⚡  ')
+          session=$(sesh list -t -c | fzf --height 40% --reverse --border-label ' sesh ' --border --prompt '⚡  ' --preview-window 'right:50%' --preview 'sesh preview {}')
           zle reset-prompt > /dev/null 2>&1 || true
           [[ -z "$session" ]] && return
           sesh connect $session
