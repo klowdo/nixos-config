@@ -5,6 +5,10 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
+
+    # Disko configuration for declarative disk partitioning
+    # Safe to leave enabled after installation - disko only formats when explicitly run
+    # ./disko.nix
   ];
   boot.loader.grub = {
     # Bootloader.

@@ -58,6 +58,15 @@ in {
         Then set this to the returned offset value.
       '';
     };
+
+    enablePersist = lib.mkOption {
+      type = lib.types.bool;
+      default = false;
+      description = ''
+        Enable /persist subvolume for use with impermanence.
+        This creates a persistent storage location that survives across reboots.
+      '';
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -140,7 +149,40 @@ in {
                       content = {
                         type = "btrfs";
                         extraArgs = ["-f"];
-                        subvolumes = {
+                        subvolumes =
+                          {
+                            "/root" = {
+                              mountpoint = "/";
+                              mountOptions = ["compress=zstd" "noatime"];
+                            };
+                            "/home" = {
+                              mountpoint = "/home";
+                              mountOptions = ["compress=zstd" "noatime"];
+                            };
+                            "/nix" = {
+                              mountpoint = "/nix";
+                              mountOptions = ["compress=zstd" "noatime"];
+                            };
+                            "/swap" = {
+                              mountpoint = "/.swapvol";
+                              swap.swapfile.size = cfg.swapSize;
+                            };
+                          }
+                          // lib.optionalAttrs cfg.enablePersist {
+                            "/persist" = {
+                              mountpoint = "/persist";
+                              mountOptions = ["compress=zstd" "noatime"];
+                            };
+                          };
+                      };
+                    };
+                  }
+                  else {
+                    content = {
+                      type = "btrfs";
+                      extraArgs = ["-f"];
+                      subvolumes =
+                        {
                           "/root" = {
                             mountpoint = "/";
                             mountOptions = ["compress=zstd" "noatime"];
@@ -157,32 +199,13 @@ in {
                             mountpoint = "/.swapvol";
                             swap.swapfile.size = cfg.swapSize;
                           };
+                        }
+                        // lib.optionalAttrs cfg.enablePersist {
+                          "/persist" = {
+                            mountpoint = "/persist";
+                            mountOptions = ["compress=zstd" "noatime"];
+                          };
                         };
-                      };
-                    };
-                  }
-                  else {
-                    content = {
-                      type = "btrfs";
-                      extraArgs = ["-f"];
-                      subvolumes = {
-                        "/root" = {
-                          mountpoint = "/";
-                          mountOptions = ["compress=zstd" "noatime"];
-                        };
-                        "/home" = {
-                          mountpoint = "/home";
-                          mountOptions = ["compress=zstd" "noatime"];
-                        };
-                        "/nix" = {
-                          mountpoint = "/nix";
-                          mountOptions = ["compress=zstd" "noatime"];
-                        };
-                        "/swap" = {
-                          mountpoint = "/.swapvol";
-                          swap.swapfile.size = cfg.swapSize;
-                        };
-                      };
                     };
                   }
                 );
