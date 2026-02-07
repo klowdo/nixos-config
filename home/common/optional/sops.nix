@@ -67,8 +67,6 @@ in {
 
       "weather-api-key" = {};
 
-      "claude/oauth-token" = {};
-
       "applications/homeassistant/token" = {};
 
       "applications/linkding/token" = {};
