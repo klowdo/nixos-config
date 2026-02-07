@@ -40,9 +40,6 @@ in {
       "SUPER,mouse:272,movewindow"
       "SUPER,mouse:273,resizewindow"
     ];
-    source = [
-      "~/.config/hypr/extra.conf"
-    ];
 
     # ################# Audio & Brightness ###################
     # ", xf86audioraisevolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"
