@@ -8,7 +8,7 @@
 
     # Disko configuration for declarative disk partitioning
     # Safe to leave enabled after installation - disko only formats when explicitly run
-    # ./disko.nix
+    ./disko.nix
   ];
   boot.loader.grub = {
     # Bootloader.
