@@ -246,6 +246,7 @@ in {
           "animation none, initialClass:(jetbrains-rider)"
           "opaque, class:(jetbrains-rider)"
           "opaque, initialTitle:(Huddle), initialClass:(Slack)"
+          "opaque, title:.*(YouTube|youtube).*, class:(firefox)"
         ];
       };
     };
