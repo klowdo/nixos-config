@@ -45,6 +45,17 @@ description = "Dell Inc. DELL U2724D BW25834"
 [[profiles.office_thunderbolt.conditions.required_monitors]]
 description = "Samsung Display Corp. 0x414D"
 
+# Profile: Dell U2724DE (with template for lid state)
+[profiles.dell_u2724de]
+config_file = "hyprconfigs/dell-u2724de.conf"
+config_file_type = "template"
+
+[[profiles.dell_u2724de.conditions.required_monitors]]
+description = "Dell Inc. DELL U2724DE 41QR734"
+
+[[profiles.dell_u2724de.conditions.required_monitors]]
+description = "Samsung Display Corp. 0x414D"
+
 # Fallback profile (laptop only, no external monitors)
 [fallback_profile]
 config_file = "hyprconfigs/laptop-only.conf"
