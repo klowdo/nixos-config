@@ -11,9 +11,11 @@
     ../common
     ../common/optional/sops.nix
     ../common/optional/vial.nix
+    ../common/optional/impermanence.nix
   ];
 
   features = {
+    impermanence.enable = true;
     cli = {
       kitty.enable = true;
       zsh.enable = true;

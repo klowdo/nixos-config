@@ -50,6 +50,9 @@
 
     kixvim.url = "github:klowdo/kixvim";
 
+    # Impermanence
+    impermanence.url = "github:nix-community/impermanence";
+
     # Secrets
     sops-nix = {
       url = "github:Mic92/sops-nix";

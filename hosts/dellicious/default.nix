@@ -8,6 +8,7 @@
     # ========== Hardware ==========
     #
     ./hardware-configuration.nix
+    ./filesystem-impermanence.nix
     inputs.hardware.nixosModules.dell-xps-15-9530
     # disable nvidia in default config, enable in specialisation
     # inputs.hardware.nixosModules.common-gpu-nvidia-disable
@@ -55,6 +56,7 @@
     ../common/optional/power-profiles-daemon.nix
     ../common/optional/auto-upgrade.nix
     ../common/optional/systemd-notify.nix
+    ../common/optional/impermanence.nix
   ];
 
   networking.hostName = "dellicious";
@@ -62,6 +64,7 @@
   powerManagement.enable = true;
 
   extraServices = {
+    impermanence.enable = true;
     docker.enable = true;
     resolved.enable = true;
     # hyprlock.enable = true;
