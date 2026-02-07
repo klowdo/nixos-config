@@ -414,6 +414,7 @@ disko-btrfs = {
   enableEncryption = true;  # Optional LUKS
   enableTpm2 = true;        # TPM2 auto-unlock (requires enableEncryption)
   enableFido2 = true;       # YubiKey unlock (requires enableEncryption)
+  enablePersist = false;    # Add /persist subvolume for impermanence
 };
 ```
 
@@ -422,6 +423,7 @@ Subvolumes created:
 - `/home` -> `/home`
 - `/nix` -> `/nix`
 - `/swap` -> `/.swapvol` (swapfile)
+- `/persist` -> `/persist` (if `enablePersist = true`, for use with [impermanence](https://github.com/nix-community/impermanence))
 
 ### UEFI + Ext4 (simple)
 
