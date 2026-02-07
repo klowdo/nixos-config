@@ -20,6 +20,14 @@ in {
       logThreshold = "WARNING";
     };
 
+    home.activation.createHyprExtraConf = lib.hm.dag.entryAfter ["writeBoundary"] ''
+      if [ ! -f "$HOME/.config/hypr/extra.conf" ]; then
+        mkdir -p "$HOME/.config/hypr"
+        touch "$HOME/.config/hypr/extra.conf"
+        ${config.wayland.windowManager.hyprland.package}/bin/hyprctl reload || true
+      fi
+    '';
+
     home.sessionVariables = {
       MOZ_ENABLE_WAYLAND = "1";
       NIXOS_OZONE_WL = "1";
@@ -47,6 +55,7 @@ in {
         source = [
           "~/.config/hypr/monitors.conf"
           "~/.config/hypr/animations.conf"
+          "~/.config/hypr/extra.conf"
         ];
 
         xwayland = {
