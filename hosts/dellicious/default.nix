@@ -26,6 +26,7 @@
 
     # ========== Required Configs ==========
     ../common
+    ./sops.nix
 
     #
     # ========== Optional Configs ==========
