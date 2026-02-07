@@ -119,7 +119,7 @@ in {
             partitions = {
               ESP = {
                 size = "512M";
-                type = "EF0a0";
+                type = "EF00";
                 content = {
                   type = "filesystem";
                   format = "vfat";
