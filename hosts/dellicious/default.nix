@@ -31,7 +31,6 @@
     #
     # ========== Optional Configs ==========
     #
-    ../common/optional/secure-boot.nix
     ../common/optional/tpm.nix
     ../common/optional/thunderbolt.nix
     ../common/optional/resolved.nix
