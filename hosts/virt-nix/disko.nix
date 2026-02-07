@@ -5,7 +5,7 @@
 
   disko-btrfs = {
     enable = true;
-    device = "/dev/vda";
+    device = "/dev/sda";
     swapSize = "4G";
     enableEncryption = false;
     enablePersist = true;
