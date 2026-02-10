@@ -108,6 +108,15 @@ in {
         description = "Package for the editor";
       };
     };
+
+    sessionMenu = {
+      command = mkOption {
+        type = types.str;
+        default = "wlogout -p layer-shell";
+        example = "caelestia shell drawers toggle session";
+        description = "Command for session/power menu";
+      };
+    };
   };
 
   config = mkIf cfg.enable {

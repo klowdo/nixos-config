@@ -34,7 +34,6 @@ in {
   home.packages = with pkgs; [
     fastfetch
     gsettings-desktop-schemas
-    swaynotificationcenter
     wlr-randr
     ydotool
     # hyprland-share-picker
