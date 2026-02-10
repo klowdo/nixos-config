@@ -171,7 +171,7 @@ in {
 
         #################### Basic Bindings ####################
         # ",q,killactive"
-        "$mainMod, Escape, exec, wlogout -p layer-shell"
+        "$mainMod, Escape, exec, $sessionMenu"
 
         "SUPER,s,togglesplit"
         "SUPER,f,fullscreen,1"

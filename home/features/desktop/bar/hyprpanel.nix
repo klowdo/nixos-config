@@ -13,6 +13,7 @@
     home.packages = [
       pkgs.upower
       pkgs.libgtop
+      pkgs.swaynotificationcenter
       # pkgs.python313Packages.gpustat
       # pkgs.python313Packages.nvidia-ml-py
     ];

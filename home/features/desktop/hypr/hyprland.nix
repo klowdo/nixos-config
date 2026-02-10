@@ -42,6 +42,7 @@ in {
         "$browser" = config.features.defaults.browser.command;
         "$menu" = config.features.defaults.launcher.command;
         "$fileManager" = config.features.defaults.fileManager.command;
+        "$sessionMenu" = config.features.defaults.sessionMenu.command;
         "$hyper" = "CONTROL_SHIFT_ALT_SUPER";
 
         source = [
@@ -245,7 +246,8 @@ in {
           "animation none, class:(jetbrains-rider)"
           "animation none, initialClass:(jetbrains-rider)"
           "opaque, class:(jetbrains-rider)"
-          "opaque, initialTitle:(Huddle), initialClass:(Slack)"
+          "opaque, title:^Huddle:, class:(Slack)"
+          "noblur, title:^Huddle:, class:(Slack)"
           "opaque, title:.*(YouTube|youtube).*, class:(firefox)"
         ];
       };

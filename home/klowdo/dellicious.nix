@@ -46,8 +46,12 @@
         enableHyprlandSupport = true;
       };
       bar = {
-        hyprpanel.enable = true;
+        # hyprpanel.enable = true;
         # ashell.enable = true;
+        caelestia = {
+          enable = true;
+          useSessionMenu = true;
+        };
       };
       autoclaude.enable = false;
     };
