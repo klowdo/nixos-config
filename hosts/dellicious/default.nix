@@ -53,6 +53,7 @@
     ../common/optional/udev.nix
     ../common/optional/icu.nix
     ../common/optional/dotnet-dev-certs.nix
+    ../common/optional/custom-ca-certs.nix
     ../common/optional/steam.nix
     ../common/optional/flatpak.nix
     ../common/optional/nss-docker-ng.nix
