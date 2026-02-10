@@ -18,6 +18,7 @@ with lib; let
         "borderangle, 1, 8, default"
         "fade, 1, 7, default"
         "workspaces, 1, 6, default"
+        "specialWorkspace, 1, 6, default, slidevert"
       ];
     };
 
@@ -53,6 +54,7 @@ with lib; let
         "borderangle, 1, 30, liner, loop"
         "fade, 1, 10, default"
         "workspaces, 1, 5, wind"
+        "specialWorkspace, 1, 5, wind, slidevert"
       ];
     };
 
@@ -121,7 +123,7 @@ with lib; let
     animations;
 
   animationToggle = pkgs.writeShellScriptBin "hypr-animation-toggle" ''
-    CONFIG_DIR="$HOME/.config/hypr"
+    CONFIG_DIR="$HOME/.config/hypr/config.d"
     ANIMATIONS_DIR="${pkgs.linkFarm "hypr-animations" (
       mapAttrsToList (name: path: {
         name = "animations-${name}.conf";
@@ -156,7 +158,7 @@ with lib; let
   '';
 
   setupAnimationLink = pkgs.writeShellScriptBin "hypr-animation-setup" ''
-    CONFIG_DIR="$HOME/.config/hypr"
+    CONFIG_DIR="$HOME/.config/hypr/config.d"
     ANIMATIONS_DIR="${pkgs.linkFarm "hypr-animations" (
       mapAttrsToList (name: path: {
         name = "animations-${name}.conf";
