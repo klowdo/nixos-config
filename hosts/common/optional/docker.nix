@@ -7,7 +7,19 @@
 with lib; let
   cfg = config.extraServices.docker;
 in {
-  options.extraServices.docker.enable = mkEnableOption "enable docker";
+  options.extraServices.docker = {
+    enable = mkEnableOption "enable docker";
+    usePasta = mkOption {
+      type = types.bool;
+      default = false;
+      description = "Use pasta networking instead of slirp4netns (better performance)";
+    };
+    mtu = mkOption {
+      type = types.nullOr types.int;
+      default = null;
+      description = "MTU for rootless docker networking (null = auto)";
+    };
+  };
 
   config = mkIf cfg.enable {
     # users.extraGroups.docker.members = ["username-with-access-to-socket"];
@@ -18,10 +30,12 @@ in {
         # enable = true;
         # extraOptions = "--bip=192.168.100.1/24";
         rootless = {
-          # extraOptions = "--bip=192.168.100.1/24";
           enable = true;
           setSocketVariable = true;
-          #
+          extraPackages =
+            if cfg.usePasta
+            then [pkgs.passt]
+            else [pkgs.slirp4netns];
           daemon.settings = {
             dns = [
               "10.10.16.10"
@@ -60,6 +74,8 @@ in {
       "kernel.unprivileged_userns_clone" = "1";
     };
 
+    systemd.services."user@".serviceConfig.Delegate = "cpu cpuset io memory pids";
+
     systemd.user.services.docker-buildx-prune = {
       description = "Prune Docker buildx cache";
       serviceConfig = {
@@ -81,9 +97,16 @@ in {
     environment.systemPackages = with pkgs; [
       lazydocker
       unstable.dive
-      slirp4netns
       fuse-overlayfs
       docker-buildx
     ];
+
+    systemd.user.services.docker.environment =
+      optionalAttrs cfg.usePasta {
+        DOCKERD_ROOTLESS_ROOTLESSKIT_NET = "pasta";
+      }
+      // optionalAttrs (cfg.mtu != null) {
+        DOCKERD_ROOTLESS_ROOTLESSKIT_MTU = toString cfg.mtu;
+      };
   };
 }

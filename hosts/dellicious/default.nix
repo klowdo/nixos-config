@@ -67,7 +67,10 @@
   powerManagement.enable = true;
 
   extraServices = {
-    docker.enable = true;
+    docker = {
+      enable = true;
+      usePasta = true;
+    };
     resolved.enable = true;
     # hyprlock.enable = true;
     swaylock.enable = true;
