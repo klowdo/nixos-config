@@ -7,7 +7,6 @@
   flakeInputs = lib.filterAttrs (_: lib.isType "flake") inputs;
 in {
   imports = [
-    ../../modules/home-manager/stylix.nix
     inputs.catppuccin.homeModules.catppuccin
   ];
 
