@@ -7,12 +7,14 @@
   webkitgtk_4_1,
 }: let
   pname = "bambustudio";
-  version = "02.04.00.70";
+  version = "02.05.00.65";
+
+  pr = "9504";
 
   src = fetchurl {
-    url = "https://github.com/bambulab/BambuStudio/releases/download/v02.04.00.70/Bambu_Studio_ubuntu-24.04_PR-8834.AppImage";
-    sha256 = "sha256-JrwH3MsE3y5GKx4Do3ZlCSAcRuJzEqFYRPb11/3x3r0=";
-    name = "Bambu_Studio_ubuntu-24.04_PR-8834.AppImage";
+    url = "https://github.com/bambulab/BambuStudio/releases/download/v${version}/Bambu_Studio_ubuntu-24.04_PR-${pr}.AppImage";
+    sha256 = "sha256-tVjzyV0kEf5kx0C4PvxeS3+FOQZKtPuVRJkiLeQQFhc=";
+    name = "Bambu_Studio_ubuntu-24.04_PR-${pr}.AppImage";
   };
 
   appimageContents = appimageTools.extractType2 {
@@ -69,20 +71,26 @@ in
     ];
 
     extraInstallCommands = ''
-      # Install desktop file if it exists
-      if [ -f ${appimageContents}/bambu-studio.desktop ]; then
-        install -m 444 -D ${appimageContents}/bambu-studio.desktop $out/share/applications/${pname}.desktop
+      # Install desktop file
+      if [ -f ${appimageContents}/BambuStudio.desktop ]; then
+        install -m 444 -D ${appimageContents}/BambuStudio.desktop $out/share/applications/${pname}.desktop
         substituteInPlace $out/share/applications/${pname}.desktop \
-          --replace 'Exec=AppRun' 'Exec=${pname}'
+          --replace-fail 'Exec=AppRun' 'Exec=${pname}' \
+          --replace-fail 'Icon=BambuStudio' 'Icon=${pname}'
       fi
 
-      # Install icon if it exists
-      for icon in ${appimageContents}/*.png ${appimageContents}/*.svg; do
+      # Install hicolor icons
+      for size in 32x32 128x128 192x192; do
+        icon="${appimageContents}/usr/share/icons/hicolor/$size/apps/BambuStudio.png"
         if [ -f "$icon" ]; then
-          install -m 444 -D "$icon" $out/share/pixmaps/$(basename "$icon")
-          break
+          install -m 444 -D "$icon" "$out/share/icons/hicolor/$size/apps/${pname}.png"
         fi
       done
+
+      # Install fallback pixmap
+      if [ -f ${appimageContents}/BambuStudio.png ]; then
+        install -m 444 -D ${appimageContents}/BambuStudio.png $out/share/pixmaps/${pname}.png
+      fi
     '';
 
     meta = with lib; {
