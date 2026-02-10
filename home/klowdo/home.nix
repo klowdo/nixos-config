@@ -19,82 +19,105 @@ in {
   };
 
   catppuccin.flavor = "macchiato";
-  # This value determines the Home Manager release that your configuration is
-  # compatible with. This helps avoid breakage when a new Home Manager release
-  # introduces backwards incompatible changes.
-  #
-  # You should not change this value, even if you update Home Manager. If you do
-  # want to update the value, then make sure to first check the Home Manager
-  # release notes.
-  home.stateVersion = "25.11"; # Please read the comment before changing.
+  home = {
+    # This value determines the Home Manager release that your configuration is
+    # compatible with. This helps avoid breakage when a new Home Manager release
+    # introduces backwards incompatible changes.
+    #
+    # You should not change this value, even if you update Home Manager. If you do
+    # want to update the value, then make sure to first check the Home Manager
+    # release notes.
+    stateVersion = "25.11"; # Please read the comment before changing.
 
-  # The home.packages option allows you to install Nix packages into your
-  # environment.
-  home.packages = with pkgs; [
-    fastfetch
-    gsettings-desktop-schemas
-    wlr-randr
-    ydotool
-    # hyprland-share-picker
-    pyprland
-    hyprpicker
-    hyprcursor
-    hyprlock
-    hypridle
-    hyprpaper
-    slack
-    bluetuith
+    # The home.packages option allows you to install Nix packages into your
+    # environment.
+    packages = with pkgs; [
+      fastfetch
+      gsettings-desktop-schemas
+      wlr-randr
+      ydotool
+      # hyprland-share-picker
+      pyprland
+      hyprpicker
+      hyprcursor
+      hyprlock
+      hypridle
+      hyprpaper
+      slack
+      bluetuith
 
-    duf
-    ncdu
-    wl-clipboard
-    pciutils
-    zellij
+      duf
+      ncdu
+      wl-clipboard
+      pciutils
+      zellij
 
-    unzip
-    unrar
-    p7zip
+      unzip
+      unrar
+      p7zip
 
-    ninja
-    brightnessctl
-    virt-viewer
-    swappy
-    appimage-run
+      ninja
+      brightnessctl
+      virt-viewer
+      swappy
+      appimage-run
 
-    brave
+      brave
 
-    # wezterm
-    cool-retro-term
-    hyprland-protocols
-    swayidle
-    swww
-    grim
+      # wezterm
+      cool-retro-term
+      hyprland-protocols
+      swayidle
+      swww
+      grim
 
-    pavucontrol
-    zellij-ps
-    git-absorb
-    wofi-pass
-    wofi-emoji
+      pavucontrol
+      zellij-ps
+      git-absorb
+      wofi-pass
+      wofi-emoji
 
-    yubikey-agent
-    yubico-pam
-    yubikey-manager
-    yubioath-flutter
-    pcsclite
-    # pam_u2f
-    # rpi-imager  # Broken in current nixpkgs - Qt6 CMake issue
-    git-extras
-    nix-search-cli
-    nix-search-tv
-    circumflex
-    numara-calculator
-  ];
+      yubikey-agent
+      yubico-pam
+      yubikey-manager
+      yubioath-flutter
+      pcsclite
+      # pam_u2f
+      # rpi-imager  # Broken in current nixpkgs - Qt6 CMake issue
+      git-extras
+      nix-search-cli
+      nix-search-tv
+      circumflex
+      numara-calculator
+    ];
 
-  # Home Manager is pretty good at managing dotfiles. The primary way to manage
-  # plain files is through 'home.file'.
-  home.file = {
-    ".face".source = ../../lib/felix_evolve.jpg;
-    ".face.icon".source = ../../lib/felix_evolve.jpg;
+    # Home Manager is pretty good at managing dotfiles. The primary way to manage
+    # plain files is through 'home.file'.
+    file = {
+      ".face".source = ../../lib/felix_evolve.jpg;
+      ".face.icon".source = ../../lib/felix_evolve.jpg;
+    };
+
+    # Home Manager can also manage your environment variables through
+    # 'home.sessionVariables'. If you don't want to manage your shell through Home
+    # Manager then you have to manually source 'hm-session-vars.sh' located at
+    # either
+    #
+    #  ~/.nix-profile/etc/profile.d/hm-session-vars.sh
+    #
+    # or
+    #
+    #  ~/.local/state/nix/profiles/profile/etc/profile.d/hm-session-vars.sh
+    #
+    # or
+    #
+    #  /etc/profiles/per-user/m3tam3re/etc/profile.d/hm-session-vars.sh
+    #
+    # NH_FLAKE and PROJECT_FOLDERS are set by userConfig module
+    sessionVariables = {
+      NIX_PATH = lib.concatStringsSep ":" (lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs);
+      NIXOS_OZONE_WL = "1";
+    };
   };
 
   # for screensharing
@@ -127,27 +150,6 @@ in {
 
   programs.btop = {
     enable = true;
-  };
-
-  # Home Manager can also manage your environment variables through
-  # 'home.sessionVariables'. If you don't want to manage your shell through Home
-  # Manager then you have to manually source 'hm-session-vars.sh' located at
-  # either
-  #
-  #  ~/.nix-profile/etc/profile.d/hm-session-vars.sh
-  #
-  # or
-  #
-  #  ~/.local/state/nix/profiles/profile/etc/profile.d/hm-session-vars.sh
-  #
-  # or
-  #
-  #  /etc/profiles/per-user/m3tam3re/etc/profile.d/hm-session-vars.sh
-  #
-  # NH_FLAKE and PROJECT_FOLDERS are set by userConfig module
-  home.sessionVariables = {
-    NIX_PATH = lib.concatStringsSep ":" (lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs);
-    NIXOS_OZONE_WL = "1";
   };
 
   # Nicely reload system units when changing configs
