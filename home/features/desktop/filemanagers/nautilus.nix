@@ -16,6 +16,7 @@ in {
       sushi # Quick previewer
       nautilus-python # Python extension bindings
       nautilus-open-any-terminal
+      adwaita-icon-theme # Fallback icons for apps not in Papirus
     ];
 
     # GTK icon theme (matching Thunar configuration)
