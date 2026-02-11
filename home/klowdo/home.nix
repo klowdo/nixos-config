@@ -43,7 +43,6 @@ in {
       hyprlock
       hypridle
       hyprpaper
-      slack
       bluetuith
 
       duf

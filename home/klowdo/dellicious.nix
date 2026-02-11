@@ -108,6 +108,7 @@
       zoom.enable = false;
       vesktop.enable = true;
       neomutt.enable = false;
+      slack.enable = true;
     };
     hardware = {
       zsa-moonlander.enable = true;

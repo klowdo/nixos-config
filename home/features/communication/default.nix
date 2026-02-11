@@ -5,5 +5,6 @@
     ./vesktop.nix
     ./email.nix
     ./neomutt.nix
+    ./slack.nix
   ];
 }
