@@ -37,12 +37,12 @@ in {
             then [pkgs.passt]
             else [pkgs.slirp4netns];
           daemon.settings = {
-            dns = [
-              "10.10.16.10"
-              "10.10.17.10"
-              "8.8.8.8"
-              "1.1.1.1"
-            ];
+            # dns = [
+            #   "10.10.16.10"
+            #   "10.10.17.10"
+            #   "8.8.8.8"
+            #   "1.1.1.1"
+            # ];
             # bip = "192.168.100.1/24";
             # fixed-cidr": "192.168.1.0/25",
             # "mtu": 1500,
@@ -73,24 +73,34 @@ in {
     boot.kernel.sysctl = {
       "kernel.unprivileged_userns_clone" = "1";
     };
+    systemd = {
+      services."user@".serviceConfig.Delegate = "cpu cpuset io memory pids";
+      user = {
+        services.docker-buildx-prune = {
+          description = "Prune Docker buildx cache";
+          serviceConfig = {
+            Type = "oneshot";
+            ExecStart = "${pkgs.docker}/bin/docker buildx prune -f --filter=until=24h";
+          };
+        };
 
-    systemd.services."user@".serviceConfig.Delegate = "cpu cpuset io memory pids";
+        timers.docker-buildx-prune = {
+          description = "Prune Docker buildx cache";
+          wantedBy = ["timers.target"];
+          timerConfig = {
+            OnBootSec = "5min";
+            OnCalendar = "*-*-* 09,12:00:00";
+            Persistent = true;
+          };
+        };
 
-    systemd.user.services.docker-buildx-prune = {
-      description = "Prune Docker buildx cache";
-      serviceConfig = {
-        Type = "oneshot";
-        ExecStart = "${pkgs.docker}/bin/docker buildx prune -f --filter=until=24h";
-      };
-    };
-
-    systemd.user.timers.docker-buildx-prune = {
-      description = "Prune Docker buildx cache";
-      wantedBy = ["timers.target"];
-      timerConfig = {
-        OnBootSec = "5min";
-        OnCalendar = "*-*-* 09,12:00:00";
-        Persistent = true;
+        services.docker.environment =
+          optionalAttrs cfg.usePasta {
+            DOCKERD_ROOTLESS_ROOTLESSKIT_NET = "pasta";
+          }
+          // optionalAttrs (cfg.mtu != null) {
+            DOCKERD_ROOTLESS_ROOTLESSKIT_MTU = toString cfg.mtu;
+          };
       };
     };
 
@@ -100,13 +110,5 @@ in {
       fuse-overlayfs
       docker-buildx
     ];
-
-    systemd.user.services.docker.environment =
-      optionalAttrs cfg.usePasta {
-        DOCKERD_ROOTLESS_ROOTLESSKIT_NET = "pasta";
-      }
-      // optionalAttrs (cfg.mtu != null) {
-        DOCKERD_ROOTLESS_ROOTLESSKIT_MTU = toString cfg.mtu;
-      };
   };
 }
