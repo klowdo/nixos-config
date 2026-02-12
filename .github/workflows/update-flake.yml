@@ -54,22 +54,23 @@ jobs:
         uses: anthropics/claude-code-action@v1
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-          claude_args: "--allowedTools Read,Edit,Write,Bash(nix:*),Bash(git:*),GlobTool,GrepTool"
+          claude_args: "--max-turns 10 --allowedTools Read,Edit,Write,Bash(nix flake check:*),Bash(git add:*),Bash(git commit:*),GlobTool,GrepTool"
           prompt: |
-            The flake check produced the following warnings/errors after a flake.lock update:
+            After a flake.lock update, 'nix flake check -L' produced these warnings/errors:
 
             ```
             ${{ steps.nix-check.outputs.check_output }}
             ```
 
-            Fix any evaluation errors, warnings, or deprecations in the nix files.
+            Your job is ONLY to fix the nix source files that cause these warnings/errors. Do NOT modify flake.lock or run nix flake update.
 
             For each fix:
-            1. Make the fix
-            2. Run 'nix flake check -L' to verify it works
+            1. Edit the nix source file to fix the issue
+            2. Run 'nix flake check -L' to verify
             3. Commit with conventional commit format
 
             Make a separate commit for each issue fixed.
+            NEVER add Co-Authored-By or any attribution lines to commits.
 
       - name: Run final check
         run: nix flake check -L
