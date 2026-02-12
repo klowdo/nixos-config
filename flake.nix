@@ -189,6 +189,13 @@
         ];
       };
 
+      dellicious-minimal = nixpkgs.lib.nixosSystem {
+        specialArgs = {inherit inputs outputs;};
+        modules = [
+          ./hosts/dellicious/minimal.nix
+        ];
+      };
+
       virt-nix = nixpkgs.lib.nixosSystem {
         # inherit specialArgs;
         specialArgs = {inherit inputs outputs;};
@@ -226,6 +233,13 @@
         modules = [
           # > Our main home-manager configuration file <
           ./home/klowdo/dellicious.nix
+        ];
+      };
+      "klowdo@dellicious-minimal" = home-manager.lib.homeManagerConfiguration {
+        pkgs = pkgsFor.x86_64-linux;
+        extraSpecialArgs = {inherit inputs outputs;};
+        modules = [
+          ./home/klowdo/dellicious-minimal.nix
         ];
       };
       "klowdo@virt-nix" = home-manager.lib.homeManagerConfiguration {
