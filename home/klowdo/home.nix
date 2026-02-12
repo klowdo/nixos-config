@@ -95,6 +95,7 @@ in {
     file = {
       ".face".source = ../../lib/felix_evolve.jpg;
       ".face.icon".source = ../../lib/felix_evolve.jpg;
+      ".ssh/id_ed25519.pub".source = ./keys/id_ed25519.pub;
     };
 
     # Home Manager can also manage your environment variables through
