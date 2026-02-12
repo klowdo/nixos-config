@@ -470,17 +470,13 @@ in {
         "$kbClearNotifs, exec, caelestia shell notifs clear"
         "$kbRestoreLock, exec, caelestia shell -d"
         "$kbRestoreLock, exec, caelestia shell lock lock"
-        # Brightness/media handled by hyprland-binds.nix
-        # ", XF86MonBrightnessUp, exec, caelestia shell brightness set +5%"
-        # ", XF86MonBrightnessDown, exec, caelestia shell brightness set 5%-"
-        # "Ctrl+Super, Space, exec, caelestia shell mpris playPause"
-        # ", XF86AudioPlay, exec, caelestia shell mpris playPause"
-        # ", XF86AudioPause, exec, caelestia shell mpris playPause"
-        # "Ctrl+Super, Equal, exec, caelestia shell mpris next"
-        # ", XF86AudioNext, exec, caelestia shell mpris next"
-        # "Ctrl+Super, Minus, exec, caelestia shell mpris previous"
-        # ", XF86AudioPrev, exec, caelestia shell mpris previous"
-        # ", XF86AudioStop, exec, caelestia shell mpris stop"
+        ", XF86MonBrightnessUp, exec, caelestia shell brightness set +5%"
+        ", XF86MonBrightnessDown, exec, caelestia shell brightness set 5%-"
+        ", XF86AudioPlay, exec, caelestia shell mpris playPause"
+        ", XF86AudioPause, exec, caelestia shell mpris playPause"
+        ", XF86AudioNext, exec, caelestia shell mpris next"
+        ", XF86AudioPrev, exec, caelestia shell mpris previous"
+        ", XF86AudioStop, exec, caelestia shell mpris stop"
       ];
     };
   };

@@ -1,8 +1,10 @@
 {
   lib,
+  config,
   pkgs,
   ...
 }: let
+  caelestiaEnabled = config.features.desktop.bar.caelestia.enable or false;
   increments = "5";
 
   sound-change = pkgs.writeShellScriptBin "sound-change" ''
@@ -59,14 +61,17 @@ in {
     # ", XF86MonBrightnessUp, exec, brightnessctl s +5%"
     # ", XF86MonBrightnessDown, exec, brightnessctl s 5%-"
 
-    bindl = [
-      ",XF86AudioMute, exec, ${sound-toggle}/bin/sound-toggle"
-      ",XF86AudioPlay, exec, ${pkgs.playerctl}/bin/playerctl play-pause"
-      ",XF86AudioNext, exec, ${pkgs.playerctl}/bin/playerctl next"
-      ",XF86AudioPrev, exec, ${pkgs.playerctl}/bin/playerctl previous"
-      ",XF86MonBrightnessUp, exec, ${pkgs.brightnessctl}/bin/brightnessctl set +10%"
-      ",XF86MonBrightnessDown, exec, ${pkgs.brightnessctl}/bin/brightnessctl set 10%-"
-    ];
+    bindl =
+      [
+        ",XF86AudioMute, exec, ${sound-toggle}/bin/sound-toggle"
+      ]
+      ++ lib.optionals (!caelestiaEnabled) [
+        ",XF86AudioPlay, exec, ${pkgs.playerctl}/bin/playerctl play-pause"
+        ",XF86AudioNext, exec, ${pkgs.playerctl}/bin/playerctl next"
+        ",XF86AudioPrev, exec, ${pkgs.playerctl}/bin/playerctl previous"
+        ",XF86MonBrightnessUp, exec, ${pkgs.brightnessctl}/bin/brightnessctl set +10%"
+        ",XF86MonBrightnessDown, exec, ${pkgs.brightnessctl}/bin/brightnessctl set 10%-"
+      ];
 
     bindle = [
       ",XF86AudioRaiseVolume, exec, ${sound-up}/bin/sound-up"
@@ -155,9 +160,7 @@ in {
         "CTRL SHIFT, space, pass, class:^(Slack)$"
 
         #################### Computer Manage ####################
-        "${mainMod}, L, exec, caelestia shell lock lock" # Lock screen
-        "${mainMod} SHIFT, L, exec, caelestia shell drawers toggle session" # Session menu (lock/logout/shutdown)
-
+        # Lock/session handled by caelestia.nix when enabled
         "SUPERSHIFT,e,exit"
 
         #################### Program Launch ####################
