@@ -36,9 +36,14 @@ jobs:
         id: nix-check
         continue-on-error: true
         run: |
-          nix flake check -L 2>&1 | tee /tmp/check-output.txt
+          nix flake check -L 2>&1 | tee ${RUNNER_TEMP}/check-output.txt
           echo "exit_code=$?" >> $GITHUB_OUTPUT
-          if grep -q "warning:" /tmp/check-output.txt || grep -q "deprecated" /tmp/check-output.txt; then
+          {
+            echo "check_output<<CHECKEOF"
+            grep -E "warning:|error:|deprecated" ${RUNNER_TEMP}/check-output.txt || true
+            echo "CHECKEOF"
+          } >> $GITHUB_OUTPUT
+          if grep -q "warning:" ${RUNNER_TEMP}/check-output.txt || grep -q "deprecated" ${RUNNER_TEMP}/check-output.txt; then
             echo "has_warnings=true" >> $GITHUB_OUTPUT
           else
             echo "has_warnings=false" >> $GITHUB_OUTPUT
@@ -49,8 +54,15 @@ jobs:
         uses: anthropics/claude-code-action@v1
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          claude_args: "--allowedTools Read,Edit,Write,Bash(nix:*),Bash(git:*),GlobTool,GrepTool"
           prompt: |
-            The flake check has warnings or errors. Review /tmp/check-output.txt and fix any evaluation errors, warnings, or deprecations.
+            The flake check produced the following warnings/errors after a flake.lock update:
+
+            ```
+            ${{ steps.nix-check.outputs.check_output }}
+            ```
+
+            Fix any evaluation errors, warnings, or deprecations in the nix files.
 
             For each fix:
             1. Make the fix
