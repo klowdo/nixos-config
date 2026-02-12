@@ -63,6 +63,25 @@ Identity options:
 - `just tpm-save-identity` - Save TPM identity to file for sops decryption
 - `just tpm-list` - List TPM-sealed age identities
 
+### GPG + YubiKey
+
+- `just gpg-generate-quick` - Generate GPG key with signing/encrypt/auth subkeys
+- `just gpg-generate` - Interactive GPG key generation
+- `just gpg-list` - List all GPG keys
+- `just gpg-list-secret` - List secret GPG keys
+- `just gpg-card-status` - Show YubiKey smartcard status
+- `just gpg-card-setup` - Configure YubiKey PINs and cardholder info
+- `just gpg-to-yubikey` - Move GPG subkeys to YubiKey smartcard
+- `just gpg-backup` - Back up GPG keys to files
+- `just gpg-paperkey` - Create paper backup using paperkey
+- `just gpg-signing-key` - Show key ID for NixOS git signing config
+- `just gpg-reload` - Reload GPG agent (after YubiKey insert/remove)
+- `just gpg-restart` - Kill and restart GPG agent
+- `just gpg-test-sign` - Test GPG signing works
+- `just gpg-export-public` - Export public key for sharing
+
+See `docs/gpg-yubikey-setup.md` for the full setup guide.
+
 ### ISO & Installation
 - `just iso-build` - Build custom NixOS installer ISO
 - `just iso-write <device>` - Write ISO to USB drive (e.g., /dev/sdb)
@@ -162,3 +181,16 @@ To use TPM 2.0 for hardware-backed secret encryption:
 4. **Re-encrypt secrets**: `just sops-updatekeys`
 
 TPM 2.0 provides hardware-backed encryption that is always present (no external hardware needed). This makes it ideal for unattended decryption scenarios where a YubiKey cannot be inserted.
+
+### GPG + YubiKey (Git Signing & Pass)
+
+To use GPG keys on YubiKey for git commit signing and password store:
+
+1. **Generate GPG keys**: `just gpg-generate-quick`
+2. **Back up keys**: `just gpg-backup`
+3. **Move subkeys to YubiKey**: `just gpg-to-yubikey`
+4. **Get signing key ID**: `just gpg-signing-key`
+5. **Set key ID in config**: Update `features.cli.gpg.keyId` in `dellicious.nix`
+6. **Rebuild**: `nh os switch`
+
+GPG uses the YubiKey's OpenPGP applet (separate from the PIV applet used by age/SOPS). Both coexist on the same YubiKey. See `docs/gpg-yubikey-setup.md` for the full guide.
