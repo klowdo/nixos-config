@@ -5,6 +5,7 @@
 }:
 with lib; let
   cfg = config.features.desktop.hyprland;
+  caelestiaEnabled = config.features.desktop.bar.caelestia.enable or false;
 in {
   options.features.desktop.hyprland.enable = mkEnableOption "hyprland config";
 
@@ -53,13 +54,16 @@ in {
           force_zero_scaling = true;
         };
 
-        exec-once = [
-          "hypridle"
-          "wl-paste -p -t text --watch clipman store -P --histpath=\"~/.local/share/clipman-primary.json\""
-          "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
-          # Start GNOME Keyring daemon (components configured via NixOS service)
-          "/run/wrappers/bin/gnome-keyring-daemon --start"
-        ];
+        exec-once =
+          [
+            "wl-paste -p -t text --watch clipman store -P --histpath=\"~/.local/share/clipman-primary.json\""
+            "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
+            # Start GNOME Keyring daemon (components configured via NixOS service)
+            "/run/wrappers/bin/gnome-keyring-daemon --start"
+          ]
+          ++ lib.optionals (!caelestiaEnabled) [
+            "hypridle"
+          ];
 
         env = [
           "XCURSOR_SIZE,32"
@@ -246,8 +250,8 @@ in {
           "animation none, class:(jetbrains-rider)"
           "animation none, initialClass:(jetbrains-rider)"
           "opaque, class:(jetbrains-rider)"
-          "opaque, title:^Huddle:, class:(Slack)"
-          "noblur, title:^Huddle:, class:(Slack)"
+          "opaque, title:^Huddle:.*, class:(Slack)"
+          "noblur, title:^Huddle:.*, class:(Slack)"
           "opaque, title:.*(YouTube|youtube).*, class:(firefox)"
         ];
       };

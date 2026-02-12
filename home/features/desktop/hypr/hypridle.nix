@@ -1,9 +1,14 @@
-{...}: let
+{
+  config,
+  lib,
+  ...
+}: let
   minutes = m: m * 60;
+  caelestiaEnabled = config.features.desktop.bar.caelestia.enable or false;
 in {
   services.hypridle = {
-    enable = true;
-    settings = {
+    enable = !caelestiaEnabled; # Disabled when Caelestia handles idle
+    settings = lib.mkIf (!caelestiaEnabled) {
       general = {
         after_sleep_cmd = "hyprctl dispatch dpms on";
         ignore_dbus_inhibit = false;

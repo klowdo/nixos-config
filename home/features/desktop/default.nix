@@ -16,5 +16,6 @@
     ./bitwarden.nix
     ./auto-claude.nix
     ./stylix.nix
+    ./icons.nix
   ];
 }

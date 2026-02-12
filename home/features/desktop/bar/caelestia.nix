@@ -11,6 +11,39 @@ with lib; let
   stylixSansFont = config.stylix.fonts.sansSerif.name or "Rubik";
   stylixWallpaper = config.stylix.image or null;
 
+  intelGpuSmi = pkgs.writeShellScriptBin "nvidia-smi" ''
+    # Fake nvidia-smi for Intel integrated GPUs
+    # Outputs: utilization%, temperature (matching nvidia-smi csv format)
+
+    # Try to get Intel GPU frequency as a proxy for utilization
+    freq_file="/sys/class/drm/card1/gt_cur_freq_mhz"
+    max_freq_file="/sys/class/drm/card1/gt_max_freq_mhz"
+
+    if [[ -f "$freq_file" && -f "$max_freq_file" ]]; then
+      cur=$(cat "$freq_file" 2>/dev/null || echo 0)
+      max=$(cat "$max_freq_file" 2>/dev/null || echo 1)
+      if [[ "$max" -gt 0 ]]; then
+        util=$((cur * 100 / max))
+      else
+        util=0
+      fi
+    else
+      util=0
+    fi
+
+    # Use CPU temp as proxy (Intel iGPU shares die with CPU)
+    temp=0
+    for hwmon in /sys/class/hwmon/hwmon*/; do
+      if [[ -f "$hwmon/name" ]] && grep -q "coretemp" "$hwmon/name" 2>/dev/null; then
+        temp=$(cat "$hwmon/temp1_input" 2>/dev/null || echo 0)
+        temp=$((temp / 1000))
+        break
+      fi
+    done
+
+    echo "$util, $temp"
+  '';
+
   stylixColors = with config.lib.stylix.colors; {
     primary_paletteKeyColor = base0D;
     secondary_paletteKeyColor = base04;
@@ -135,13 +168,13 @@ in {
 
     useLockScreen = mkOption {
       type = types.bool;
-      default = false;
+      default = true;
       description = "Use caelestia's lock screen instead of hyprlock";
     };
 
     useSessionMenu = mkOption {
       type = types.bool;
-      default = false;
+      default = true;
       description = "Use caelestia's session menu instead of wlogout";
     };
 
@@ -156,10 +189,21 @@ in {
       default = {};
       description = "Caelestia shell configuration (shell.json)";
     };
+
+    useNvidiaGpu = mkOption {
+      type = types.bool;
+      default = false;
+      description = "Use real nvidia-smi instead of Intel GPU wrapper";
+    };
   };
 
   config = mkIf cfg.enable {
-    xdg.stateFile."caelestia/scheme.json".text = builtins.toJSON {
+    specialisation.nvidia.configuration = {
+      programs.caelestia.settings.services.gpuType = mkForce "NVIDIA";
+      features.desktop.bar.caelestia.useNvidiaGpu = true;
+    };
+
+    xdg.stateFile."caelestia/scheme-temp.json".text = builtins.toJSON {
       name = "stylix";
       flavour = "custom";
       mode = "dark";
@@ -167,23 +211,26 @@ in {
       colours = stylixColors;
     };
 
-    xdg.stateFile."caelestia/wallpaper/path.txt" = mkIf (stylixWallpaper != null) {
+    xdg.stateFile."caelestia/wallpaper/path-temp.txt" = mkIf (stylixWallpaper != null) {
       text = toString stylixWallpaper;
     };
 
-    home.packages = with pkgs; [
-      cava
-      ddcutil
-      brightnessctl
-      lm_sensors
-      libqalculate
-      qalculate-gtk
-      playerctl
-      networkmanagerapplet
-      material-symbols
-      nerd-fonts.caskaydia-cove
-      rubik
-    ];
+    home.packages =
+      (lib.optional (!cfg.useNvidiaGpu) intelGpuSmi) # Fake nvidia-smi for Intel GPU monitoring
+      ++ (with pkgs; [
+        cava
+        ddcutil
+        brightnessctl
+        lm_sensors
+        libqalculate
+        qalculate-gtk
+        playerctl
+        networkmanagerapplet
+        material-symbols
+        nerd-fonts.caskaydia-cove
+        rubik
+        adwaita-icon-theme # Provides standard freedesktop icons
+      ]);
 
     programs.caelestia = {
       enable = true;
@@ -201,9 +248,9 @@ in {
           enableGtk = true;
           enableQt = true;
           enableTerm = false;
-          enableSpicetify = false;
+          enableSpicetify = true;
           enableDiscord = false;
-          enableBtop = false;
+          enableBtop = true;
         };
       };
 
@@ -277,15 +324,110 @@ in {
             brightness = {
               step = 5;
             };
+            gpuType = "NVIDIA"; # Uses fake nvidia-smi wrapper for Intel
             weather = {
               location = "Gothenburg";
               units = "metric";
             };
           };
+          paths = {
+            mediaGif = "root:/assets/bongocat.gif";
+            # mediaGif =  ../../../../lib/duck.gif;
+            sessionGif = ../../../../lib/duck.gif; #"root:/assets/kurukuru.gif";
+            wallpaperDir = "~/Pictures/Wallpapers";
+          };
 
           general = {
-            terminal = config.features.defaults.terminal.command or "kitty";
-            file-manager = config.features.defaults.fileManager.command or "nautilus";
+            apps = {
+              terminal = [config.features.defaults.terminal.command or "kitty"];
+              explorer = [config.features.defaults.fileManager.command or "nautilus"];
+              audio = ["pavucontrol"];
+            };
+            battery = {
+              warnLevels = [
+                {
+                  level = 20;
+                  title = "Low battery";
+                  message = "You might want to plug in a charger";
+                  icon = "battery_android_frame_2";
+                }
+                {
+                  level = 10;
+                  title = "Did you see the previous message?";
+                  message = "You should probably plug in a charger <b>now</b>";
+                  icon = "battery_android_frame_1";
+                }
+                {
+                  level = 5;
+                  title = "Critical battery level";
+                  message = "PLUG THE CHARGER RIGHT NOW!!";
+                  icon = "battery_android_alert";
+                  critical = true;
+                }
+              ];
+              criticalLevel = 3;
+            };
+            idle = {
+              lockBeforeSleep = true;
+              inhibitWhenAudio = true;
+              timeouts = [
+                {
+                  timeout = 180;
+                  idleAction = "lock";
+                }
+                {
+                  timeout = 300;
+                  idleAction = "dpms off";
+                  returnAction = "dpms on";
+                }
+                {
+                  timeout = 600;
+                  idleAction = ["systemctl" "suspend-then-hibernate"];
+                }
+              ];
+            };
+          };
+
+          session = {
+            enabled = true;
+            vimKeybinds = true;
+            commands = {
+              lock = ["caelestia" "shell" "lock" "lock"];
+              logout = ["loginctl" "terminate-user" ""];
+              shutdown = ["systemctl" "poweroff"];
+              reboot = ["systemctl" "reboot"];
+              hibernate = ["systemctl" "hibernate"];
+            };
+          };
+
+          utilities = {
+            enabled = true;
+            maxToasts = 4;
+            toasts = {
+              audioInputChanged = true;
+              audioOutputChanged = true;
+              capsLockChanged = true;
+              chargingChanged = true;
+              configLoaded = true;
+              dndChanged = true;
+              gameModeChanged = true;
+              kbLayoutChanged = true;
+              kbLimit = true;
+              numLockChanged = true;
+              vpnChanged = true;
+              nowPlaying = false;
+            };
+            vpn = {
+              enabled = true;
+              provider = [
+                {
+                  name = "tailscale";
+                  interface = "tailscale0";
+                  displayName = "Tailscale";
+                  enabled = true;
+                }
+              ];
+            };
           };
         }
         cfg.settings
@@ -295,6 +437,12 @@ in {
     wayland.windowManager.hyprland.settings = {
       "$menu" = mkIf cfg.useLauncher (mkForce "caelestia shell drawers toggle launcher");
       "$sessionMenu" = mkIf cfg.useSessionMenu (mkForce "caelestia shell drawers toggle session");
+
+      "$kbSession" = "Ctrl+Alt, Delete";
+      "$kbClearNotifs" = "Ctrl+Alt, C";
+      "$kbShowPanels" = "Super, K";
+      "$kbLock" = "Super, L";
+      "$kbRestoreLock" = "Super+Alt, L";
 
       general = with config.lib.stylix.colors; {
         border_size = mkForce 2;
@@ -310,6 +458,29 @@ in {
 
       bindr = [
         "SUPER, SUPER_L, exec, caelestia shell drawers toggle launcher"
+      ];
+
+      bind = [
+        "$kbSession, exec, caelestia shell drawers toggle session"
+        "$kbShowPanels, exec, caelestia shell drawers showall"
+        "$kbLock, exec, caelestia shell lock lock"
+      ];
+
+      bindl = [
+        "$kbClearNotifs, exec, caelestia shell notifs clear"
+        "$kbRestoreLock, exec, caelestia shell -d"
+        "$kbRestoreLock, exec, caelestia shell lock lock"
+        # Brightness/media handled by hyprland-binds.nix
+        # ", XF86MonBrightnessUp, exec, caelestia shell brightness set +5%"
+        # ", XF86MonBrightnessDown, exec, caelestia shell brightness set 5%-"
+        # "Ctrl+Super, Space, exec, caelestia shell mpris playPause"
+        # ", XF86AudioPlay, exec, caelestia shell mpris playPause"
+        # ", XF86AudioPause, exec, caelestia shell mpris playPause"
+        # "Ctrl+Super, Equal, exec, caelestia shell mpris next"
+        # ", XF86AudioNext, exec, caelestia shell mpris next"
+        # "Ctrl+Super, Minus, exec, caelestia shell mpris previous"
+        # ", XF86AudioPrev, exec, caelestia shell mpris previous"
+        # ", XF86AudioStop, exec, caelestia shell mpris stop"
       ];
     };
   };
