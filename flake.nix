@@ -140,11 +140,13 @@
     # Thanks Misterio77
     lib = (nixpkgs.lib // home-manager.lib).extend (_self: _super: {custom = import ./lib {inherit (nixpkgs) lib;};});
     forEachSystem = f: lib.genAttrs systems (system: f pkgsFor.${system});
+    overlays = import ./overlays {inherit inputs;};
     pkgsFor = lib.genAttrs systems (
       system:
         import nixpkgs {
           inherit system;
           config.allowUnfree = true;
+          overlays = builtins.attrValues overlays;
         }
     );
   in {
@@ -166,7 +168,7 @@
     formatter = forEachSystem (pkgs: pkgs.alejandra);
 
     # Your custom packages and modifications, exported as overlays
-    overlays = import ./overlays {inherit inputs;};
+    inherit overlays;
     # Reusable nixos modules you might want to export
     nixosModules = import ./modules/nixos;
     # Reusable home-manager modules you might want to export

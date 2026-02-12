@@ -5,7 +5,7 @@
 }: {
   pre-commit-check = inputs.pre-commit-hooks.lib.${pkgs.stdenv.hostPlatform.system}.run {
     src = ./.;
-    package = pkgs.prek;
+    package = pkgs.unstable.prek;
     hooks = {
       # General
       check-added-large-files.enable = true;
