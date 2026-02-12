@@ -16,7 +16,6 @@
       "work" = {
         ssid = "Pelagia";
         sopsKey = "wifi/work-pelagia";
-        autoconnect = false;
       };
     };
   };
