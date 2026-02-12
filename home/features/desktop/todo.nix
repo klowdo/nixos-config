@@ -60,11 +60,11 @@ with lib; let
     🗑️ Clear All"
 
         # Show main menu
-        choice=$(echo "$MENU_OPTIONS" | wofi --dmenu --prompt "Todo Manager" --lines 4 --width "$WOFI_WIDTH" --height "$WOFI_HEIGHT")
+        choice=$(echo "$MENU_OPTIONS" | wofi --dmenu --prompt "Todo Manager" --width "$WOFI_WIDTH" --height "$WOFI_HEIGHT")
 
         case "$choice" in
           "📝 Add Todo")
-            new_todo=$(echo "" | wofi --dmenu --prompt "New Todo:" --lines 1 --width "$WOFI_WIDTH" --height "$WOFI_HEIGHT")
+            new_todo=$(echo "" | wofi --dmenu --prompt "New Todo:" --width "$WOFI_WIDTH" --height "$WOFI_HEIGHT")
             if [[ -n "$new_todo" ]]; then
               add_todo "$new_todo"
             fi
@@ -91,7 +91,7 @@ with lib; let
             ;;
           "🗑️ Clear All")
             if [[ -s "$TODO_FILE" ]]; then
-              confirm=$(echo -e "Yes\nNo" | wofi --dmenu --prompt "Clear all todos?" --lines 2 --width "$WOFI_WIDTH" --height "$WOFI_HEIGHT")
+              confirm=$(echo -e "Yes\nNo" | wofi --dmenu --prompt "Clear all todos?" --width "$WOFI_WIDTH" --height "$WOFI_HEIGHT")
               if [[ "$confirm" == "Yes" ]]; then
                 > "$TODO_FILE"
                 notify-send "Todo List" "All todos cleared!" -t 2000
