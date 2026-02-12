@@ -830,11 +830,11 @@
         "trouble-nvim": "trouble-nvim"
       },
       "locked": {
-        "lastModified": 1770879248,
-        "narHash": "sha256-JOI2J94mmyxWeDXcghm8FERot5aHNoi+1cmwpR6ujNw=",
+        "lastModified": 1770907433,
+        "narHash": "sha256-Q42wF/vciuZz5PzdOk8fH236xGrDtTw93uL1FgoTMh8=",
         "owner": "klowdo",
         "repo": "kixvim",
-        "rev": "23209570b7a069aae4f48fd00999b36984fbf504",
+        "rev": "5e2dc6dc4482226a8646bcea634b8e68a7c20f08",
         "type": "github"
       },
       "original": {
@@ -1075,11 +1075,11 @@
     },
     "nixpkgs_3": {
       "locked": {
-        "lastModified": 1770812194,
-        "narHash": "sha256-OH+lkaIKAvPXR3nITO7iYZwew2nW9Y7Xxq0yfM/UcUU=",
+        "lastModified": 1770843696,
+        "narHash": "sha256-LovWTGDwXhkfCOmbgLVA10bvsi/P8eDDpRudgk68HA8=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "8482c7ded03bae7550f3d69884f1e611e3bd19e8",
+        "rev": "2343bbb58f99267223bc2aac4fc9ea301a155a16",
         "type": "github"
       },
       "original": {
