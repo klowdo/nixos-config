@@ -79,7 +79,7 @@
     # auto-cpufreq.enable = true;
     power-profiles-daemon.enable = true; # Already enables upower for hyprdynamicmonitors
     # strongSwan.enable = true;
-    strongSwan-swanctl.enable = true;
+    strongSwan-swanctl.enable = false;
     # nss-docker-ng = {
     #   enable = true;
     #   dockerHost = "unix:///run/user/1000/docker.sock";
