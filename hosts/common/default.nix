@@ -22,7 +22,6 @@
     extraSpecialArgs = {inherit inputs outputs;};
     backupFileExtension = "bak";
     sharedModules = [
-      inputs.sops-nix.homeManagerModules.sops
     ];
   };
 

@@ -224,7 +224,6 @@
         pkgs = pkgsFor.x86_64-linux;
         extraSpecialArgs = {inherit inputs outputs;};
         modules = [
-          # > Our main home-manager configuration file <
           ./home/klowdo/dellicious.nix
         ];
       };

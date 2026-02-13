@@ -1,5 +1,6 @@
 {
   config,
+  inputs,
   pkgs,
   ...
 }: let
@@ -12,7 +13,8 @@
   # yubikeyIdentityFile = "${sopsAgeDir}/yubikey-identity-1.txt";
   # tpmIdentityFile = "${sopsAgeDir}/tpm-identity.txt";
 in {
-  # sops-nix module is loaded via sharedModules in hosts/common/default.nix
+  imports = [inputs.sops-nix.homeManagerModules.sops];
+
   sops = {
     # Age key configuration for decryption
     # Default: software-based age key at ~/.config/sops/age/keys.txt
