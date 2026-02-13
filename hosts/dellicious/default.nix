@@ -61,6 +61,9 @@
     ../common/optional/power-profiles-daemon.nix
     ../common/optional/auto-upgrade.nix
     ../common/optional/systemd-notify.nix
+    ../common/optional/sddm.nix
+    ../common/optional/ly.nix
+    ../common/optional/stylix.nix
   ];
 
   networking.hostName = "dellicious";
@@ -79,6 +82,8 @@
     # auto-cpufreq.enable = true;
     power-profiles-daemon.enable = true; # Already enables upower for hyprdynamicmonitors
     # strongSwan.enable = true;
+    # sddm.enable = true;
+    # ly.enable = true;
     strongSwan-swanctl.enable = false;
     # nss-docker-ng = {
     #   enable = true;

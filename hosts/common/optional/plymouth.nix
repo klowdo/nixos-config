@@ -2,7 +2,7 @@
 with lib; {
   boot.plymouth = {
     enable = true;
-    theme = "bgrt";
+    theme = lib.mkDefault "bgrt";
   };
 
   boot.kernelParams = [
