@@ -78,7 +78,7 @@
       tools = {
         rider.enable = false;
         goland.enable = true;
-        libreoffice.enable = true;
+        libreoffice.enable = false;
       };
       languages = {
         dotnet.enable = true;
