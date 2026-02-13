@@ -84,7 +84,7 @@
         dotnet.enable = true;
       };
       mcp-gateway.enable = true;
-      cura.enable = true;
+      cura.enable = false;
       orca.enable = true;
       super-slicer.enable = true;
       bambu-studio.enable = true;
