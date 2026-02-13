@@ -1,6 +1,4 @@
-{pkgs, ...}: {
-  environment.systemPackages = [pkgs.cachix];
-
+{...}: {
   nix.settings = {
     extra-substituters = [
       "https://klowdo.cachix.org"
