@@ -90,7 +90,7 @@
       bambu-studio.enable = true;
       nix-flatpak.enable = true;
       freecad.enable = true;
-      mongo-compass.enable = true;
+      mongo-compass.enable = false;
     };
     media = {
       firefox.enable = true;
