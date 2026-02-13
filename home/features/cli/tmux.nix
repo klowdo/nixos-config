@@ -119,6 +119,9 @@ in {
         set -g allow-passthrough on
         set -g visual-activity off
 
+        set -g @scroll-without-changing-pane "on"
+        set -g @emulate-scroll-for-no-mouse-alternate-buffer "on"
+
         bind -T copy-mode-vi v send -X begin-selection
         bind -T copy-mode-vi y send-keys -X copy-pipe-and-cancel
         bind P paste-buffer
