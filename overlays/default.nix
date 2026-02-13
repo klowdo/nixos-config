@@ -38,10 +38,7 @@
 
       dotnet-combined = with final.unstable.dotnetCorePackages;
         (combinePackages [
-          # sdk_8_0_3xx
-          # sdk_9_0
-          final.unstable.dotnet-sdk_8
-          final.unstable.dotnet-sdk_9
+          final.unstable.dotnet-sdk_10
         ])
         .overrideAttrs (_finalAttrs: previousAttrs: {
           # This is needed to install workload in $HOME
