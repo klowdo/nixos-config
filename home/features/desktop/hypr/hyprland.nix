@@ -28,10 +28,6 @@ in {
       T_QPA_PLATFORM = "wayland";
       GDK_BACKEND = "wayland";
       WLR_NO_HARDWARE_CURSORS = "1";
-      XDG_CURRENT_DESKTOP = "Hyprland";
-      XDG_SESSION_TYPE = "wayland";
-      XDG_SESSION_DESKTOP = "Hyprland";
-      # GNOME Keyring SSH agent socket
       SSH_AUTH_SOCK = "$XDG_RUNTIME_DIR/keyring/ssh";
     };
     wayland.windowManager.hyprland = {
@@ -57,8 +53,6 @@ in {
         exec-once =
           [
             "wl-paste -p -t text --watch clipman store -P --histpath=\"~/.local/share/clipman-primary.json\""
-            "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
-            # Start GNOME Keyring daemon (components configured via NixOS service)
             "/run/wrappers/bin/gnome-keyring-daemon --start"
           ]
           ++ lib.optionals (!caelestiaEnabled) [
@@ -69,9 +63,6 @@ in {
           "XCURSOR_SIZE,32"
           "WLR_NO_HARDWARE_CURSORS,1"
           "AQ_DRM_DEVICES,/dev/dri/card1"
-          "XDG_CURRENT_DESKTOP,Hyprland"
-          "XDG_SESSION_TYPE,wayland"
-          "XDG_SESSION_DESKTOP,Hyprland"
         ];
 
         # cursor = {

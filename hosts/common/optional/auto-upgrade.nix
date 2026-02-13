@@ -41,8 +41,7 @@ in {
       "-L"
     ];
 
-    # Run on boot
-    dates = "boot";
+    dates = "06:00";
 
     # Apply on next reboot
     operation = "boot";

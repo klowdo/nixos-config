@@ -78,9 +78,12 @@ in {
       user = {
         services.docker-buildx-prune = {
           description = "Prune Docker buildx cache";
+          requires = ["docker.service"];
+          after = ["docker.service"];
           serviceConfig = {
             Type = "oneshot";
             ExecStart = "${pkgs.docker}/bin/docker buildx prune -f --filter=until=24h";
+            Environment = "DOCKER_HOST=unix:///run/user/%U/docker.sock";
           };
         };
 

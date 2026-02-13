@@ -53,6 +53,7 @@
           useSessionMenu = true;
         };
       };
+      # loginManager.enable = true;
       autoclaude.enable = false;
     };
 

@@ -238,7 +238,7 @@ in {
 
       systemd = {
         enable = true;
-        target = "hyprland-session.target";
+        # target = "hyprland-session.target";
       };
 
       cli = {

@@ -83,7 +83,7 @@
     power-profiles-daemon.enable = true; # Already enables upower for hyprdynamicmonitors
     # strongSwan.enable = true;
     # sddm.enable = true;
-    # ly.enable = true;
+    ly.enable = false;
     strongSwan-swanctl.enable = false;
     # nss-docker-ng = {
     #   enable = true;

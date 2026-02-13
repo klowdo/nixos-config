@@ -6,6 +6,7 @@
 }:
 with lib; let
   cfg = config.features.cli.zsh;
+  hasLoginManager = config.features.desktop.loginManager.enable or false;
 in {
   options.features.cli.zsh.enable = mkEnableOption "enable extended zsh configuration";
 
@@ -51,12 +52,14 @@ in {
       '';
 
       loginExtra = ''
-          export NIX_LOG=info
-          export TERMINAL=kitty
+        export NIX_LOG=info
+        export TERMINAL=kitty
 
-        if [[ $(tty) == "/dev/tty1" ]]; then
-            exec Hyprland &> /dev/null
-        fi
+        ${lib.optionalString (!hasLoginManager) ''
+          if [[ $(tty) == "/dev/tty1" ]]; then
+              exec uwsm start hyprland-uwsm.desktop &> /dev/null
+          fi
+        ''}
       '';
 
       oh-my-zsh = {
