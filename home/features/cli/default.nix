@@ -42,16 +42,15 @@
     extraOptions = ["-l" "--icons" "--git" "-a"];
   };
 
+  programs.atuin = {
+    enable = true;
+    settings.auto_sync = false;
+    flags = ["--disable-up-arrow"];
+  };
+
   programs.bat = {
     enable = true;
-    extraPackages = builtins.attrValues {
-      inherit
-        (pkgs.bat-extras)
-        batgrep # search through and highlight files using ripgrep
-        batdiff # Diff a file against the current git index, or display the diff between to files
-        batman
-        ; # read manpages using bat as the formatter
-    };
+    extraPackages = with pkgs.bat-extras; [batman];
   };
 
   home.packages = with pkgs;
