@@ -68,6 +68,11 @@
       wishlist
       unp
       unstable.witr
+      duf
+      ncdu
+      pciutils
+      appimage-run
+      virt-viewer
     ]
     ++ [
       pkgs.unstable.isd

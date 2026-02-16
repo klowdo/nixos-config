@@ -1,4 +1,13 @@
-{lib, ...}: {
+{
+  lib,
+  pkgs,
+  ...
+}: {
+  home.packages = with pkgs; [
+    wofi-pass
+    wofi-emoji
+  ];
+
   programs.wofi = {
     enable = true;
     settings = {};

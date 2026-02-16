@@ -14,6 +14,8 @@
       deadnix
       statix
       nurl
+      nix-search-cli
+      nix-search-tv
     ]
     ++ (with inputs.nsearch.packages.${pkgs.stdenv.hostPlatform.system}; [nsearch nrun nshell]);
   programs.nix-index = {

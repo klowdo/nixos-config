@@ -16,6 +16,12 @@ in {
       wf-recorder
       wtype
       ydotool
+      wlr-randr
+      gsettings-desktop-schemas
+      swww
+      grim
+      brightnessctl
+      pavucontrol
     ];
   };
 }

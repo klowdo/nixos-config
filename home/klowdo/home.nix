@@ -29,47 +29,6 @@ in {
     # release notes.
     stateVersion = "25.11"; # Please read the comment before changing.
 
-    # The home.packages option allows you to install Nix packages into your
-    # environment.
-    packages = with pkgs; [
-      fastfetch
-      gsettings-desktop-schemas
-      wlr-randr
-      ydotool
-      # hyprland-share-picker
-      bluetuith
-
-      duf
-      ncdu
-      wl-clipboard
-      pciutils
-      zellij
-
-      unzip
-      unrar
-      p7zip
-
-      brightnessctl
-      virt-viewer
-      appimage-run
-
-      brave
-
-      # wezterm
-      cool-retro-term
-      swww
-      grim
-
-      pavucontrol
-      wofi-pass
-      wofi-emoji
-
-      nix-search-cli
-      nix-search-tv
-      circumflex
-      numara-calculator
-    ];
-
     # Home Manager is pretty good at managing dotfiles. The primary way to manage
     # plain files is through 'home.file'.
     file = {

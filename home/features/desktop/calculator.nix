@@ -14,6 +14,7 @@ in {
     # Install qalculate-gtk calculator
     home.packages = with pkgs; [
       qalculate-gtk
+      numara-calculator
     ];
 
     # Hyprland window rules and bindings for calculator
