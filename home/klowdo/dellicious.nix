@@ -29,6 +29,10 @@
       bitwarden-wofi.enable = true;
       ssh.enable = true;
       git-repo-manager.enable = true;
+      zellij.enable = true;
+      archives.enable = true;
+      circumflex.enable = true;
+      cool-retro-term.enable = true;
     };
     desktop = {
       wayland.enable = true;
@@ -104,6 +108,7 @@
         url = "https://music.home.flixen.se";
       };
       pinta.enable = true;
+      brave.enable = true;
     };
     communication = {
       zoom.enable = false;
@@ -113,6 +118,7 @@
     };
     hardware = {
       zsa-moonlander.enable = true;
+      bluetooth.enable = true;
     };
     gaming = {
       heroic.enable = true;

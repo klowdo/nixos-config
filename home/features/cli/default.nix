@@ -21,6 +21,10 @@
     ./ssh.nix
     ./lazygit.nix
     ./git-repo-manager.nix
+    ./zellij.nix
+    ./archives.nix
+    ./circumflex.nix
+    ./cool-retro-term.nix
   ];
 
   programs.zoxide = {
