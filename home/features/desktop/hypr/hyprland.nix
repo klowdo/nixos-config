@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }:
 with lib; let
@@ -16,6 +17,16 @@ in {
   ];
 
   config = mkIf cfg.enable {
+    home.packages = with pkgs; [
+      pyprland
+      hyprpicker
+      hyprcursor
+      hyprlock
+      hypridle
+      hyprpaper
+      swappy
+      hyprland-protocols
+    ];
     services.custom-way-displays = {
       enable = false; # Disabled in favor of hyprdynamicmonitors
       logThreshold = "WARNING";

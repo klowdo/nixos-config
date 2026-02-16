@@ -37,12 +37,6 @@ in {
       wlr-randr
       ydotool
       # hyprland-share-picker
-      pyprland
-      hyprpicker
-      hyprcursor
-      hyprlock
-      hypridle
-      hyprpaper
       bluetuith
 
       duf
@@ -55,35 +49,21 @@ in {
       unrar
       p7zip
 
-      ninja
       brightnessctl
       virt-viewer
-      swappy
       appimage-run
 
       brave
 
       # wezterm
       cool-retro-term
-      hyprland-protocols
-      swayidle
       swww
       grim
 
       pavucontrol
-      zellij-ps
-      git-absorb
       wofi-pass
       wofi-emoji
 
-      yubikey-agent
-      yubico-pam
-      yubikey-manager
-      yubioath-flutter
-      pcsclite
-      # pam_u2f
-      # rpi-imager  # Broken in current nixpkgs - Qt6 CMake issue
-      git-extras
       nix-search-cli
       nix-search-tv
       circumflex
@@ -146,7 +126,6 @@ in {
 
     bash.enable = true; # see note on other shells below
   };
-  # program.firefox.enable = true;
 
   programs.btop = {
     enable = true;

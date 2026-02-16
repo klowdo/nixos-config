@@ -8,6 +8,10 @@
     mode = "0600";
     path = ".git-credentials";
   };
+  home.packages = with pkgs; [
+    git-absorb
+    git-extras
+  ];
   programs.git = {
     enable = true;
     package = pkgs.gitFull;

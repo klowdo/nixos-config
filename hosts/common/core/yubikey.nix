@@ -18,6 +18,11 @@
   environment.systemPackages = with pkgs; [
     yubikey-personalization
     yubioath-flutter
+    yubico-pam
+
+    yubikey-agent
+    yubikey-manager
+    yubioath-flutter
     yubikey-manager # ykman CLI
     yubico-piv-tool
     age-plugin-yubikey # YubiKey support for age/sops
