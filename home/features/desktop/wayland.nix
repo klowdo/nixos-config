@@ -10,6 +10,8 @@ in {
   options.features.desktop.wayland.enable = mkEnableOption "wayland extra tools and config";
 
   config = mkIf cfg.enable {
+    home.sessionVariables.NIXOS_OZONE_WL = "1";
+
     home.packages = with pkgs; [
       qt6.qtwayland
       waypipe

@@ -1,11 +1,15 @@
 {
   pkgs,
   inputs,
+  lib,
   ...
-}: {
+}: let
+  flakeInputs = lib.filterAttrs (_: lib.isType "flake") inputs;
+in {
   imports = [
     inputs.nix-index-database.homeModules.nix-index
   ];
+  home.sessionVariables.NIX_PATH = lib.concatStringsSep ":" (lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs);
   home.packages = with pkgs;
     [
       nixfmt-rfc-style

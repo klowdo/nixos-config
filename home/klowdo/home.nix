@@ -1,11 +1,8 @@
 {
   inputs,
-  lib,
   pkgs,
   ...
-}: let
-  flakeInputs = lib.filterAttrs (_: lib.isType "flake") inputs;
-in {
+}: {
   imports = [
     inputs.catppuccin.homeModules.catppuccin
   ];
@@ -35,27 +32,6 @@ in {
       ".face".source = ../../lib/felix_evolve.jpg;
       ".face.icon".source = ../../lib/felix_evolve.jpg;
       ".ssh/id_ed25519.pub".source = ./keys/id_ed25519.pub;
-    };
-
-    # Home Manager can also manage your environment variables through
-    # 'home.sessionVariables'. If you don't want to manage your shell through Home
-    # Manager then you have to manually source 'hm-session-vars.sh' located at
-    # either
-    #
-    #  ~/.nix-profile/etc/profile.d/hm-session-vars.sh
-    #
-    # or
-    #
-    #  ~/.local/state/nix/profiles/profile/etc/profile.d/hm-session-vars.sh
-    #
-    # or
-    #
-    #  /etc/profiles/per-user/m3tam3re/etc/profile.d/hm-session-vars.sh
-    #
-    # NH_FLAKE and PROJECT_FOLDERS are set by userConfig module
-    sessionVariables = {
-      NIX_PATH = lib.concatStringsSep ":" (lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs);
-      NIXOS_OZONE_WL = "1";
     };
   };
 
