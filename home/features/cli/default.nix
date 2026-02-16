@@ -82,6 +82,8 @@
   home.sessionVariables = {EDITOR = "nvim";};
 
   programs = {
+    bash.enable = true;
+    btop.enable = true;
     zsh.shellAliases.vimdiff = "nvim -d";
   };
 }

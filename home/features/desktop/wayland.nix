@@ -12,6 +12,18 @@ in {
   config = mkIf cfg.enable {
     home.sessionVariables.NIXOS_OZONE_WL = "1";
 
+    xdg.portal = {
+      enable = true;
+      config = {
+        common.default = ["gtk"];
+        hyprland.default = ["gtk" "hyprland"];
+      };
+      extraPortals = with pkgs; [
+        xdg-desktop-portal-gtk
+        xdg-desktop-portal-hyprland
+      ];
+    };
+
     home.packages = with pkgs; [
       qt6.qtwayland
       waypipe

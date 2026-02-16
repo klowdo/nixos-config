@@ -1,14 +1,8 @@
-{
-  inputs,
-  pkgs,
-  ...
-}: {
+{inputs, ...}: {
   imports = [
     inputs.catppuccin.homeModules.catppuccin
   ];
 
-  # User-specific configuration (used by various modules)
-  # home.username and home.homeDirectory are derived from userConfig
   userConfig = {
     username = "klowdo";
     fullName = "Felix Svensson";
@@ -16,18 +10,10 @@
   };
 
   catppuccin.flavor = "macchiato";
-  home = {
-    # This value determines the Home Manager release that your configuration is
-    # compatible with. This helps avoid breakage when a new Home Manager release
-    # introduces backwards incompatible changes.
-    #
-    # You should not change this value, even if you update Home Manager. If you do
-    # want to update the value, then make sure to first check the Home Manager
-    # release notes.
-    stateVersion = "25.11"; # Please read the comment before changing.
 
-    # Home Manager is pretty good at managing dotfiles. The primary way to manage
-    # plain files is through 'home.file'.
+  home = {
+    stateVersion = "25.11";
+
     file = {
       ".face".source = ../../lib/felix_evolve.jpg;
       ".face.icon".source = ../../lib/felix_evolve.jpg;
@@ -35,40 +21,6 @@
     };
   };
 
-  # for screensharing
-  xdg = {
-    portal = {
-      enable = true;
-      config = {
-        common.default = ["gtk"];
-        hyprland.default = ["gtk" "hyprland"];
-      };
-      extraPortals = with pkgs; [
-        # xdg-desktop-portal-wlr
-        xdg-desktop-portal-gtk
-        xdg-desktop-portal-hyprland
-      ];
-    };
-  };
-
-  programs = {
-    direnv = {
-      enable = true;
-      enableBashIntegration = true; # see note on other shells below
-      enableZshIntegration = true;
-      nix-direnv.enable = true;
-    };
-
-    bash.enable = true; # see note on other shells below
-  };
-
-  programs.btop = {
-    enable = true;
-  };
-
-  # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";
-
-  # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 }

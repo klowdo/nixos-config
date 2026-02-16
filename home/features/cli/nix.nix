@@ -10,6 +10,14 @@ in {
     inputs.nix-index-database.homeModules.nix-index
   ];
   home.sessionVariables.NIX_PATH = lib.concatStringsSep ":" (lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs);
+
+  programs.direnv = {
+    enable = true;
+    enableBashIntegration = true;
+    enableZshIntegration = true;
+    nix-direnv.enable = true;
+  };
+
   home.packages = with pkgs;
     [
       nixfmt-rfc-style
