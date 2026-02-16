@@ -10,6 +10,7 @@ in {
   options.features.media.firefox.enable = mkEnableOption "enable firefox browser";
 
   config = mkIf cfg.enable {
+    stylix.targets.firefox.enable = true;
     stylix.targets.firefox.profileNames = ["default"];
     programs.firefox = {
       enable = true;
@@ -59,7 +60,13 @@ in {
           "browser.startup.page" = 1;
           "signon.rememberSignons" = false;
           "signon.autofillForms" = false;
+          "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
         };
+        userChrome = ''
+          .tabbrowser-tab .tab-close-button {
+            display: none !important;
+          }
+        '';
       };
     };
   };
