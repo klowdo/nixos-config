@@ -11,39 +11,6 @@ with lib; let
   stylixSansFont = config.stylix.fonts.sansSerif.name or "Rubik";
   stylixWallpaper = config.stylix.image or null;
 
-  intelGpuSmi = pkgs.writeShellScriptBin "nvidia-smi" ''
-    # Fake nvidia-smi for Intel integrated GPUs
-    # Outputs: utilization%, temperature (matching nvidia-smi csv format)
-
-    # Try to get Intel GPU frequency as a proxy for utilization
-    freq_file="/sys/class/drm/card1/gt_cur_freq_mhz"
-    max_freq_file="/sys/class/drm/card1/gt_max_freq_mhz"
-
-    if [[ -f "$freq_file" && -f "$max_freq_file" ]]; then
-      cur=$(cat "$freq_file" 2>/dev/null || echo 0)
-      max=$(cat "$max_freq_file" 2>/dev/null || echo 1)
-      if [[ "$max" -gt 0 ]]; then
-        util=$((cur * 100 / max))
-      else
-        util=0
-      fi
-    else
-      util=0
-    fi
-
-    # Use CPU temp as proxy (Intel iGPU shares die with CPU)
-    temp=0
-    for hwmon in /sys/class/hwmon/hwmon*/; do
-      if [[ -f "$hwmon/name" ]] && grep -q "coretemp" "$hwmon/name" 2>/dev/null; then
-        temp=$(cat "$hwmon/temp1_input" 2>/dev/null || echo 0)
-        temp=$((temp / 1000))
-        break
-      fi
-    done
-
-    echo "$util, $temp"
-  '';
-
   stylixColors = with config.lib.stylix.colors; {
     primary_paletteKeyColor = base0D;
     secondary_paletteKeyColor = base04;
@@ -149,6 +116,7 @@ with lib; let
 in {
   imports = [
     inputs.caelestia-shell.homeManagerModules.default
+    ./calesteia-nvidia.nix
   ];
 
   options.features.desktop.bar.caelestia = {
@@ -190,7 +158,7 @@ in {
       description = "Caelestia shell configuration (shell.json)";
     };
 
-    useNvidiaGpu = mkOption {
+    uuseNvidiaGpuseNvidiaGpu = mkOption {
       type = types.bool;
       default = false;
       description = "Use real nvidia-smi instead of Intel GPU wrapper";
@@ -198,10 +166,9 @@ in {
   };
 
   config = mkIf cfg.enable {
-    specialisation.nvidia.configuration = {
-      programs.caelestia.settings.services.gpuType = mkForce "NVIDIA";
-      features.desktop.bar.caelestia.useNvidiaGpu = true;
-    };
+    #   programs.caelestia.settings.services.gpuType = mkForce "NVIDIA";
+    #   features.desktop.bar.caelestia.useNvidiaGpu = true;
+    # };
 
     xdg.stateFile."caelestia/scheme-temp.json".text = builtins.toJSON {
       name = "stylix";
@@ -216,8 +183,9 @@ in {
     };
 
     home.packages =
-      (lib.optional (!cfg.useNvidiaGpu) intelGpuSmi) # Fake nvidia-smi for Intel GPU monitoring
-      ++ (with pkgs; [
+      # (lib.optional (!cfg.useNvidiaGpu) intelGpuSmi) # Fake nvidia-smi for Intel GPU monitoring
+      # ++
+      with pkgs; [
         cava
         ddcutil
         brightnessctl
@@ -225,12 +193,11 @@ in {
         libqalculate
         qalculate-gtk
         playerctl
-        networkmanagerapplet
         material-symbols
         nerd-fonts.caskaydia-cove
         rubik
         adwaita-icon-theme # Provides standard freedesktop icons
-      ]);
+      ];
 
     programs.caelestia = {
       enable = true;
