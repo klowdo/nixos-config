@@ -5,6 +5,12 @@
     dedicatedServer.openFirewall = false;
     localNetworkGameTransfers.openFirewall = false;
     gamescopeSession.enable = true;
+    extraPackages = with pkgs; [gamescope];
+    package = pkgs.steam.override {
+      extraEnv = {
+        STEAM_FORCE_DESKTOPUI_SCALING = "1.5";
+      };
+    };
   };
 
   programs.gamemode.enable = true;
