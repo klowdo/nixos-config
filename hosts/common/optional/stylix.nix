@@ -30,7 +30,9 @@
       };
     };
     targets = {
+      console.enable = false;
       gnome.enable = false;
+      plymouth.enable = false;
     };
   };
 }
