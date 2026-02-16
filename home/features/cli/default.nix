@@ -45,7 +45,10 @@
   programs.atuin = {
     enable = true;
     enableZshIntegration = true;
-    settings.auto_sync = false;
+    settings = {
+      auto_sync = false;
+      show_preview = false;
+    };
     flags = ["--disable-up-arrow"];
   };
 
