@@ -1,6 +1,5 @@
 {...}: {
   imports = [
-    ./bat.nix
     ./audio-select.nix
     ./git.nix
   ];

@@ -52,6 +52,7 @@
     flags = ["--disable-up-arrow"];
   };
 
+  catppuccin.bat.enable = true;
   programs.bat = {
     enable = true;
     extraPackages = with pkgs.bat-extras; [batman];
