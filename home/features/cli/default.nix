@@ -6,7 +6,7 @@
   imports = [
     ./zsh.nix
     ./fzf.nix
-    ./neofetch.nix
+    ./fastfetch.nix
     ./yazi.nix
     ./password-store.nix
     ./nh.nix
