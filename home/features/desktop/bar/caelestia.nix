@@ -430,7 +430,6 @@ in {
       bind = [
         "$kbSession, exec, caelestia shell drawers toggle session"
         "$kbShowPanels, exec, caelestia shell drawers showall"
-        "$kbLock, exec, caelestia shell lock lock"
       ];
 
       bindl = [
