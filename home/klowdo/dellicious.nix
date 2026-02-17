@@ -26,7 +26,7 @@
       sesh.enable = true;
       gh.enable = true;
       claude-code.enable = true;
-      bitwarden-wofi.enable = true;
+      bitwarden-wofi.enable = false;
       ssh.enable = true;
       git-repo-manager.enable = true;
       zellij.enable = true;
@@ -145,6 +145,10 @@
       };
 
       device = [
+        {
+          name = "beekeeb-piantor-keyboard";
+          kb_layout = "us,se";
+        }
         {
           name = "zsa-technology-labs-moonlander-mark-i-keyboard";
           kb_layout = "us,se";
