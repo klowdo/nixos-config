@@ -36,6 +36,7 @@
   imports = [
     ../common
     ../common/optional/podman.nix
+    ../common/optional/stylix.nix
     ./configuration.nix
     ./services
   ];
