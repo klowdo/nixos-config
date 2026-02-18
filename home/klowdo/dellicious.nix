@@ -45,6 +45,7 @@
       nautilus.enable = true;
       darkman.enable = true;
       bitwarden.enable = true;
+      which-key.enable = true;
       vicinae = {
         enable = true;
         enableHyprlandSupport = true;

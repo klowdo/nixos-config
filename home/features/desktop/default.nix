@@ -14,6 +14,7 @@
     ./defaults.nix
     ./bar
     ./bitwarden.nix
+    ./which-key.nix
     ./auto-claude.nix
     ./stylix.nix
     ./login-manager.nix
