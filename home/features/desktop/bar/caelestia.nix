@@ -401,6 +401,113 @@ in {
       ];
     };
 
+    features.desktop.which-key.extraMenu = [
+      {
+        key = "d";
+        desc = "Desktop";
+        submenu = [
+          {
+            key = "l";
+            desc = "Launcher";
+            cmd = "caelestia shell drawers toggle launcher";
+          }
+          {
+            key = "s";
+            desc = "Session menu";
+            cmd = "caelestia shell drawers toggle session";
+          }
+          {
+            key = "p";
+            desc = "Show panels";
+            cmd = "caelestia shell drawers showall";
+          }
+          {
+            key = "o";
+            desc = "Control center";
+            cmd = "caelestia shell controlCenter open";
+          }
+          {
+            key = "n";
+            desc = "Notifications";
+            submenu = [
+              {
+                key = "c";
+                desc = "Clear";
+                cmd = "caelestia shell notifs clear";
+              }
+              {
+                key = "d";
+                desc = "Toggle DND";
+                cmd = "caelestia shell notifs toggleDnd";
+              }
+            ];
+          }
+          {
+            key = "m";
+            desc = "Media";
+            submenu = [
+              {
+                key = "p";
+                desc = "Play/Pause";
+                cmd = "caelestia shell mpris playPause";
+              }
+              {
+                key = "n";
+                desc = "Next";
+                cmd = "caelestia shell mpris next";
+              }
+              {
+                key = "b";
+                desc = "Previous";
+                cmd = "caelestia shell mpris previous";
+              }
+              {
+                key = "s";
+                desc = "Stop";
+                cmd = "caelestia shell mpris stop";
+              }
+            ];
+          }
+          {
+            key = "c";
+            desc = "Color picker";
+            submenu = [
+              {
+                key = "p";
+                desc = "Pick";
+                cmd = "caelestia shell picker open";
+              }
+              {
+                key = "f";
+                desc = "Pick (freeze)";
+                cmd = "caelestia shell picker openFreeze";
+              }
+              {
+                key = "c";
+                desc = "Pick + copy";
+                cmd = "caelestia shell picker openClip";
+              }
+              {
+                key = "F";
+                desc = "Freeze + copy";
+                cmd = "caelestia shell picker openFreezeClip";
+              }
+            ];
+          }
+          {
+            key = "g";
+            desc = "Game mode toggle";
+            cmd = "caelestia shell gameMode toggle";
+          }
+          {
+            key = "i";
+            desc = "Idle inhibitor toggle";
+            cmd = "caelestia shell idleInhibitor toggle";
+          }
+        ];
+      }
+    ];
+
     wayland.windowManager.hyprland.settings = {
       "$menu" = mkIf cfg.useLauncher (mkForce "caelestia shell drawers toggle launcher");
       "$sessionMenu" = mkIf cfg.useSessionMenu (mkForce "caelestia shell drawers toggle session");
