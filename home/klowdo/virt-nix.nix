@@ -10,7 +10,7 @@
   features = {
     cli = {
       zsh.enable = true;
-      neofetch.enable = true;
+      fastfetch.enable = true;
       fzf.enable = true;
     };
     desktop = {

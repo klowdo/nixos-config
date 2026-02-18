@@ -1,11 +1,13 @@
 {
   config,
+  options,
   lib,
   pkgs,
   ...
 }:
 with lib; let
   cfg = config.features.desktop.hyprland;
+  hasStylix = options ? stylix;
   yamlFormat = pkgs.formats.yaml {};
 
   styleSheet = with config.lib.stylix.colors;
@@ -97,7 +99,7 @@ with lib; let
       }
     '';
 in {
-  config = mkIf cfg.enable {
+  config = mkIf (cfg.enable && hasStylix) {
     home.packages = [
       pkgs.hyprland-preview-share-picker
       pkgs.slurp
