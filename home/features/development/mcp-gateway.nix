@@ -32,7 +32,12 @@ in {
           "mcp"
           "gateway"
           "run"
+          "--secrets"
+          "/run/secrets/mcp_secret:/.env"
         ];
+        env = {
+          DOCKER_HOST = "unix:///run/user/1000/docker.sock";
+        };
       };
     };
   };
