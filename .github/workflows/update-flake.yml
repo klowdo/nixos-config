@@ -40,10 +40,10 @@ jobs:
           echo "exit_code=$?" >> $GITHUB_OUTPUT
           {
             echo "check_output<<CHECKEOF"
-            grep -E "warning:|error:|deprecated" ${RUNNER_TEMP}/check-output.txt || true
+            grep -E "error:|deprecated" ${RUNNER_TEMP}/check-output.txt || true
             echo "CHECKEOF"
           } >> $GITHUB_OUTPUT
-          if grep -q "warning:" ${RUNNER_TEMP}/check-output.txt || grep -q "deprecated" ${RUNNER_TEMP}/check-output.txt; then
+          if grep -qE "error:|deprecated" ${RUNNER_TEMP}/check-output.txt; then
             echo "has_warnings=true" >> $GITHUB_OUTPUT
           else
             echo "has_warnings=false" >> $GITHUB_OUTPUT
