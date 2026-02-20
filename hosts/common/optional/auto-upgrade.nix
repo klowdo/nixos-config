@@ -57,6 +57,7 @@ in {
     };
     serviceConfig = {
       ExecStartPre = [
+        "${pkgs.git}/bin/git config --global --add safe.directory ${configDir}"
         "${pkgs.git}/bin/git -C ${configDir} pull --ff-only origin main"
         "${notifyScript} Started 'Pulling latest config and upgrading system...'"
       ];
