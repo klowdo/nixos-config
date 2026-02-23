@@ -8,6 +8,7 @@
     ./fzf.nix
     ./fastfetch.nix
     ./yazi.nix
+    ./gpg.nix
     ./password-store.nix
     ./nh.nix
     ./taskwarrior.nix
