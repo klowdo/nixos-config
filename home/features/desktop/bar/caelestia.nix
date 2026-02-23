@@ -116,7 +116,7 @@ with lib; let
 in {
   imports = [
     inputs.caelestia-shell.homeManagerModules.default
-    ./calesteia-nvidia.nix
+    ./caelestia-nvidia.nix
   ];
 
   options.features.desktop.bar.caelestia = {
@@ -157,19 +157,9 @@ in {
       default = {};
       description = "Caelestia shell configuration (shell.json)";
     };
-
-    uuseNvidiaGpuseNvidiaGpu = mkOption {
-      type = types.bool;
-      default = false;
-      description = "Use real nvidia-smi instead of Intel GPU wrapper";
-    };
   };
 
   config = mkIf cfg.enable {
-    #   programs.caelestia.settings.services.gpuType = mkForce "NVIDIA";
-    #   features.desktop.bar.caelestia.useNvidiaGpu = true;
-    # };
-
     xdg.stateFile."caelestia/scheme-temp.json".text = builtins.toJSON {
       name = "stylix";
       flavour = "custom";
@@ -182,22 +172,19 @@ in {
       text = toString stylixWallpaper;
     };
 
-    home.packages =
-      # (lib.optional (!cfg.useNvidiaGpu) intelGpuSmi) # Fake nvidia-smi for Intel GPU monitoring
-      # ++
-      with pkgs; [
-        cava
-        ddcutil
-        brightnessctl
-        lm_sensors
-        libqalculate
-        qalculate-gtk
-        playerctl
-        material-symbols
-        nerd-fonts.caskaydia-cove
-        rubik
-        adwaita-icon-theme # Provides standard freedesktop icons
-      ];
+    home.packages = with pkgs; [
+      cava
+      ddcutil
+      brightnessctl
+      lm_sensors
+      libqalculate
+      qalculate-gtk
+      playerctl
+      material-symbols
+      nerd-fonts.caskaydia-cove
+      rubik
+      adwaita-icon-theme # Provides standard freedesktop icons
+    ];
 
     programs.caelestia = {
       enable = true;
