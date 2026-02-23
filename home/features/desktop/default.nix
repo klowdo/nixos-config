@@ -19,5 +19,6 @@
     ./stylix.nix
     ./login-manager.nix
     ./icons.nix
+    ./kando.nix
   ];
 }
