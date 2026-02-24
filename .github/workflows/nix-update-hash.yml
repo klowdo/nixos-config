@@ -1,0 +1,47 @@
+name: Update Nix hashes for Renovate PRs
+
+on:
+  pull_request:
+    paths:
+      - "overlays/jetbrains-*.nix"
+  workflow_dispatch:
+
+jobs:
+  update-hash:
+    if: github.actor == 'renovate[bot]' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: DeterminateSystems/nix-installer-action@main
+
+      - uses: DeterminateSystems/magic-nix-cache-action@main
+
+      - name: Find changed JetBrains overlays
+        id: changed
+        run: |
+          git diff --name-only HEAD~1 -- 'overlays/jetbrains-*.nix' > /tmp/changed.txt
+          cat /tmp/changed.txt
+
+      - name: Update hashes with nix-update
+        run: |
+          while IFS= read -r file; do
+            attr=$(head -1 "$file" | sed 's/# renovate: //')
+            echo "Updating hash for $attr"
+            nix-shell -p nix-update --run \
+              "nix-update --version=skip --flake $attr"
+          done < /tmp/changed.txt
+
+      - name: Commit updated hashes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add overlays/jetbrains-*.nix
+          git diff --cached --quiet || git commit -m "fix: update nix hashes for JetBrains overlays"
+          git push

@@ -7,5 +7,123 @@
     "enabled": true
   },
   "automerge": true,
-  "automergeType": "pr"
+  "automergeType": "pr",
+
+  // JetBrains datasources return composite "version+build" strings
+  // e.g. "2025.3.3+253.31033.129" so both version and build_number
+  // can be extracted by separate regex managers
+  "customDatasources": {
+    "jetbrains-goland": {
+      "defaultRegistryUrlTemplate": "https://data.services.jetbrains.com/products?code=GO&release.type=release",
+      "format": "json",
+      "transformTemplates": [
+        "{ \"releases\": $[0].releases.{ \"version\": version & \"+\" & build, \"releaseTimestamp\": date, \"changelogUrl\": notesLink } }"
+      ]
+    },
+    "jetbrains-rider": {
+      "defaultRegistryUrlTemplate": "https://data.services.jetbrains.com/products?code=RD&release.type=release",
+      "format": "json",
+      "transformTemplates": [
+        "{ \"releases\": $[0].releases.{ \"version\": version & \"+\" & build, \"releaseTimestamp\": date, \"changelogUrl\": notesLink } }"
+      ]
+    },
+    "jetbrains-datagrip": {
+      "defaultRegistryUrlTemplate": "https://data.services.jetbrains.com/products?code=DG&release.type=release",
+      "format": "json",
+      "transformTemplates": [
+        "{ \"releases\": $[0].releases.{ \"version\": version & \"+\" & build, \"releaseTimestamp\": date, \"changelogUrl\": notesLink } }"
+      ]
+    }
+  },
+
+  "customManagers": [
+    // GoLand version
+    {
+      "customType": "regex",
+      "managerFilePatterns": ["overlays/jetbrains-goland.nix"],
+      "matchStrings": [
+        "version = \"(?<currentValue>[^\"]+)\";"
+      ],
+      "depNameTemplate": "jetbrains-goland-version",
+      "datasourceTemplate": "custom.jetbrains-goland",
+      "extractVersionTemplate": "^(?<version>[^+]+)",
+      "versioningTemplate": "loose"
+    },
+    // GoLand build_number
+    {
+      "customType": "regex",
+      "managerFilePatterns": ["overlays/jetbrains-goland.nix"],
+      "matchStrings": [
+        "build_number = \"(?<currentValue>[^\"]+)\";"
+      ],
+      "depNameTemplate": "jetbrains-goland-build",
+      "datasourceTemplate": "custom.jetbrains-goland",
+      "extractVersionTemplate": "\\+(?<version>.+)$",
+      "versioningTemplate": "loose"
+    },
+    // Rider version
+    {
+      "customType": "regex",
+      "managerFilePatterns": ["overlays/jetbrains-rider.nix"],
+      "matchStrings": [
+        "version = \"(?<currentValue>[^\"]+)\";"
+      ],
+      "depNameTemplate": "jetbrains-rider-version",
+      "datasourceTemplate": "custom.jetbrains-rider",
+      "extractVersionTemplate": "^(?<version>[^+]+)",
+      "versioningTemplate": "loose"
+    },
+    // Rider build_number
+    {
+      "customType": "regex",
+      "managerFilePatterns": ["overlays/jetbrains-rider.nix"],
+      "matchStrings": [
+        "build_number = \"(?<currentValue>[^\"]+)\";"
+      ],
+      "depNameTemplate": "jetbrains-rider-build",
+      "datasourceTemplate": "custom.jetbrains-rider",
+      "extractVersionTemplate": "\\+(?<version>.+)$",
+      "versioningTemplate": "loose"
+    },
+    // DataGrip version
+    {
+      "customType": "regex",
+      "managerFilePatterns": ["overlays/jetbrains-datagrip.nix"],
+      "matchStrings": [
+        "version = \"(?<currentValue>[^\"]+)\";"
+      ],
+      "depNameTemplate": "jetbrains-datagrip-version",
+      "datasourceTemplate": "custom.jetbrains-datagrip",
+      "extractVersionTemplate": "^(?<version>[^+]+)",
+      "versioningTemplate": "loose"
+    },
+    // DataGrip build_number
+    {
+      "customType": "regex",
+      "managerFilePatterns": ["overlays/jetbrains-datagrip.nix"],
+      "matchStrings": [
+        "build_number = \"(?<currentValue>[^\"]+)\";"
+      ],
+      "depNameTemplate": "jetbrains-datagrip-build",
+      "datasourceTemplate": "custom.jetbrains-datagrip",
+      "extractVersionTemplate": "\\+(?<version>.+)$",
+      "versioningTemplate": "loose"
+    }
+  ],
+
+  // Group version + build_number updates into a single PR per IDE
+  "packageRules": [
+    {
+      "matchDepPatterns": ["jetbrains-goland-*"],
+      "groupName": "jetbrains-goland"
+    },
+    {
+      "matchDepPatterns": ["jetbrains-rider-*"],
+      "groupName": "jetbrains-rider"
+    },
+    {
+      "matchDepPatterns": ["jetbrains-datagrip-*"],
+      "groupName": "jetbrains-datagrip"
+    }
+  ]
 }
