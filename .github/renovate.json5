@@ -14,7 +14,7 @@
       "defaultRegistryUrlTemplate": "https://data.services.jetbrains.com/products?code=GO&release.type=release",
       "format": "json",
       "transformTemplates": [
-        "{\"releases\": $[0].releases.{\"version\": version, \"releaseTimestamp\": date, \"changelogUrl\": notesLink}}"
+        "{\"releases\": $[0].releases.{\"version\": version, \"releaseTimestamp\": date}}"
       ]
     },
     "jetbrains-goland-builds": {
@@ -28,7 +28,7 @@
       "defaultRegistryUrlTemplate": "https://data.services.jetbrains.com/products?code=RD&release.type=release",
       "format": "json",
       "transformTemplates": [
-        "{\"releases\": $[0].releases.{\"version\": version, \"releaseTimestamp\": date, \"changelogUrl\": notesLink}}"
+        "{\"releases\": $[0].releases.{\"version\": version, \"releaseTimestamp\": date}}"
       ]
     },
     "jetbrains-rider-builds": {
@@ -42,7 +42,7 @@
       "defaultRegistryUrlTemplate": "https://data.services.jetbrains.com/products?code=DG&release.type=release",
       "format": "json",
       "transformTemplates": [
-        "{\"releases\": $[0].releases.{\"version\": version, \"releaseTimestamp\": date, \"changelogUrl\": notesLink}}"
+        "{\"releases\": $[0].releases.{\"version\": version, \"releaseTimestamp\": date}}"
       ]
     },
     "jetbrains-datagrip-builds": {
@@ -105,7 +105,6 @@
     }
   ],
 
-  // Group version + build_number updates into a single PR per IDE
   "packageRules": [
     {
       "matchDepPatterns": ["jetbrains-goland-*"],
