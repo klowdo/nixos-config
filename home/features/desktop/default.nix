@@ -21,5 +21,6 @@
     ./stylix.nix
     ./login-manager.nix
     ./icons.nix
+    ./monitor-webhook.nix
   ];
 }

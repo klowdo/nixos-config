@@ -61,6 +61,7 @@
       };
       # loginManager.enable = true;
       autoclaude.enable = false;
+      monitor-webhook.enable = true;
     };
 
     defaults = {
