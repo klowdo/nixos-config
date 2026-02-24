@@ -6,6 +6,6 @@ final: prev: {
       url = "https://download.jetbrains.com/datagrip/datagrip-${version}.tar.gz";
       hash = "sha256-N9CvTsMLlMcdNQf+NbOwvdOJkD234vGo7XM1OyJxhHY=";
     };
-    build_number = "252.26830.46";
+    build_number = "252.28238.33";
   });
 }
