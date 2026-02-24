@@ -15,6 +15,7 @@
     ./bar
     ./bitwarden.nix
     ./which-key.nix
+    ./solaar.nix
     ./kando.nix
     ./auto-claude.nix
     ./stylix.nix
