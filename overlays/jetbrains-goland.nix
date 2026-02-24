@@ -7,6 +7,6 @@ final: prev: {
       url = "https://download.jetbrains.com/go/goland-${version}.tar.gz";
       hash = "sha256-+4A+rTMwiXjKuBI2dUf90F9KUFaGlB2xgO+BX09WnWw=";
     };
-    build_number = "253.29346.379";
+    build_number = "253.31033.129";
   });
 }
