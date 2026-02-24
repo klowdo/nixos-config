@@ -108,15 +108,18 @@
   "packageRules": [
     {
       "matchDepPatterns": ["jetbrains-goland-*"],
-      "groupName": "jetbrains-goland"
+      "groupName": "jetbrains-goland",
+      "automerge": false
     },
     {
       "matchDepPatterns": ["jetbrains-rider-*"],
-      "groupName": "jetbrains-rider"
+      "groupName": "jetbrains-rider",
+      "automerge": false
     },
     {
       "matchDepPatterns": ["jetbrains-datagrip-*"],
-      "groupName": "jetbrains-datagrip"
+      "groupName": "jetbrains-datagrip",
+      "automerge": false
     }
   ]
 }
