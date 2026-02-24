@@ -39,7 +39,7 @@
       hyprland.enable = true;
       fonts.enable = true;
       tailscale-systray.enable = true;
-      clipboard.enable = true;
+      clipboard.enable = false;
       calculator.enable = true;
       todo.enable = true;
       nautilus.enable = true;
