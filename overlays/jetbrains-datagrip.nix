@@ -1,4 +1,4 @@
-# nix-update: jetbrains-datagrip
+# renovate: jetbrains-datagrip
 final: prev: {
   jetbrains-datagrip = final.unstable.jetbrains.datagrip.overrideAttrs (_old: rec {
     version = "2025.2.4";
