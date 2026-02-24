@@ -8,6 +8,7 @@
   },
   "automerge": true,
   "automergeType": "pr",
+  "platformAutomerge": true,
 
   "customDatasources": {
     "jetbrains-goland-versions": {
@@ -108,18 +109,15 @@
   "packageRules": [
     {
       "matchDepPatterns": ["jetbrains-goland-*"],
-      "groupName": "jetbrains-goland",
-      "automerge": false
+      "groupName": "jetbrains-goland"
     },
     {
       "matchDepPatterns": ["jetbrains-rider-*"],
-      "groupName": "jetbrains-rider",
-      "automerge": false
+      "groupName": "jetbrains-rider"
     },
     {
       "matchDepPatterns": ["jetbrains-datagrip-*"],
-      "groupName": "jetbrains-datagrip",
-      "automerge": false
+      "groupName": "jetbrains-datagrip"
     }
   ]
 }
