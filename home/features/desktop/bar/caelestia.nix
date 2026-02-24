@@ -183,7 +183,8 @@ in {
       material-symbols
       nerd-fonts.caskaydia-cove
       rubik
-      adwaita-icon-theme # Provides standard freedesktop icons
+      adwaita-icon-theme
+      networkmanagerapplet
     ];
 
     programs.caelestia = {
