@@ -10,7 +10,7 @@
     after = ["dbus.service"];
     serviceConfig = {
       Type = "simple";
-      ExecStart = "${pkgs.solaar}/bin/solaar --window hide";
+      ExecStart = "${pkgs.solaar}/bin/solaar --window hide --battery-icons symbolic";
       Restart = "on-failure";
       RestartSec = "5";
     };
