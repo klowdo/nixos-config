@@ -152,7 +152,16 @@
   in {
     # Your custom packages
     # Accessible through 'nix build', 'nix shell', etc
-    packages = forEachSystem (pkgs: import ./pkgs {inherit pkgs;});
+    packages = forEachSystem (
+      pkgs:
+        (import ./pkgs {inherit pkgs;})
+        // {
+          solaar = pkgs.solaar;
+          jetbrains-goland = pkgs.jetbrains-goland;
+          jetbrains-rider = pkgs.jetbrains-rider;
+          jetbrains-datagrip = pkgs.jetbrains-datagrip;
+        }
+    );
 
     # Checks - includes pre-commit hooks for `nix flake check`
     checks = forEachSystem (pkgs: import ./checks.nix {inherit inputs pkgs;});
