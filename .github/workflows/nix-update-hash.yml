@@ -23,20 +23,14 @@ jobs:
 
       - uses: DeterminateSystems/magic-nix-cache-action@main
 
-      - name: Find changed JetBrains overlays
-        id: changed
-        run: |
-          git diff --name-only HEAD~1 -- 'overlays/jetbrains-*.nix' > /tmp/changed.txt
-          cat /tmp/changed.txt
-
       - name: Update hashes with nix-update
         run: |
-          while IFS= read -r file; do
+          for file in overlays/jetbrains-*.nix; do
             attr=$(head -1 "$file" | sed 's/# renovate: //')
             echo "Updating hash for $attr"
             nix-shell -p nix-update --run \
               "nix-update --version=skip --flake $attr"
-          done < /tmp/changed.txt
+          done
 
       - name: Commit updated hashes
         run: |
