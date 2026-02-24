@@ -10,11 +10,13 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       jetbrains: ${{ steps.filter.outputs.jetbrains }}
+      jetbrains_files: ${{ steps.filter.outputs.jetbrains_files }}
     steps:
       - uses: actions/checkout@v6
       - uses: dorny/paths-filter@v3
         id: filter
         with:
+          list-files: shell
           filters: |
             jetbrains:
               - 'overlays/jetbrains-*.nix'
@@ -39,8 +41,10 @@ jobs:
       - uses: DeterminateSystems/magic-nix-cache-action@main
 
       - name: Update hashes with nix-update
+        env:
+          CHANGED_FILES: ${{ needs.check-paths.outputs.jetbrains_files }}
         run: |
-          for file in overlays/jetbrains-*.nix; do
+          for file in $CHANGED_FILES; do
             attr=$(head -1 "$file" | sed 's/# renovate: //')
             echo "Updating hash for $attr"
             nix-shell -p nix-update --run \
