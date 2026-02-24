@@ -1,4 +1,4 @@
-# nix-update: jetbrains-goland
+# renovate: jetbrains-goland
 final: prev: {
   jetbrains-goland = (final.unstable.jetbrains.goland.override {forceWayland = true;})
     .overrideAttrs (_old: rec {

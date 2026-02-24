@@ -1,4 +1,4 @@
-# nix-update: jetbrains-rider
+# renovate: jetbrains-rider
 final: prev: {
   jetbrains-rider = (final.unstable.jetbrains.rider.override {forceWayland = true;})
     .overrideAttrs (_old: rec {
