@@ -64,6 +64,7 @@
     ../common/optional/sddm.nix
     ../common/optional/ly.nix
     ../common/optional/stylix.nix
+    ../common/optional/logitech.nix
   ];
 
   networking.hostName = "dellicious";
