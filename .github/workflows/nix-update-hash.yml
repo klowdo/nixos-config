@@ -1,0 +1,72 @@
+name: Update Nix hashes for Renovate PRs
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  check-paths:
+    runs-on: ubuntu-latest
+    outputs:
+      jetbrains: ${{ steps.filter.outputs.jetbrains }}
+      jetbrains_files: ${{ steps.filter.outputs.jetbrains_files }}
+    steps:
+      - uses: actions/checkout@v6
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          list-files: shell
+          filters: |
+            jetbrains:
+              - 'overlays/jetbrains-*.nix'
+
+  update-hash:
+    needs: check-paths
+    if: |
+      needs.check-paths.outputs.jetbrains == 'true' &&
+      (github.actor == 'renovate[bot]' || github.event_name == 'workflow_dispatch')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.head_ref }}
+          token: ${{ secrets.GH_PAT }}
+
+      - uses: DeterminateSystems/nix-installer-action@main
+
+      - uses: DeterminateSystems/magic-nix-cache-action@main
+
+      - name: Update hashes with nix-update
+        env:
+          CHANGED_FILES: ${{ needs.check-paths.outputs.jetbrains_files }}
+        run: |
+          for file in $CHANGED_FILES; do
+            attr=$(head -1 "$file" | sed 's/# renovate: //')
+            echo "Updating hash for $attr"
+            nix-shell -p nix-update --run \
+              "nix-update --version=skip --flake $attr"
+          done
+
+      - name: Commit updated hashes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add overlays/jetbrains-*.nix
+          git diff --cached --quiet || git commit --amend --no-edit
+          git push --force-with-lease
+
+  update-hash-result:
+    if: always()
+    needs: [update-hash]
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          if [[ "${{ needs.update-hash.result }}" == "failure" || "${{ needs.update-hash.result }}" == "cancelled" ]]; then
+            echo "update-hash failed or was cancelled"
+            exit 1
+          fi
+          echo "update-hash passed or was skipped"
