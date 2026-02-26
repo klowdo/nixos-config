@@ -184,7 +184,6 @@ in {
       nerd-fonts.caskaydia-cove
       rubik
       adwaita-icon-theme
-      networkmanagerapplet
     ];
 
     programs.caelestia = {
