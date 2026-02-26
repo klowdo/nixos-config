@@ -68,7 +68,7 @@ in {
               "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
             };
             userChrome = ''
-              .tabbrowser-tab .tab-close-button {
+              .titlebar-buttonbox-container {
                 display: none !important;
               }
             '';
