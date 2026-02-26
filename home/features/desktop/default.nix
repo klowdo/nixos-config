@@ -22,5 +22,6 @@
     ./login-manager.nix
     ./icons.nix
     ./monitor-webhook.nix
+    ./go-hass-agent.nix
   ];
 }

@@ -62,6 +62,7 @@
       # loginManager.enable = true;
       autoclaude.enable = false;
       monitor-webhook.enable = true;
+      go-hass-agent.enable = true;
     };
 
     defaults = {
