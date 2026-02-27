@@ -4,5 +4,6 @@
     ./docker.nix
     ./appimagetools.nix
     ./gnome-keyring.nix
+    ./virtualization.nix
   ];
 }

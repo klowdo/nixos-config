@@ -76,6 +76,7 @@
       enable = true;
       usePasta = true;
     };
+    virtualization.enable = true;
     resolved.enable = true;
     # hyprlock.enable = true;
     swaylock.enable = true;
