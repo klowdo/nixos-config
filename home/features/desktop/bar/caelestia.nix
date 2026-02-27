@@ -183,6 +183,7 @@ in {
       nerd-fonts.caskaydia-cove
       rubik
       adwaita-icon-theme
+      libxml2
     ];
 
     programs.caelestia = {
