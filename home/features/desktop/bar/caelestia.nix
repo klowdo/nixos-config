@@ -116,7 +116,6 @@ with lib; let
 in {
   imports = [
     inputs.caelestia-shell.homeManagerModules.default
-    ./caelestia-nvidia.nix
   ];
 
   options.features.desktop.bar.caelestia = {
