@@ -1,0 +1,12 @@
+{
+  "Optional system module": {
+    "prefix": "osm",
+    "body": ["poop"],
+    "description": "a moudle for optional nix host module"
+  },
+  "Nix Module": {
+    "prefix": "nixmod",
+    "body": ["{ config, lib, pkgs, ... }:", "{", "  $1", "}"],
+    "description": "Basic Nix module structure"
+  }
+}
