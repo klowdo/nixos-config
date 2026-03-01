@@ -10,6 +10,8 @@
   };
 
   config = lib.mkIf config.features.desktop.bar.hyprpanel.enable {
+    programs.hyprlock.enable = true;
+
     home.packages = [
       pkgs.upower
       pkgs.libgtop

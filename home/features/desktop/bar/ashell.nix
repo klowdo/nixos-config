@@ -26,6 +26,8 @@ in {
   };
 
   config = mkIf cfg.enable {
+    programs.hyprlock.enable = true;
+
     programs.ashell = {
       enable = true;
       inherit (cfg) package;

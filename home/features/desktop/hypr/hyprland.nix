@@ -21,7 +21,6 @@ in {
       pyprland
       hyprpicker
       hyprcursor
-      hyprlock
       hypridle
       hyprpaper
       swappy
