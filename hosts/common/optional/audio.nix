@@ -139,6 +139,25 @@ in {
           ];
         };
 
+        "50-onboard-auto-profile" = {
+          "monitor.alsa.rules" = [
+            {
+              matches = [
+                {
+                  "device.name" = "alsa_card.pci-0000_00_1f.3-platform-skl_hda_dsp_generic";
+                }
+              ];
+              actions = {
+                "update-props" = {
+                  "device.description" = "Onboard Speakers";
+                  "api.acp.auto-profile" = true;
+                  "api.acp.auto-port" = true;
+                };
+              };
+            }
+          ];
+        };
+
         # Disable HDMI outputs on onboard audio
         "52-alsa-disable" = {
           "monitor.alsa.rules" = [
