@@ -13,6 +13,17 @@
       # mDNS: 5353 (added by avahi.nix if enabled)
     ];
 
+    # WebRTC voice in Electron apps (Vesktop) needs incoming UDP replies
+    # on high ports during DTLS handshake. Conntrack alone is insufficient
+    # because Chromium's WebRTC stack binds ports differently than native
+    # Discord. See nixpkgs#238961.
+    allowedUDPPortRanges = [
+      {
+        from = 50000;
+        to = 65535;
+      }
+    ];
+
     # Allow specific TCP ports
     allowedTCPPorts = [
       22 # SSH - hardened with key-only authentication (see openssh.nix)

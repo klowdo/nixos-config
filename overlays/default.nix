@@ -8,6 +8,8 @@
   dotnet-combined = import ./dotnet-combined.nix;
   claude-code = import ./claude-code.nix {inherit inputs;};
 
+  vesktop = import ./vesktop.nix;
+
   jetbrains-goland = import ./jetbrains-goland.nix;
   jetbrains-rider = import ./jetbrains-rider.nix;
   jetbrains-datagrip = import ./jetbrains-datagrip.nix;
