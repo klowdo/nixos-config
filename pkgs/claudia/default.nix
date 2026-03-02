@@ -14,7 +14,7 @@
   nodePackages,
 }: let
   pname = "claudia";
-  version = "unstable-2024-07-08";
+  version = "0.2.0";
 in
   rustPlatform.buildRustPackage {
     inherit pname version;
