@@ -11,6 +11,7 @@ jobs:
     outputs:
       jetbrains: ${{ steps.filter.outputs.jetbrains }}
       jetbrains_files: ${{ steps.filter.outputs.jetbrains_files }}
+      bambustudio: ${{ steps.filter.outputs.bambustudio }}
     steps:
       - uses: actions/checkout@v6
       - uses: dorny/paths-filter@v3
@@ -20,6 +21,8 @@ jobs:
           filters: |
             jetbrains:
               - 'overlays/jetbrains-*.nix'
+            bambustudio:
+              - 'pkgs/bambustudio-appimage/default.nix'
 
   update-hash:
     needs: check-paths
@@ -59,14 +62,67 @@ jobs:
           git diff --cached --quiet || git commit --amend --no-edit
           git push --force-with-lease
 
+  update-bambustudio-hash:
+    needs: check-paths
+    if: |
+      needs.check-paths.outputs.bambustudio == 'true' &&
+      (github.actor == 'renovate[bot]' || github.event_name == 'workflow_dispatch')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.head_ref }}
+          token: ${{ secrets.GH_PAT }}
+
+      - uses: DeterminateSystems/nix-installer-action@main
+
+      - uses: DeterminateSystems/magic-nix-cache-action@main
+
+      - name: Extract version and update PR number
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          version=$(grep 'version = "' pkgs/bambustudio-appimage/default.nix | head -1 | sed 's/.*version = "\([^"]*\)".*/\1/')
+          echo "BambuStudio version: $version"
+
+          asset=$(gh api "repos/bambulab/BambuStudio/releases/tags/v${version}" --jq '.assets[].name' | grep 'ubuntu-24.04' | head -1)
+          echo "Matched asset: $asset"
+
+          pr_number=$(echo "$asset" | sed 's/.*PR-\([0-9]*\).*/\1/')
+          echo "Extracted PR number: $pr_number"
+
+          sed -i "s/pr = \"[0-9]*\";/pr = \"${pr_number}\";/" pkgs/bambustudio-appimage/default.nix
+
+      - name: Update hashes with nix-update
+        run: |
+          nix-shell -p nix-update --run \
+            "nix-update --version=skip --flake bambustudio-appimage"
+
+      - name: Commit updated hashes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add pkgs/bambustudio-appimage/default.nix
+          git diff --cached --quiet || git commit --amend --no-edit
+          git push --force-with-lease
+
   update-hash-result:
     if: always()
-    needs: [update-hash]
+    needs: [update-hash, update-bambustudio-hash]
     runs-on: ubuntu-latest
     steps:
       - run: |
-          if [[ "${{ needs.update-hash.result }}" == "failure" || "${{ needs.update-hash.result }}" == "cancelled" ]]; then
-            echo "update-hash failed or was cancelled"
+          failed=false
+          for result in "${{ needs.update-hash.result }}" "${{ needs.update-bambustudio-hash.result }}"; do
+            if [[ "$result" == "failure" || "$result" == "cancelled" ]]; then
+              failed=true
+            fi
+          done
+          if $failed; then
+            echo "One or more hash update jobs failed or were cancelled"
             exit 1
           fi
-          echo "update-hash passed or was skipped"
+          echo "All hash update jobs passed or were skipped"

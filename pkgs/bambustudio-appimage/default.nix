@@ -1,3 +1,4 @@
+# renovate: bambustudio-appimage
 {
   fetchurl,
   appimageTools,

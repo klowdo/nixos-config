@@ -1,3 +1,4 @@
+# nix-update: numara-calculator
 {
   lib,
   fetchurl,

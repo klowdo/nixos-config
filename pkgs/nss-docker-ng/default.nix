@@ -1,3 +1,4 @@
+# nix-update: nss-docker-ng
 {
   lib,
   rustPlatform,

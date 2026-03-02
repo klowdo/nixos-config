@@ -1,3 +1,4 @@
+# nix-update: zellij-ps
 {
   lib,
   fish,

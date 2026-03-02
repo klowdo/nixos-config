@@ -1,3 +1,4 @@
+# nix-update: hyprland-preview-share-picker
 {
   lib,
   rustPlatform,

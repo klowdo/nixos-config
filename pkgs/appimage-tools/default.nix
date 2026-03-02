@@ -1,4 +1,4 @@
-#
+# nix-update: appimage-tools
 {
   fetchurl,
   appimageTools,

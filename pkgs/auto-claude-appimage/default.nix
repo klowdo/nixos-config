@@ -1,3 +1,4 @@
+# nix-update: auto-claude-appimage
 {
   fetchurl,
   appimageTools,

@@ -1,3 +1,4 @@
+# nix-update: deezer-linux
 {
   lib,
   fetchurl,

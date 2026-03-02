@@ -1,3 +1,4 @@
+# nix-update: mcp-gateway
 {
   lib,
   buildGoModule,

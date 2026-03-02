@@ -103,6 +103,15 @@
       "depNameTemplate": "jetbrains-datagrip-build",
       "datasourceTemplate": "custom.jetbrains-datagrip-builds",
       "versioningTemplate": "loose"
+    },
+    {
+      "customType": "regex",
+      "managerFilePatterns": ["pkgs/bambustudio-appimage/default.nix"],
+      "matchStrings": ["version = \"(?<currentValue>[^\"]+)\";"],
+      "depNameTemplate": "bambulab/BambuStudio",
+      "datasourceTemplate": "github-releases",
+      "extractVersionTemplate": "^v(?<version>.+)$",
+      "versioningTemplate": "loose"
     }
   ],
 
@@ -120,6 +129,11 @@
     {
       "matchDepPatterns": ["jetbrains-datagrip-*"],
       "groupName": "jetbrains-datagrip",
+      "separateMajorMinor": false
+    },
+    {
+      "matchDepNames": ["bambulab/BambuStudio"],
+      "groupName": "bambustudio",
       "separateMajorMinor": false
     }
   ]

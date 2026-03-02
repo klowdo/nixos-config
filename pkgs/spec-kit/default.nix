@@ -1,3 +1,4 @@
+# nix-update: spec-kit
 {
   lib,
   python3Packages,
