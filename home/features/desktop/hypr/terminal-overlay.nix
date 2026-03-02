@@ -4,10 +4,10 @@
       "special:terminal, on-created-empty:$terminal"
     ];
 
-    windowrulev2 = [
-      "float, onworkspace:special:terminal"
-      "size 70% 70%, onworkspace:special:terminal"
-      "center, onworkspace:special:terminal"
+    windowrule = [
+      "match:workspace name:special:terminal, float on"
+      "match:workspace name:special:terminal, size (monitor_w*0.7) (monitor_h*0.7)"
+      "match:workspace name:special:terminal, center on"
     ];
 
     bind = [

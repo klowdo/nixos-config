@@ -12,6 +12,20 @@
   jetbrains-rider = import ./jetbrains-rider.nix;
   jetbrains-datagrip = import ./jetbrains-datagrip.nix;
 
+  hyprnix = final: _prev: let
+    hyprnixPkgs = inputs.hyprnix.packages.${final.stdenv.hostPlatform.system};
+  in {
+    hyprland = hyprnixPkgs.hyprland;
+    hyprlock = hyprnixPkgs.hyprlock;
+    hypridle = hyprnixPkgs.hypridle;
+    hyprpaper = hyprnixPkgs.hyprpaper;
+    hyprpicker = hyprnixPkgs.hyprpicker;
+    hyprcursor = hyprnixPkgs.hyprcursor;
+    hyprpolkitagent = hyprnixPkgs.hyprpolkitagent;
+    hyprland-protocols = hyprnixPkgs.hyprland-protocols;
+    xdg-desktop-portal-hyprland = hyprnixPkgs.xdg-desktop-portal-hyprland;
+  };
+
   unstable-packages = final: _prev: {
     unstable = import inputs.nixpkgs-unstable {
       inherit (final.stdenv.hostPlatform) system;

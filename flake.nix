@@ -23,13 +23,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # hyprland
-    # hyprlock = {
-    #   url = "github:hyprwm/hyprlock";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
-
-    # hyprland.url = "github:hyprwm/Hyprland";
+    hyprnix.url = "github:hyprwm/hyprnix";
 
     hyprpanel = {
       url = "github:Jas-SinghFSU/HyprPanel";

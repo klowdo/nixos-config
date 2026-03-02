@@ -114,13 +114,17 @@ in {
     };
 
     wayland.windowManager.hyprland.settings = mkIf cfg.enableHyprlandSupport {
-      layerrule = [
-        "blur,vicinae"
-        "ignorealpha 0,vicinae"
-        "noanim,vicinae"
-      ];
-
       misc.focus_on_activate = true;
     };
+
+    wayland.windowManager.hyprland.extraConfig = mkIf cfg.enableHyprlandSupport ''
+      layerrule {
+        name = vicinae-blur
+        match:namespace = vicinae
+        blur = on
+        ignore_alpha = 0
+        no_anim = on
+      }
+    '';
   };
 }

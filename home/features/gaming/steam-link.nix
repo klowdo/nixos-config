@@ -19,10 +19,10 @@ in {
     ];
 
     wayland.windowManager.hyprland.settings = {
-      windowrulev2 = [
-        "fullscreen, class:^(steamlink)$"
-        "immediate, class:^(steamlink)$"
-        "idleinhibit fullscreen, class:^(steamlink)$"
+      windowrule = [
+        "match:class ^(steamlink)$, fullscreen on"
+        "match:class ^(steamlink)$, immediate on"
+        "match:class ^(steamlink)$, idle_inhibit fullscreen"
       ];
 
       bind = [

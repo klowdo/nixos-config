@@ -53,7 +53,7 @@ with lib; let
         {
           key = "s";
           desc = "Toggle Split";
-          cmd = "hyprctl dispatch togglesplit";
+          cmd = "hyprctl dispatch layoutmsg togglesplit";
         }
         {
           key = "f";
