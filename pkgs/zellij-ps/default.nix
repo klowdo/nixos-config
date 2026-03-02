@@ -1,4 +1,3 @@
-# nix-update: zellij-ps
 {
   lib,
   fish,
@@ -34,7 +33,7 @@ stdenv.mkDerivation {
     description = "A small project script for zellij";
     homepage = "https://code.m3tam3re.com/m3tam3re/helper-scripts";
     license = licenses.mit;
-    maintainers = with maintainers; [m3tam3re];
+    maintainers = [];
     platforms = platforms.unix;
   };
 }
