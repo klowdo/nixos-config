@@ -14,7 +14,7 @@ rustPlatform.buildRustPackage rec {
   src = fetchFromGitHub {
     owner = "WhySoBad";
     repo = "hyprland-preview-share-picker";
-    rev = "e056361af807058828c9075135d72b980fce318e";
+    tag = "v${version}";
     hash = "sha256-uzpRqLYxPTRxGggvkmMtZ4UBBTPw5pYl0YDzVg4UsMI=";
     fetchSubmodules = true;
   };

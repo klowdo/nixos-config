@@ -45,6 +45,7 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v8
         with:
+          token: ${{ secrets.GH_PAT }}
           commit-message: "chore(nix-update): bump ${{ matrix.package }}"
           branch: nix-update/${{ matrix.package }}
           title: "chore(nix-update): bump ${{ matrix.package }}"

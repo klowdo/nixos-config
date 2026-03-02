@@ -83,7 +83,7 @@ jobs:
 
       - name: Extract version and update PR number
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_PAT }}
         run: |
           version=$(grep 'version = "' pkgs/bambustudio-appimage/default.nix | head -1 | sed 's/.*version = "\([^"]*\)".*/\1/')
           echo "BambuStudio version: $version"
