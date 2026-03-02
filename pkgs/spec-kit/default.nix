@@ -4,7 +4,7 @@
   python3Packages,
   fetchFromGitHub,
 }:
-python3Packages.buildPythonApplication {
+python3Packages.buildPythonApplication rec {
   pname = "specify-cli";
   version = "0.0.101";
   pyproject = true;
@@ -12,7 +12,7 @@ python3Packages.buildPythonApplication {
   src = fetchFromGitHub {
     owner = "github";
     repo = "spec-kit";
-    tag = "v0.0.101";
+    tag = "v${version}";
     hash = "sha256-725CZPE2QNzFXnYCX8i+HGSDyYnTXm9rMoNtesEgphM=";
   };
 
