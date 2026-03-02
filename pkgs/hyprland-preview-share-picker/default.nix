@@ -9,13 +9,13 @@
 }:
 rustPlatform.buildRustPackage rec {
   pname = "hyprland-preview-share-picker";
-  version = "0.1.0";
+  version = "0.2.1";
 
   src = fetchFromGitHub {
     owner = "WhySoBad";
     repo = "hyprland-preview-share-picker";
     tag = "v${version}";
-    hash = "sha256-uzpRqLYxPTRxGggvkmMtZ4UBBTPw5pYl0YDzVg4UsMI=";
+    hash = "sha256-Zztb0soSN/NynWnBIGPuUNRKt2xSx/+f+QpYIPRyRdc=";
     fetchSubmodules = true;
   };
 
