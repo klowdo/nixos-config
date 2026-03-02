@@ -14,7 +14,7 @@
   nodePackages,
 }: let
   pname = "claudia";
-  version = "unstable-2024-07-08";
+  version = "0.2.0";
 in
   rustPlatform.buildRustPackage {
     inherit pname version;
@@ -22,8 +22,8 @@ in
     src = fetchFromGitHub {
       owner = "getAsterisk";
       repo = "claudia";
-      rev = "cee71343f5ddf98822bff36caf785601132d6158";
-      sha256 = "0r7wk6dkl98ip6ismr9qn9ng71cqlabsqagw4qk8dqayfamc8fhw";
+      tag = "v${version}";
+      hash = "sha256-sTDOevSbfvsxcdf6yxAqtDfQL7jmSvvr1cFH32epysA=";
     };
 
     cargoHash = "sha256-unVKAZ71CvxVqUCBFMKqgKreHXUBae3+Qy5Fw8fMcl8=";
