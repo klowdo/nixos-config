@@ -43,6 +43,7 @@ jobs:
             "nix-update --flake ${{ matrix.package }}"
 
       - name: Create Pull Request
+        id: create-pr
         uses: peter-evans/create-pull-request@v8
         with:
           token: ${{ secrets.GH_PAT }}
@@ -51,6 +52,10 @@ jobs:
           title: "chore(nix-update): bump ${{ matrix.package }}"
           body: |
             Automated version bump for `${{ matrix.package }}` via `nix-update`.
-
-            > **Note:** `build_number` for JetBrains packages may need manual update.
           labels: nix-update
+
+      - name: Enable auto-merge
+        if: steps.create-pr.outputs.pull-request-number
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT }}
+        run: gh pr merge ${{ steps.create-pr.outputs.pull-request-number }} --auto --squash
