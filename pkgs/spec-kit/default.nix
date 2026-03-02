@@ -6,7 +6,7 @@
 }:
 python3Packages.buildPythonApplication {
   pname = "specify-cli";
-  version = "0.0.101";
+  version = "0.1.10";
   pyproject = true;
 
   src = fetchFromGitHub {
