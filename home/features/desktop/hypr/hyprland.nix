@@ -123,7 +123,7 @@ in {
 
         # Define persistent workspaces to ensure proper ordering
         workspace = [
-          "1, persistent:true"
+          "1, persistent:true, layout:scrolling"
           "2, persistent:true"
           "3, persistent:true"
           "4, persistent:true"
