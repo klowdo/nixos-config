@@ -396,14 +396,14 @@ in {
     wayland.windowManager.hyprland.settings = {
       exec-once = ["kando --in-process-gpu"];
 
-      windowrulev2 = [
-        "noblur,class:(kando)"
-        "opaque,class:(kando)"
-        "size 100% 100%,class:(kando)"
-        "noborder,class:(kando)"
-        "noanim,class:(kando)"
-        "float,class:(kando)"
-        "pin,class:(kando)"
+      windowrule = [
+        "match:class (kando), no_blur on"
+        "match:class (kando), opaque on"
+        "match:class (kando), size (monitor_w*1.0) (monitor_h*1.0)"
+        "match:class (kando), border_size 0"
+        "match:class (kando), no_anim on"
+        "match:class (kando), float on"
+        "match:class (kando), pin on"
       ];
 
       bind = [

@@ -12,6 +12,9 @@
   jetbrains-rider = import ./jetbrains-rider.nix;
   jetbrains-datagrip = import ./jetbrains-datagrip.nix;
 
+  hyprnix = _final: prev:
+    inputs.hyprnix.packages.${prev.stdenv.hostPlatform.system} or {};
+
   unstable-packages = final: _prev: {
     unstable = import inputs.nixpkgs-unstable {
       inherit (final.stdenv.hostPlatform) system;

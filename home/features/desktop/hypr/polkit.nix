@@ -13,10 +13,10 @@
     ];
 
     # Window rules for polkit authentication dialog
-    windowrulev2 = [
-      "float, class:(org.hyprland.polkitagent)"
-      "center, class:(org.hyprland.polkitagent)"
-      "dimaround, class:(org.hyprland.polkitagent)"
+    windowrule = [
+      "match:class (org.hyprland.polkitagent), float on"
+      "match:class (org.hyprland.polkitagent), center on"
+      "match:class (org.hyprland.polkitagent), dim_around on"
     ];
   };
 }

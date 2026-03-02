@@ -3,9 +3,10 @@
     enable = true;
     withUWSM = true;
     xwayland.enable = true;
+    package = pkgs.hyprland;
+    portalPackage = pkgs.xdg-desktop-portal-hyprland;
   };
 
-  ## to login with hyprlock - enable fingerprint auth
   security.pam.services.hyprlock = {
     fprintAuth = true;
     # Don't use fprintAuth - it doesn't work correctly with the default stack
@@ -34,9 +35,4 @@
     HandleLidSwitchDocked = "ignore";
     HandleLidSwitchExternalPower = "ignore";
   };
-
-  # $ nix search wget
-  environment.systemPackages = with pkgs; [
-    xdg-desktop-portal-hyprland
-  ];
 }

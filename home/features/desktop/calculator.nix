@@ -20,11 +20,11 @@ in {
     # Hyprland window rules and bindings for calculator
     wayland.windowManager.hyprland.settings = {
       # Window rules for floating calculator
-      windowrulev2 = [
-        "float,class:(qalculate-gtk)"
-        "size 800 600,class:(qalculate-gtk)"
-        "center,class:(qalculate-gtk)"
-        "opacity 0.95,class:(qalculate-gtk)"
+      windowrule = [
+        "match:class (qalculate-gtk), float on"
+        "match:class (qalculate-gtk), size 800 600"
+        "match:class (qalculate-gtk), center on"
+        "match:class (qalculate-gtk), opacity 0.95"
       ];
 
       # Simple keybind to launch floating calculator

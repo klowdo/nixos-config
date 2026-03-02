@@ -177,7 +177,7 @@ in {
         # ",q,killactive"
         "$mainMod, Escape, exec, $sessionMenu"
 
-        "SUPER,s,togglesplit"
+        "SUPER,s,layoutmsg,togglesplit"
         "SUPER,f,fullscreen,1"
         "SUPER,m,fullscreen,1"
         "SUPERSHIFT,f,fullscreen,0"
