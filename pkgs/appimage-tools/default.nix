@@ -4,11 +4,11 @@
   appimageTools,
 }: let
   pname = "appimagetool";
-  version = "1.9.0";
+  version = "1.9.1";
 
   src = fetchurl {
     url = "https://github.com/AppImage/appimagetool/releases/download/${version}/appimagetool-x86_64.AppImage";
-    sha256 = "1lc3c38033392x5lnr1z4jmqx3fryfqczbv1bda6wzsc162xgza6";
+    sha256 = "sha256-7UzoTw2cr/ZvULzKb/bzWq5UzoE1QIs/ozq/w8s4TrA=";
     name = "appimagetool-x86_64.AppImage";
   };
   # appimageContents = appimageTools.extractType2 {
