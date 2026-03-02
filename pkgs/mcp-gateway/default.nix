@@ -6,7 +6,7 @@
 }:
 buildGoModule rec {
   pname = "mcp-gateway";
-  version = "unstable-2026-01-21";
+  version = "0.40.2";
 
   src = fetchFromGitHub {
     owner = "docker";
