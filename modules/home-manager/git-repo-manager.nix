@@ -1,0 +1,475 @@
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+with lib; let
+  cfg = config.programs.git-repo-manager;
+
+  remoteType = types.submodule {
+    options = {
+      name = mkOption {
+        type = types.str;
+        description = "Remote name (e.g., 'origin', 'upstream')";
+      };
+
+      url = mkOption {
+        type = types.nullOr types.str;
+        default = null;
+        description = "Remote URL (HTTPS or SSH). Use this OR urlSecretPath.";
+      };
+
+      urlSecretPath = mkOption {
+        type = types.nullOr types.str;
+        default = null;
+        description = ''
+          Sops secret path containing the remote URL.
+          The secret must be declared in your sops configuration.
+          Use this for private repo URLs you don't want in your public dotfiles.
+        '';
+        example = "git/work-repo-url";
+      };
+
+      type = mkOption {
+        type = types.enum ["https" "ssh"];
+        default = "https";
+        description = "Remote protocol type";
+      };
+    };
+  };
+
+  repoType = types.submodule {
+    options = {
+      name = mkOption {
+        type = types.str;
+        description = "Repository directory name";
+      };
+
+      remotes = mkOption {
+        type = types.listOf remoteType;
+        default = [];
+        description = "List of remotes for this repository";
+      };
+    };
+  };
+
+  treeType = types.submodule {
+    options = {
+      root = mkOption {
+        type = types.str;
+        description = "Root directory for this tree of repositories";
+        example = "~/projects";
+      };
+
+      repos = mkOption {
+        type = types.listOf repoType;
+        default = [];
+        description = "Repositories in this tree";
+      };
+    };
+  };
+
+  forgeType = types.submodule {
+    options = {
+      provider = mkOption {
+        type = types.enum ["github" "gitlab"];
+        description = "Forge provider";
+      };
+
+      root = mkOption {
+        type = types.str;
+        description = "Root directory for cloned repositories";
+        example = "~/projects";
+      };
+
+      tokenCommand = mkOption {
+        type = types.nullOr types.str;
+        default = null;
+        description = ''
+          Command to retrieve the access token.
+          Example: "cat /path/to/token" or "pass show github_token"
+        '';
+      };
+
+      tokenSecretPath = mkOption {
+        type = types.nullOr types.str;
+        default = null;
+        description = ''
+          Path to a sops secret containing the token.
+          The secret must be declared in your sops configuration.
+          Example: "forge/github-token"
+        '';
+      };
+
+      apiUrl = mkOption {
+        type = types.nullOr types.str;
+        default = null;
+        description = "Custom API URL for self-hosted GitLab instances";
+        example = "https://gitlab.example.com";
+      };
+
+      filters = {
+        owner = mkOption {
+          type = types.bool;
+          default = false;
+          description = "Sync all repositories owned by the authenticated user";
+        };
+
+        access = mkOption {
+          type = types.bool;
+          default = false;
+          description = "Sync all repositories the user has access to";
+        };
+
+        users = mkOption {
+          type = types.listOf types.str;
+          default = [];
+          description = "Sync repositories from these users";
+        };
+
+        groups = mkOption {
+          type = types.listOf types.str;
+          default = [];
+          description = "Sync repositories from these groups/organizations";
+        };
+      };
+
+      forceSsh = mkOption {
+        type = types.bool;
+        default = false;
+        description = "Force SSH for all clones instead of HTTPS for public repos";
+      };
+    };
+  };
+
+  hasSecretUrls =
+    any (
+      tree:
+        any (
+          repo:
+            any (remote: remote.urlSecretPath != null) repo.remotes
+        )
+        tree.repos
+    )
+    cfg.trees;
+
+  generateRemoteTomlStatic = remote: ''
+    [[trees.repos.remotes]]
+    name = "${remote.name}"
+    url = "${remote.url}"
+    type = "${remote.type}"
+  '';
+
+  generateRemoteTomlScript = remote: let
+    urlExpr =
+      if remote.urlSecretPath != null
+      then "$(cat ${config.sops.secrets.${remote.urlSecretPath}.path})"
+      else remote.url;
+  in ''
+    cat <<'REMOTE'
+    [[trees.repos.remotes]]
+    name = "${remote.name}"
+    type = "${remote.type}"
+    REMOTE
+    echo "url = \"${urlExpr}\""
+  '';
+
+  generateRepoTomlScript = repo: ''
+    cat <<'REPO'
+    [[trees.repos]]
+    name = "${repo.name}"
+    REPO
+    ${concatMapStrings generateRemoteTomlScript repo.remotes}
+  '';
+
+  generateTreeTomlScript = tree: ''
+    cat <<'TREE'
+    [[trees]]
+    root = "${tree.root}"
+    TREE
+    ${concatMapStrings generateRepoTomlScript tree.repos}
+  '';
+
+  generateConfigScript = pkgs.writeShellScript "generate-grm-config" ''
+    set -euo pipefail
+    cat <<'HEADER'
+    # Generated by Home Manager - git-repo-manager module
+    HEADER
+    ${concatMapStrings generateTreeTomlScript cfg.trees}
+  '';
+
+  privateConfigPaths =
+    cfg.privateConfigFiles
+    ++ map (secret: config.sops.secrets.${secret}.path) cfg.privateConfigSecrets;
+
+  generateRepoTomlStatic = repo: ''
+    [[trees.repos]]
+    name = "${repo.name}"
+    ${concatMapStrings generateRemoteTomlStatic repo.remotes}
+  '';
+
+  generateTreeTomlStatic = tree: ''
+    [[trees]]
+    root = "${tree.root}"
+    ${concatMapStrings generateRepoTomlStatic tree.repos}
+  '';
+
+  generateForgeToml = name: forge: let
+    tokenCmd =
+      if forge.tokenSecretPath != null
+      then "cat ${config.sops.secrets.${forge.tokenSecretPath}.path}"
+      else forge.tokenCommand;
+  in ''
+    # Forge configuration: ${name}
+    provider = "${forge.provider}"
+    ${optionalString (tokenCmd != null) ''token_command = "${tokenCmd}"''}
+    root = "${forge.root}"
+    ${optionalString (forge.apiUrl != null) ''api_url = "${forge.apiUrl}"''}
+
+    [filters]
+    ${optionalString forge.filters.owner "owner = true"}
+    ${optionalString forge.filters.access "access = true"}
+    ${optionalString (forge.filters.users != []) ''users = [${concatMapStringsSep ", " (u: ''"${u}"'') forge.filters.users}]''}
+    ${optionalString (forge.filters.groups != []) ''groups = [${concatMapStringsSep ", " (g: ''"${g}"'') forge.filters.groups}]''}
+  '';
+
+  reposConfigStatic = ''
+    # Generated by Home Manager - git-repo-manager module
+    ${concatMapStrings generateTreeTomlStatic cfg.trees}
+  '';
+
+  forgeConfigs =
+    mapAttrs' (name: forge: {
+      name = "grm/forge-${name}.toml";
+      value = {
+        text = generateForgeToml name forge;
+      };
+    })
+    cfg.forges;
+
+  runtimeConfigDir = "\${XDG_RUNTIME_DIR:-/run/user/$(id -u)}/grm";
+
+  syncScript = pkgs.writeShellScriptBin "grm-sync" ''
+    set -euo pipefail
+    export XDG_CONFIG_HOME="''${XDG_CONFIG_HOME:-$HOME/.config}"
+
+    ${optionalString (cfg.trees != [] && hasSecretUrls) ''
+      # Generate config with secrets at runtime
+      mkdir -p "${runtimeConfigDir}"
+      ${generateConfigScript} > "${runtimeConfigDir}/repos.toml"
+      ${lib.getExe cfg.package} repos sync config --config "${runtimeConfigDir}/repos.toml"
+    ''}
+    ${optionalString (cfg.trees != [] && !hasSecretUrls) ''
+      ${lib.getExe cfg.package} repos sync config --config "$XDG_CONFIG_HOME/grm/repos.toml"
+    ''}
+    ${concatStringsSep "\n" (mapAttrsToList (name: _: ''
+        ${lib.getExe cfg.package} repos sync config --config "$XDG_CONFIG_HOME/grm/forge-${name}.toml"
+      '')
+      cfg.forges)}
+    ${concatMapStringsSep "\n" (path: ''
+        ${lib.getExe cfg.package} repos sync config --config "${path}"
+      '')
+      privateConfigPaths}
+  '';
+in {
+  options.programs.git-repo-manager = {
+    enable = mkEnableOption "git-repo-manager (grm) - declarative git repository management";
+
+    package = mkOption {
+      type = types.package;
+      default = pkgs.git-repo-manager or (throw "git-repo-manager not found in pkgs. Add it via overlay or flake input.");
+      defaultText = literalExpression "pkgs.git-repo-manager";
+      description = "The git-repo-manager package to use";
+    };
+
+    trees = mkOption {
+      type = types.listOf treeType;
+      default = [];
+      description = "Repository trees to manage";
+      example = literalExpression ''
+        [
+          {
+            root = "~/projects";
+            repos = [
+              {
+                name = "my-project";
+                remotes = [
+                  { name = "origin"; url = "git@github.com:user/my-project.git"; type = "ssh"; }
+                ];
+              }
+            ];
+          }
+        ]
+      '';
+    };
+
+    forges = mkOption {
+      type = types.attrsOf forgeType;
+      default = {};
+      description = ''
+        Forge integrations for syncing repositories from GitHub/GitLab.
+        Each forge generates a separate configuration file.
+      '';
+      example = literalExpression ''
+        {
+          github-personal = {
+            provider = "github";
+            root = "~/projects/github";
+            tokenSecretPath = "forge/github-token";
+            filters.owner = true;
+          };
+          work-gitlab = {
+            provider = "gitlab";
+            root = "~/projects/work";
+            apiUrl = "https://gitlab.company.com";
+            tokenSecretPath = "forge/gitlab-work-token";
+            filters.groups = [ "my-team" ];
+          };
+        }
+      '';
+    };
+
+    configFormat = mkOption {
+      type = types.enum ["toml" "yaml"];
+      default = "toml";
+      description = "Configuration file format";
+    };
+
+    privateConfigFiles = mkOption {
+      type = types.listOf types.str;
+      default = [];
+      description = ''
+        Paths to private config files (not managed by this module).
+        These will be synced by the service in addition to generated configs.
+        Can be absolute paths or sops secret paths.
+      '';
+      example = [
+        "/home/user/.config/grm/private-repos.toml"
+        "\${config.sops.secrets.\"grm/private-config\".path}"
+      ];
+    };
+
+    privateConfigSecrets = mkOption {
+      type = types.listOf types.str;
+      default = [];
+      description = ''
+        Sops secret paths containing private grm config files.
+        The secrets must be declared in your sops configuration.
+      '';
+      example = ["grm/work-repos" "grm/private-repos"];
+    };
+
+    service = {
+      enable = mkOption {
+        type = types.bool;
+        default = false;
+        description = "Enable systemd user service for repository sync";
+      };
+
+      onCalendar = mkOption {
+        type = types.nullOr types.str;
+        default = null;
+        description = "Systemd calendar expression for periodic sync (e.g., 'hourly', 'daily', '*:0/30')";
+        example = "hourly";
+      };
+
+      onLogin = mkOption {
+        type = types.bool;
+        default = false;
+        description = "Run sync on user login";
+      };
+
+      onActivation = mkOption {
+        type = types.bool;
+        default = false;
+        description = "Run sync during home-manager activation";
+      };
+
+      persistent = mkOption {
+        type = types.bool;
+        default = true;
+        description = "Run missed syncs when timer becomes active (after sleep/boot)";
+      };
+
+      randomDelay = mkOption {
+        type = types.nullOr types.str;
+        default = null;
+        description = "Random delay before running (e.g., '5m' to spread load)";
+        example = "5m";
+      };
+    };
+  };
+
+  config = mkIf cfg.enable {
+    assertions = [
+      {
+        assertion = all (forge: !(forge.tokenCommand != null && forge.tokenSecretPath != null)) (attrValues cfg.forges);
+        message = "git-repo-manager: Cannot specify both tokenCommand and tokenSecretPath for a forge";
+      }
+      {
+        assertion =
+          all (
+            tree:
+              all (
+                repo:
+                  all (remote: (remote.url != null) != (remote.urlSecretPath != null)) repo.remotes
+              )
+              tree.repos
+          )
+          cfg.trees;
+        message = "git-repo-manager: Each remote must have exactly one of 'url' or 'urlSecretPath'";
+      }
+    ];
+
+    home.packages = [cfg.package];
+
+    xdg.configFile =
+      {
+        "grm/repos.toml" = mkIf (cfg.trees != [] && !hasSecretUrls) {
+          text = reposConfigStatic;
+        };
+      }
+      // forgeConfigs;
+
+    home.activation.grm-sync = mkIf cfg.service.onActivation (
+      lib.hm.dag.entryAfter ["writeBoundary" "sopsNix"] ''
+        PATH="${lib.makeBinPath [cfg.package pkgs.git pkgs.openssh pkgs.coreutils]}:$PATH"
+        export XDG_CONFIG_HOME="''${XDG_CONFIG_HOME:-$HOME/.config}"
+        run --quiet ${syncScript}/bin/grm-sync || true
+      ''
+    );
+
+    systemd.user.services.grm-sync = mkIf cfg.service.enable {
+      Unit = {
+        Description = "Git Repo Manager sync";
+        After = ["network-online.target" "sops-nix.service"];
+        Wants = ["network-online.target"];
+      };
+      Service = {
+        Type = "oneshot";
+        ExecStart = "${syncScript}/bin/grm-sync";
+        Environment = [
+          "PATH=${lib.makeBinPath [cfg.package pkgs.git pkgs.openssh pkgs.coreutils]}"
+        ];
+      };
+      Install = mkIf cfg.service.onLogin {
+        WantedBy = ["default.target"];
+      };
+    };
+
+    systemd.user.timers.grm-sync = mkIf (cfg.service.enable && cfg.service.onCalendar != null) {
+      Unit = {
+        Description = "Git Repo Manager periodic sync";
+      };
+      Timer = {
+        OnCalendar = cfg.service.onCalendar;
+        Persistent = cfg.service.persistent;
+        RandomizedDelaySec = mkIf (cfg.service.randomDelay != null) cfg.service.randomDelay;
+      };
+      Install = {
+        WantedBy = ["timers.target"];
+      };
+    };
+  };
+}
