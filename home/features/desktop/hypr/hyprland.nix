@@ -23,6 +23,7 @@ in {
       hyprpaper
       swappy
       hyprland-protocols
+      hyprpwcenter
     ];
     services.custom-way-displays = {
       enable = false; # Disabled in favor of hyprdynamicmonitors
