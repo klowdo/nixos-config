@@ -22,6 +22,12 @@ in {
       description = "Enable GPG signing for git commits and tags";
     };
 
+    smartcardFallback = mkOption {
+      type = types.bool;
+      default = false;
+      description = "Allow git commits without YubiKey by falling back to unsigned commits with a warning";
+    };
+
     enableSshSupport = mkOption {
       type = types.bool;
       default = false;
@@ -104,7 +110,7 @@ in {
       maxCacheTtl = cfg.maxCacheTtl;
 
       # GUI pinentry for passphrase prompts
-      pinentryPackage = pkgs.pinentry-gtk2;
+      pinentry.package = pkgs.pinentry-gtk2;
 
       extraConfig = ''
         # Allow tools to preset passphrases into the agent cache
@@ -133,6 +139,22 @@ in {
     home.sessionVariables = {
       GPG_TTY = "$(tty)";
     };
+
+    programs.zsh.initContent = mkIf cfg.smartcardFallback ''
+      function _yubikey_present() {
+        gpg-connect-agent 'scd serialno openpgp' /bye &>/dev/null
+      }
+
+      function git() {
+        local subcmd="''${1:-}"
+        if [[ "$subcmd" == "commit" || "$subcmd" == "tag" ]] && ! _yubikey_present; then
+          print -P "%F{yellow}[gpg] YubiKey not detected — commit will not be signed%f" >&2
+          command git "$@" --no-gpg-sign
+        else
+          command git "$@"
+        fi
+      }
+    '';
 
     # Auto-start gpg-agent via systemd
     systemd.user.services.gpg-agent-symlink = {

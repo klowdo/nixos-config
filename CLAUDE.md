@@ -79,6 +79,9 @@ Identity options:
 - `just gpg-restart` - Kill and restart GPG agent
 - `just gpg-test-sign` - Test GPG signing works
 - `just gpg-export-public` - Export public key for sharing
+- `just gpg-to-second-yubikey` - Move subkeys to a second YubiKey
+- `just gpg-card-refresh` - Refresh GPG after swapping YubiKeys
+- `just gpg-list-card-stubs` - Show known card serial stubs
 
 See `docs/gpg-yubikey-setup.md` for the full setup guide.
 

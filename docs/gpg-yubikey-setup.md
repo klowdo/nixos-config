@@ -55,6 +55,7 @@ features.cli = {
   gpg = {
     enable = true;
     enableGitSigning = true;
+    smartcardFallback = true;  # Allow unsigned commits when YubiKey is absent
     keyId = "0xYOUR_KEY_ID";  # Set after key generation
   };
   password-store.enable = true;  # Optional, for pass
@@ -178,6 +179,23 @@ just gpg-card-status
 
 You should see your subkeys listed under the signature, encryption, and authentication slots.
 
+## Step 3b: Set Up Second YubiKey (Optional)
+
+If you have two YubiKeys and want both to work interchangeably for signing:
+
+```bash
+# Insert your SECOND YubiKey
+just gpg-to-second-yubikey
+```
+
+This re-imports your subkeys from backup and moves them to the second card. Both YubiKeys will work with the same key — just swap cards and refresh:
+
+```bash
+just gpg-card-refresh
+```
+
+GPG stores "stubs" that reference card serial numbers. After setting up both cards, GPG knows which serials hold your keys and will use whichever card is inserted.
+
 ## Step 4: Configure NixOS
 
 ### Set your signing key ID
@@ -277,9 +295,40 @@ pc email/gmail             # Copy to clipboard (alias)
 ### YubiKey removed
 
 When YubiKey is not inserted:
-- Git commits will fail to sign (you'll get an error)
-- Pass decryption will fail
-- To temporarily disable signing: `git commit --no-gpg-sign -m "msg"`
+- With `smartcardFallback = true`: git commits succeed unsigned (yellow warning shown)
+- Without fallback: git commits will fail to sign (you'll get an error)
+- Pass decryption will always fail without a YubiKey
+- To manually disable signing: `git commit --no-gpg-sign -m "msg"`
+
+### Swapping between two YubiKeys
+
+```bash
+# After inserting a different YubiKey:
+just gpg-card-refresh
+
+# Verify which card is active:
+just gpg-card-status
+
+# Check which card serials GPG knows about:
+just gpg-list-card-stubs
+```
+
+### Testing the smartcard fallback
+
+After rebuilding with `smartcardFallback = true`, open a new terminal:
+
+```bash
+# With YubiKey inserted — should sign normally
+git commit --allow-empty -m "test: signed commit"
+git log --show-signature -1
+
+# With YubiKey removed — should show yellow warning and commit unsigned
+git commit --allow-empty -m "test: unsigned fallback"
+git log --show-signature -1  # no signature
+
+# Test detection speed (~50ms expected)
+time gpg-connect-agent 'scd serialno openpgp' /bye
+```
 
 ### Troubleshooting
 
@@ -328,3 +377,6 @@ Both can coexist on the same YubiKey. The OpenPGP and PIV applets are separate.
 | `just gpg-restart` | Kill and restart GPG agent |
 | `just gpg-test-sign` | Verify signing works |
 | `just gpg-export-public` | Export public key for sharing |
+| `just gpg-to-second-yubikey` | Move subkeys to a second YubiKey |
+| `just gpg-card-refresh` | Refresh after swapping YubiKeys |
+| `just gpg-list-card-stubs` | Show known card serial stubs |

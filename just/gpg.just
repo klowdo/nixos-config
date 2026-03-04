@@ -176,3 +176,71 @@ gpg-test-sign:
 # Verify a signed git commit
 gpg-verify-commit commit="HEAD":
   git verify-commit {{commit}}
+
+#################### Multi-YubiKey Support ####################
+
+# Move GPG subkeys to a second YubiKey (restore from backup, then keytocard)
+gpg-to-second-yubikey email="klowdo@klowdo.dev":
+  #!/usr/bin/env bash
+  set -euo pipefail
+  echo "=== Move GPG subkeys to second YubiKey ==="
+  echo ""
+  echo "This workflow will:"
+  echo "  1. Re-import your subkeys from backup"
+  echo "  2. Move them to the currently inserted YubiKey"
+  echo "  3. Refresh stubs so GPG recognizes both cards"
+  echo ""
+  echo "PREREQUISITES:"
+  echo "  - Insert your SECOND YubiKey (not the one already set up)"
+  echo "  - Have your backup directory ready (from: just gpg-backup)"
+  echo ""
+  read -p "Path to backup directory (e.g., ~/gpg-backup-20250101): " backup_dir
+  if [[ ! -f "$backup_dir/secret-subkeys.asc" ]]; then
+    echo "ERROR: $backup_dir/secret-subkeys.asc not found"
+    exit 1
+  fi
+  echo ""
+  echo "Importing subkeys from backup..."
+  gpg --import "$backup_dir/secret-subkeys.asc"
+  echo ""
+  echo "Now move subkeys to the second YubiKey with 'keytocard'."
+  echo "Use the same slot assignments as the first YubiKey:"
+  echo "  key 1 → keytocard → 1 (Signature)"
+  echo "  key 2 → keytocard → 2 (Encryption)"
+  echo "  key 3 → keytocard → 3 (Authentication)"
+  echo ""
+  gpg --edit-key "{{email}}"
+  echo ""
+  echo "Refreshing card stubs for both YubiKeys..."
+  gpg-connect-agent "scd serialno" /bye || true
+  gpg --card-status > /dev/null 2>&1 || true
+  echo ""
+  echo "Done! Both YubiKeys should now work interchangeably."
+  echo "Swap cards and run 'just gpg-card-refresh' to switch."
+
+# Refresh GPG card stubs after swapping YubiKeys
+gpg-card-refresh:
+  #!/usr/bin/env bash
+  set -euo pipefail
+  echo "Refreshing GPG smartcard connection..."
+  gpgconf --kill scdaemon
+  gpg-connect-agent reloadagent /bye
+  gpg-connect-agent "scd serialno" /bye
+  gpg --card-status > /dev/null 2>&1
+  echo "Card refreshed. Current card:"
+  gpg --card-status 2>/dev/null | grep -E "^(Serial|Name)"
+
+# List GPG smartcard stubs (shows which card serials GPG knows about)
+gpg-list-card-stubs email="klowdo@klowdo.dev":
+  #!/usr/bin/env bash
+  set -euo pipefail
+  echo "GPG keygrips and card stubs for {{email}}:"
+  echo ""
+  gpg --list-secret-keys --with-keygrip "{{email}}"
+  echo ""
+  echo "Private key stubs (card serial references):"
+  find ~/.gnupg/private-keys-v1.d/ -name "*.key" -exec grep -l "shadowed-private-key" {} \; 2>/dev/null | while read -r f; do
+    keygrip=$(basename "$f" .key)
+    echo "  $keygrip"
+    grep -o 'OPENPGP.3 [^ )]*' "$f" 2>/dev/null | sed 's/^/    Card: /' || true
+  done

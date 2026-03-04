@@ -23,7 +23,7 @@
       gpg = {
         enable = true;
         enableGitSigning = true;
-        # Set your GPG key ID after generating/importing your key:
+        smartcardFallback = true;
         # keyId = "0xYOUR_KEY_ID_HERE";
       };
       password-store.enable = false;
