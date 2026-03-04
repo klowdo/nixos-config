@@ -169,7 +169,33 @@ in {
       };
     };
 
-    # XDG MIME type associations
+    xdg.desktopEntries.kitty-nvim = {
+      name = "Neovim";
+      genericName = "Text Editor";
+      exec = "${cfg.terminal.command} -e ${cfg.editor.command} %F";
+      icon = "nvim";
+      terminal = false;
+      type = "Application";
+      categories = ["Utility" "TextEditor"];
+      mimeType = [
+        "text/english"
+        "text/plain"
+        "text/x-makefile"
+        "text/x-c++hdr"
+        "text/x-c++src"
+        "text/x-chdr"
+        "text/x-csrc"
+        "text/x-java"
+        "text/x-moc"
+        "text/x-pascal"
+        "text/x-tcl"
+        "text/x-tex"
+        "application/x-shellscript"
+        "text/x-c"
+        "text/x-c++"
+      ];
+    };
+
     xdg.mimeApps = {
       enable = true;
       defaultApplications = {
@@ -179,7 +205,21 @@ in {
         "x-scheme-handler/about" = ["${cfg.browser.command}.desktop"];
         "x-scheme-handler/unknown" = ["${cfg.browser.command}.desktop"];
 
-        "text/plain" = ["${cfg.editor.command}.desktop"];
+        "text/plain" = ["kitty-nvim.desktop"];
+        "text/x-makefile" = ["kitty-nvim.desktop"];
+        "text/x-c++hdr" = ["kitty-nvim.desktop"];
+        "text/x-c++src" = ["kitty-nvim.desktop"];
+        "text/x-chdr" = ["kitty-nvim.desktop"];
+        "text/x-csrc" = ["kitty-nvim.desktop"];
+        "text/x-java" = ["kitty-nvim.desktop"];
+        "text/x-pascal" = ["kitty-nvim.desktop"];
+        "text/x-tcl" = ["kitty-nvim.desktop"];
+        "text/x-tex" = ["kitty-nvim.desktop"];
+        "application/x-shellscript" = ["kitty-nvim.desktop"];
+        "text/x-c" = ["kitty-nvim.desktop"];
+        "text/x-c++" = ["kitty-nvim.desktop"];
+
+        "application/pdf" = ["org.pwmt.zathura.desktop"];
 
         "inode/directory" = ["${cfg.fileManager.command}.desktop"];
       };
