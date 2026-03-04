@@ -33,7 +33,9 @@ in {
       file://${config.home.homeDirectory}/Downloads Downloads
       file://${config.home.homeDirectory}/Documents Documents
       file://${config.home.homeDirectory}/Pictures Pictures
-      file://${config.home.homeDirectory}/dev/worldstream Worldstream
+      file://${config.home.homeDirectory}/dev Dev
+      file://${config.home.homeDirectory}/dev/github Github
+      file://${config.home.homeDirectory}/dev/work Work
       file://${config.home.homeDirectory}/.dotfiles Dotfiles
     '';
 
