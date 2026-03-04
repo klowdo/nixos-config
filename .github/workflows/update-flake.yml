@@ -51,6 +51,7 @@ jobs:
 
       - name: Fix evaluation issues with Claude
         if: steps.nix-check.outputs.has_warnings == 'true' || steps.nix-check.outputs.exit_code != '0'
+        continue-on-error: true
         uses: anthropics/claude-code-action@v1
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
@@ -64,6 +65,10 @@ jobs:
 
             Your job is ONLY to fix the nix source files that cause these warnings/errors. Do NOT modify flake.lock or run nix flake update.
 
+            Some warnings may come from upstream flake inputs (not from our source code).
+            If a warning originates from an upstream dependency and cannot be fixed by editing our nix files, skip it.
+            If ALL warnings are upstream/unfixable, simply state that no local fixes are needed and exit without making changes.
+
             For each fix:
             1. Edit the nix source file to fix the issue
             2. Run 'nix flake check -L' to verify
@@ -73,7 +78,14 @@ jobs:
             NEVER add Co-Authored-By or any attribution lines to commits.
 
       - name: Run final check
-        run: nix flake check -L
+        run: |
+          output=$(nix flake check -L 2>&1) || exit_code=$?
+          echo "$output"
+          if [ "${exit_code:-0}" -ne 0 ]; then
+            if echo "$output" | grep -qE "^error:"; then
+              exit 1
+            fi
+          fi
 
       - name: Create Pull Request
         id: create-pr
