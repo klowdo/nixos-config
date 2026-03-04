@@ -119,6 +119,7 @@
       vesktop.enable = true;
       neomutt.enable = false;
       slack.enable = true;
+      ferdium.enable = true;
     };
     hardware = {
       zsa-moonlander.enable = true;

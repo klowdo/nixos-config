@@ -6,5 +6,6 @@
     ./email.nix
     ./neomutt.nix
     ./slack.nix
+    ./ferdium.nix
   ];
 }
