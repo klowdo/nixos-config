@@ -89,28 +89,11 @@ in {
         set -g focus-events on
 
         ## SESH
-        bind-key "K" display-popup -E -w 40% "sesh connect \"$(
-          sesh list -i | gum filter --limit 1 --placeholder 'Pick a sesh' --prompt='⚡'
-        )\""
-
-        bind-key "J" run-shell "sesh connect \"$(
-          sesh list -i | fzf-tmux -p 55%,60% \
-            --no-sort --border-label ' sesh ' --prompt '⚡  ' \
-            --header '  ^a all ^t tmux ^x zoxide ^g config ^d tmux kill ^f find' \
-            --bind 'tab:down,btab:up' \
-            --bind 'ctrl-a:change-prompt(⚡  )+reload(sesh list -i)' \
-            --bind 'ctrl-t:change-prompt(🪟  )+reload(sesh list -it)' \
-            --bind 'ctrl-g:change-prompt(⚙️  )+reload(sesh list -ic)' \
-            --bind 'ctrl-x:change-prompt(📁  )+reload(sesh list -iz)' \
-            --bind 'ctrl-f:change-prompt(🔎  )+reload(fd -H -d 2 -t d -E .Trash . ~)' \
-            --bind 'ctrl-d:execute(tmux kill-session -t {})+change-prompt(⚡  )+reload(sesh list)'
-        )\""
-
+        bind-key "K" display-popup -E -w 40% -h 60% "sesh picker"
+        bind-key "J" display-popup -E -w 55% -h 60% "sesh picker"
         bind -N "last-session (via sesh) " L run-shell "sesh last"
         bind -N "switch to root session (via sesh) " 9 run-shell "sesh connect --root \'$(pwd)\'"
-        bind-key "R" display-popup -E -w 40% "sesh connect \"$(
-          sesh list -i -H | gum filter --valuf \"$(sesh root)\" --limit 1 --fuzzy --no-sort --placeholder 'Pick a sesh' --prompt='⚡'readme
-        )\""
+        bind-key "R" display-popup -E -w 40% -h 60% "sesh picker"
         ## SESH
 
         bind-key x kill-pane

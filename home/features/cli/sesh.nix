@@ -8,7 +8,7 @@ with lib; let
   cfg = config.features.cli.sesh;
 
   t-sesh-cmd = pkgs.writeShellScriptBin "t" ''
-    sesh connect $(sesh list -i | gum filter  --limit 1 --no-sort --fuzzy --placeholder 'Pick a sesh' --height 50 --prompt='⚡')
+    sesh picker
   '';
 in {
   options.features.cli.sesh.enable = mkEnableOption "enable sesh session manager";
@@ -16,13 +16,15 @@ in {
   config = mkIf cfg.enable {
     programs.sesh = {
       enable = true;
-      package = pkgs.unstable.sesh;
+      package = pkgs.sesh;
       enableAlias = true;
       enableTmuxIntegration = true;
       tmuxKey = "s";
       icons = true;
 
       settings = {
+        cache = true;
+
         import = [
           config.sops.secrets."sesh-work".path
         ];
@@ -65,23 +67,18 @@ in {
     };
 
     home.packages = [
-      pkgs.unstable.gum
       t-sesh-cmd
     ];
 
     sops.secrets."sesh-work" = {};
 
-    # Zsh integration for Alt+s keybinding
     programs.zsh.initContent = ''
       function sesh-sessions() {
         {
           exec </dev/tty
           exec <&1
-          local session
-          session=$(sesh list -t -c | fzf --height 40% --reverse --border-label ' sesh ' --border --prompt '⚡  ' --preview-window 'right:50%' --preview 'sesh preview {}')
+          sesh picker
           zle reset-prompt > /dev/null 2>&1 || true
-          [[ -z "$session" ]] && return
-          sesh connect $session
         }
       }
 
