@@ -20,6 +20,12 @@
       fastfetch.enable = true;
       fzf.enable = true;
       yazi.enable = true;
+      gpg = {
+        enable = true;
+        enableGitSigning = true;
+        smartcardFallback = true;
+        # keyId = "0xYOUR_KEY_ID_HERE";
+      };
       password-store.enable = false;
       taskwarrior.enable = true;
       tmux.enable = true;
