@@ -15,7 +15,9 @@
   jetbrains-datagrip = import ./jetbrains-datagrip.nix;
 
   hyprnix = _final: prev:
-    inputs.hyprnix.packages.${prev.stdenv.hostPlatform.system} or {};
+    if prev ? stdenv
+    then inputs.hyprnix.packages.${prev.stdenv.hostPlatform.system} or {}
+    else {};
 
   unstable-packages = final: _prev: {
     unstable = import inputs.nixpkgs-unstable {
