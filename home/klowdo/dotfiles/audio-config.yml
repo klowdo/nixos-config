@@ -1,0 +1,13 @@
+pairs:
+  - name: Home
+    speaker: KT USB Audio Analog Stereo
+    mic: HP Z40c G3 USB Audio Analog Stereo
+  - name: Jabra Headset
+    speaker: Jabra Link 380
+    mic: Jabra Link 380
+  - name: Laptop
+    speaker: Raptor Lake-P/U/H cAVS Speaker
+    mic: Raptor Lake-P/U/H cAVS Headphones Stereo Microphone
+  - name: Bose Headset
+    speaker: Flixen Bose
+    mic: Flixen Bose
