@@ -96,6 +96,11 @@ in {
         bind-key "R" display-popup -E -w 40% -h 60% "sesh picker"
         ## SESH
 
+        bind-key "g" display-popup -E -w 80% -h 80% -d "#{pane_current_path}" "lazygit"
+        bind-key "o" if-shell "tmux has-session -t scratch-claude 2>/dev/null" \
+          "display-popup -E -w 90% -h 85% -d '#{pane_current_path}' 'tmux attach -t scratch-claude'" \
+          "display-popup -E -w 90% -h 85% -d '#{pane_current_path}' 'tmux new -s scratch-claude claude'"
+
         bind-key x kill-pane
 
         # for image.nvim
