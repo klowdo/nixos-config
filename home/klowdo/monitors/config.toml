@@ -113,14 +113,6 @@ config_file_type = "template"
 [[profiles.dell_u2724de.conditions.required_monitors]]
 description = "Dell Inc. DELL U2724DE 41QR734"
 
-# Profile: Charlie Desk (with template for lid state)
-[profiles.charlie_desk]
-config_file = "hyprconfigs/charlie-desk.conf"
-config_file_type = "template"
-
-[[profiles.charlie_desk.conditions.required_monitors]]
-description = "Philips Consumer Electronics Company 32M2N8900 AU42435000732"
-
 # Fallback profile (auto-configure all monitors)
 [fallback_profile]
 config_file = "hyprconfigs/auto-fallback.conf"
