@@ -1,7 +1,7 @@
-{
-  # nh flake path is set via hostConfig.dotfilesPath in host-config module
+{pkgs, ...}: {
   programs.nh = {
     enable = true;
+    package = pkgs.unstable.nh;
     clean = {
       enable = true;
       extraArgs = "--keep-since 4d --keep 3";
