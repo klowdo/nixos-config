@@ -4,11 +4,18 @@ name: Run renovate
 on:
   repository_dispatch:
   workflow_dispatch:
+  pull_request:
+    branches: [main]
+    types: [closed]
   schedule:
     - cron: "30 00 * * 0"
 
 jobs:
   renovate:
+    if: >-
+      github.event_name != 'pull_request' ||
+      (github.event.pull_request.merged == true &&
+       startsWith(github.event.pull_request.head.ref, 'renovate'))
     runs-on: ubuntu-latest
     steps:
       - name: checkout
