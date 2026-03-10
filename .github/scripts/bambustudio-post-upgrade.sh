@@ -4,7 +4,7 @@ set -euo pipefail
 version="$1"
 
 asset=$(curl -sL "https://api.github.com/repos/bambulab/BambuStudio/releases/tags/v${version}" |
-	grep -o '"name":"[^"]*ubuntu-24.04[^"]*"' | head -1 | sed 's/"name":"//;s/"//')
+	grep -o '"name" *: *"[^"]*ubuntu-24.04[^"]*"' | head -1 | sed 's/.*: *"//;s/"//')
 
 pr_number="${asset//*PR-/}"
 pr_number="${pr_number%%[.-]*}"
