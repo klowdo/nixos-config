@@ -8,7 +8,7 @@
   webkitgtk_4_1,
 }: let
   pname = "bambustudio";
-  version = "02.05.00.65";
+  version = "02.05.00.67";
 
   pr = "9504";
 
