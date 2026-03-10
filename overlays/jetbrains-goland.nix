@@ -1,4 +1,4 @@
-# renovate: jetbrains-goland
+# renovate: jetbrains-goland code=GO
 final: prev: {
   jetbrains-goland = (final.unstable.jetbrains.goland.override {forceWayland = true;})
     .overrideAttrs (_old: rec {

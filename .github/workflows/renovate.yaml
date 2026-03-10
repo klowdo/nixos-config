@@ -16,6 +16,14 @@ jobs:
       - name: Renovate
         uses: renovatebot/github-action@v46.1.4
         with:
-          configurationFile: .github/renovate.json5
+          configurationFile: .github/renovate-nix.json5
           renovate-version: full
           token: ${{ secrets.RENOVATE_TOKEN }}
+          docker-cmd-file: .github/renovate-entrypoint.sh
+          docker-user: root
+        env:
+          RENOVATE_REPOSITORIES: ${{ github.repository }}
+          RENOVATE_GIT_AUTHOR: "Renovate Bot <bot@renovateapp.com>"
+          RENOVATE_ALLOWED_POST_UPGRADE_COMMANDS: '["^nix-shell .+$", "^bash .+$"]'
+          RENOVATE_ALLOW_POST_UPGRADE_COMMAND_TEMPLATING: "true"
+          RENOVATE_CACHIX_AUTH_TOKEN: ${{ secrets.CACHIX_AUTH_TOKEN }}

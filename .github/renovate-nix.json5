@@ -1,0 +1,105 @@
+{
+  $schema: 'https://docs.renovatebot.com/renovate-schema.json',
+  extends: [],
+  branchPrefix: 'renovate-nix/',
+  enabledManagers: ['custom.regex'],
+  customDatasources: {
+    'jetbrains-versions': {
+      defaultRegistryUrlTemplate: 'https://data.services.jetbrains.com/products?code={{packageName}}&release.type=release',
+      format: 'json',
+      transformTemplates: [
+        '{"releases": $[0].releases.{"version": version, "releaseTimestamp": date}}',
+      ],
+    },
+    'jetbrains-builds': {
+      defaultRegistryUrlTemplate: 'https://data.services.jetbrains.com/products?code={{packageName}}&release.type=release',
+      format: 'json',
+      transformTemplates: [
+        '{"releases": $[0].releases.{"version": build, "releaseTimestamp": date}}',
+      ],
+    },
+  },
+  customManagers: [
+    {
+      customType: 'regex',
+      managerFilePatterns: [
+        'overlays/jetbrains-*.nix',
+      ],
+      matchStrings: [
+        '# renovate: (?<depName>jetbrains-[a-z]+) code=(?<packageName>[A-Z]+)\\n[\\s\\S]*?version = "(?<currentValue>[^"]+)";',
+      ],
+      datasourceTemplate: 'custom.jetbrains-versions',
+      depNameTemplate: '{{{depName}}}-version',
+      packageNameTemplate: '{{{packageName}}}',
+      versioningTemplate: 'loose',
+    },
+    {
+      customType: 'regex',
+      managerFilePatterns: [
+        'overlays/jetbrains-*.nix',
+      ],
+      matchStrings: [
+        '# renovate: (?<depName>jetbrains-[a-z]+) code=(?<packageName>[A-Z]+)\\n[\\s\\S]*?build_number = "(?<currentValue>[^"]+)";',
+      ],
+      datasourceTemplate: 'custom.jetbrains-builds',
+      depNameTemplate: '{{{depName}}}-build',
+      packageNameTemplate: '{{{packageName}}}',
+      versioningTemplate: 'loose',
+    },
+    {
+      customType: 'regex',
+      managerFilePatterns: [
+        'pkgs/bambustudio-appimage/default.nix',
+      ],
+      matchStrings: [
+        'version = "(?<currentValue>[^"]+)";',
+      ],
+      depNameTemplate: 'bambulab/BambuStudio',
+      datasourceTemplate: 'github-releases',
+      extractVersionTemplate: '^v(?<version>.+)$',
+      versioningTemplate: 'loose',
+    },
+  ],
+  packageRules: [
+    {
+      groupName: 'jetbrains-goland',
+      separateMajorMinor: false,
+      matchDepNames: ['/^jetbrains-goland-/'],
+      postUpgradeTasks: {
+        commands: ['bash -c \'nix-shell -p nix-update --run "nix-update --version=skip --flake $(basename {{{packageFile}}} .nix)"\''],
+        fileFilters: ['overlays/jetbrains-*.nix'],
+        executionMode: 'branch',
+      },
+    },
+    {
+      groupName: 'jetbrains-rider',
+      separateMajorMinor: false,
+      matchDepNames: ['/^jetbrains-rider-/'],
+      postUpgradeTasks: {
+        commands: ['bash -c \'nix-shell -p nix-update --run "nix-update --version=skip --flake $(basename {{{packageFile}}} .nix)"\''],
+        fileFilters: ['overlays/jetbrains-*.nix'],
+        executionMode: 'branch',
+      },
+    },
+    {
+      groupName: 'jetbrains-datagrip',
+      separateMajorMinor: false,
+      matchDepNames: ['/^jetbrains-datagrip-/'],
+      postUpgradeTasks: {
+        commands: ['bash -c \'nix-shell -p nix-update --run "nix-update --version=skip --flake $(basename {{{packageFile}}} .nix)"\''],
+        fileFilters: ['overlays/jetbrains-*.nix'],
+        executionMode: 'branch',
+      },
+    },
+    {
+      matchDepNames: ['bambulab/BambuStudio'],
+      groupName: 'bambustudio',
+      separateMajorMinor: false,
+      postUpgradeTasks: {
+        commands: ['bash .github/scripts/bambustudio-post-upgrade.sh {{{newVersion}}}'],
+        fileFilters: ['pkgs/bambustudio-appimage/default.nix'],
+        executionMode: 'branch',
+      },
+    },
+  ],
+}

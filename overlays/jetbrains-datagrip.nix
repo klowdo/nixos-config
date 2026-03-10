@@ -1,4 +1,4 @@
-# renovate: jetbrains-datagrip
+# renovate: jetbrains-datagrip code=DG
 final: prev: {
   jetbrains-datagrip = final.unstable.jetbrains.datagrip.overrideAttrs (_old: rec {
     version = "2025.3.5";

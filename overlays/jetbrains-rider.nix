@@ -1,4 +1,4 @@
-# renovate: jetbrains-rider
+# renovate: jetbrains-rider code=RD
 final: prev: {
   jetbrains-rider = (final.unstable.jetbrains.rider.override {forceWayland = true;})
     .overrideAttrs (_old: rec {
