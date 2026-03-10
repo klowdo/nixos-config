@@ -62,31 +62,11 @@
   ],
   packageRules: [
     {
-      groupName: 'jetbrains-goland',
+      groupName: 'jetbrains',
       separateMajorMinor: false,
-      matchDepNames: ['/^jetbrains-goland-/'],
+      matchDepNames: ['/^jetbrains-.+-/'],
       postUpgradeTasks: {
-        commands: ['bash -c \'nix-shell -p nix-update --run "nix-update --version=skip --flake $(basename {{{packageFile}}} .nix)"\''],
-        fileFilters: ['overlays/jetbrains-*.nix'],
-        executionMode: 'branch',
-      },
-    },
-    {
-      groupName: 'jetbrains-rider',
-      separateMajorMinor: false,
-      matchDepNames: ['/^jetbrains-rider-/'],
-      postUpgradeTasks: {
-        commands: ['bash -c \'nix-shell -p nix-update --run "nix-update --version=skip --flake $(basename {{{packageFile}}} .nix)"\''],
-        fileFilters: ['overlays/jetbrains-*.nix'],
-        executionMode: 'branch',
-      },
-    },
-    {
-      groupName: 'jetbrains-datagrip',
-      separateMajorMinor: false,
-      matchDepNames: ['/^jetbrains-datagrip-/'],
-      postUpgradeTasks: {
-        commands: ['bash -c \'nix-shell -p nix-update --run "nix-update --version=skip --flake $(basename {{{packageFile}}} .nix)"\''],
+        commands: ['nix-shell -p nix-update --run "nix-update --version=skip --flake {{{replace "-(version|build)$" "" depName}}}"'],
         fileFilters: ['overlays/jetbrains-*.nix'],
         executionMode: 'branch',
       },
