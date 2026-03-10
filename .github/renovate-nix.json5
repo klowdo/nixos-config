@@ -3,6 +3,9 @@
   extends: [],
   branchPrefix: 'renovate-nix/',
   enabledManagers: ['custom.regex'],
+  automerge: true,
+  automergeType: 'pr',
+  platformAutomerge: true,
   customDatasources: {
     'jetbrains-versions': {
       defaultRegistryUrlTemplate: 'https://data.services.jetbrains.com/products?code={{packageName}}&release.type=release',
