@@ -227,6 +227,7 @@
         pkgs = pkgsFor.x86_64-linux;
         extraSpecialArgs = {inherit inputs outputs;};
         modules = [
+          inputs.stylix.homeModules.stylix
           ./home/klowdo/dellicious.nix
         ];
       };
@@ -234,6 +235,7 @@
         pkgs = pkgsFor.x86_64-linux;
         extraSpecialArgs = {inherit inputs outputs;};
         modules = [
+          inputs.stylix.homeModules.stylix
           ./home/klowdo/virt-nix.nix
         ];
       };
