@@ -24,13 +24,21 @@ in {
             ${pkgs.socat}/bin/socat -U - UNIX-CONNECT:"$XDG_RUNTIME_DIR/hypr/$HYPRLAND_INSTANCE_SIGNATURE/.socket2.sock" | while read -r line; do
               event="''${line%%>>*}"
               if [ "$event" = "monitoradded" ]; then
-                is_hp=$(${pkgs.hyprland}/bin/hyprctl monitors -j | ${pkgs.jq}/bin/jq -r '[.[] | select(.description | contains("HP Z40c G3"))] | length')
-                if [ "$is_hp" -gt 0 ] && ${pkgs.tailscale}/bin/tailscale status &>/dev/null; then
-                  ${pkgs.curl}/bin/curl -s -X POST https://assistant.home.flixen.se/api/webhook/enable_skarmgej
+                is_hp=$(timeout 5 ${pkgs.hyprland}/bin/hyprctl monitors -j | ${pkgs.jq}/bin/jq -r '[.[] | select(.description | contains("HP Z40c G3"))] | length')
+                if [ "$is_hp" -gt 0 ] && timeout 5 ${pkgs.tailscale}/bin/tailscale status &>/dev/null; then
+                  if ${pkgs.curl}/bin/curl -s --max-time 5 -X POST https://assistant.home.flixen.se/api/webhook/enable_skarmgej; then
+                    ${pkgs.libnotify}/bin/notify-send "Monitor webhook: enabled"
+                  else
+                    ${pkgs.libnotify}/bin/notify-send "Monitor webhook: failed to enable"
+                  fi
                 fi
               elif [ "$event" = "monitorremoved" ]; then
-                if ${pkgs.tailscale}/bin/tailscale status &>/dev/null; then
-                  ${pkgs.curl}/bin/curl -s -X POST https://assistant.home.flixen.se/api/webhook/disable_skarmgej
+                if timeout 5 ${pkgs.tailscale}/bin/tailscale status &>/dev/null; then
+                  if ${pkgs.curl}/bin/curl -s --max-time 5 -X POST https://assistant.home.flixen.se/api/webhook/disable_skarmgej; then
+                    ${pkgs.libnotify}/bin/notify-send "Monitor webhook: disabled"
+                  else
+                    ${pkgs.libnotify}/bin/notify-send "Monitor webhook: failed to disable"
+                  fi
                 fi
               fi
             done
