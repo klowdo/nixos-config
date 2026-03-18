@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  lib,
+  ...
+}: {
   programs.hyprland = {
     enable = true;
     withUWSM = true;
@@ -6,6 +10,10 @@
     package = pkgs.hyprland;
     portalPackage = pkgs.xdg-desktop-portal-hyprland;
   };
+
+  # Workaround: nixpkgs passes the raw Hyprland binary to UWSM instead of start-hyprland
+  # https://github.com/hyprwm/Hyprland/discussions/12661
+  programs.uwsm.waylandCompositors.hyprland.binPath = lib.mkForce "/run/current-system/sw/bin/start-hyprland";
 
   security.pam.services.hyprlock = {
     fprintAuth = true;

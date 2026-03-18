@@ -11,7 +11,7 @@
     after = ["graphical-session.target"];
     serviceConfig = {
       Type = "simple";
-      ExecStart = "${pkgs.solaar}/bin/solaar --window hide";
+      ExecStart = "${pkgs.solaar}/bin/solaar --window only";
       Restart = "on-failure";
       RestartSec = "5";
     };

@@ -184,6 +184,7 @@ in {
           "match:title ^Huddle:.*, match:class (Slack), opaque on"
           "match:title ^Huddle:.*, match:class (Slack), no_blur on"
           "match:title .*(YouTube|youtube).*, match:class (firefox), opaque on"
+          "match:class (solaar), workspace special:solaar silent"
         ];
       };
     };
