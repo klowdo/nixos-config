@@ -60,6 +60,16 @@ in {
           jq
         ];
 
+      # WORKAROUND: Claude Code doesn't follow symlinks for skill discovery
+      # https://github.com/anthropics/claude-code/issues/14836
+      home.activation.claude-skills = lib.hm.dag.entryAfter ["writeBoundary"] ''
+        skills_dir="$HOME/.claude/skills"
+        run mkdir -p "$skills_dir"
+        run rm -rf "$skills_dir/tokennuke"
+        run cp -rL ${./claude/skills/tokennuke} "$skills_dir/tokennuke"
+        run chmod -R u+rw "$skills_dir/tokennuke"
+      '';
+
       programs.claude-code = {
         enable = true;
         package = claudeCodePackage;
@@ -72,6 +82,9 @@ in {
           nixos = {
             command = "nix";
             args = ["run" "github:utensils/mcp-nixos" "--"];
+          };
+          tokennuke = {
+            command = "${pkgs.tokennuke}/bin/tokennuke";
           };
         };
 
