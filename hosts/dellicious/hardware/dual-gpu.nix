@@ -8,6 +8,7 @@
     nvidia.configuration = {
       imports = [
         inputs.hardware.nixosModules.dell-xps-15-9530-nvidia
+        ../../../modules/nixos/nvidia-greenboost.nix
       ];
       # Nvidia Configuration
       services.xserver.videoDrivers = ["nvidia"];
@@ -26,6 +27,8 @@
           modesetting.enable = true;
         };
       };
+
+      services.nvidia-greenboost.enable = true;
     };
   };
 }

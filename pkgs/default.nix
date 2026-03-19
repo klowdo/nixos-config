@@ -20,5 +20,6 @@
   hyprland-preview-share-picker = pkgs.callPackage ./hyprland-preview-share-picker {};
   spec-kit = pkgs.callPackage ./spec-kit {};
   tokennuke = pkgs.callPackage ./tokennuke {};
+  nvidia-greenboost = pkgs.callPackage ./nvidia-greenboost {};
   # zsh-term-title = pkgs.callPackage ./zsh-term-title { };
 }
