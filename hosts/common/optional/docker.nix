@@ -19,6 +19,11 @@ in {
       default = null;
       description = "MTU for rootless docker networking (null = auto)";
     };
+    stopContainersOnBoot = mkOption {
+      type = types.bool;
+      default = true;
+      description = "Stop all containers and reset restart policies after Docker starts on boot";
+    };
   };
 
   config = mkIf cfg.enable {
@@ -94,6 +99,25 @@ in {
             OnBootSec = "5min";
             OnCalendar = "*-*-* 09,12:00:00";
             Persistent = true;
+          };
+        };
+
+        services.docker-stop-on-boot = mkIf cfg.stopContainersOnBoot {
+          description = "Stop auto-started Docker containers on boot";
+          requires = ["docker.service"];
+          after = ["docker.service"];
+          wantedBy = ["docker.service"];
+          serviceConfig = {
+            Type = "oneshot";
+            RemainAfterExit = true;
+            ExecStart = pkgs.writeShellScript "docker-stop-on-boot" ''
+              containers=$(${pkgs.docker}/bin/docker ps -aq)
+              if [ -n "$containers" ]; then
+                ${pkgs.docker}/bin/docker update --restart=no $containers
+                ${pkgs.docker}/bin/docker stop $containers
+              fi
+            '';
+            Environment = "DOCKER_HOST=unix:///run/user/%U/docker.sock";
           };
         };
 
