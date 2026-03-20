@@ -52,6 +52,8 @@ in {
 
   # Pull latest config from GitHub before auto-upgrade runs
   systemd.services.nixos-upgrade = {
+    after = ["network-online.target"];
+    wants = ["network-online.target"];
     unitConfig = {
       OnFailure = ["notify-upgrade-failure.service"];
     };
