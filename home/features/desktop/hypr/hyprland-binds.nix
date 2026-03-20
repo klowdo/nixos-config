@@ -29,6 +29,16 @@
   sound-toggle = pkgs.writeShellScriptBin "sound-toggle" ''
     ${sound-change}/bin/sound-change mute
   '';
+
+  lockCmd =
+    if caelestiaEnabled
+    then "caelestia shell lock lock"
+    else "${pkgs.hyprlock}/bin/hyprlock";
+
+  unlock-lockscreen = pkgs.writeShellScriptBin "unlock-lockscreen" ''
+    ${pkgs.hyprland}/bin/hyprctl --instance 0 keyword misc:allow_session_lock_restore 1
+    ${pkgs.hyprland}/bin/hyprctl --instance 0 dispatch exec "${lockCmd}"
+  '';
 in {
   home.packages = with pkgs; [
     wl-mirror
@@ -36,6 +46,7 @@ in {
     grim
     slurp
     satty
+    unlock-lockscreen
   ];
   wayland.windowManager.hyprland.settings = {
     bindm = [
