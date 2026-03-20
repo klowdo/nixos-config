@@ -35,9 +35,12 @@
     then "caelestia shell lock lock"
     else "${pkgs.hyprlock}/bin/hyprlock";
 
+  lock-screen = pkgs.writeShellScriptBin "lock-screen" ''
+    exec ${lockCmd}
+  '';
+
   unlock-lockscreen = pkgs.writeShellScriptBin "unlock-lockscreen" ''
-    ${pkgs.hyprland}/bin/hyprctl --instance 0 keyword misc:allow_session_lock_restore 1
-    ${pkgs.hyprland}/bin/hyprctl --instance 0 dispatch exec "${lockCmd}"
+    ${pkgs.hyprland}/bin/hyprctl --instance 0 dispatch exec "${lock-screen}/bin/lock-screen"
   '';
 in {
   home.packages = with pkgs; [
@@ -46,6 +49,7 @@ in {
     grim
     slurp
     satty
+    lock-screen
     unlock-lockscreen
   ];
   wayland.windowManager.hyprland.settings = {

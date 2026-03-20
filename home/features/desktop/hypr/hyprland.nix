@@ -114,6 +114,7 @@ in {
 
         misc = {
           vfr = true;
+          allow_session_lock_restore = true;
         };
 
         master = {};
