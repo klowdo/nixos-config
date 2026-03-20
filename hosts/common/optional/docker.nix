@@ -135,7 +135,6 @@ in {
       lazydocker
       unstable.dive
       fuse-overlayfs
-      docker-buildx
     ];
   };
 }
