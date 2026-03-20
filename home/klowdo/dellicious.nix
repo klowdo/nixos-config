@@ -46,7 +46,7 @@
       darkman.enable = true;
       bitwarden.enable = true;
       which-key.enable = true;
-      kando.enable = true;
+      kando.enable = false;
       vicinae = {
         enable = true;
         enableHyprlandSupport = true;
