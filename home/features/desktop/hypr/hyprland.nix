@@ -15,6 +15,11 @@ in {
   ];
 
   config = mkIf cfg.enable {
+    xdg.configFile."uwsm/env".text = ''
+      export XDG_CURRENT_DESKTOP=Hyprland
+      export XDG_SESSION_DESKTOP=Hyprland
+    '';
+
     home.packages = with pkgs; [
       pyprland
       hyprpicker
