@@ -65,6 +65,7 @@
     ../common/optional/ly.nix
     ../common/optional/stylix.nix
     ../common/optional/logitech.nix
+    ../common/optional/onepassword.nix
   ];
 
   networking.hostName = "dellicious";
