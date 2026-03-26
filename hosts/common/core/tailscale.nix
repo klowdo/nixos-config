@@ -13,6 +13,7 @@
       "--accept-routes"
       "--accept-dns"
       "--ssh"
+      "--exit-node-allow-lan-access"
     ];
   };
   networking.firewall.allowedUDPPorts = [41641]; # Facilitate firewall punching
