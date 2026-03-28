@@ -13,6 +13,8 @@
       "--accept-routes"
       "--accept-dns"
       "--ssh"
+    ];
+    extraSetFlags = [
       "--exit-node-allow-lan-access"
     ];
   };
