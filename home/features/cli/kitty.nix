@@ -12,7 +12,6 @@ in {
     programs.kitty = {
       enable = true;
       settings = {
-        allow_remote_control = "yes";
         font_size = 12;
       };
       shellIntegration = {

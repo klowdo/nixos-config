@@ -8,15 +8,11 @@
 in {
   imports = [
     inputs.nix-index-database.homeModules.nix-index
+    inputs.direnv-instant.homeModules.direnv-instant
   ];
   home.sessionVariables.NIX_PATH = lib.concatStringsSep ":" (lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs);
 
-  programs.direnv = {
-    enable = true;
-    enableBashIntegration = true;
-    enableZshIntegration = true;
-    nix-direnv.enable = true;
-  };
+  programs.direnv-instant.enable = true;
 
   home.packages = with pkgs;
     [
