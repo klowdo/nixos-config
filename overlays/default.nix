@@ -7,6 +7,7 @@
   strongswan = import ./strongswan.nix;
   dotnet-combined = import ./dotnet-combined.nix;
   claude-code = import ./claude-code.nix {inherit inputs;};
+  freecad = import ./freecad.nix;
   sesh = import ./sesh.nix;
 
   vesktop = import ./vesktop.nix;
