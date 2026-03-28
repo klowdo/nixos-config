@@ -7,6 +7,7 @@
   claudia = import ./claudia.nix;
   vcstool = import ./vcstool.nix;
   vicinae = import ./vicinae.nix;
+  nix-auto-dirs = import ./nix-auto-dirs.nix;
   # vivid-stub = import ./vivid-stub.nix;
   # delta-stub = import ./delta-stub.nix;
 }

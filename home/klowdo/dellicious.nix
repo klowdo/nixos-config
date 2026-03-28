@@ -134,6 +134,14 @@
     };
   };
 
+  # Centralized direnv auto-loading: generates .envrc files without polluting repos
+  programs.nix-auto-dirs = {
+    enable = true;
+    directories = {
+      # Example: "dev/myproject" = { flake = "github:user/myflake"; };
+    };
+  };
+
   wayland.windowManager.hyprland = {
     settings = {
       input = {
