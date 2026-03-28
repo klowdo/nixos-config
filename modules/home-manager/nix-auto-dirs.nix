@@ -33,8 +33,7 @@ in {
       default = {};
       description = ''
         Map of directory paths (relative to $HOME) to their direnv/flake configuration.
-        Generates .envrc files at those paths, auto-allows them in direnv,
-        and adds .envrc/.direnv to git's global excludes.
+        Generates .envrc files at those paths and auto-allows them in direnv.
       '';
       example = literalExpression ''
         {
@@ -69,11 +68,20 @@ in {
     programs.direnv.config.whitelist.exact =
       map (dir: "${homeDir}/${dir}/.envrc") dirNames;
 
-    # Add .envrc and .direnv to git's global excludes so they never
-    # show up as untracked files in any repository
-    home.file.".config/git/ignore".text = ''
-      .envrc
-      .direnv
+    # Add .envrc to each target directory's .git/info/exclude via an activation script
+    # This avoids polluting the global gitignore (which would hide tracked .envrc files
+    # in other repos) and keeps the ignore scoped to only the managed directories.
+    home.activation.nix-auto-dirs-git-exclude = lib.hm.dag.entryAfter ["writeBoundary"] ''
+      for dir in ${concatStringsSep " " (map (d: ''"${homeDir}/${d}"'') dirNames)}; do
+        exclude="$dir/.git/info/exclude"
+        if [ -d "$dir/.git/info" ]; then
+          for entry in .envrc .direnv; do
+            if ! grep -qxF "$entry" "$exclude" 2>/dev/null; then
+              echo "$entry" >> "$exclude"
+            fi
+          done
+        fi
+      done
     '';
   });
 }
