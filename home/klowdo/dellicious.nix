@@ -33,6 +33,15 @@
       archives.enable = true;
       circumflex.enable = true;
       cool-retro-term.enable = true;
+      auto-shell = {
+        enable = true;
+        shells = {
+          zig = {
+            paths = ["~/dev/github/libsrapli"];
+          };
+        };
+        includes = ["~/dev/github/autoshell.toml"];
+      };
     };
     desktop = {
       wayland.enable = true;

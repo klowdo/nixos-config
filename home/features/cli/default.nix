@@ -25,6 +25,7 @@
     ./archives.nix
     ./circumflex.nix
     ./cool-retro-term.nix
+    ./auto-shell.nix
   ];
 
   programs.zoxide = {
