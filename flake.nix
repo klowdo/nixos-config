@@ -147,14 +147,14 @@
     # Your custom packages
     # Accessible through 'nix build', 'nix shell', etc
     packages = forEachSystem (
-      pkgs:
-        (import ./pkgs {inherit pkgs;})
-        // {
-          solaar = pkgs.solaar;
-          jetbrains-goland = pkgs.jetbrains-goland;
-          jetbrains-rider = pkgs.jetbrains-rider;
-          jetbrains-datagrip = pkgs.jetbrains-datagrip;
-        }
+      pkgs: let
+        customPkgs = import ./pkgs {inherit pkgs;};
+        overlayPkgs =
+          lib.genAttrs
+          (builtins.filter (n: pkgs ? ${n} && lib.isDerivation pkgs.${n}) (builtins.attrNames overlays))
+          (name: pkgs.${name});
+      in
+        customPkgs // overlayPkgs
     );
 
     # Checks - includes pre-commit hooks for `nix flake check`
