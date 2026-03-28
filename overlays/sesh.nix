@@ -1,3 +1,4 @@
+# nix-update: sesh
 final: prev: {
   sesh = prev.sesh.overrideAttrs (oldAttrs: rec {
     version = "2.24.2";
