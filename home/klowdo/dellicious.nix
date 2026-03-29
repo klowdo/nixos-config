@@ -35,7 +35,7 @@
       cool-retro-term.enable = true;
       auto-shell = {
         enable = true;
-        availableShells = ["zig" "go"];
+        availableShells = builtins.attrNames (import ../../devshells {inherit pkgs;});
         shells = {
           zig = {
             paths = ["~/dev/github/libsrapli"];
