@@ -69,6 +69,7 @@ in
       "--setenv SSL_CERT_FILE ${cacert}/etc/ssl/certs/ca-bundle.crt"
       "--setenv NIX_SSL_CERT_FILE ${cacert}/etc/ssl/certs/ca-bundle.crt"
       "--setenv GIO_EXTRA_MODULES ${glib-networking}/lib/gio/modules"
+      "--setenv LOCALE_ARCHIVE /run/current-system/sw/lib/locale/locale-archive"
     ];
 
     extraInstallCommands = ''
