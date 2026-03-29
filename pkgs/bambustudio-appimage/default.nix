@@ -64,13 +64,13 @@ in
         atk
       ];
 
-    # Set environment variables for SSL certificates and GIO modules
-    extraBwrapArgs = [
-      "--setenv SSL_CERT_FILE ${cacert}/etc/ssl/certs/ca-bundle.crt"
-      "--setenv NIX_SSL_CERT_FILE ${cacert}/etc/ssl/certs/ca-bundle.crt"
-      "--setenv GIO_EXTRA_MODULES ${glib-networking}/lib/gio/modules"
-      "--setenv LOCALE_ARCHIVE /run/current-system/sw/lib/locale/locale-archive"
-    ];
+    profile = ''
+      export SSL_CERT_FILE="${cacert}/etc/ssl/certs/ca-bundle.crt"
+      export NIX_SSL_CERT_FILE="${cacert}/etc/ssl/certs/ca-bundle.crt"
+      export GIO_MODULE_DIR="${glib-networking}/lib/gio/modules/"
+      export LOCALE_ARCHIVE="/run/current-system/sw/lib/locale/locale-archive"
+      export LANG="en_US.UTF-8"
+    '';
 
     extraInstallCommands = ''
       # Install desktop file
