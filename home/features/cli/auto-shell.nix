@@ -148,6 +148,7 @@ in {
         local short_path="''${git_root/#$HOME/~}"
 
         _autoshell_match "$git_root" >/dev/null 2>&1 && return
+        [[ -f "$git_root/.envrc" ]] && return
 
         local shells_file="${config.xdg.configHome}/auto-shell/shells.txt"
         [[ -f "$shells_file" ]] || return
