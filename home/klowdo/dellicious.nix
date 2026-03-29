@@ -35,6 +35,7 @@
       cool-retro-term.enable = true;
       auto-shell = {
         enable = true;
+        availableShells = ["zig" "go"];
         shells = {
           zig = {
             paths = ["~/dev/github/libsrapli"];
