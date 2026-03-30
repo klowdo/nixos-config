@@ -98,6 +98,10 @@
         rider.enable = false;
         goland.enable = true;
         libreoffice.enable = false;
+        junie = {
+          enable = true;
+          apiKeySecret = "applications/jetbrains-junie/token";
+        };
       };
       languages = {
         dotnet.enable = true;

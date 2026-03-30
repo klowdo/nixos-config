@@ -5,5 +5,6 @@
     ./claudia.nix
     ./goland.nix
     ./datagrip.nix
+    ./junie.nix
   ];
 }

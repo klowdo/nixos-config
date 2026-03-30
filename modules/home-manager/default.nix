@@ -5,6 +5,7 @@
   user-config = import ./user-config.nix;
   way-displays = import ./way-displays.nix;
   claudia = import ./claudia.nix;
+  junie = import ./junie.nix;
   vcstool = import ./vcstool.nix;
   vicinae = import ./vicinae.nix;
   # vivid-stub = import ./vivid-stub.nix;
