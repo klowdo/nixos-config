@@ -74,6 +74,8 @@ in {
       "applications/linkding/token" = {};
 
       "applications/gitlab/token" = {};
+
+      "applications/jetbrains-junie/token" = {};
     };
   };
 }
