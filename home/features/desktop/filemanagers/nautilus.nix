@@ -13,6 +13,7 @@ in {
     # Install Nautilus and extensions
     home.packages = with pkgs; [
       nautilus
+      file-roller
       sushi # Quick previewer
       nautilus-python # Python extension bindings
       nautilus-open-any-terminal

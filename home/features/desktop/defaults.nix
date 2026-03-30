@@ -109,6 +109,29 @@ in {
       };
     };
 
+    imageViewer = {
+      command = mkOption {
+        type = types.str;
+        default = "imv";
+        example = "loupe";
+        description = "Command for image viewer";
+      };
+
+      package = mkOption {
+        type = types.package;
+        default = pkgs.imv;
+        example = "pkgs.loupe";
+        description = "Package for the image viewer";
+      };
+
+      desktopEntry = mkOption {
+        type = types.str;
+        default = "imv.desktop";
+        example = "org.gnome.Loupe.desktop";
+        description = "Desktop entry for the image viewer";
+      };
+    };
+
     sessionMenu = {
       command = mkOption {
         type = types.str;
@@ -127,6 +150,7 @@ in {
         cfg.browser.package
         cfg.terminal.package
         cfg.fileManager.package
+        cfg.imageViewer.package
         cfg.editor.package
       ];
 
@@ -220,6 +244,23 @@ in {
         "text/x-c++" = ["kitty-nvim.desktop"];
 
         "application/pdf" = ["org.pwmt.zathura.desktop"];
+
+        "image/png" = ["${cfg.imageViewer.desktopEntry}"];
+        "image/jpeg" = ["${cfg.imageViewer.desktopEntry}"];
+        "image/gif" = ["${cfg.imageViewer.desktopEntry}"];
+        "image/webp" = ["${cfg.imageViewer.desktopEntry}"];
+        "image/bmp" = ["${cfg.imageViewer.desktopEntry}"];
+        "image/tiff" = ["${cfg.imageViewer.desktopEntry}"];
+        "image/svg+xml" = ["${cfg.imageViewer.desktopEntry}"];
+
+        "application/zip" = ["org.gnome.FileRoller.desktop"];
+        "application/x-tar" = ["org.gnome.FileRoller.desktop"];
+        "application/gzip" = ["org.gnome.FileRoller.desktop"];
+        "application/x-gzip" = ["org.gnome.FileRoller.desktop"];
+        "application/x-bzip2" = ["org.gnome.FileRoller.desktop"];
+        "application/x-xz" = ["org.gnome.FileRoller.desktop"];
+        "application/x-7z-compressed" = ["org.gnome.FileRoller.desktop"];
+        "application/x-rar" = ["org.gnome.FileRoller.desktop"];
 
         "inode/directory" = ["${cfg.fileManager.command}.desktop"];
       };
