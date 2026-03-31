@@ -44,6 +44,12 @@ rebuild-update:
   just update
   just rebuild
 
+# Build and push hyprland ecosystem to personal cachix
+cache-hyprland:
+  #!/usr/bin/env bash
+  export CACHIX_AUTH_TOKEN="$(cat $XDG_RUNTIME_DIR/secrets.d/*/applications/cachix/token)"
+  nix build .#nixosConfigurations.dellicious.pkgs.hyprland --no-link --print-out-paths | nix run nixpkgs#cachix -- push klowdo
+
 # Run `git diff ':!flake.lock'`
 diff:
   git diff ':!flake.lock'

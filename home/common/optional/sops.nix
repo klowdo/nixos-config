@@ -76,6 +76,8 @@ in {
       "applications/gitlab/token" = {};
 
       "applications/jetbrains-junie/token" = {};
+
+      "applications/cachix/token" = {};
     };
   };
 }

@@ -32,6 +32,9 @@ jobs:
       - name: Update flake.lock
         run: nix flake update
 
+      - name: Build hyprland ecosystem for cachix
+        run: nix build .#nixosConfigurations.dellicious.pkgs.hyprland --no-link
+
       - name: Run check and capture output
         id: nix-check
         continue-on-error: true
