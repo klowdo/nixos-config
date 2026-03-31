@@ -33,6 +33,7 @@
       archives.enable = true;
       circumflex.enable = true;
       cool-retro-term.enable = true;
+      worktrunk.enable = true;
       auto-shell = {
         enable = true;
         availableShells = builtins.attrNames (import ../../devshells {inherit pkgs;});
