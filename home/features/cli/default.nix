@@ -24,6 +24,7 @@
     ./auto-shell.nix
     ./worktrunk.nix
     ./glab.nix
+    ./tools.nix
   ];
 
   programs = {
