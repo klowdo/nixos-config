@@ -1,8 +1,4 @@
-{
-  pkgs,
-  inputs,
-  ...
-}: {
+{pkgs, ...}: {
   imports = [
     ./zsh.nix
     ./fzf.nix
@@ -27,67 +23,36 @@
     ./cool-retro-term.nix
     ./auto-shell.nix
     ./worktrunk.nix
+    ./glab.nix
   ];
 
-  programs.zoxide = {
-    enable = true;
-    enableZshIntegration = true;
-    options = [
-      "--cmd cd" #replace cd with z and zi (via cdi)
-    ];
-  };
-
-  programs.eza = {
-    enable = true;
-    enableZshIntegration = true;
-    enableBashIntegration = true;
-    extraOptions = ["-l" "--icons" "--git" "-a"];
-  };
-
-  programs.atuin = {
-    enable = true;
-    enableZshIntegration = true;
-    settings = {
-      auto_sync = false;
-      show_preview = false;
-    };
-    flags = ["--disable-up-arrow"];
-  };
-
-  catppuccin.bat.enable = true;
-  programs.bat = {
-    enable = true;
-    extraPackages = with pkgs.bat-extras; [batman];
-  };
-
-  home.packages = with pkgs;
-    [
-      coreutils
-      fd
-      htop
-      httpie
-      jq
-      procs
-      ripgrep
-      tldr
-      zip
-      wishlist
-      unp
-      unstable.witr
-      duf
-      ncdu
-      pciutils
-      appimage-run
-      virt-viewer
-    ]
-    ++ [
-      pkgs.unstable.isd
-      inputs.kixvim.packages.${pkgs.stdenv.hostPlatform.system}.default
-    ];
-
-  home.sessionVariables = {EDITOR = "nvim";};
-
   programs = {
+    zoxide = {
+      enable = true;
+      enableZshIntegration = true;
+      options = [
+        "--cmd d" #replace cd with z and zi (via cdi)
+      ];
+    };
+    eza = {
+      enable = true;
+      enableZshIntegration = true;
+      enableBashIntegration = true;
+      extraOptions = ["-l" "--icons" "--git" "-a"];
+    };
+    atuin = {
+      enable = true;
+      enableZshIntegration = true;
+      settings = {
+        auto_sync = false;
+        show_preview = false;
+      };
+      flags = ["--disable-up-arrow"];
+    };
+    bat = {
+      enable = true;
+      extraPackages = with pkgs.bat-extras; [batman];
+    };
     bash.enable = true;
     btop.enable = true;
     zsh.shellAliases.vimdiff = "nvim -d";
