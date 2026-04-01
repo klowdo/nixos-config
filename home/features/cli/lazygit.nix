@@ -8,12 +8,25 @@
           colorArg = "always";
           pager = "delta --dark --paging=never --line-numbers";
         };
-        # Multiple pagers - cycle through them with pipe (|) key
         pagers = [
           {pager = "delta --dark --paging=never --line-numbers";}
           {pager = "difft --color=always";}
         ];
       };
+      customCommands = [
+        {
+          key = "o";
+          command = "sesh connect '{{.SelectedWorktree.Path}}'";
+          context = "worktrees";
+          description = "Open worktree in sesh session";
+        }
+        {
+          key = "s";
+          command = "sesh connect '{{.SelectedWorktree.Path}}'";
+          context = "worktrees";
+          description = "Connect to worktree session";
+        }
+      ];
     };
   };
 

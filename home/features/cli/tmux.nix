@@ -89,7 +89,21 @@ in {
         set -g focus-events on
 
         ## SESH
-        bind-key "K" display-popup -E -w 40% -h 60% "sesh picker"
+        bind-key "K" run-shell "sesh connect \"$(
+          sesh list --icons --hide-duplicates | fzf-tmux -p 80%,80% \
+            --no-sort --prompt '  ' \
+            --header 'ctrl-a:all ctrl-t:tmux ctrl-g:config ctrl-x:zoxide ctrl-f:find ctrl-d:kill' \
+            --bind 'tab:down,btab:up' \
+            --bind 'ctrl-b:abort' \
+            --bind 'ctrl-a:change-prompt(  )+reload(sesh list --icons)' \
+            --bind 'ctrl-t:change-prompt(  )+reload(sesh list -t --icons)' \
+            --bind 'ctrl-g:change-prompt(  )+reload(sesh list -c --icons)' \
+            --bind 'ctrl-x:change-prompt(  )+reload(sesh list -z --icons)' \
+            --bind 'ctrl-f:change-prompt(  )+reload(fd -H -d 2 -t d -E .Trash . ~)' \
+            --bind 'ctrl-d:execute(tmux kill-session -t {2..})+change-prompt(  )+reload(sesh list --icons)' \
+            --preview-window 'right:55%' \
+            --preview 'sesh preview {}' \
+        )\""
         bind-key "J" display-popup -E -w 55% -h 60% "sesh picker"
         bind -N "last-session (via sesh) " L run-shell "sesh last"
         bind -N "switch to root session (via sesh) " 9 run-shell "sesh connect --root \'$(pwd)\'"

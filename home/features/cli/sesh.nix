@@ -62,6 +62,18 @@ in {
             path = "~/Downloads";
             startup_command = "yazi";
           }
+          {
+            name = "worktrees 🌲";
+            path = "~/dev/github";
+            startup_command = "sesh connect $(find . -maxdepth 2 -name .git -type d -exec dirname {} \\; | fzf --prompt='Pick a repo: ') && exit";
+          }
+        ];
+
+        window = [
+          {
+            name = "git";
+            startup_command = "lazygit";
+          }
         ];
       };
     };
