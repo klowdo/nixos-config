@@ -23,6 +23,7 @@
     ./cool-retro-term.nix
     ./auto-shell.nix
     ./worktrunk.nix
+    ./workmux.nix
     ./glab.nix
     ./tools.nix
   ];

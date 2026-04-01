@@ -34,6 +34,7 @@
       circumflex.enable = true;
       cool-retro-term.enable = true;
       worktrunk.enable = true;
+      workmux.enable = true;
       gitlab-cli.enable = true;
       tools.enable = true;
       auto-shell = {

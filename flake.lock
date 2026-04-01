@@ -223,15 +223,16 @@
         "quickshell": "quickshell"
       },
       "locked": {
-        "lastModified": 1775028612,
-        "narHash": "sha256-i2vR4wPjEa0TXfsvZAjHl744KxE3ZUMOITKL5XRfsjk=",
+        "lastModified": 1774934956,
+        "narHash": "sha256-RDbsQKmp0h6zI3N/JzxbCLQG48ic/YITnh6oIAs/6OU=",
         "owner": "caelestia-dots",
         "repo": "shell",
-        "rev": "1cffdc4fb0848eddf02d57b55d5aa931c11d2867",
+        "rev": "36aac876cca81c992b7d412d3639ac56fd25bd02",
         "type": "github"
       },
       "original": {
         "owner": "caelestia-dots",
+        "ref": "36aac87",
         "repo": "shell",
         "type": "github"
       }
@@ -2557,7 +2558,8 @@
         "pre-commit-hooks": "pre-commit-hooks_2",
         "sops-nix": "sops-nix",
         "spicetify-nix": "spicetify-nix",
-        "stylix": "stylix"
+        "stylix": "stylix",
+        "workmux": "workmux"
       }
     },
     "rust-overlay": {
@@ -2978,6 +2980,26 @@
       "original": {
         "owner": "folke",
         "repo": "trouble.nvim",
+        "type": "github"
+      }
+    },
+    "workmux": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1775053796,
+        "narHash": "sha256-HIMiootkrToA+xFzK+jYR/ktq+P92izVmOUNYgJYth8=",
+        "owner": "raine",
+        "repo": "workmux",
+        "rev": "d5ff65c213deee955d0cfb70b5f8ad56b5a8360a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "raine",
+        "repo": "workmux",
         "type": "github"
       }
     },

@@ -36,7 +36,7 @@
     };
 
     caelestia-shell = {
-      url = "github:caelestia-dots/shell";
+      url = "github:caelestia-dots/shell/36aac87";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -72,6 +72,11 @@
     # Claude
     claude-code = {
       url = "github:sadjow/claude-code-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    workmux = {
+      url = "github:raine/workmux";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

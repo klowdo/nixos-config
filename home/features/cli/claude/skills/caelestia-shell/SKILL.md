@@ -11,21 +11,23 @@ Quickshell-based desktop shell for Hyprland. User config: `~/.config/caelestia/s
 
 | Key | Controls | Key Properties |
 |-----|----------|----------------|
-| `appearance` | Fonts, rounding, spacing, transparency, animation | `font.family.{sans,mono,material,clock}`, `font.size.scale`, `rounding.scale`, `transparency.{enabled,base,layers}`, `anim.durations.scale` |
-| `bar` | Top bar layout and widgets | `entries[]`, `persistent`, `workspaces.{shown,perMonitorWorkspaces}`, `status.{showAudio,showBattery,...}`, `clock.{showDate,showIcon}`, `tray.{recolour,compact,hiddenIcons}` |
-| `background` | Wallpaper, clock overlay, audio visualiser | `wallpaperEnabled`, `desktopClock.{enabled,scale,position}`, `visualiser.{enabled,autoHide,blur}` |
+| `appearance` | Fonts, rounding, spacing, transparency, animation | `font.family.{sans,mono,material,clock}`, `font.size.scale`, `rounding.scale`, `spacing.scale`, `padding.scale`, `transparency.{enabled,base,layers}`, `anim.durations.scale` |
+| `bar` | Top bar layout and widgets | `entries[]`, `persistent`, `showOnHover`, `dragThreshold`, `scrollActions.{workspaces,volume,brightness}`, `popouts.{activeWindow,tray,statusIcons}`, `workspaces.*`, `activeWindow.*`, `tray.*`, `status.*`, `clock.*`, `sizes.*`, `excludedScreens[]` |
+| `background` | Wallpaper, clock overlay, audio visualiser | `enabled`, `wallpaperEnabled`, `desktopClock.{enabled,scale,position,invertColors,background,shadow}`, `visualiser.{enabled,autoHide,blur,rounding,spacing}` |
 | `border` | Window border decoration | `thickness`, `rounding` |
-| `dashboard` | System dashboard panel | `enabled`, `showOnHover`, `performance.{showBattery,showGpu,showCpu,showMemory,showStorage,showNetwork}` |
-| `launcher` | App launcher / command palette | `maxShown`, `vimKeybinds`, `favouriteApps[]`, `hiddenApps[]`, `specialPrefix`, `actionPrefix`, `actions[]` |
-| `lock` | Lock screen | `recolourLogo`, `enableFprint`, `hideNotifs` |
-| `notifs` | Notifications | `expire`, `fullscreen`, `defaultExpireTimeout`, `clearThreshold`, `groupPreviewNum` |
+| `controlCenter` | Control center panel | `sizes.{heightMult,ratio}` |
+| `dashboard` | System dashboard panel | `enabled`, `showOnHover`, `mediaUpdateInterval`, `resourceUpdateInterval`, `dragThreshold`, `showDashboard`, `showMedia`, `showPerformance`, `showWeather`, `performance.{showBattery,showGpu,showCpu,showMemory,showStorage,showNetwork}` |
+| `launcher` | App launcher / command palette | `enabled`, `showOnHover`, `maxShown`, `maxWallpapers`, `specialPrefix`, `actionPrefix`, `enableDangerousActions`, `dragThreshold`, `vimKeybinds`, `favouriteApps[]`, `hiddenApps[]`, `useFuzzy.{apps,actions,schemes,variants,wallpapers}`, `actions[]` |
+| `lock` | Lock screen | `recolourLogo`, `enableFprint`, `maxFprintTries`, `hideNotifs`, `sizes.{heightMult,ratio,centerWidth}` |
+| `notifs` | Notifications | `expire`, `fullscreen`, `defaultExpireTimeout`, `clearThreshold`, `expandThreshold`, `actionOnClick`, `groupPreviewNum`, `openExpanded` |
 | `osd` | On-screen display (volume/brightness) | `enabled`, `hideDelay`, `enableBrightness`, `enableMicrophone` |
-| `session` | Session/power menu | `enabled`, `vimKeybinds`, `commands.{logout,shutdown,hibernate,reboot}` |
+| `session` | Session/power menu | `enabled`, `dragThreshold`, `vimKeybinds`, `icons.{logout,shutdown,hibernate,reboot}`, `commands.{logout,shutdown,hibernate,reboot}` |
 | `sidebar` | Side panel | `enabled`, `dragThreshold` |
-| `services` | System services | `gpuType`, `audioIncrement`, `brightnessIncrement`, `maxVolume`, `weatherLocation`, `defaultPlayer`, `showLyrics` |
-| `utilities` | Toasts, VPN, quick toggles | `maxToasts`, `toasts.{configLoaded,...}`, `vpn.{enabled,provider[]}`, `quickToggles[]` |
-| `general` | Global settings | `apps.{terminal,audio,explorer}`, `idle.{lockBeforeSleep,timeouts[]}`, `battery.{warnLevels[],criticalLevel}` |
-| `paths` | Asset directories | `wallpaperDir`, `lyricsDir`, `sessionGif`, `mediaGif` |
+| `winfo` | Window info panel | `sizes.{heightMult,detailsWidth}` |
+| `services` | System services | `weatherLocation`, `useFahrenheit`, `useFahrenheitPerformance`, `useTwelveHourClock`, `gpuType`, `visualiserBars`, `audioIncrement`, `brightnessIncrement`, `maxVolume`, `smartScheme`, `defaultPlayer`, `playerAliases[]`, `showLyrics`, `lyricsBackend` |
+| `utilities` | Toasts, VPN, quick toggles | `enabled`, `maxToasts`, `toasts.*`, `vpn.{enabled,provider[]}`, `quickToggles[]` |
+| `general` | Global settings | `logo`, `excludedScreens[]`, `apps.{terminal,audio,playback,explorer}`, `idle.{lockBeforeSleep,inhibitWhenAudio,timeouts[]}`, `battery.{warnLevels[],criticalLevel}` |
+| `paths` | Asset paths | `wallpaperDir`, `lyricsDir`, `sessionGif`, `mediaGif`, `noNotifsPic`, `lockNoNotifsPic` |
 
 ## Bar Entries
 
@@ -38,6 +40,10 @@ IDs: `logo`, `workspaces`, `activeWindow`, `spacer`, `tray`, `clock`, `statusIco
 `utilities.quickToggles` array. Each: `{ id: string, enabled: bool }`.
 
 IDs: `wifi`, `bluetooth`, `mic`, `settings`, `gameMode`, `dnd`, `vpn`
+
+## Launcher Actions
+
+`launcher.actions` array. Built-in IDs: `Calculator`, `Scheme`, `Wallpaper`, `Variant`, `Transparency`, `Random`, `Light`, `Dark`, `Shutdown`, `Reboot`, `Logout`, `Lock`, `Sleep`, `Settings`
 
 ## CLI Commands
 
@@ -67,7 +73,7 @@ caelestia shell idleInhibitor toggle       # Toggle idle inhibitor
 - **Settings:** `programs.caelestia.settings` (Nix attrset rendered to shell.json)
 - **CLI settings:** `programs.caelestia.cli.settings` (enableHypr, enableGtk, enableQt, enableSpicetify, enableBtop)
 - **Color scheme:** Stylix base16 colors mapped to Material Design tokens in `stylixColors`
-- **Wallpaper:** pulled from `config.stylix.image`
+- **Wallpaper:** pulled from `config.stylix.image` via `xdg.stateFile."caelestia/wallpaper/path-temp.txt"`
 
 Custom options under `features.desktop.bar.caelestia`:
 - `enable` / `useLauncher` / `useLockScreen` / `useSessionMenu` / `useNotifications` / `settings`
