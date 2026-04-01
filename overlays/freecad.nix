@@ -1,7 +1,7 @@
 # nix-update: freecad
 final: prev: {
   freecad = prev.freecad.overrideAttrs (oldAttrs: {
-    version = "1.1.0";
+    version = "weekly-2026.04.01";
     src = prev.fetchFromGitHub {
       owner = "FreeCAD";
       repo = "FreeCAD";
