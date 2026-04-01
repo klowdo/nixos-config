@@ -1,7 +1,7 @@
-# nix-update: freecad
+# nix-update: freecad --version-regex '^\d+\.\d+\.\d+$'
 final: prev: {
   freecad = prev.freecad.overrideAttrs (oldAttrs: {
-    version = "weekly-2026.04.01";
+    version = "1.1.0";
     src = prev.fetchFromGitHub {
       owner = "FreeCAD";
       repo = "FreeCAD";

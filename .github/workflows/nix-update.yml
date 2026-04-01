@@ -21,7 +21,11 @@ jobs:
           packages=$(grep -rh '# nix-update:' --include='*.nix' . \
             | sed 's/.*# nix-update: *//' \
             | sort -u \
-            | jq -R -s -c 'split("\n") | map(select(length > 0))')
+            | jq -R -s -c '
+              split("\n")
+              | map(select(length > 0))
+              | map(split(" ") | {name: .[0], args: (.[1:] | join(" "))})
+            ')
           echo "matrix={\"package\":$packages}" >> "$GITHUB_OUTPUT"
 
   update:
@@ -40,18 +44,18 @@ jobs:
       - name: Run nix-update
         run: |
           nix-shell -p nix-update --run \
-            "nix-update --flake ${{ matrix.package }}"
+            "nix-update --flake ${{ matrix.package.name }} ${{ matrix.package.args }}"
 
       - name: Create Pull Request
         id: create-pr
         uses: peter-evans/create-pull-request@v8
         with:
           token: ${{ secrets.GH_PAT }}
-          commit-message: "chore(nix-update): bump ${{ matrix.package }}"
-          branch: nix-update/${{ matrix.package }}
-          title: "chore(nix-update): bump ${{ matrix.package }}"
+          commit-message: "chore(nix-update): bump ${{ matrix.package.name }}"
+          branch: nix-update/${{ matrix.package.name }}
+          title: "chore(nix-update): bump ${{ matrix.package.name }}"
           body: |
-            Automated version bump for `${{ matrix.package }}` via `nix-update`.
+            Automated version bump for `${{ matrix.package.name }}` via `nix-update`.
           labels: nix-update
 
       - name: Enable auto-merge
