@@ -33,7 +33,7 @@
       enable = true;
       enableZshIntegration = true;
       options = [
-        "--cmd d" #replace cd with z and zi (via cdi)
+        "--cmd cd" #replace cd with z and zi (via cdi)
       ];
     };
     eza = {
