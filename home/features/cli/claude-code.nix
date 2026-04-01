@@ -68,6 +68,9 @@ in {
         run rm -rf "$skills_dir/tokennuke"
         run cp -rL ${./claude/skills/tokennuke} "$skills_dir/tokennuke"
         run chmod -R u+rw "$skills_dir/tokennuke"
+        run rm -rf "$skills_dir/caelestia-shell"
+        run cp -rL ${./claude/skills/caelestia-shell} "$skills_dir/caelestia-shell"
+        run chmod -R u+rw "$skills_dir/caelestia-shell"
       '';
 
       programs.claude-code = {
