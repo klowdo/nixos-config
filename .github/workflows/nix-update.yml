@@ -42,11 +42,22 @@ jobs:
       - uses: DeterminateSystems/magic-nix-cache-action@main
 
       - name: Run nix-update
+        id: nix-update
         run: |
-          nix-shell -p nix-update --run \
-            "nix-update --flake ${{ matrix.package.name }} ${{ matrix.package.args }}"
+          set +e
+          output=$(nix-shell -p nix-update --run \
+            "nix-update --flake ${{ matrix.package.name }} ${{ matrix.package.args }}" 2>&1)
+          exit_code=$?
+          echo "$output"
+          if [ $exit_code -ne 0 ]; then
+            echo "nix-update exited with code $exit_code"
+            echo "updated=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "updated=true" >> "$GITHUB_OUTPUT"
+          fi
 
       - name: Create Pull Request
+        if: steps.nix-update.outputs.updated == 'true'
         id: create-pr
         uses: peter-evans/create-pull-request@v8
         with:
@@ -59,7 +70,7 @@ jobs:
           labels: nix-update
 
       - name: Enable auto-merge
-        if: steps.create-pr.outputs.pull-request-number
+        if: steps.nix-update.outputs.updated == 'true' && steps.create-pr.outputs.pull-request-number
         env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
         run: gh pr merge ${{ steps.create-pr.outputs.pull-request-number }} --auto --rebase
