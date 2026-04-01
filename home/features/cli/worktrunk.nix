@@ -18,8 +18,7 @@ in {
     '';
 
     xdg.configFile."worktrunk/config.toml".source = toml.generate "config.toml" {
-      worktree-path = "{{ repo_path }}/../wt/{{ repo }}/{{ branch | sanitize }}";
-
+      worktree-path = ".worktrees/{{ branch | sanitize }}";
       commit.generation.command = "CLAUDECODE= MAX_THINKING_TOKENS=0 claude -p --no-session-persistence --model=haiku --tools='' --disable-slash-commands --setting-sources='' --system-prompt=''";
 
       post-switch.tmux = ''[ -n "$TMUX" ] && tmux rename-window {{ branch | sanitize }}'';
