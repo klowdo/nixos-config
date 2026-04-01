@@ -89,8 +89,8 @@ in {
         set -g focus-events on
 
         ## SESH
-        bind-key "K" run-shell "sesh connect \"$(
-          sesh list --icons --hide-duplicates | fzf-tmux -p 80%,80% \
+        bind-key "R" display-popup -E -w 80% -h 80% "sesh connect \"\$(
+          sesh list --icons --hide-duplicates | fzf --ansi \
             --no-sort --prompt '  ' \
             --header 'ctrl-a:all ctrl-t:tmux ctrl-g:config ctrl-x:zoxide ctrl-f:find ctrl-d:kill' \
             --bind 'tab:down,btab:up' \
@@ -104,16 +104,15 @@ in {
             --preview-window 'right:55%' \
             --preview 'sesh preview {}' \
         )\""
-        bind-key "J" display-popup -E -w 55% -h 60% "sesh picker"
         bind -N "last-session (via sesh) " L run-shell "sesh last"
         bind -N "switch to root session (via sesh) " 9 run-shell "sesh connect --root \'$(pwd)\'"
-        bind-key "R" display-popup -E -w 40% -h 60% "sesh picker"
+        bind-key "K" display-popup -E -w 40% -h 60% "sesh picker"
         ## SESH
 
         bind-key "g" display-popup -E -w 80% -h 80% -d "#{pane_current_path}" "lazygit"
-        bind-key "o" if-shell "tmux has-session -t scratch-claude 2>/dev/null" \
-          "display-popup -E -w 90% -h 85% -d '#{pane_current_path}' 'tmux attach -t scratch-claude'" \
-          "display-popup -E -w 90% -h 85% -d '#{pane_current_path}' 'tmux new -s scratch-claude claude'"
+        bind-key "o" if-shell -F '#{==:#{session_name},scratch-claude}' \
+          'detach-client' \
+          'display-popup -E -w 90% -h 85% -d "#{pane_current_path}" "tmux attach -t scratch-claude || tmux new -s scratch-claude claude"'
 
         bind-key x kill-pane
 

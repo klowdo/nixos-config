@@ -23,5 +23,26 @@ in {
 
       post-switch.tmux = ''[ -n "$TMUX" ] && tmux rename-window {{ branch | sanitize }}'';
     };
+
+    programs.tmux.extraConfig = lib.mkAfter ''
+      ## WORKTRUNK
+      bind-key "M" display-popup -E -w 80% -h 60% -d "#{pane_current_path}" "\
+        BRANCH=$(glab mr list --per-page 50 \
+          | fzf --ansi --prompt 'MR> ' --no-sort \
+          | awk '{print $1}' | tr -d '!') \
+        && [ -n \"$BRANCH\" ] \
+        && BRANCH=$(glab mr view \"$BRANCH\" --output json | jq -r '.source_branch') \
+        && wt switch --create \"$BRANCH\" \"origin/$BRANCH\" \
+        && sesh connect \"\$(pwd)\""
+
+      bind-key "B" display-popup -E -w 80% -h 60% -d "#{pane_current_path}" "\
+        BRANCH=$(wt list --branches --remotes \
+          | fzf --ansi --prompt 'Branch> ' --no-sort \
+          | awk '{print $1}') \
+        && [ -n \"$BRANCH\" ] \
+        && wt switch \"$BRANCH\" \
+        && sesh connect \"\$(pwd)\""
+      ## WORKTRUNK
+    '';
   };
 }
