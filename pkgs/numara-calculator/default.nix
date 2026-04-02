@@ -22,7 +22,8 @@ in
     extraInstallCommands = ''
       install -m 444 -D ${appimageContents}/numara.desktop $out/share/applications/${pname}.desktop
       substituteInPlace $out/share/applications/${pname}.desktop \
-        --replace-fail 'Exec=AppRun --no-sandbox %U' 'Exec=${pname} %U'
+        --replace-fail 'Exec=AppRun --no-sandbox %U' 'Exec=${pname} %U' \
+        --replace-fail 'Icon=numara' 'Icon=${pname}'
       install -m 444 -D ${appimageContents}/usr/share/icons/hicolor/512x512/apps/numara.png \
         $out/share/icons/hicolor/512x512/apps/${pname}.png
     '';

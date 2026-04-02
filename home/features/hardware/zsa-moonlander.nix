@@ -290,7 +290,7 @@ in {
         name = "Moonlander Config";
         comment = "Configure ZSA Moonlander keyboard";
         exec = "${moonlander-config}/bin/moonlander-config";
-        icon = "input-keyboard";
+        icon = "preferences-desktop-keyboard";
         categories = ["Utility" "System" "HardwareSettings"];
       };
 
@@ -298,7 +298,7 @@ in {
         name = "Keymapp";
         comment = "ZSA Keyboard Configuration";
         exec = "${keymapp-launcher}/bin/keymapp-launcher";
-        icon = "input-keyboard";
+        icon = "preferences-desktop-keyboard";
         categories = ["Utility" "System" "HardwareSettings"];
       };
     };
