@@ -30,6 +30,8 @@ in {
       bind-key "M" display-popup -E -w 80% -h 60% -d "#{pane_current_path}" "\
         MR=\$(glab mr list --per-page 50 \
           | fzf --ansi --prompt 'MR> ' --no-sort \
+            --preview 'glab mr view \$(echo {1} | tr -d \"!\")' \
+            --preview-window 'right:50%:wrap' \
           | awk '{print \$1}' | tr -d '!') \
         && [ -n \"\$MR\" ] \
         && BRANCH=\$(glab mr view \"\$MR\" --output json | jq -r '.source_branch') \
