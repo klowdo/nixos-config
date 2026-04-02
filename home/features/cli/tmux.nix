@@ -114,6 +114,7 @@ in {
           'detach-client' \
           'display-popup -E -w 90% -h 85% -d "#{pane_current_path}" "tmux attach -t scratch-claude || tmux new -s scratch-claude claude"'
 
+        bind-key r source-file ~/.config/tmux/tmux.conf
         bind-key x kill-pane
 
         # for image.nvim
