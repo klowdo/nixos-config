@@ -1,4 +1,4 @@
-# nix-update: freecad --version-regex '^\d+\.\d+\.\d+$'
+# nix-update: freecad --version-regex ^\d+\.\d+\.\d+$
 final: prev: {
   freecad = prev.freecad.overrideAttrs (oldAttrs: {
     version = "1.1.0";
