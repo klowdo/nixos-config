@@ -10,8 +10,6 @@
   freecad = import ./freecad.nix;
   sesh = import ./sesh.nix;
 
-  vesktop = import ./vesktop.nix;
-
   jetbrains-goland = import ./jetbrains-goland.nix;
   jetbrains-rider = import ./jetbrains-rider.nix;
   jetbrains-datagrip = import ./jetbrains-datagrip.nix;
