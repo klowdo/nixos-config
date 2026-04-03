@@ -1,6 +1,7 @@
 {
   pkgs,
   config,
+  inputs,
   ...
 }: {
   imports = [
@@ -39,7 +40,7 @@
       tools.enable = true;
       auto-shell = {
         enable = true;
-        availableShells = builtins.attrNames (import ../../devshells {inherit pkgs;});
+        availableShells = builtins.attrNames (import ../../devshells {inherit pkgs inputs;});
         shells = {
           zig = {
             paths = ["~/dev/github/libsrapli"];

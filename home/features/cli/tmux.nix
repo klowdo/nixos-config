@@ -6,18 +6,6 @@
 }:
 with lib; let
   cfg = config.features.cli.tmux;
-  tmux-super-fingers =
-    pkgs.tmuxPlugins.mkTmuxPlugin
-    {
-      pluginName = "tmux-super-fingers";
-      version = "unstable-2023-01-06";
-      src = pkgs.fetchFromGitHub {
-        owner = "artemave";
-        repo = "tmux_super_fingers";
-        rev = "2c12044984124e74e21a5a87d00f844083e4bdf7";
-        sha256 = "sha256-cPZCV8xk9QpU49/7H8iGhQYK6JwWjviL29eWabuqruc=";
-      };
-    };
 in {
   options.features.cli.tmux.enable = mkEnableOption "enable tmux tool";
 
@@ -66,7 +54,7 @@ in {
         tmuxPlugins.better-mouse-mode
         tmuxPlugins.vim-tmux-navigator
         tmuxPlugins.sensible
-        tmux-super-fingers
+        tmuxPlugins.tmux-thumbs
         tmuxPlugins.resurrect
       ];
 
@@ -94,6 +82,7 @@ in {
           'display-popup -E -w 90% -h 85% -d "#{pane_current_path}" "tmux attach -t scratch-claude || tmux new -s scratch-claude claude"'
 
         bind-key r source-file ~/.config/tmux/tmux.conf
+        bind-key C-f display-popup -E -h 60% -w 60% "tmux-file-picker -g"
         bind-key x kill-pane
 
         # for image.nvim
@@ -141,6 +130,7 @@ in {
     # };
 
     home.packages = [
+      pkgs.tmux-file-picker
       # Open tmux for current project.
       (pkgs.writeShellApplication {
         name = "pux";
