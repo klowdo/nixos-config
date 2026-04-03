@@ -13,6 +13,22 @@ with lib; let
     rev = "b698ce7ecb58dec1efe297f87370253d8f6ba9d5";
     sha256 = "sha256-jhlWZ6WfFBjS7CXbUOreZ2zEnYiVYfeqKOaZguFFslA=";
   };
+
+  seshExtensionSrc =
+    pkgs.fetchgit {
+      url = "https://github.com/raycast/extensions";
+      rev = "d0508141806ca80643c14cdcb58ca9c20ba5d92a";
+      sha256 = "sha256-IGuJ7ESmwkfQ1snZmXy0CxE/ZN1YNXGSDuNTx/mEoNg=";
+      sparseCheckout = ["/extensions/sesh"];
+    }
+    + "/extensions/sesh";
+
+  patchedSeshSrc = pkgs.runCommand "sesh-extension-patched" {} ''
+    cp -r ${seshExtensionSrc} $out
+    chmod -R u+w $out
+    substituteInPlace $out/src/app.ts \
+      --replace-fail 'open -a ''${openWithApp.name}' 'hyprctl dispatch focuswindow "class:''${openWithApp.name}"'
+  '';
 in {
   options.features.desktop.vicinae = {
     enable = mkEnableOption "enable vicinae launcer";
@@ -43,6 +59,13 @@ in {
           id = "extension.hypr-keybinds";
           attributes.keybindsConfigPath = "${config.xdg.configHome}/hypr/hyprland.conf";
         }
+        {
+          id = "extension.sesh";
+          attributes = {
+            openWithApp = "kitty";
+            environmentPath = "${lib.makeBinPath [pkgs.sesh pkgs.tmux]}:/run/current-system/sw/bin:/etc/profiles/per-user/${config.home.username}/bin";
+          };
+        }
       ];
 
       extensions = [
@@ -70,6 +93,18 @@ in {
           name = "homeassistant";
           rev = "cc18ab11d5144dc02ae56ad43e42b3ed889bcce6";
           sha256 = "sha256-WwWiptPBQHRg/xJP63UWiRxARHWd/XiSoe+ew1cfZqY=";
+        })
+        (pkgs.buildNpmPackage {
+          name = "sesh";
+          src = patchedSeshSrc;
+          installPhase = ''
+            runHook preInstall
+            mkdir -p $out
+            cp -r /build/.config/raycast/extensions/sesh/* $out/
+            runHook postInstall
+          '';
+          npmDeps = pkgs.importNpmLock {npmRoot = patchedSeshSrc;};
+          npmConfigHook = pkgs.importNpmLock.npmConfigHook;
         })
       ];
 
