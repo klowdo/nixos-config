@@ -38,7 +38,7 @@ with lib; let
     pkgs.writeText "auto-shell-shells.txt"
     (concatMapStringsSep "\n" (s: s) cfg.availableShells + "\n");
 
-  flakePath = cfg.flakePath;
+  inherit (cfg) flakePath;
 in {
   options.features.cli.auto-shell = {
     enable = mkEnableOption "auto-shell: directory-based nix dev environment loader";
@@ -228,6 +228,7 @@ in {
       _autoshell_load_config > /dev/null
       autoload -Uz add-zsh-hook
       add-zsh-hook chpwd _autoshell_chpwd
+      _autoshell_chpwd
       PROMPT=''${PROMPT/'$(git_prompt_info)'/'$(_autoshell_prompt_info)$(git_prompt_info)'}
     '';
   };
