@@ -88,27 +88,6 @@ in {
         set -g detach-on-destroy off
         set -g focus-events on
 
-        ## SESH
-        bind-key "R" display-popup -E -w 80% -h 80% "sesh connect \"\$(
-          sesh list --icons --hide-duplicates | fzf --ansi \
-            --no-sort --prompt '  ' \
-            --header 'ctrl-a:all ctrl-t:tmux ctrl-g:config ctrl-x:zoxide ctrl-f:find ctrl-d:kill' \
-            --bind 'tab:down,btab:up' \
-            --bind 'ctrl-b:abort' \
-            --bind 'ctrl-a:change-prompt(  )+reload(sesh list --icons)' \
-            --bind 'ctrl-t:change-prompt(  )+reload(sesh list -t --icons)' \
-            --bind 'ctrl-g:change-prompt(  )+reload(sesh list -c --icons)' \
-            --bind 'ctrl-x:change-prompt(  )+reload(sesh list -z --icons)' \
-            --bind 'ctrl-f:change-prompt(  )+reload(fd -H -d 2 -t d -E .Trash . ~)' \
-            --bind 'ctrl-d:execute(tmux kill-session -t {2..})+change-prompt(  )+reload(sesh list --icons)' \
-            --preview-window 'right:55%' \
-            --preview 'sesh preview {}' \
-        )\""
-        bind -N "last-session (via sesh) " L run-shell "sesh last"
-        bind -N "switch to root session (via sesh) " 9 run-shell "sesh connect --root \'$(pwd)\'"
-        bind-key "K" display-popup -E -w 40% -h 60% "sesh picker"
-        ## SESH
-
         bind-key "g" display-popup -E -w 80% -h 80% -d "#{pane_current_path}" "lazygit"
         bind-key "o" if-shell -F '#{==:#{session_name},scratch-claude}' \
           'detach-client' \
