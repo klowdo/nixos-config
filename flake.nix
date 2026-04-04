@@ -127,6 +127,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    zig-overlay = {
+      url = "github:mitchellh/zig-overlay";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     direnv-instant = {
       url = "github:Mic92/direnv-instant";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -176,7 +181,7 @@
         inherit pkgs;
         inherit (self.checks.${pkgs.stdenv.hostPlatform.system}) pre-commit-check;
       })
-      // (import ./devshells {inherit pkgs;}));
+      // (import ./devshells {inherit pkgs inputs;}));
 
     # Formatter for your nix files, available through 'nix fmt'
     formatter = forEachSystem (pkgs: pkgs.alejandra);
