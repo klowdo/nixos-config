@@ -6,6 +6,7 @@
 }:
 with lib; let
   cfg = config.features.cli.worktrunk;
+  toml = pkgs.formats.toml {};
 
   wtm = pkgs.writeShellScriptBin "wtm" ''
     MR=$(glab mr list --per-page 50 \
@@ -31,6 +32,20 @@ in {
 
   config = mkIf cfg.enable {
     home.packages = [pkgs.unstable.worktrunk wtm wtb];
+
+    xdg.configFile."worktrunk/config.toml".source = toml.generate "config.toml" {
+      worktree-path = ".worktrees/{{ branch | sanitize }}";
+      commit.generation.command = "CLAUDECODE= MAX_THINKING_TOKENS=0 claude -p --no-session-persistence --model=haiku --tools='' --disable-slash-commands --setting-sources='' --system-prompt=''";
+
+      switch.no-cd = true;
+      post-switch = {
+        tmux = ''[ -n "$TMUX" ] && tmux rename-window {{ branch | sanitize }}'';
+        sesh = ''[ -n "$TMUX" ] && sesh connect {{ worktree_path }}'';
+      };
+      post-merge = {
+        prune-merged = ''git branch --merged {{ default_branch }} | grep -vE '^\*|\s+({{ default_branch }})$' | xargs -r git branch -d'';
+      };
+    };
 
     programs = {
       zsh.initContent = ''
