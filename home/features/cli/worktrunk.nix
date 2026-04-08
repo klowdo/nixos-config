@@ -6,7 +6,6 @@
 }:
 with lib; let
   cfg = config.features.cli.worktrunk;
-  toml = pkgs.formats.toml {};
 
   wtm = pkgs.writeShellScriptBin "wtm" ''
     MR=$(glab mr list --per-page 50 \
@@ -33,27 +32,19 @@ in {
   config = mkIf cfg.enable {
     home.packages = [pkgs.unstable.worktrunk wtm wtb];
 
-    programs.zsh.initContent = ''
-      eval "$(wt config shell init zsh)"
-    '';
-
-    xdg.configFile."worktrunk/config.toml".source = toml.generate "config.toml" {
-      worktree-path = ".worktrees/{{ branch | sanitize }}";
-      commit.generation.command = "CLAUDECODE= MAX_THINKING_TOKENS=0 claude -p --no-session-persistence --model=haiku --tools='' --disable-slash-commands --setting-sources='' --system-prompt=''";
-
-      switch.no-cd = true;
-      post-switch = {
-        tmux = ''[ -n "$TMUX" ] && tmux rename-window {{ branch | sanitize }}'';
-        lazygit = ''[ -n "$TMUX" ] && tmux new-window -d -n git lazygit'';
-        sesh = ''[ -n "$TMUX" ] && sesh connect {{ worktree_path }}'';
-      };
+    programs = {
+      zsh.initContent = ''
+        eval "$(wt config shell init zsh)"
+      '';
+      bash.initExtra = ''
+        eval "$(wt config shell init bash)"
+      '';
+      tmux.extraConfig = lib.mkAfter ''
+        ## WORKTRUNK
+        bind-key "M" display-popup -E -w 80% -h 60% -d "#{pane_current_path}" "wtm"
+        bind-key "B" display-popup -E -w 80% -h 60% -d "#{pane_current_path}" "wtb"
+        ## WORKTRUNK
+      '';
     };
-
-    programs.tmux.extraConfig = lib.mkAfter ''
-      ## WORKTRUNK
-      bind-key "M" display-popup -E -w 80% -h 60% -d "#{pane_current_path}" "wtm"
-      bind-key "B" display-popup -E -w 80% -h 60% -d "#{pane_current_path}" "wtb"
-      ## WORKTRUNK
-    '';
   };
 }
