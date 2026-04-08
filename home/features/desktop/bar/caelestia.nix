@@ -161,6 +161,11 @@ in {
   config = mkIf cfg.enable {
     home.sessionVariables.QT_FALLBACK_ICON_THEME = "Papirus-Dark";
 
+    systemd.user.services.caelestia.Service.Environment = mkForce [
+      "QT_QPA_PLATFORM=wayland"
+      "QT_FALLBACK_ICON_THEME=Papirus-Dark"
+    ];
+
     xdg.stateFile."caelestia/scheme-temp.json".text = builtins.toJSON {
       name = "stylix";
       flavour = "custom";
