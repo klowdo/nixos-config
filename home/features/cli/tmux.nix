@@ -70,6 +70,7 @@ in {
         set-window-option -g xterm-keys on
         set -s extended-keys on
         set -as terminal-features 'xterm*:extkeys'
+        set -ga terminal-features "*:hyperlinks"
 
         set-option -g status-position top
 
