@@ -56,6 +56,7 @@ in {
         tmuxPlugins.sensible
         tmuxPlugins.tmux-thumbs
         tmuxPlugins.resurrect
+        tmuxPlugins.fzf-tmux-url
       ];
 
       tmuxinator.enable = true;
