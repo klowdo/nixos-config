@@ -8,13 +8,13 @@
   webkitgtk_4_1,
 }: let
   pname = "bambustudio";
-  version = "02.05.00.67";
+  version = "02.05.00.65";
 
-  pr = "9540";
+  pr = "9504";
 
   src = fetchurl {
     url = "https://github.com/bambulab/BambuStudio/releases/download/v${version}/Bambu_Studio_ubuntu-24.04_PR-${pr}.AppImage";
-    sha256 = "sha256-3ubZblrsOJzz1p34QiiwiagKaB7nI8xDeadFWHBkWfg=";
+    sha256 = "sha256-tVjzyV0kEf5kx0C4PvxeS3+FOQZKtPuVRJkiLeQQFhc=";
     name = "Bambu_Studio_ubuntu-24.04_PR-${pr}.AppImage";
   };
 

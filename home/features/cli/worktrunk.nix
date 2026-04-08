@@ -19,6 +19,26 @@ with lib; let
       && wt switch "$BRANCH"
   '';
 
+  wtp = pkgs.writeShellScriptBin "wt-purge" ''
+    default_branch=$(git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's@^refs/remotes/origin/@@')
+    : "''${default_branch:=main}"
+
+    git fetch --prune
+    branches=$(git branch --merged "$default_branch" | grep -vE '^\*|\s+('"$default_branch"')$')
+
+    if [ -z "$branches" ]; then
+      echo "No merged branches to remove."
+      exit 0
+    fi
+
+    echo "Branches merged into $default_branch:"
+    echo "$branches" | sed 's/^/  /'
+    echo ""
+
+    echo "$branches" | xargs -r git branch -d
+    echo "Done."
+  '';
+
   wtb = pkgs.writeShellScriptBin "wtb" ''
     BRANCH=$(wt list --format=json --branches --remotes \
       | ${lib.getExe pkgs.jq} -r '.[].branch // empty' \
@@ -31,7 +51,7 @@ in {
   options.features.cli.worktrunk.enable = mkEnableOption "worktrunk git worktree management";
 
   config = mkIf cfg.enable {
-    home.packages = [pkgs.unstable.worktrunk wtm wtb];
+    home.packages = [pkgs.unstable.worktrunk wtm wtb wtp];
 
     xdg.configFile."worktrunk/config.toml".source = toml.generate "config.toml" {
       worktree-path = ".worktrees/{{ branch | sanitize }}";
