@@ -54,24 +54,20 @@ in {
       #   path = ".config/claude/.credentials.json";
       # };
 
-      home.packages = with pkgs;
-        optionals cfg.enableNotifications [
-          libnotify
-          jq
-        ];
-
-      # WORKAROUND: Claude Code doesn't follow symlinks for skill discovery
-      # https://github.com/anthropics/claude-code/issues/14836
-      home.activation.claude-skills = lib.hm.dag.entryAfter ["writeBoundary"] ''
-        skills_dir="$HOME/.claude/skills"
-        run mkdir -p "$skills_dir"
-        run rm -rf "$skills_dir/tokennuke"
-        run cp -rL ${./claude/skills/tokennuke} "$skills_dir/tokennuke"
-        run chmod -R u+rw "$skills_dir/tokennuke"
-        run rm -rf "$skills_dir/caelestia-shell"
-        run cp -rL ${./claude/skills/caelestia-shell} "$skills_dir/caelestia-shell"
-        run chmod -R u+rw "$skills_dir/caelestia-shell"
-      '';
+      home = {
+        packages = with pkgs;
+          optionals cfg.enableNotifications [
+            libnotify
+            jq
+          ];
+        file.".claude/skills" = {
+          source = ./claude/skills;
+          recursive = true;
+        };
+        shellAliases = {
+          cl = "claude --permission-mode bypassPermissions ";
+        };
+      };
 
       programs.claude-code = {
         enable = true;
