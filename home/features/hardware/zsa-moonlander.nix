@@ -275,53 +275,30 @@ in {
 
   config = mkIf cfg.enable {
     # Install configuration packages
-    home.packages = with pkgs;
-      [
-        moonlander-config
-        moonlander-flash
-        keymapp-launcher
-      ]
-      ++ optional cfg.enableKeymapp keymapp
-      ++ optional cfg.enableQmkTools qmk;
-
-    # Desktop integration
-    xdg.desktopEntries = mkIf cfg.enableDesktopIntegration {
-      moonlander-config = {
-        name = "Moonlander Config";
-        comment = "Configure ZSA Moonlander keyboard";
-        exec = "${moonlander-config}/bin/moonlander-config";
-        icon = "preferences-desktop-keyboard";
-        categories = ["Utility" "System" "HardwareSettings"];
+    home = {
+      packages = with pkgs;
+        [
+          moonlander-config
+          moonlander-flash
+          keymapp-launcher
+        ]
+        ++ optional cfg.enableKeymapp keymapp
+        ++ optional cfg.enableQmkTools qmk;
+      shellAliases = {
+        moonlander = "moonlander-config";
+        keymapp = "keymapp-launcher";
+        qmk-flash = "moonlander-flash";
       };
-
-      keymapp = mkIf cfg.enableKeymapp {
-        name = "Keymapp";
-        comment = "ZSA Keyboard Configuration";
-        exec = "${keymapp-launcher}/bin/keymapp-launcher";
-        icon = "preferences-desktop-keyboard";
-        categories = ["Utility" "System" "HardwareSettings"];
+      sessionVariables = mkIf cfg.enableQmkTools {
+        QMK_HOME = "$HOME/.config/qmk";
       };
-    };
-
-    # Shell aliases for convenience
-    home.shellAliases = {
-      moonlander = "moonlander-config";
-      keymapp = "keymapp-launcher";
-      qmk-flash = "moonlander-flash";
-    };
-
-    # Environment variables for QMK
-    home.sessionVariables = mkIf cfg.enableQmkTools {
-      QMK_HOME = "$HOME/.config/qmk";
-    };
-
-    # Ensure config directories exist
-    home.activation = {
-      moonlanderSetup = lib.hm.dag.entryAfter ["writeBoundary"] ''
-        mkdir -p $HOME/.config/moonlander
-        mkdir -p $HOME/.config/moonlander-firmware
-        mkdir -p $HOME/.config/qmk
-      '';
+      activation = {
+        moonlanderSetup = lib.hm.dag.entryAfter ["writeBoundary"] ''
+          mkdir -p $HOME/.config/moonlander
+          mkdir -p $HOME/.config/moonlander-firmware
+          mkdir -p $HOME/.config/qmk
+        '';
+      };
     };
   };
 }
