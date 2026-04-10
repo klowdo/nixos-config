@@ -69,10 +69,6 @@ in {
               libnotify
               jq
             ]);
-        file.".claude/skills" = {
-          source = ./skills;
-          recursive = true;
-        };
         file.".claude/RTK.md".source = ./RTK.md;
         shellAliases = {
           cl = "claude --permission-mode bypassPermissions ";
@@ -86,6 +82,16 @@ in {
         memory.source = ./CLAUDE.md;
         agentsDir = ./agents;
         commandsDir = ./commands;
+        skillsDir = ./skills;
+
+        # lspServers requires home-manager newer than 2026-04-05 pin.
+        # Once HM is bumped, drop gopls-lsp@claude-plugins-official from
+        # enabledPlugins and uncomment this block.
+        # lspServers.go = {
+        #   command = "${pkgs.gopls}/bin/gopls";
+        #   args = ["serve"];
+        #   extensionToLanguage.".go" = "go";
+        # };
 
         hooks."rtk-rewrite.sh" = rtkRewriteHookContent;
 
