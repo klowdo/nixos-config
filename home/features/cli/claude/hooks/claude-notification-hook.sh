@@ -22,13 +22,13 @@ if [ "$hook_event_name" = "PostToolUse" ]; then
 
 			case "$tool_name" in
 			"Write")
-				@notifysend@ -i document-save "📄 File Written" "$file_name" -t 10000
+				@notifysend@ -i @logo@ "📄 File Written" "$file_name" -t 10000
 				;;
 			"Edit")
-				@notifysend@ -i document-edit "✏️ File Edited" "$file_name" -t 10000
+				@notifysend@ -i @logo@ "✏️ File Edited" "$file_name" -t 10000
 				;;
 			"MultiEdit")
-				@notifysend@ -i document-edit "🔧 Multi-Edit Complete" "$file_name" -t 10000
+				@notifysend@ -i @logo@ "🔧 Multi-Edit Complete" "$file_name" -t 10000
 				;;
 			esac
 		fi
@@ -40,7 +40,7 @@ if [ "$hook_event_name" = "PostToolUse" ]; then
 
 		# Only notify for long running commands
 		if [[ ${#command} -gt 80 ]]; then
-			@notifysend@ -i utilities-terminal "✅ Command Complete" \
+			@notifysend@ -i @logo@ "✅ Command Complete" \
 				"${command:0:50}..." -t 10000
 		fi
 	fi

@@ -12,7 +12,7 @@
     ./sesh.nix
     ./gh.nix
     ./nix.nix
-    ./claude-code.nix
+    ./claude
     ./bitwarden-wofi.nix
     ./ssh.nix
     ./lazygit.nix

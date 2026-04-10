@@ -21,7 +21,6 @@ in {
 
       sessionVariables = {
         DOCKER_MCP_IN_CONTAINER = 1;
-        CLAUDE_CONFIG_DIR = "${config.xdg.configHome}/claude";
       };
     };
 
