@@ -6,13 +6,13 @@
 }:
 buildGoModule rec {
   pname = "mcp-gateway";
-  version = "0.40.3";
+  version = "0.40.4";
 
   src = fetchFromGitHub {
     owner = "docker";
     repo = "mcp-gateway";
     tag = "v${version}";
-    hash = "sha256-fqCsHkdNJs8nESo0Fi0MQeaITch0KkKeGZPwIB7+Kxs=";
+    hash = "sha256-KLcyx3RGHqI5MmxPHeQPFqVlD+75IGCHqO0g9a4E/ko=";
   };
 
   vendorHash = null;
