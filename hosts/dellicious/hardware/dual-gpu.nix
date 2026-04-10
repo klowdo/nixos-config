@@ -28,7 +28,7 @@
         };
       };
 
-      services.nvidia-greenboost.enable = true;
+      services.nvidia-greenboost.enable = false;
     };
   };
 }

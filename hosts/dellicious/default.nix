@@ -97,7 +97,7 @@
 
   # Kernel Bootloader.
   boot = {
-    kernelPackages = pkgs.linuxPackages;
+    kernelPackages = pkgs.linuxPackages_latest;
     kernelModules = ["kvm-intel"];
     loader.systemd-boot.enable = true;
     loader.efi.canTouchEfiVariables = true;
