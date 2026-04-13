@@ -75,6 +75,9 @@ in {
 
         set-option -g status-position top
 
+        set -g @thumbs-command '${pkgs.wl-clipboard}/bin/wl-copy -- {}'
+        set -g @thumbs-upcase-command '${pkgs.wl-clipboard}/bin/wl-copy -- {} && tmux paste-buffer'
+
         set -g detach-on-destroy off
         set -g focus-events on
 
