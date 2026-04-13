@@ -136,6 +136,24 @@ in {
             "worktrunk@worktrunk" = true;
           };
           extraKnownMarketplaces = {
+            caveman = {
+              source = {
+                source = "github";
+                repo = "JuliusBrussee/caveman";
+              };
+            };
+            claude-plugins-official = {
+              source = {
+                source = "github";
+                repo = "anthropics/claude-plugins-official";
+              };
+            };
+            wakatime = {
+              source = {
+                source = "git";
+                url = "https://github.com/wakatime/claude-code-wakatime.git";
+              };
+            };
             worktrunk = {
               source = {
                 source = "github";

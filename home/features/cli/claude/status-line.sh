@@ -38,4 +38,15 @@ if [ -n "$INPUT_TOK" ] && [ -n "$OUTPUT_TOK" ]; then
 	TOK_PART=" | $(format_tokens "$TOTAL_TOK") tok"
 fi
 
-echo "[$MODEL_DISPLAY] 📁 ${CURRENT_DIR##*/}$GIT_BRANCH$CTX_PART$TOK_PART"
+CAVEMAN_PART=""
+CAVEMAN_FLAG="$HOME/.claude/.caveman-active"
+if [ -f "$CAVEMAN_FLAG" ]; then
+	CAVEMAN_MODE=$(cat "$CAVEMAN_FLAG" 2>/dev/null)
+	if [ "$CAVEMAN_MODE" = "full" ] || [ -z "$CAVEMAN_MODE" ]; then
+		CAVEMAN_PART=$(printf ' | \033[38;5;172m[CAVEMAN]\033[0m')
+	else
+		CAVEMAN_PART=$(printf ' | \033[38;5;172m[CAVEMAN:%s]\033[0m' "$(echo "$CAVEMAN_MODE" | tr '[:lower:]' '[:upper:]')")
+	fi
+fi
+
+echo "[$MODEL_DISPLAY] 📁 ${CURRENT_DIR##*/}$GIT_BRANCH$CTX_PART$TOK_PART$CAVEMAN_PART"
