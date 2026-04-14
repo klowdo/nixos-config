@@ -57,7 +57,7 @@ in {
       worktree-path = ".worktrees/{{ branch | sanitize }}";
       commit.generation.command = "CLAUDECODE= MAX_THINKING_TOKENS=0 claude -p --no-session-persistence --model=haiku --tools='' --disable-slash-commands --setting-sources='' --system-prompt=''";
 
-      switch.no-cd = true;
+      switch.cd = false;
       post-switch = {
         tmux = ''[ -n "$TMUX" ] && tmux rename-window {{ branch | sanitize }}'';
         sesh = ''[ -n "$TMUX" ] && sesh connect {{ worktree_path }}'';
