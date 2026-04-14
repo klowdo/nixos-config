@@ -8,6 +8,27 @@ with lib; let
   cfg = config.features.cli.worktrunk;
   toml = pkgs.formats.toml {};
 
+  wt-jump = pkgs.writeShellScriptBin "wt-jump" ''
+    BRANCH="$1"
+    [ -n "$BRANCH" ] || exit 1
+    JSON=$(wt list --format=json)
+    WT_PATH=$(echo "$JSON" \
+      | ${lib.getExe pkgs.jq} -r --arg b "$BRANCH" '.[] | select(.branch == $b) | .path' \
+      | head -n1)
+    if [ -n "$WT_PATH" ] && [ -d "$WT_PATH" ]; then
+      ${lib.getExe pkgs.sesh} connect "$WT_PATH"
+      exit 0
+    fi
+    TRUNK=$(echo "$JSON" \
+      | ${lib.getExe pkgs.jq} -r '.[] | select(.is_main == true) | .path' \
+      | head -n1)
+    if [ -n "$TRUNK" ] && [ -d "$TRUNK" ]; then
+      wt -C "$TRUNK" switch --clobber "$BRANCH"
+    else
+      wt switch --clobber "$BRANCH"
+    fi
+  '';
+
   wtm = pkgs.writeShellScriptBin "wtm" ''
     MR=$(glab mr list --per-page 50 \
       | ${lib.getExe pkgs.fzf} --ansi --prompt 'MR> ' --no-sort \
@@ -16,7 +37,7 @@ with lib; let
       | awk '{print $1}' | tr -d '!') \
       && [ -n "$MR" ] \
       && BRANCH=$(glab mr view "$MR" --output json | ${lib.getExe pkgs.jq} -r '.source_branch') \
-      && wt switch "$BRANCH"
+      && wt-jump "$BRANCH"
   '';
 
   wtp = pkgs.writeShellScriptBin "wt-purge" ''
@@ -45,13 +66,13 @@ with lib; let
       | sort -u \
       | ${lib.getExe pkgs.fzf} --prompt 'Branch> ') \
       && [ -n "$BRANCH" ] \
-      && wt switch "$BRANCH"
+      && wt-jump "$BRANCH"
   '';
 in {
   options.features.cli.worktrunk.enable = mkEnableOption "worktrunk git worktree management";
 
   config = mkIf cfg.enable {
-    home.packages = [pkgs.unstable.worktrunk wtm wtb wtp];
+    home.packages = [pkgs.unstable.worktrunk wt-jump wtm wtb wtp];
 
     xdg.configFile."worktrunk/config.toml".source = toml.generate "config.toml" {
       worktree-path = ".worktrees/{{ branch | sanitize }}";
