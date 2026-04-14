@@ -102,6 +102,7 @@
       tools = {
         rider.enable = false;
         goland.enable = true;
+        rustrover.enable = true;
         libreoffice.enable = false;
         junie = {
           enable = true;
@@ -110,6 +111,7 @@
       };
       languages = {
         dotnet.enable = true;
+        rust.enable = true;
       };
       mcp-gateway.enable = true;
       cura.enable = false;

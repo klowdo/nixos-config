@@ -1,6 +1,7 @@
 {...}: {
   imports = [
     ./rider.nix
+    ./rustrover.nix
     ./libreoffice.nix
     ./claudia.nix
     ./goland.nix
