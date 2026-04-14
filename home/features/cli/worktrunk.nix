@@ -41,23 +41,8 @@ with lib; let
   '';
 
   wtp = pkgs.writeShellScriptBin "wt-purge" ''
-    default_branch=$(git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's@^refs/remotes/origin/@@')
-    : "''${default_branch:=main}"
-
     git fetch --prune
-    branches=$(git branch --merged "$default_branch" | grep -vE '^\*|\s+('"$default_branch"')$')
-
-    if [ -z "$branches" ]; then
-      echo "No merged branches to remove."
-      exit 0
-    fi
-
-    echo "Branches merged into $default_branch:"
-    echo "$branches" | sed 's/^/  /'
-    echo ""
-
-    echo "$branches" | xargs -r git branch -d
-    echo "Done."
+    exec wt step prune "$@"
   '';
 
   wtb = pkgs.writeShellScriptBin "wtb" ''
