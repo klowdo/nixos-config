@@ -24,6 +24,7 @@ in {
         buildInputs = [pkgs.makeWrapper];
         postBuild = ''
           wrapProgram $out/bin/claude \
+            --prefix FORCE_HYPERLINK : 1 \
             --prefix PATH : ${lib.makeBinPath [pkgs.nodejs_22]}
         '';
       };
