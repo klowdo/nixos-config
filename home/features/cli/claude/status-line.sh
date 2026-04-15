@@ -2,51 +2,105 @@
 
 input=$(cat)
 
-MODEL_DISPLAY=$(echo "$input" | jq -r '.model.display_name')
-CURRENT_DIR=$(echo "$input" | jq -r '.workspace.current_dir')
+jqr() { jq -r "$1 // 0" <<<"$input"; }
 
-GIT_BRANCH=""
-if git rev-parse --git-dir >/dev/null 2>&1; then
-	BRANCH=$(git branch --show-current 2>/dev/null)
-	if [ -n "$BRANCH" ]; then
-		GIT_BRANCH=" | 🌿 $BRANCH"
-	fi
-fi
+human() {
+	local s=$1 sign=""
+	((s < 0)) && {
+		s=$((-s))
+		sign="-"
+	}
 
-format_tokens() {
-	local tokens=$1
-	if [ "$tokens" -ge 1000000 ]; then
-		printf "%.1fM" "$(echo "$tokens / 1000000" | bc -l)"
-	elif [ "$tokens" -ge 1000 ]; then
-		printf "%.1fk" "$(echo "$tokens / 1000" | bc -l)"
+	local d=$((s / 86400))
+	local h=$((s % 86400 / 3600))
+	local m=$((s % 3600 / 60))
+	local sec=$((s % 60))
+
+	local out=""
+	((d > 0)) && out+="${d}d "
+	((h > 0)) && out+="${h}h "
+	((m > 0)) && out+="${m}m "
+	if ((sec > 0)) || [ -z "$out" ]; then out+="${sec}s"; fi
+
+	echo "${sign}${out}"
+}
+
+bar() {
+	local pct=${1%.*}
+	local width=10
+
+	local filled=$((pct * width / 100))
+	local empty=$((width - filled))
+
+	printf -v f "%${filled}s"
+	printf -v e "%${empty}s"
+
+	echo "${f// /█}${e// /░}"
+}
+
+color() {
+	local pct=${1%.*}
+	if ((pct >= 90)); then
+		printf "\033[31m"
+	elif ((pct >= 50)); then
+		printf "\033[33m"
 	else
-		echo "$tokens"
+		printf "\033[32m"
 	fi
 }
 
-CTX_PART=""
-CTX_PCT=$(echo "$input" | jq -r '.context_window.used_percentage // empty')
-if [ -n "$CTX_PCT" ]; then
-	CTX_PART=" | ctx: ${CTX_PCT}%"
+RESET='\033[0m'
+
+# ---------- base ----------
+MODEL=$(jqr '.model.display_name')
+DIR=$(jqr '.workspace.current_dir')
+
+BRANCH=""
+if git rev-parse --git-dir >/dev/null 2>&1; then
+	B=$(git branch --show-current 2>/dev/null)
+	[ -n "$B" ] && BRANCH=" | 🌿 $B"
 fi
 
-TOK_PART=""
-INPUT_TOK=$(echo "$input" | jq -r '.context_window.total_input_tokens // empty')
-OUTPUT_TOK=$(echo "$input" | jq -r '.total_output_tokens // empty')
-if [ -n "$INPUT_TOK" ] && [ -n "$OUTPUT_TOK" ]; then
-	TOTAL_TOK=$((INPUT_TOK + OUTPUT_TOK))
-	TOK_PART=" | $(format_tokens "$TOTAL_TOK") tok"
-fi
+# ---------- context ----------
+CTX=$(jqr '.context_window.used_percentage')
+CTX=${CTX%.*}
+CTX=${CTX:-0}
 
-CAVEMAN_PART=""
-CAVEMAN_FLAG="$HOME/.claude/.caveman-active"
-if [ -f "$CAVEMAN_FLAG" ]; then
-	CAVEMAN_MODE=$(cat "$CAVEMAN_FLAG" 2>/dev/null)
-	if [ "$CAVEMAN_MODE" = "full" ] || [ -z "$CAVEMAN_MODE" ]; then
-		CAVEMAN_PART=$(printf ' | \033[38;5;172m[CAVEMAN]\033[0m')
-	else
-		CAVEMAN_PART=$(printf ' | \033[38;5;172m[CAVEMAN:%s]\033[0m' "$(echo "$CAVEMAN_MODE" | tr '[:lower:]' '[:upper:]')")
-	fi
-fi
+CTX_BAR=$(bar "$CTX")
 
-echo "[$MODEL_DISPLAY] 📁 ${CURRENT_DIR##*/}$GIT_BRANCH$CTX_PART$TOK_PART$CAVEMAN_PART"
+# ---------- duration ----------
+DURATION_MS=$(jqr '.cost.total_duration_ms')
+DURATION_MS=${DURATION_MS:-0}
+
+MINS=$((DURATION_MS / 60000))
+SECS=$(((DURATION_MS % 60000) / 1000))
+
+# ---------- rate limits ----------
+now=$(date +%s)
+
+FIVE=$(jqr '.rate_limits.five_hour.used_percentage')
+FIVE=${FIVE%.*}
+FIVE_R=$(jqr '.rate_limits.five_hour.resets_at')
+
+WEEK=$(jqr '.rate_limits.seven_day.used_percentage')
+WEEK=${WEEK%.*}
+WEEK_R=$(jqr '.rate_limits.seven_day.resets_at')
+
+# ---------- line 1 ----------
+printf "%s | %b %s%% | ⏱ %sm %ss\n" \
+	"[${MODEL}] 📁 ${DIR##*/}${BRANCH}" \
+	"$(color "$CTX")${CTX_BAR}${RESET}" \
+	"$CTX" "$MINS" "$SECS"
+
+# ---------- line 2 ----------
+if [ -n "$FIVE" ] && [ -n "$FIVE_R" ] && [ -n "$WEEK" ] && [ -n "$WEEK_R" ]; then
+
+	d1=$((FIVE_R - now))
+	((d1 < 0)) && d1=0
+	d2=$((WEEK_R - now))
+	((d2 < 0)) && d2=0
+
+	printf "5h %b %s%% | ⏳ %s | 7d %b %s%% | ⏳ %s\n" \
+		"$(color "$FIVE")$(bar "$FIVE")${RESET}" "$FIVE" "$(human "$d1")" \
+		"$(color "$WEEK")$(bar "$WEEK")${RESET}" "$WEEK" "$(human "$d2")"
+fi
