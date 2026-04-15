@@ -131,7 +131,7 @@ in {
             "context7@claude-plugins-official" = true;
             "code-review@claude-plugins-official" = false;
             "gopls-lsp@claude-plugins-official" = true;
-            "superpowers@claude-plugins-official" = true;
+            "superpowers@superpowers-marketplace" = true;
             "code-simplifier@claude-plugins-official" = true;
             "worktrunk@worktrunk" = true;
           };
@@ -158,6 +158,12 @@ in {
               source = {
                 source = "github";
                 repo = "max-sixty/worktrunk";
+              };
+            };
+            superpowers-marketplace = {
+              source = {
+                source = "github";
+                repo = "obra/superpowers-marketplace";
               };
             };
           };
