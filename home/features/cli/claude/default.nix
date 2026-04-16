@@ -135,6 +135,7 @@ in {
             "superpowers@superpowers-marketplace" = true;
             "code-simplifier@claude-plugins-official" = true;
             "worktrunk@worktrunk" = true;
+            "caveman@caveman" = true;
           };
           extraKnownMarketplaces = {
             caveman = {
