@@ -30,6 +30,7 @@ with lib; let
   '';
 
   wtm = pkgs.writeShellScriptBin "wtm" ''
+    git fetch --quiet &
     MR=$(glab mr list --per-page 50 \
       | ${lib.getExe pkgs.fzf} --ansi --prompt 'MR> ' --no-sort \
         --preview 'glab mr view $(echo {1} | tr -d "!")' \
