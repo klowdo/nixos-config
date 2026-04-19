@@ -8,9 +8,9 @@
   webkitgtk_4_1,
 }: let
   pname = "bambustudio";
-  version = "02.05.00.65";
+  version = "02.06.00.51";
 
-  pr = "9504";
+  pr = "BambuStudio_ubuntu";
 
   src = fetchurl {
     url = "https://github.com/bambulab/BambuStudio/releases/download/v${version}/Bambu_Studio_ubuntu-24.04_PR-${pr}.AppImage";
