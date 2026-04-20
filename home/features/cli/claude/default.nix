@@ -142,6 +142,7 @@ in {
             "code-simplifier@claude-plugins-official" = true;
             "worktrunk@worktrunk" = true;
             "caveman@caveman" = true;
+            "claude-mem@thedotmack" = true;
           };
           extraKnownMarketplaces = {
             caveman = {
@@ -172,6 +173,12 @@ in {
               source = {
                 source = "github";
                 repo = "obra/superpowers-marketplace";
+              };
+            };
+            thedotmack = {
+              source = {
+                source = "github";
+                repo = "thedotmack/claude-mem";
               };
             };
           };
