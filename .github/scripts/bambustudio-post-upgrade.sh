@@ -2,13 +2,16 @@
 set -euo pipefail
 
 version="$1"
+pkg="pkgs/bambustudio-appimage/default.nix"
 
 asset=$(curl -sL "https://api.github.com/repos/bambulab/BambuStudio/releases/tags/v${version}" |
-	grep -o '"name" *: *"[^"]*ubuntu-24.04[^"]*"' | head -1 | sed 's/.*: *"//;s/"//')
+	grep -oP '"name"\s*:\s*"\K[^"]*ubuntu-24\.04[^"]*\.AppImage' | head -1)
 
-pr_number="${asset//*PR-/}"
-pr_number="${pr_number%%[.-]*}"
+if [ -z "$asset" ]; then
+	echo "ERROR: no ubuntu-24.04 AppImage asset found for v${version}" >&2
+	exit 1
+fi
 
-sed -i "s/pr = \"[0-9]*\";/pr = \"${pr_number}\";/" pkgs/bambustudio-appimage/default.nix
+sed -i "s|asset = \".*\";|asset = \"${asset}\";|" "$pkg"
 
 nix-shell -p nix-update --run "nix-update --version=skip --flake bambustudio-appimage"

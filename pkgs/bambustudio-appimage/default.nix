@@ -10,12 +10,12 @@
   pname = "bambustudio";
   version = "02.06.00.51";
 
-  pr = "BambuStudio_ubuntu";
+  asset = "BambuStudio_ubuntu-24.04-v02.06.00.51-20260417160415.AppImage";
 
   src = fetchurl {
-    url = "https://github.com/bambulab/BambuStudio/releases/download/v${version}/Bambu_Studio_ubuntu-24.04_PR-${pr}.AppImage";
-    sha256 = "sha256-tVjzyV0kEf5kx0C4PvxeS3+FOQZKtPuVRJkiLeQQFhc=";
-    name = "Bambu_Studio_ubuntu-24.04_PR-${pr}.AppImage";
+    url = "https://github.com/bambulab/BambuStudio/releases/download/v${version}/${asset}";
+    sha256 = "sha256-CYePefJ7FXcAK+OXsIaNRHkml18BA7um4W2+f6l49zQ=";
+    name = asset;
   };
 
   appimageContents = appimageTools.extractType2 {
@@ -42,7 +42,6 @@ in
         gtk3
         glib
         webkitgtk_4_1
-        # webkitgtk-compat  # Custom package providing 4.0 -> 4.1 compat symlink
 
         # Font rendering
         fontconfig
@@ -73,7 +72,6 @@ in
     '';
 
     extraInstallCommands = ''
-      # Install desktop file
       if [ -f ${appimageContents}/BambuStudio.desktop ]; then
         install -m 444 -D ${appimageContents}/BambuStudio.desktop $out/share/applications/${pname}.desktop
         substituteInPlace $out/share/applications/${pname}.desktop \
@@ -81,7 +79,6 @@ in
           --replace-fail 'Icon=BambuStudio' 'Icon=${pname}'
       fi
 
-      # Install hicolor icons
       for size in 32x32 128x128 192x192; do
         icon="${appimageContents}/usr/share/icons/hicolor/$size/apps/BambuStudio.png"
         if [ -f "$icon" ]; then
@@ -89,7 +86,6 @@ in
         fi
       done
 
-      # Install fallback pixmap
       if [ -f ${appimageContents}/BambuStudio.png ]; then
         install -m 444 -D ${appimageContents}/BambuStudio.png $out/share/pixmaps/${pname}.png
       fi
