@@ -97,7 +97,9 @@
 
   # Kernel Bootloader.
   boot = {
-    kernelPackages = pkgs.linuxPackages_latest;
+    # linuxPackages_latest (7.0) breaks LUKS initrd: aes_generic is built-in, not a module
+    # https://github.com/NixOS/nixpkgs/issues/84842
+    kernelPackages = pkgs.linuxPackages;
     kernelModules = ["kvm-intel"];
     loader.systemd-boot.enable = true;
     loader.efi.canTouchEfiVariables = true;
