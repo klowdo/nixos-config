@@ -106,10 +106,16 @@ in {
           };
         };
 
+        # Settings reference: https://code.claude.com/docs/en/settings
         settings = {
           theme = "dark-ansi";
+          effortLevel = "auto";
           includeCoAuthoredBy = false;
           skipDangerousModePermissionPrompt = true;
+          showThinkingSummaries = true;
+          tui = "fullscreen";
+          cleanupPeriodDays = 14;
+          spinnerTipsEnabled = false;
           permissions = {
             deny = [
               "Bash(sops:*)"
