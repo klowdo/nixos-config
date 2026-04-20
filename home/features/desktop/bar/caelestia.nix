@@ -279,17 +279,11 @@ in {
           };
 
           services = {
-            audio = {
-              step = 5;
-            };
-            brightness = {
-              step = 5;
-            };
+            audioIncrement = 5;
+            brightnessIncrement = 5;
             gpuType = "NVIDIA"; # Uses fake nvidia-smi wrapper for Intel
-            weather = {
-              location = "Gothenburg";
-              units = "metric";
-            };
+            weatherLocation = "Gothenburg";
+            useFahrenheit = false;
           };
           paths = {
             mediaGif = "root:/assets/bongocat.gif";
@@ -353,7 +347,6 @@ in {
             enabled = true;
             vimKeybinds = true;
             commands = {
-              lock = ["caelestia" "shell" "lock" "lock"];
               logout = ["loginctl" "terminate-user" ""];
               shutdown = ["systemctl" "poweroff"];
               reboot = ["systemctl" "reboot"];
