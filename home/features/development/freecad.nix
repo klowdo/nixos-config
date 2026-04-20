@@ -12,6 +12,7 @@ in {
   config = mkIf cfg.enable {
     home.packages = [
       pkgs.unstable.freecad-wayland
+      pkgs.freecad-mcp
     ];
   };
 }
