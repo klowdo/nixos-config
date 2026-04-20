@@ -41,6 +41,7 @@ with lib; {
           hyprland.enable = true;
           mako.enable = false;
           gnome.enable = false;
+          opencode.enable = false;
         };
       };
     }

@@ -1,6 +1,12 @@
 {inputs, ...}: {
   imports = [
     inputs.catppuccin.homeModules.catppuccin
+    ({lib, ...}: {
+      options.programs.opencode.tui = lib.mkOption {
+        type = lib.types.attrsOf lib.types.anything;
+        default = {};
+      };
+    })
   ];
 
   userConfig = {
