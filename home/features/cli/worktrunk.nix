@@ -33,7 +33,7 @@ with lib; let
     git fetch --quiet &
     MR=$(glab mr list --per-page 50 \
       | ${lib.getExe pkgs.fzf} --ansi --prompt 'MR> ' --no-sort \
-        --preview 'glab mr view $(echo {1} | tr -d "!")' \
+        --preview 'glab mr view $(echo {1} | tr -d "!") | ${lib.getExe pkgs.rich-cli} --markdown -' \
         --preview-window 'right:50%:wrap' \
       | awk '{print $1}' | tr -d '!') \
       && [ -n "$MR" ] \
@@ -44,6 +44,19 @@ with lib; let
   wtp = pkgs.writeShellScriptBin "wt-purge" ''
     git fetch --prune
     exec wt step prune "$@"
+  '';
+
+  wts = pkgs.writeShellScriptBin "wts" ''
+    JSON=$(wt list --format=json)
+    BRANCH=$(echo "$JSON" \
+      | ${lib.getExe pkgs.jq} -r '.[].branch // empty' \
+      | ${lib.getExe pkgs.fzf} --prompt 'Worktree> ') \
+      && [ -n "$BRANCH" ] \
+      && WT_PATH=$(echo "$JSON" \
+        | ${lib.getExe pkgs.jq} -r --arg b "$BRANCH" '.[] | select(.branch == $b) | .path' \
+        | head -n1) \
+      && [ -n "$WT_PATH" ] && [ -d "$WT_PATH" ] \
+      && ${lib.getExe pkgs.sesh} connect "$WT_PATH"
   '';
 
   wtb = pkgs.writeShellScriptBin "wtb" ''
@@ -58,7 +71,7 @@ in {
   options.features.cli.worktrunk.enable = mkEnableOption "worktrunk git worktree management";
 
   config = mkIf cfg.enable {
-    home.packages = [pkgs.unstable.worktrunk wt-jump wtm wtb wtp];
+    home.packages = [pkgs.unstable.worktrunk wt-jump wtm wts wtb wtp];
 
     xdg.configFile."worktrunk/config.toml".source = toml.generate "config.toml" {
       worktree-path = ".worktrees/{{ branch | sanitize }}";
@@ -83,8 +96,9 @@ in {
       '';
       tmux.extraConfig = lib.mkAfter ''
         ## WORKTRUNK
-        bind-key "M" display-popup -E -w 80% -h 60% -d "#{pane_current_path}" "wtm"
-        bind-key "B" display-popup -E -w 80% -h 60% -d "#{pane_current_path}" "wtb"
+        bind-key "M" display-popup -E -w 80% -h 60% -d "#{pane_current_path}" "$SHELL -lc wtm"
+        bind-key "S" display-popup -E -w 80% -h 60% -d "#{pane_current_path}" "$SHELL -lc wts"
+        bind-key "B" display-popup -E -w 80% -h 60% -d "#{pane_current_path}" "$SHELL -lc wtb"
         ## WORKTRUNK
       '';
     };
