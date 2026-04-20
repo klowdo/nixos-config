@@ -25,7 +25,7 @@ in {
         postBuild = ''
           wrapProgram $out/bin/claude \
             --prefix FORCE_HYPERLINK : 1 \
-            --prefix PATH : ${lib.makeBinPath [pkgs.nodejs_22]}
+            --prefix PATH : ${lib.makeBinPath [pkgs.nodejs_22 pkgs.bun]}
         '';
       };
 
@@ -109,7 +109,7 @@ in {
         # Settings reference: https://code.claude.com/docs/en/settings
         settings = {
           theme = "dark-ansi";
-          effortLevel = "auto";
+          effortLevel = "medium";
           includeCoAuthoredBy = false;
           skipDangerousModePermissionPrompt = true;
           showThinkingSummaries = true;
