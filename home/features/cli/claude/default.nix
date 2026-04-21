@@ -108,6 +108,7 @@ in {
 
         # Settings reference: https://code.claude.com/docs/en/settings
         settings = {
+          editorMode = "vim";
           theme = "dark-ansi";
           effortLevel = "medium";
           includeCoAuthoredBy = false;
