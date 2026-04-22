@@ -143,7 +143,7 @@ in {
             "code-simplifier@claude-plugins-official" = true;
             "worktrunk@worktrunk" = true;
             "caveman@caveman" = true;
-            "claude-mem@thedotmack" = true;
+            "claude-mem@thedotmack" = false;
           };
           extraKnownMarketplaces = {
             caveman = {
