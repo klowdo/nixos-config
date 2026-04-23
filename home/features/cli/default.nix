@@ -26,6 +26,7 @@
     ./workmux.nix
     ./glab.nix
     ./tools.nix
+    ./docker.nix
   ];
 
   programs = {
