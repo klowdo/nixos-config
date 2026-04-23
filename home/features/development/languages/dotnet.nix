@@ -32,19 +32,20 @@ with lib; let
 in {
   options.features.development.languages.dotnet.enable = mkEnableOption "enable dotnet lang sdk";
   config = mkIf cfg.enable {
-    home.packages = [
-      pkgs.dotnet-combined
-      pkgs.grpc
-      pkgs.protobuf
-    ];
-    home.sessionVariables = {
-      DOTNET_ROOT = "${pkgs.dotnet-combined}/share/dotnet";
-      PROTOBUF_PROTOC = "${pkgs.protobuf}/bin/protoc";
-      GRPC_PROTOC_PLUGIN = "${pkgs.grpc}/bin/grpc_csharp_plugin";
+    home = {
+      packages = [
+        pkgs.dotnet-combined
+        pkgs.grpc
+        pkgs.protobuf
+      ];
+      sessionVariables = {
+        DOTNET_ROOT = "${pkgs.dotnet-combined}/share/dotnet";
+        PROTOBUF_PROTOC = "${pkgs.protobuf}/bin/protoc";
+        GRPC_PROTOC_PLUGIN = "${pkgs.grpc}/bin/grpc_csharp_plugin";
+      };
+      sessionPath = [
+        "${config.home.homeDirectory}/.dotnet/tools"
+      ];
     };
-
-    home.sessionPath = [
-      "${config.home.homeDirectory}/.dotnet/tools"
-    ];
   };
 }

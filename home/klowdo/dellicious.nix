@@ -110,7 +110,7 @@
         };
       };
       languages = {
-        dotnet.enable = true;
+        dotnet.enable = false;
         rust.enable = true;
       };
       mcp-gateway.enable = true;
