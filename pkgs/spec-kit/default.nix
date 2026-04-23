@@ -6,14 +6,14 @@
 }:
 python3Packages.buildPythonApplication rec {
   pname = "specify-cli";
-  version = "0.7.4";
+  version = "0.7.5";
   pyproject = true;
 
   src = fetchFromGitHub {
     owner = "github";
     repo = "spec-kit";
     tag = "v${version}";
-    hash = "sha256-tC4o/R67Hk4sq9XjOIrP1oLGcdEOcsEe45JuNlX5OMc=";
+    hash = "sha256-eFr6IeQ0B5/zgVKyMo7Us2dcR9XsZ0SkrSD8c6Exs78=";
   };
 
   build-system = [python3Packages.hatchling];
