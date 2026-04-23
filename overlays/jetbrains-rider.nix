@@ -5,7 +5,7 @@ final: prev: {
     version = "2026.1.0.1";
     src = prev.fetchurl {
       url = "https://download.jetbrains.com/rider/JetBrains.Rider-${version}.tar.gz";
-      hash = "sha256-sBF/XA52oSFD1dEmzhvo7cwf5EGTi0mx1x3PcobQVAs=";
+      hash = "sha256-moIysTTsq7abpQfNh1Bc5Pk6VQgJIT6erbyHsUXf15Y=";
     };
     build_number = "261.22158.394";
   });

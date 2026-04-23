@@ -32,3 +32,4 @@ jobs:
           authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
 
       - run: nix flake check -L
+      - run: nix build .#ciChecks.x86_64-linux.packages .#ciChecks.x86_64-linux.nixos-configs -L

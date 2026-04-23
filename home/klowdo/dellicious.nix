@@ -34,7 +34,7 @@
       bitwarden-wofi.enable = false;
       ssh.enable = true;
       git-repo-manager.enable = true;
-      zellij.enable = true;
+      zellij.enable = false;
       archives.enable = true;
       circumflex.enable = true;
       cool-retro-term.enable = true;

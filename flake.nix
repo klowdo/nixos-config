@@ -172,8 +172,11 @@
         customPkgs // overlayPkgs
     );
 
-    # Checks - includes pre-commit hooks for `nix flake check`
+    # Checks - pre-commit hooks for `nix flake check` (fast, local)
     checks = forEachSystem (pkgs: import ./checks.nix {inherit inputs pkgs;});
+
+    # CI checks - builds all packages and NixOS configs (slow, CI only)
+    ciChecks = forEachSystem (pkgs: import ./ci-checks.nix {inherit inputs pkgs lib self;});
 
     # Dev shells - inherits pre-commit hooks from checks
     devShells = forEachSystem (pkgs:
