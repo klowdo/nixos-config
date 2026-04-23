@@ -64,11 +64,10 @@ in {
 
       home = {
         packages =
-          [pkgs.unstable.rtk]
+          [pkgs.unstable.rtk pkgs.jq]
           ++ (with pkgs;
             optionals cfg.enableNotifications [
               libnotify
-              jq
             ]);
         file.".claude/RTK.md".source = ./RTK.md;
         shellAliases = {

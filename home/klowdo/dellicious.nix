@@ -26,7 +26,11 @@
       tmux.enable = true;
       sesh.enable = true;
       gh.enable = true;
-      claude-code.enable = true;
+      claude-code = {
+        enable = true;
+        enableNotifications = false;
+      };
+
       bitwarden-wofi.enable = false;
       ssh.enable = true;
       git-repo-manager.enable = true;
