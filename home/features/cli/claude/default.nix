@@ -85,7 +85,7 @@ in {
         commandsDir = ./commands;
         skillsDir = ./skills;
 
-        # lspServers requires home-manager newer than 2026-04-05 pin.
+        # lspServers requires home-manager newer than current 2026-04-05 pin.
         # Once HM is bumped, drop gopls-lsp@claude-plugins-official from
         # enabledPlugins and uncomment this block.
         # lspServers.go = {
@@ -108,6 +108,7 @@ in {
 
         # Settings reference: https://code.claude.com/docs/en/settings
         settings = {
+          model = "claude-opus-4-6[1M]";
           editorMode = "vim";
           theme = "dark-ansi";
           effortLevel = "medium";
@@ -185,6 +186,7 @@ in {
           };
           env = {
             CLAUDE_BASH_MAINTAIN_PROJECT_WORKING_DIR = "1";
+            ENABLE_LSP_TOOL = "1";
           };
           statusLine = {
             type = "command";
