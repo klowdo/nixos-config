@@ -81,53 +81,43 @@ in {
     systemd = {
       services."user@".serviceConfig.Delegate = "cpu cpuset io memory pids";
       user = {
-        services.docker-buildx-prune = {
-          description = "Prune Docker buildx cache";
-          requires = ["docker.service"];
-          after = ["docker.service"];
-          serviceConfig = {
-            Type = "oneshot";
-            ExecStart = "${pkgs.docker}/bin/docker buildx prune -f --filter=until=24h";
-            Environment = "DOCKER_HOST=unix:///run/user/%U/docker.sock";
+        services = {
+          docker-buildx-prune = {
+            description = "Prune Docker buildx cache";
+            requires = ["docker.service"];
+            after = ["docker.service"];
+            serviceConfig = {
+              Type = "oneshot";
+              ExecStart = "${pkgs.docker}/bin/docker buildx prune -f --filter=until=24h";
+              Environment = "DOCKER_HOST=unix:///run/user/%U/docker.sock";
+            };
           };
+          docker-stop-on-boot = mkIf cfg.stopContainersOnBoot {
+            description = "Stop auto-started Docker containers on boot";
+            requires = ["docker.service"];
+            after = ["docker.service"];
+            wantedBy = ["docker.service"];
+            serviceConfig = {
+              Type = "oneshot";
+              RemainAfterExit = true;
+              ExecStart = pkgs.writeShellScript "docker-stop-on-boot" ''
+                containers=$(${pkgs.docker}/bin/docker ps -aq)
+                if [ -n "$containers" ]; then
+                  ${pkgs.docker}/bin/docker update --restart=no $containers
+                  ${pkgs.docker}/bin/docker stop $containers
+                fi
+              '';
+              Environment = "DOCKER_HOST=unix:///run/user/%U/docker.sock";
+            };
+          };
+          docker.environment =
+            optionalAttrs cfg.usePasta {
+              DOCKERD_ROOTLESS_ROOTLESSKIT_NET = "pasta";
+            }
+            // optionalAttrs (cfg.mtu != null) {
+              DOCKERD_ROOTLESS_ROOTLESSKIT_MTU = toString cfg.mtu;
+            };
         };
-
-        timers.docker-buildx-prune = {
-          description = "Prune Docker buildx cache";
-          wantedBy = ["timers.target"];
-          timerConfig = {
-            OnBootSec = "5min";
-            OnCalendar = "*-*-* 09,12:00:00";
-            Persistent = true;
-          };
-        };
-
-        services.docker-stop-on-boot = mkIf cfg.stopContainersOnBoot {
-          description = "Stop auto-started Docker containers on boot";
-          requires = ["docker.service"];
-          after = ["docker.service"];
-          wantedBy = ["docker.service"];
-          serviceConfig = {
-            Type = "oneshot";
-            RemainAfterExit = true;
-            ExecStart = pkgs.writeShellScript "docker-stop-on-boot" ''
-              containers=$(${pkgs.docker}/bin/docker ps -aq)
-              if [ -n "$containers" ]; then
-                ${pkgs.docker}/bin/docker update --restart=no $containers
-                ${pkgs.docker}/bin/docker stop $containers
-              fi
-            '';
-            Environment = "DOCKER_HOST=unix:///run/user/%U/docker.sock";
-          };
-        };
-
-        services.docker.environment =
-          optionalAttrs cfg.usePasta {
-            DOCKERD_ROOTLESS_ROOTLESSKIT_NET = "pasta";
-          }
-          // optionalAttrs (cfg.mtu != null) {
-            DOCKERD_ROOTLESS_ROOTLESSKIT_MTU = toString cfg.mtu;
-          };
       };
     };
 
