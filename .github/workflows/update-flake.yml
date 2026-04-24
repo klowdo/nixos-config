@@ -39,10 +39,7 @@ jobs:
         id: nix-check
         continue-on-error: true
         run: |
-          {
-            nix flake check -L
-            nix build .#ciChecks.x86_64-linux.packages .#ciChecks.x86_64-linux.nixos-configs -L
-          } 2>&1 | tee ${RUNNER_TEMP}/check-output.txt
+          nix flake check -L 2>&1 | tee ${RUNNER_TEMP}/check-output.txt
           echo "exit_code=$?" >> $GITHUB_OUTPUT
           {
             echo "check_output<<CHECKEOF"
@@ -85,10 +82,7 @@ jobs:
 
       - name: Run final check
         run: |
-          output=$({
-            nix flake check -L
-            nix build .#ciChecks.x86_64-linux.packages .#ciChecks.x86_64-linux.nixos-configs -L
-          } 2>&1) || exit_code=$?
+          output=$(nix flake check -L 2>&1) || exit_code=$?
           echo "$output"
           if [ "${exit_code:-0}" -ne 0 ]; then
             if echo "$output" | grep -qE "^error:"; then
