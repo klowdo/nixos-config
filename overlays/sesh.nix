@@ -1,13 +1,13 @@
 # nix-update: sesh
 final: prev: {
   sesh = prev.sesh.overrideAttrs (oldAttrs: rec {
-    version = "2.26.0";
+    version = "2.26.1";
 
     src = prev.fetchFromGitHub {
       owner = "joshmedeski";
       repo = "sesh";
       rev = "v${version}";
-      hash = "sha256-8Z3Ot2BAxSVxzXWPpbstcd1Fklwg8b5X2qEJ1lfiCqg=";
+      hash = "sha256-egh50ajgs2ngB9eALk4xq7W1n8OrTYeMBRsveisH2LQ=";
     };
 
     ldflags = [
