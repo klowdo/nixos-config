@@ -9,6 +9,7 @@
   claude-code = import ./claude-code.nix {inherit inputs;};
   # freecad = import ./freecad.nix;
   sesh = import ./sesh.nix;
+  teams-for-linux = import ./teams-for-linux.nix;
 
   jetbrains-goland = import ./jetbrains-goland.nix;
   jetbrains-rider = import ./jetbrains-rider.nix;

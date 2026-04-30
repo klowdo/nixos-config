@@ -107,7 +107,7 @@
         rider.enable = false;
         goland.enable = true;
         rustrover.enable = true;
-        libreoffice.enable = false;
+        libreoffice.enable = true;
         junie = {
           enable = true;
           apiKeySecret = "applications/jetbrains-junie/token";
@@ -145,6 +145,7 @@
       neomutt.enable = false;
       slack.enable = true;
       ferdium.enable = true;
+      teams.enable = true;
     };
     hardware = {
       zsa-moonlander.enable = true;

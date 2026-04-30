@@ -7,5 +7,6 @@
     ./neomutt.nix
     ./slack.nix
     ./ferdium.nix
+    ./teams.nix
   ];
 }
