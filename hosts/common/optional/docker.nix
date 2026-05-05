@@ -42,16 +42,20 @@ in {
             then [pkgs.passt]
             else [pkgs.slirp4netns];
           daemon.settings = {
-            # dns = [
-            #   "10.10.16.10"
-            #   "10.10.17.10"
-            #   "8.8.8.8"
-            #   "1.1.1.1"
-            # ];
-            # bip = "192.168.100.1/24";
-            # fixed-cidr": "192.168.1.0/25",
-            # "mtu": 1500,
-            # network-mode = "vpnkit"; # default-gateway = "192.168.100.254";
+            default-address-pools = [
+              {
+                base = "10.200.0.0/16";
+                size = 24;
+              }
+              {
+                base = "10.201.0.0/16";
+                size = 24;
+              }
+              {
+                base = "10.202.0.0/16";
+                size = 24;
+              }
+            ];
           };
         };
         # daemon.settings = {
