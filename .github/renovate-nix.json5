@@ -70,7 +70,7 @@
       separateMajorMinor: false,
       matchDepNames: ['/^jetbrains-.+-/'],
       postUpgradeTasks: {
-        commands: ['nix-shell -p nix-update --run "nix-update --version=skip --flake {{{replace "-(version|build)$" "" depName}}}"'],
+        commands: ['nix-shell -p nix-update --run "nix-update --version=skip --flake --override-filename overlays/{{{replace "-(version|build)$" "" depName}}}.nix {{{replace "-(version|build)$" "" depName}}}"'],
         fileFilters: ['overlays/jetbrains-*.nix'],
         executionMode: 'branch',
       },
