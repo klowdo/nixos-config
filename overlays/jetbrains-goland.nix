@@ -5,7 +5,7 @@ final: prev: {
     version = "2026.1.2";
     src = prev.fetchurl {
       url = "https://download.jetbrains.com/go/goland-${version}.tar.gz";
-      hash = "sha256-ASzqw8xuRaSAwzoiBsL+6PRyuSvBh43tnF4mEmkur9s=";
+      hash = "sha256-1FkDEaapyDbTPe4soOdyCHLkp/UT3rZ6siGyGyjmGJo=";
     };
     build_number = "261.24374.154";
   });
