@@ -1,7 +1,7 @@
 # nix-update: teams-for-linux
 final: prev: {
   teams-for-linux = prev.teams-for-linux.overrideAttrs (old: {
-    version = "2.9.0";
+    version = "2.8.1";
 
     src = prev.fetchFromGitHub {
       owner = "IsmaelMartinez";
