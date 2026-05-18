@@ -88,7 +88,7 @@
     # strongSwan.enable = true;
     # sddm.enable = true;
     ly.enable = false;
-    strongSwan-swanctl.enable = false;
+    strongSwan-swanctl.enable = true;
     # nss-docker-ng = {
     #   enable = true;
     #   dockerHost = "unix:///run/user/1000/docker.sock";
