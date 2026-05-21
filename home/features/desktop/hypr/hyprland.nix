@@ -113,13 +113,15 @@ in {
         };
 
         dwindle = {
-          pseudotile = true;
           preserve_split = true;
         };
 
         misc = {
-          vfr = true;
           allow_session_lock_restore = true;
+        };
+
+        debug = {
+          vfr = true;
         };
 
         master = {};
