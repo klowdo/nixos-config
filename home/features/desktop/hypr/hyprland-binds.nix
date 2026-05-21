@@ -200,11 +200,11 @@ in {
         "${mainMod},G,togglefloating"
         "SUPERSHIFT,q ,exit"
 
-        "SUPER,minus,splitratio,-0.25"
-        "SUPERSHIFT,minus,splitratio,-0.3333333"
+        "SUPER,minus,layoutmsg,splitratio -0.25"
+        "SUPERSHIFT,minus,layoutmsg,splitratio -0.3333333"
 
-        "SUPER,equal,splitratio,0.25"
-        "SUPERSHIFT,equal,splitratio,0.3333333"
+        "SUPER,equal,layoutmsg,splitratio 0.25"
+        "SUPERSHIFT,equal,layoutmsg,splitratio 0.3333333"
 
         # "SUPER,g,togglegroup"
         # "SUPER,t,lockactivegroup,toggle"
