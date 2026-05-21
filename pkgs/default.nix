@@ -20,6 +20,7 @@
   hyprland-preview-share-picker = pkgs.callPackage ./hyprland-preview-share-picker {};
   # spec-kit = pkgs.callPackage ./spec-kit {};
   junie = pkgs.callPackage ./junie {};
+  codegraph = pkgs.callPackage ./codegraph {};
   tokennuke = pkgs.callPackage ./tokennuke {};
   nvidia-greenboost = pkgs.callPackage ./nvidia-greenboost {};
   freecad-mcp = pkgs.callPackage ./freecad-mcp {};
