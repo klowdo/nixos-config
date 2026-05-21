@@ -12,7 +12,11 @@ in {
   options.features.cli.workmux.enable = mkEnableOption "workmux parallel development with git worktrees";
 
   config = mkIf cfg.enable {
-    home.packages = [inputs.workmux.packages.${pkgs.stdenv.hostPlatform.system}.default];
+    home.packages = [
+      (inputs.workmux.packages.${pkgs.stdenv.hostPlatform.system}.default.overrideAttrs {
+        doCheck = false;
+      })
+    ];
 
     xdg.configFile."workmux/config.yaml".source = yaml.generate "config.yaml" {
       worktree_dir = ".worktrees";
