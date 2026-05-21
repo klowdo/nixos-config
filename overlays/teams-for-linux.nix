@@ -6,18 +6,18 @@ final: prev: {
     src = prev.fetchFromGitHub {
       owner = "IsmaelMartinez";
       repo = "teams-for-linux";
-      rev = "f483b9cec2109656581a67284c3dbc25633ba836";
-      hash = "sha256-7iQfcdHwuwfujDkOjhWF4keSiqwxymg5L1cB52EAPIY=";
+      rev = "v2.10.0";
+      hash = "sha256-/e/NpyfcrHsgMf8tJ8VgUyCOrdfAaRH0/+kUqItd1+s=";
     };
 
     npmDeps = prev.fetchNpmDeps {
       src = prev.fetchFromGitHub {
         owner = "IsmaelMartinez";
         repo = "teams-for-linux";
-        rev = "f483b9cec2109656581a67284c3dbc25633ba836";
-        hash = "sha256-7iQfcdHwuwfujDkOjhWF4keSiqwxymg5L1cB52EAPIY=";
+        rev = "v2.10.0";
+        hash = "sha256-/e/NpyfcrHsgMf8tJ8VgUyCOrdfAaRH0/+kUqItd1+s=";
       };
-      hash = "sha256-iZqq47Moj1q9+0gA+rOBAbNXyUW66eHdhbDnLeWnc3k=";
+      hash = "sha256-RvIjGXhjNqxey3zhACGj7Zd0dnmLb1IqIg/PnfEdjz0=";
     };
   });
 }
