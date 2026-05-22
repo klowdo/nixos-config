@@ -12,8 +12,8 @@ python3Packages.buildPythonApplication rec {
   src = fetchFromGitHub {
     owner = "neka-nat";
     repo = "freecad-mcp";
-    rev = "8694c3214947efedfcf2423b3babad80af80d299";
-    hash = "sha256-EYLr7FFIjrPmgngGvYJlQzRPEbYfvp84pIlCbazl/+8=";
+    rev = "0a6ba35c6a4c8a43750610d68c1e8f43ac0cf422";
+    hash = "sha256-Xfl5uA0iGbJ8srNM80PwbVVw1mJSfHyys7rzqyeiOQg=";
   };
 
   build-system = [python3Packages.hatchling];
