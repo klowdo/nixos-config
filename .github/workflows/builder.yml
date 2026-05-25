@@ -31,7 +31,7 @@ jobs:
             eval-cores = 0
       - uses: DeterminateSystems/flakehub-cache-action@v3
       - name: Build all packages
-        run: nix build .#packages.x86_64-linux --no-link -L
+        run: nix build .#ciChecks.x86_64-linux.packages --no-link -L
 
   nixos:
     name: NixOS ${{ matrix.host }}
