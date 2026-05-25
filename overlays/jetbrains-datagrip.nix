@@ -4,7 +4,7 @@ final: prev: {
     version = "2026.1.3";
     src = prev.fetchurl {
       url = "https://download.jetbrains.com/datagrip/datagrip-${version}.tar.gz";
-      hash = "sha256-DaAqg6Xce1RkvEM6++7CxC72AvB1SHKFBWOzJD9RIuY=";
+      hash = "sha256-XxwvXiaWAfK318BjbzKPLVDeMBlOr5BFuD2bqU8+12o=";
     };
     build_number = "261.24374.56";
   });
