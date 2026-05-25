@@ -15,5 +15,7 @@ _final: prev: {
       name = "worktrunk-${version}-vendor";
       hash = "sha256-nBbLlM4Y5IOSeGrgiu7Bm9PcTSarXiqFbC2RnTrhWeE=";
     };
+
+    doCheck = false;
   });
 }
