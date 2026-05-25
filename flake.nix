@@ -85,6 +85,9 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # Determinate Nix (FlakeHub cache)
+    determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
+
     # Pre-commit
     pre-commit-hooks = {
       url = "github:cachix/git-hooks.nix";
