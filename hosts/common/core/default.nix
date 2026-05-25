@@ -1,6 +1,5 @@
-{inputs, ...}: {
+{
   imports = [
-    inputs.determinate.nixosModules.default
     ./nh.nix
     ./firmware-update.nix
     ./firewall.nix

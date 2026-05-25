@@ -17,28 +17,22 @@ jobs:
   packages:
     name: Packages
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      id-token: write
     steps:
       - uses: actions/checkout@v6
       - uses: wimpysworld/nothing-but-nix@main
         with:
           hatchet-protocol: "holster"
-      - uses: DeterminateSystems/determinate-nix-action@v3
+      - uses: DeterminateSystems/nix-installer-action@v22
+      - uses: cachix/cachix-action@v17
         with:
-          extra-conf: |
-            eval-cores = 0
-      - uses: DeterminateSystems/flakehub-cache-action@v3
+          name: klowdo
+          authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
       - name: Build all packages
         run: nix build .#ciChecks.x86_64-linux.packages --no-link -L
 
   nixos:
     name: NixOS ${{ matrix.host }}
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      id-token: write
     strategy:
       fail-fast: false
       matrix:
@@ -48,20 +42,17 @@ jobs:
       - uses: wimpysworld/nothing-but-nix@main
         with:
           hatchet-protocol: "cleave"
-      - uses: DeterminateSystems/determinate-nix-action@v3
+      - uses: DeterminateSystems/nix-installer-action@v22
+      - uses: cachix/cachix-action@v17
         with:
-          extra-conf: |
-            eval-cores = 0
-      - uses: DeterminateSystems/flakehub-cache-action@v3
+          name: klowdo
+          authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
       - name: Build NixOS ${{ matrix.host }}
         run: nix build ".#nixosConfigurations.${{ matrix.host }}.config.system.build.toplevel" --no-link -L
 
   homes:
     name: Home ${{ matrix.profile }}
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      id-token: write
     strategy:
       fail-fast: false
       matrix:
@@ -71,10 +62,10 @@ jobs:
       - uses: wimpysworld/nothing-but-nix@main
         with:
           hatchet-protocol: "holster"
-      - uses: DeterminateSystems/determinate-nix-action@v3
+      - uses: DeterminateSystems/nix-installer-action@v22
+      - uses: cachix/cachix-action@v17
         with:
-          extra-conf: |
-            eval-cores = 0
-      - uses: DeterminateSystems/flakehub-cache-action@v3
+          name: klowdo
+          authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
       - name: Build Home ${{ matrix.profile }}
         run: nix build ".#homeConfigurations.\"${{ matrix.profile }}\".activationPackage" --no-link -L
