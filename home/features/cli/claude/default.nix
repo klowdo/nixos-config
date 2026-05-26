@@ -64,7 +64,7 @@ in {
 
       home = {
         packages =
-          [pkgs.unstable.rtk pkgs.jq]
+          [pkgs.unstable.rtk pkgs.jq pkgs.codegraph]
           ++ (with pkgs;
             optionals cfg.enableNotifications [
               libnotify
