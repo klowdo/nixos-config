@@ -16,7 +16,7 @@ in {
 
   home.packages = with pkgs;
     [
-      nixfmt-rfc-style
+      nixfmt
       nixpkgs-fmt
       nixd
       deadnix
@@ -25,7 +25,8 @@ in {
       nix-search-cli
       nix-search-tv
     ]
-    ++ (with inputs.nsearch.packages.${pkgs.stdenv.hostPlatform.system}; [nsearch nrun nshell]);
+    ++ (with inputs.nsearch.packages.${pkgs.stdenv.hostPlatform.system}; [nsearch nrun nshell])
+    ++ [inputs.nixard.packages.${pkgs.stdenv.hostPlatform.system}.default];
   programs.nix-index = {
     enable = true;
     enableZshIntegration = true;

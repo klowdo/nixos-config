@@ -87,7 +87,7 @@ in {
         default =
           if cfg.fileManager.type == "nautilus"
           then pkgs.nautilus
-          else pkgs.xfce.thunar;
+          else pkgs.thunar;
         example = "pkgs.dolphin";
         description = "Package for the file manager";
       };

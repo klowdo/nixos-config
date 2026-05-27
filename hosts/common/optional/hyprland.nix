@@ -13,7 +13,10 @@
 
   # Workaround: nixpkgs passes the raw Hyprland binary to UWSM instead of start-hyprland
   # https://github.com/hyprwm/Hyprland/discussions/12661
-  programs.uwsm.waylandCompositors.hyprland.binPath = lib.mkForce "/run/current-system/sw/bin/start-hyprland";
+  programs.uwsm.waylandCompositors.hyprland = {
+    prettyName = "Hyprland";
+    binPath = lib.mkForce "/run/current-system/sw/bin/start-hyprland";
+  };
 
   security.pam.services.hyprlock = {
     fprintAuth = true;

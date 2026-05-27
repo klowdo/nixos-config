@@ -28,7 +28,7 @@
   # Create monitor config files from folder
   xdg.configFile = lib.mapAttrs' (
     filename: type:
-      lib.nameValuePair "hyprdynamicmonitors/hyprconfigs/${filename}" {
+      lib.nameValuePair "hhyprdynamicmonitorshyprdynamicmonitorsyprdynamicmonitors/hyprconfigs/${filename}" {
         source = ./monitors/hyprconfigs/${filename};
       }
   ) (builtins.readDir ./monitors/hyprconfigs);

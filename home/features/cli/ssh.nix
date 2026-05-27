@@ -86,19 +86,19 @@ in {
         "config.d/*"
       ];
 
-      matchBlocks = {
+      settings = {
         "*" = {
-          addKeysToAgent = "yes";
-          forwardAgent = true;
-          identityAgent = "\${XDG_RUNTIME_DIR}/keyring/ssh";
-          extraOptions = {
-            UserKnownHostsFile = "~/.ssh/known_hosts";
-            KnownHostsCommand = "${pkgs.bash}/bin/bash -c '${pkgs.coreutils}/bin/cat ~/.ssh/known_hosts.d/* 2>/dev/null || true'";
-          };
+          header = "Host *";
+          AddKeysToAgent = "yes";
+          ForwardAgent = "yes";
+          IdentityAgent = "\${XDG_RUNTIME_DIR}/keyring/ssh";
+          UserKnownHostsFile = "~/.ssh/known_hosts";
+          KnownHostsCommand = "${pkgs.bash}/bin/bash -c '${pkgs.coreutils}/bin/cat ~/.ssh/known_hosts.d/* 2>/dev/null || true'";
         };
-        "github.com" = {
-          user = "git";
-          identityFile = "~/.ssh/id_ed25519";
+        "github" = {
+          header = "Host github.com";
+          User = "git";
+          IdentityFile = "~/.ssh/id_ed25519";
         };
       };
       extraConfig = ''

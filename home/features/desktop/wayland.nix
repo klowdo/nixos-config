@@ -31,7 +31,7 @@ in {
       ydotool
       wlr-randr
       gsettings-desktop-schemas
-      swww
+      awww
       grim
       brightnessctl
       pavucontrol

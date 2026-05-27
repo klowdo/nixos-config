@@ -61,5 +61,5 @@
   # home and dotfilesPath have smart defaults based on mainUser
   hostConfig.mainUser = "klowdo";
 
-  system.stateVersion = "25.11";
+  system.stateVersion = "26.05";
 }

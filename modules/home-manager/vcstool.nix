@@ -91,9 +91,9 @@ in {
 
     package = mkOption {
       type = types.package;
-      default = pkgs.vcstool;
-      defaultText = literalExpression "pkgs.vcstool";
-      description = "The vcstool package to use";
+      default = pkgs.vcs2l;
+      defaultText = literalExpression "pkgs.vcs2l";
+      description = "The vcstool-compatible package to use";
     };
 
     workspaces = mkOption {

@@ -8,6 +8,4 @@
   junie = import ./junie.nix;
   vcstool = import ./vcstool.nix;
   vicinae = import ./vicinae.nix;
-  # vivid-stub = import ./vivid-stub.nix;
-  # delta-stub = import ./delta-stub.nix;
 }

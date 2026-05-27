@@ -8,7 +8,10 @@
   makeWrapper,
   zlib,
   pcsclite,
-  xorg,
+  libx11,
+  libxrender,
+  libxtst,
+  libxi,
   harfbuzz,
   freetype,
   libjpeg8,
@@ -37,10 +40,10 @@ stdenv.mkDerivation rec {
     stdenv.cc.cc
     zlib
     pcsclite
-    xorg.libX11
-    xorg.libXrender
-    xorg.libXtst
-    xorg.libXi
+    libx11
+    libxrender
+    libxtst
+    libxi
     harfbuzz
     freetype
     libjpeg8

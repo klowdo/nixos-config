@@ -1,20 +1,6 @@
 {inputs, ...}: {
   imports = [
     inputs.catppuccin.homeModules.catppuccin
-    ({lib, ...}: {
-      options.programs =
-        {
-          opencode.tui = lib.mkOption {
-            type = lib.types.attrsOf lib.types.anything;
-            default = {};
-          };
-        }
-        // lib.genAttrs ["antigravity" "cursor" "kiro" "vscodium" "windsurf"] (_:
-          lib.mkOption {
-            type = lib.types.attrsOf lib.types.anything;
-            default = {};
-          });
-    })
   ];
 
   userConfig = {
@@ -26,7 +12,7 @@
   catppuccin.flavor = "macchiato";
 
   home = {
-    stateVersion = "25.11";
+    stateVersion = "26.05";
 
     file = {
       ".face".source = ../../lib/felix_evolve.jpg;

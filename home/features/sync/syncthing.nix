@@ -35,7 +35,10 @@ in {
       enable = true;
       cert = config.sops.secrets."syncthing/cert".path;
       key = config.sops.secrets."syncthing/key".path;
-      passwordFile = config.sops.secrets."syncthing/gui-password".path;
+      guiCredentials = {
+        username = "klowdo";
+        passwordFile = config.sops.secrets."syncthing/gui-password".path;
+      };
       inherit (cfg) guiAddress;
       overrideFolders = true;
       overrideDevices = true;

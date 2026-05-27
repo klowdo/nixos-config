@@ -4,13 +4,13 @@
   inputs = {
     # Nixpkgs
     # Also see the 'unstable-packages' overlay at 'overlays/default.nix'.
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
-    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.11";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
+    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-26.05";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
     # Home manager
     home-manager = {
-      url = "github:nix-community/home-manager/release-25.11";
+      url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -57,7 +57,7 @@
 
     # Neovim
     nixvim = {
-      url = "github:nix-community/nixvim/nixos-25.11";
+      url = "github:nix-community/nixvim/nixos-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -107,7 +107,8 @@
 
     ## Theming
     catppuccin.url = "github:catppuccin/nix";
-    stylix.url = "github:danth/stylix/release-25.11";
+    # TODO: switch to release-26.05 when available (tracking: https://github.com/nix-community/stylix/issues/2325)
+    stylix.url = "github:danth/stylix/master";
     spicetify-nix = {
       url = "github:Gerg-L/spicetify-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -136,6 +137,8 @@
       url = "github:Mic92/direnv-instant";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    nixard.url = "github:manelinux/nixard";
   };
 
   outputs = {

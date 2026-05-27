@@ -32,11 +32,11 @@ in
         libGLU
 
         # X11 libraries
-        xorg.libX11
-        xorg.libXext
-        xorg.libXi
-        xorg.libXrandr
-        xorg.libXrender
+        libx11
+        libxext
+        libxi
+        libxrandr
+        libxrender
 
         # GTK and WebKit dependencies (required for embedded browser)
         gtk3

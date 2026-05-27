@@ -11,12 +11,12 @@ in {
 
   config = mkIf cfg.enable {
     home.packages = with pkgs; [
-      xfce.thunar
-      xfce.thunar-archive-plugin
-      xfce.thunar-volman
-      xfce.thunar-vcs-plugin # Git/SVN integration
-      xfce.thunar-media-tags-plugin # Media file tagging
-      xfce.tumbler
+      thunar
+      thunar-archive-plugin
+      thunar-volman
+      thunar-vcs-plugin # Git/SVN integration
+      thunar-media-tags-plugin # Media file tagging
+      tumbler
       # papirus-icon-theme
       # catppuccin-papirus-folders
     ];

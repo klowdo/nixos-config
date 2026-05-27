@@ -64,7 +64,7 @@ Home Manager configuration is organized into feature modules under `home/feature
 
 ## Key Technologies
 
-- **NixOS 25.11** with unstable overlay
+- **NixOS 26.05** with unstable overlay
 - **Home Manager** for user environment
 - **Hyprland** Wayland compositor
 - **SOPS-nix** with age encryption (YubiKey + TPM 2.0)

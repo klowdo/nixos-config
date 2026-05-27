@@ -79,10 +79,10 @@ in {
         enable = true;
         package = claudeCodePackage;
 
-        memory.source = ./CLAUDE.md;
+        context = ./CLAUDE.md;
         agentsDir = ./agents;
         commandsDir = ./commands;
-        skillsDir = ./skills;
+        skills = ./skills;
 
         # lspServers requires home-manager newer than current 2026-04-05 pin.
         # Once HM is bumped, drop gopls-lsp@claude-plugins-official from

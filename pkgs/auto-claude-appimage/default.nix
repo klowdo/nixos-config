@@ -31,13 +31,13 @@ in
         libGLU
 
         # X11 libraries
-        xorg.libX11
-        xorg.libXext
-        xorg.libXi
-        xorg.libXrandr
-        xorg.libXrender
-        xorg.libXtst
-        xorg.libxcb
+        libx11
+        libxext
+        libxi
+        libxrandr
+        libxrender
+        libxtst
+        libxcb
 
         # GTK and UI dependencies
         gtk3

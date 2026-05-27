@@ -96,7 +96,7 @@ Identity options:
 
 ### Key Technologies
 
-- **NixOS 25.11** stable with unstable overlay
+- **NixOS 26.05** stable with unstable overlay
 - **Home Manager** for user environment
 - **Hyprland** Wayland compositor with HyprPanel
 - **SOPS-nix** for secrets management (with YubiKey and TPM 2.0 support via age plugins)
