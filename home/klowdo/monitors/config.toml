@@ -116,7 +116,7 @@ description = "Dell Inc. DELL U2724DE 41QR734"
 # Profile: Laptop Only (no external monitors)
 [profiles.laptop_only]
 config_file = "hyprconfigs/laptop-only.conf"
-config_file_type = "plain"
+config_file_type = "static"
 
 [[profiles.laptop_only.conditions.required_monitors]]
 description = "Samsung Display Corp. 0x414D"
