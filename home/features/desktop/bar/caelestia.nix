@@ -317,19 +317,19 @@ in {
                   level = 20;
                   title = "Low battery";
                   message = "You might want to plug in a charger";
-                  icon = "battery_android_frame_2";
+                  icon = "battery_2_bar";
                 }
                 {
                   level = 10;
                   title = "Did you see the previous message?";
                   message = "You should probably plug in a charger <b>now</b>";
-                  icon = "battery_android_frame_1";
+                  icon = "battery_1_bar";
                 }
                 {
                   level = 5;
                   title = "Critical battery level";
                   message = "PLUG THE CHARGER RIGHT NOW!!";
-                  icon = "battery_android_alert";
+                  icon = "battery_alert";
                   critical = true;
                 }
               ];
