@@ -159,6 +159,19 @@ in {
   };
 
   config = mkIf cfg.enable {
+    xdg.configFile."caelestia/shell.json".force = true;
+    xdg.configFile."caelestia/cli.json".force = true;
+
+    home.activation.caelestiaMutableConfig = lib.hm.dag.entryAfter ["linkGeneration"] ''
+      for f in shell.json cli.json; do
+        target="$HOME/.config/caelestia/$f"
+        if [ -L "$target" ]; then
+          run cp --remove-destination "$(readlink "$target")" "$target"
+          run chmod u+w "$target"
+        fi
+      done
+    '';
+
     home.sessionVariables.QT_FALLBACK_ICON_THEME = "Papirus-Dark";
 
     systemd.user.services.caelestia.Service.Environment = mkForce [
