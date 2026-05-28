@@ -26,6 +26,9 @@ python3Packages.buildPythonApplication rec {
     pathspec
   ];
 
+  # sqlite-vec 0.1.6 in nixpkgs has broken METADATA (reports 0.0.0)
+  dontCheckRuntimeDeps = true;
+
   pythonImportsCheck = ["tokennuke"];
 
   meta = {
