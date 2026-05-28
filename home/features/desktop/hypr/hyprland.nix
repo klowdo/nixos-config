@@ -194,6 +194,7 @@ in {
           "match:title (?i).*youtube.*, match:class (firefox), opaque on"
           "match:title (?i).*svt.*, match:class (firefox), opaque on"
           "match:title (?i).*teams.*, match:class (firefox), opaque on"
+          "match:class (teams-for-linux), opaque on"
           "match:class (solaar), workspace special:solaar silent"
         ];
       };
