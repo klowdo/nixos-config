@@ -42,6 +42,20 @@ in {
         ["@jq@" "@rtk@"]
         ["${pkgs.jq}/bin/jq" "${pkgs.unstable.rtk}/bin/rtk"]
         (builtins.readFile ./hooks/rtk-rewrite-hook.sh);
+
+      scanSecretsHookScript = pkgs.writeShellScript "scan-secrets-hook" (
+        builtins.replaceStrings
+        ["@jq@" "@grep@"]
+        ["${pkgs.jq}/bin/jq" "${pkgs.gnugrep}/bin/grep"]
+        (builtins.readFile ./hooks/scan-secrets-hook.sh)
+      );
+
+      sessionContextHookScript = pkgs.writeShellScript "session-context-hook" (
+        builtins.replaceStrings
+        ["@jq@" "@git@"]
+        ["${pkgs.jq}/bin/jq" "${pkgs.git}/bin/git"]
+        (builtins.readFile ./hooks/session-context-hook.sh)
+      );
     in {
       programs.zsh = {
         envExtra = ''
@@ -132,6 +146,28 @@ in {
               "mcp__codegraph__codegraph_node"
               "mcp__codegraph__codegraph_status"
               "mcp__codegraph__codegraph_files"
+              "Bash(git status*)"
+              "Bash(git diff*)"
+              "Bash(git log*)"
+              "Bash(git branch*)"
+              "Bash(git show*)"
+              "Bash(git rev-parse*)"
+              "Bash(git remote*)"
+              "Bash(ls*)"
+              "Bash(find*)"
+              "Bash(grep*)"
+              "Bash(cat*)"
+              "Bash(head*)"
+              "Bash(tail*)"
+              "Bash(wc*)"
+              "Bash(which*)"
+              "Bash(echo*)"
+              "Bash(pwd*)"
+              "Bash(hostname*)"
+              "Bash(nix eval*)"
+              "Bash(nix flake metadata*)"
+              "Bash(nix flake show*)"
+              "Bash(nh os test*)"
             ];
             deny = [
               "Bash(sops:*)"
@@ -212,6 +248,17 @@ in {
             pr = "";
           };
           hooks = {
+            SessionStart = [
+              {
+                hooks = [
+                  {
+                    type = "command";
+                    command = "${sessionContextHookScript}";
+                    statusMessage = "Loading project context...";
+                  }
+                ];
+              }
+            ];
             PreToolUse = [
               {
                 matcher = "Bash";
@@ -223,17 +270,32 @@ in {
                 ];
               }
             ];
-            PostToolUse = mkIf cfg.enableNotifications [
-              {
-                matcher = "*";
-                hooks = [
+            PostToolUse =
+              [
+                {
+                  matcher = "Write|Edit|MultiEdit";
+                  hooks = [
+                    {
+                      type = "command";
+                      command = "${scanSecretsHookScript}";
+                      asyncRewake = true;
+                    }
+                  ];
+                }
+              ]
+              ++ (
+                lib.optionals cfg.enableNotifications [
                   {
-                    type = "command";
-                    command = "${notificationHookScript}";
+                    matcher = "*";
+                    hooks = [
+                      {
+                        type = "command";
+                        command = "${notificationHookScript}";
+                      }
+                    ];
                   }
-                ];
-              }
-            ];
+                ]
+              );
           };
         };
       };
