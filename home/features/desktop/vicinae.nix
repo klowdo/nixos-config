@@ -150,16 +150,11 @@ in {
 
     wayland.windowManager.hyprland.settings = mkIf cfg.enableHyprlandSupport {
       misc.focus_on_activate = true;
+      layerrule = [
+        "match:namespace vicinae, blur on"
+        "match:namespace vicinae, ignore_alpha 0"
+        "match:namespace vicinae, no_anim on"
+      ];
     };
-
-    wayland.windowManager.hyprland.extraConfig = mkIf cfg.enableHyprlandSupport ''
-      layerrule {
-        name = vicinae-blur
-        match:namespace = vicinae
-        blur = on
-        ignore_alpha = 0
-        no_anim = on
-      }
-    '';
   };
 }

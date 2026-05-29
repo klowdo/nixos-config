@@ -31,15 +31,17 @@ in {
       ];
     };
 
-    wayland.windowManager.hyprland.extraConfig = ''
-      submap = gamemode
-      bind = SUPER, F12, exec, ${notify "Disabled"}
-      bind = SUPER, F12, submap, reset
-      bind = SUPER SHIFT, F12, exec, ${notify "Disabled"}
-      bind = SUPER SHIFT, F12, submap, reset
-      bind = , escape, exec, ${notify "Disabled"}
-      bind = , escape, submap, reset
-      submap = reset
-    '';
+    wayland.windowManager.hyprland.submaps.gamemode = {
+      settings = {
+        bind = [
+          "SUPER, F12, exec, ${notify "Disabled"}"
+          "SUPER, F12, submap, reset"
+          "SUPER SHIFT, F12, exec, ${notify "Disabled"}"
+          "SUPER SHIFT, F12, submap, reset"
+          ", escape, exec, ${notify "Disabled"}"
+          ", escape, submap, reset"
+        ];
+      };
+    };
   };
 }

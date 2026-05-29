@@ -62,6 +62,7 @@
     ../common/optional/auto-upgrade.nix
     ../common/optional/systemd-notify.nix
     ../common/optional/sddm.nix
+    ../common/optional/greetd.nix
     ../common/optional/ly.nix
     ../common/optional/stylix.nix
     ../common/optional/logitech.nix
@@ -88,6 +89,7 @@
     # strongSwan.enable = true;
     # sddm.enable = true;
     ly.enable = false;
+    greetd.enable = true;
     strongSwan-swanctl.enable = true;
     # nss-docker-ng = {
     #   enable = true;
