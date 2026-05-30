@@ -79,6 +79,8 @@ in {
     bindl =
       [
         ",XF86AudioMute, exec, ${sound-toggle}/bin/sound-toggle"
+        ",switch:on:Lid Switch, exec, ${lock-screen}/bin/lock-screen & sleep 0.5 && hyprctl dispatch dpms off"
+        ",switch:off:Lid Switch, exec, hyprctl dispatch dpms on"
       ]
       ++ lib.optionals (!caelestiaEnabled) [
         ",XF86AudioPlay, exec, ${pkgs.playerctl}/bin/playerctl play-pause"

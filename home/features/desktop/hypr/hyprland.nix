@@ -50,6 +50,7 @@ in {
       settings = {
         source = [
           "~/.config/hypr/config.d/*.conf"
+          "~/.config/hypr/monitors.conf"
         ];
 
         xwayland = {

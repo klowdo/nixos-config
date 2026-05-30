@@ -24,6 +24,7 @@
   tokennuke = pkgs.callPackage ./tokennuke {};
   nvidia-greenboost = pkgs.callPackage ./nvidia-greenboost {};
   freecad-mcp = pkgs.callPackage ./freecad-mcp {};
+  hyprmoncfg = pkgs.callPackage ./hyprmoncfg {};
   tmux-file-picker = pkgs.callPackage ./tmux-file-picker {};
   # zsh-term-title = pkgs.callPackage ./zsh-term-title { };
 }
