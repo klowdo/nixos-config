@@ -5,11 +5,11 @@
   appimageTools,
 }: let
   pname = "deezer-linux";
-  version = "7.1.210";
+  version = "7.1.220";
 
   src = fetchurl {
     url = "https://github.com/aunetx/deezer-linux/releases/download/v${version}/deezer-desktop-${version}-x86_64.AppImage";
-    sha256 = "sha256-Gky5S+4ULrLFi0+goKjjtZ56LngopMm/jdZ542vsvAw=";
+    sha256 = "sha256-Bbx86lUvyzkOgvW01HtALOp//Dk1IjX8S9VWtQxMFRc=";
   };
 
   appimageContents = appimageTools.extractType2 {inherit pname version src;};
