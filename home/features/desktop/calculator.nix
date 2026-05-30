@@ -29,7 +29,7 @@ in {
 
       # Simple keybind to launch floating calculator
       bind = [
-        "$mainMod, C, exec, qalculate-gtk"
+        "SUPER, C, exec, qalculate-gtk"
       ];
     };
   };

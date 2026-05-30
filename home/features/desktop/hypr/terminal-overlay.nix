@@ -1,7 +1,7 @@
-{
+{config, ...}: {
   wayland.windowManager.hyprland.settings = {
     workspace = [
-      "special:terminal, on-created-empty:$terminal"
+      "special:terminal, on-created-empty:${config.features.defaults.terminal.command}"
     ];
 
     windowrule = [

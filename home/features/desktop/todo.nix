@@ -116,7 +116,7 @@ in {
     # Hyprland keybind for todo manager
     wayland.windowManager.hyprland.settings = {
       bind = [
-        "$mainMod, N, exec, wofi-todo"
+        "SUPER, N, exec, wofi-todo"
       ];
     };
   };

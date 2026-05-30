@@ -46,16 +46,8 @@ in {
     };
     wayland.windowManager.hyprland = {
       enable = true;
+      configType = "hyprlang";
       settings = {
-        "$mainMod" = "SUPER";
-        "$editor" = config.features.defaults.editor.command;
-        "$terminal" = config.features.defaults.terminal.command;
-        "$browser" = config.features.defaults.browser.command;
-        "$menu" = config.features.defaults.launcher.command;
-        "$fileManager" = config.features.defaults.fileManager.command;
-        "$sessionMenu" = config.features.defaults.sessionMenu.command;
-        "$hyper" = "CONTROL_SHIFT_ALT_SUPER";
-
         source = [
           "~/.config/hypr/config.d/*.conf"
         ];

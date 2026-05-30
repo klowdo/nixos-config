@@ -159,6 +159,9 @@ in {
   };
 
   config = mkIf cfg.enable {
+    features.defaults.launcher.command = mkIf cfg.useLauncher (mkForce "caelestia shell drawers toggle launcher");
+    features.defaults.sessionMenu.command = mkIf cfg.useSessionMenu (mkForce "caelestia shell drawers toggle session");
+
     xdg.configFile."caelestia/shell.json".force = true;
     xdg.configFile."caelestia/cli.json".force = true;
 
@@ -508,16 +511,12 @@ in {
       }
     ];
 
-    wayland.windowManager.hyprland.settings = {
-      "$menu" = mkIf cfg.useLauncher (mkForce "caelestia shell drawers toggle launcher");
-      "$sessionMenu" = mkIf cfg.useSessionMenu (mkForce "caelestia shell drawers toggle session");
-
-      "$kbSession" = "Ctrl+Alt, Delete";
-      "$kbClearNotifs" = "Ctrl+Alt, C";
-      "$kbShowPanels" = "Super, K";
-      "$kbLock" = "Super, L";
-      "$kbRestoreLock" = "Super+Alt, L";
-
+    wayland.windowManager.hyprland.settings = let
+      kbSession = "Ctrl+Alt, Delete";
+      kbClearNotifs = "Ctrl+Alt, C";
+      kbShowPanels = "Super, K";
+      kbRestoreLock = "Super+Alt, L";
+    in {
       general = with config.lib.stylix.colors; {
         border_size = mkForce 2;
         gaps_in = mkForce 6;
@@ -535,14 +534,14 @@ in {
       ];
 
       bind = [
-        "$kbSession, exec, caelestia shell drawers toggle session"
-        "$kbShowPanels, exec, caelestia shell drawers showall"
+        "${kbSession}, exec, caelestia shell drawers toggle session"
+        "${kbShowPanels}, exec, caelestia shell drawers showall"
       ];
 
       bindl = [
-        "$kbClearNotifs, exec, caelestia shell notifs clear"
-        "$kbRestoreLock, exec, caelestia shell -d"
-        "$kbRestoreLock, exec, caelestia shell lock lock"
+        "${kbClearNotifs}, exec, caelestia shell notifs clear"
+        "${kbRestoreLock}, exec, caelestia shell -d"
+        "${kbRestoreLock}, exec, caelestia shell lock lock"
         ", XF86MonBrightnessUp, exec, caelestia shell brightness set +5%"
         ", XF86MonBrightnessDown, exec, caelestia shell brightness set 5%-"
         ", XF86AudioPlay, exec, caelestia shell mpris playPause"

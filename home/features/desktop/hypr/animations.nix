@@ -187,7 +187,7 @@ in {
     '';
 
     wayland.windowManager.hyprland.settings.bind = [
-      "$hyper, SEMICOLON, exec, ${animationToggle}/bin/hypr-animation-toggle"
+      "CONTROL_SHIFT_ALT_SUPER, SEMICOLON, exec, ${animationToggle}/bin/hypr-animation-toggle"
     ];
   };
 }
