@@ -42,6 +42,13 @@
   unlock-lockscreen = pkgs.writeShellScriptBin "unlock-lockscreen" ''
     ${pkgs.hyprland}/bin/hyprctl --instance 0 dispatch exec "${lock-screen}/bin/lock-screen"
   '';
+
+  lid-close = pkgs.writeShellScriptBin "lid-close" ''
+    monitor_count=$(${pkgs.hyprland}/bin/hyprctl monitors -j | ${pkgs.jq}/bin/jq 'length')
+    if [ "$monitor_count" -le 1 ]; then
+      ${lock-screen}/bin/lock-screen & sleep 0.5 && ${pkgs.hyprland}/bin/hyprctl dispatch dpms off
+    fi
+  '';
 in {
   home.packages = with pkgs; [
     wl-mirror
@@ -79,7 +86,7 @@ in {
     bindl =
       [
         ",XF86AudioMute, exec, ${sound-toggle}/bin/sound-toggle"
-        ",switch:on:Lid Switch, exec, ${lock-screen}/bin/lock-screen & sleep 0.5 && hyprctl dispatch dpms off"
+        ",switch:on:Lid Switch, exec, ${lid-close}/bin/lid-close"
         ",switch:off:Lid Switch, exec, hyprctl dispatch dpms on"
       ]
       ++ lib.optionals (!caelestiaEnabled) [

@@ -119,8 +119,8 @@
       };
       mcp-gateway.enable = true;
       cura.enable = false;
-      orca.enable = true;
-      super-slicer.enable = true;
+      orca.enable = false;
+      super-slicer.enable = false;
       bambu-studio.enable = true;
       nix-flatpak.enable = true;
       freecad.enable = true;
