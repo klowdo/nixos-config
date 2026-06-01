@@ -59,6 +59,7 @@
     ../common/optional/nss-docker-ng.nix
     ../common/optional/swaylock.nix
     ../common/optional/power-profiles-daemon.nix
+    ../common/optional/powertop.nix
     ../common/optional/auto-upgrade.nix
     ../common/optional/systemd-notify.nix
     ../common/optional/sddm.nix
@@ -85,7 +86,8 @@
     swaylock.enable = true;
     # tlp.enable = true;
     # auto-cpufreq.enable = true;
-    power-profiles-daemon.enable = true; # Already enables upower for hyprdynamicmonitors
+    power-profiles-daemon.enable = true;
+    powertop.enable = true;
     # strongSwan.enable = true;
     # sddm.enable = true;
     ly.enable = false;
