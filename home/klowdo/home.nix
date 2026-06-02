@@ -9,7 +9,11 @@
     email = "klowdo.fs@gmail.com";
   };
 
-  catppuccin.flavor = "macchiato";
+  catppuccin = {
+    enable = true;
+    autoEnable = false;
+    flavor = "macchiato";
+  };
 
   home = {
     stateVersion = "26.05";
