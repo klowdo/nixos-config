@@ -63,7 +63,7 @@
       todo.enable = true;
       nautilus.enable = true;
       darkman.enable = true;
-      bitwarden.enable = true;
+      bitwarden.enable = false;
       which-key.enable = true;
       kando.enable = false;
       vicinae = {
@@ -133,7 +133,7 @@
       zathura.enable = true;
       deezer.enable = true;
       music-assistant = {
-        enable = true;
+        enable = false;
         url = "https://music.home.flixen.se";
       };
       pinta.enable = true;
