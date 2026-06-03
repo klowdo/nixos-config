@@ -125,6 +125,10 @@
       nix-flatpak.enable = true;
       freecad.enable = true;
       mongo-compass.enable = false;
+      kubernetes = {
+        enable = true;
+        kubeconfigSecret = "kubernetes/kubeconfig";
+      };
     };
     media = {
       firefox.enable = true;

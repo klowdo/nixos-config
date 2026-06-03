@@ -11,6 +11,8 @@
   sesh = import ./sesh.nix;
   teams-for-linux = import ./teams-for-linux.nix;
 
+  lens = import ./lens.nix;
+
   jetbrains-goland = import ./jetbrains-goland.nix;
   jetbrains-rider = import ./jetbrains-rider.nix;
   jetbrains-datagrip = import ./jetbrains-datagrip.nix;

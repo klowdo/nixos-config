@@ -11,6 +11,7 @@
     ./freecad.nix
     ./mongo-compass.nix
     ./wakapi.nix
+    ./kubernetes.nix
   ];
 
   home.packages = with pkgs; [
