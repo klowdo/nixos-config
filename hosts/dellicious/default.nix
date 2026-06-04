@@ -59,7 +59,6 @@
     ../common/optional/nss-docker-ng.nix
     ../common/optional/swaylock.nix
     ../common/optional/power-profiles-daemon.nix
-    ../common/optional/battery-charge-threshold.nix
     ../common/optional/powertop.nix
     ../common/optional/auto-upgrade.nix
     ../common/optional/systemd-notify.nix
@@ -88,11 +87,6 @@
     # tlp.enable = true;
     # auto-cpufreq.enable = true;
     power-profiles-daemon.enable = true;
-    battery-charge-threshold = {
-      enable = true;
-      endThreshold = 80;
-      startThreshold = 75;
-    };
     powertop.enable = true;
     # strongSwan.enable = true;
     # sddm.enable = true;
