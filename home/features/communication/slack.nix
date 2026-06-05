@@ -33,7 +33,7 @@ in {
                 window=$(${pkgs.hyprland}/bin/hyprctl clients -j | ${pkgs.jq}/bin/jq -r ".[] | select(.address == \"$addr\")")
                 class=$(echo "$window" | ${pkgs.jq}/bin/jq -r '.class // empty')
                 floating=$(echo "$window" | ${pkgs.jq}/bin/jq -r '.floating // false')
-                if [ "$class" = "Slack" ] && [ "$floating" = "true" ]; then
+                if [ "$class" = "slack" ] && [ "$floating" = "true" ]; then
                   ${pkgs.hyprland}/bin/hyprctl dispatch closewindow address:"$addr"
                 fi
               fi
