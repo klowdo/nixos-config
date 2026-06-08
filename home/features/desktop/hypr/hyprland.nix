@@ -48,6 +48,8 @@ in {
       enable = true;
       configType = "hyprlang";
       settings = {
+        monitor = [",preferred,auto,1"];
+
         source = [
           "~/.config/hypr/config.d/*.conf"
           "~/.config/hypr/monitors.conf"
