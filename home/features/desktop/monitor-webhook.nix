@@ -27,30 +27,30 @@ in {
             done
           '';
           script = pkgs.writeShellScript "monitor-webhook" ''
+            hp_connected() {
+              [ "$(timeout 5 ${pkgs.hyprland}/bin/hyprctl monitors -j | ${pkgs.jq}/bin/jq -r '[.[] | select(.description | contains("HP Z40c G3"))] | length')" -gt 0 ]
+            }
+
+            fire() {
+              action="$1"
+              timeout 5 ${pkgs.tailscale}/bin/tailscale status &>/dev/null || return
+              if ${pkgs.curl}/bin/curl -sf --max-time 5 -X POST "https://assistant.home.flixen.se/api/webhook/''${action}_skarmgej"; then
+                echo "Webhook fired: $action"
+                ${notify} "Monitor webhook: $action"
+              else
+                echo "Webhook failed: $action"
+                ${notify} "Monitor webhook: failed to $action"
+              fi
+            }
+
+            hp_connected && fire enable
+
             ${pkgs.socat}/bin/socat -U - UNIX-CONNECT:"$XDG_RUNTIME_DIR/hypr/$HYPRLAND_INSTANCE_SIGNATURE/.socket2.sock" | while read -r line; do
               event="''${line%%>>*}"
-              if [ "$event" = "monitoradded" ]; then
-                is_hp=$(timeout 5 ${pkgs.hyprland}/bin/hyprctl monitors -j | ${pkgs.jq}/bin/jq -r '[.[] | select(.description | contains("HP Z40c G3"))] | length')
-                if [ "$is_hp" -gt 0 ] && timeout 5 ${pkgs.tailscale}/bin/tailscale status &>/dev/null; then
-                  if ${pkgs.curl}/bin/curl -sf --max-time 5 -X POST https://assistant.home.flixen.se/api/webhook/enable_skarmgej; then
-                    echo "Webhook fired: enable"
-                    ${notify} "Monitor webhook: enabled"
-                  else
-                    echo "Webhook failed: enable"
-                    ${notify} "Monitor webhook: failed to enable"
-                  fi
-                fi
-              elif [ "$event" = "monitorremoved" ]; then
-                if timeout 5 ${pkgs.tailscale}/bin/tailscale status &>/dev/null; then
-                  if ${pkgs.curl}/bin/curl -sf --max-time 5 -X POST https://assistant.home.flixen.se/api/webhook/disable_skarmgej; then
-                    echo "Webhook fired: disable"
-                    ${notify} "Monitor webhook: disabled"
-                  else
-                    echo "Webhook failed: disable"
-                    ${notify} "Monitor webhook: failed to disable"
-                  fi
-                fi
-              fi
+              case "$event" in
+                monitoradded) hp_connected && fire enable ;;
+                monitorremoved) hp_connected || fire disable ;;
+              esac
             done
           '';
         in "${script}";
