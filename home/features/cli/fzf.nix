@@ -15,11 +15,16 @@ in {
       tmux.enableShellIntegration = true;
 
       defaultOptions = [
-        "--preview='bat --color=always -n {}'"
         "--bind 'ctrl-/:toggle-preview'"
       ];
       defaultCommand = "fd --type f --exclude .git --follow --hidden";
+      fileWidgetOptions = [
+        "--preview='bat --color=always -n {}'"
+      ];
       changeDirWidgetCommand = "fd --type d --exclude .git --follow --hidden";
+      changeDirWidgetOptions = [
+        "--preview='eza --tree --color=always {} | head -200'"
+      ];
     };
   };
 }

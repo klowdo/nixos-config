@@ -45,10 +45,15 @@ in {
         }
       ];
 
-      initContent = lib.mkBefore ''
-        # Add just command runner completions to fpath (before compinit)
-        fpath=(${pkgs.just}/share/zsh/site-functions $fpath)
-      '';
+      initContent = lib.mkMerge [
+        (lib.mkBefore ''
+          # Add just command runner completions to fpath (before compinit)
+          fpath=(${pkgs.just}/share/zsh/site-functions $fpath)
+        '')
+        (lib.mkAfter ''
+          zvm_after_init_commands+=('bindkey "^R" atuin-search')
+        '')
+      ];
 
       loginExtra = ''
         export NIX_LOG=info
