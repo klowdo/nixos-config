@@ -107,8 +107,7 @@
 
     ## Theming
     catppuccin.url = "github:catppuccin/nix";
-    # TODO: switch to release-26.05 when available (tracking: https://github.com/nix-community/stylix/issues/2325)
-    stylix.url = "github:danth/stylix/master";
+    stylix.url = "github:danth/stylix/release-26.05";
     spicetify-nix = {
       url = "github:Gerg-L/spicetify-nix";
       inputs.nixpkgs.follows = "nixpkgs";
