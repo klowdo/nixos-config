@@ -11,7 +11,7 @@ Quickshell-based desktop shell for Hyprland. User config: `~/.config/caelestia/s
 
 | Key | Controls | Key Properties |
 |-----|----------|----------------|
-| `appearance` | Fonts, rounding, spacing, transparency, animation | `font.family.{sans,mono,material,clock}`, `font.size.scale`, `rounding.scale`, `spacing.scale`, `padding.scale`, `transparency.{enabled,base,layers}`, `anim.durations.scale` |
+| `appearance` | Fonts, rounding, spacing, transparency, animation | `font.scale`, `font.clock` (string), `font.mono.family`, `font.icon.family`, `font.{headline,title,body,label}.family` (sans text styles; each also has `.{large,medium,small}.{family,size,weight,italic}`), `rounding.scale`, `spacing.scale`, `padding.scale`, `transparency.{enabled,base,layers}`, `anim.durations.scale` |
 | `bar` | Top bar layout and widgets | `entries[]`, `persistent`, `showOnHover`, `dragThreshold`, `scrollActions.{workspaces,volume,brightness}`, `popouts.{activeWindow,tray,statusIcons}`, `workspaces.*`, `activeWindow.*`, `tray.*`, `status.*`, `clock.*`, `sizes.*`, `excludedScreens[]` |
 | `background` | Wallpaper, clock overlay, audio visualiser | `enabled`, `wallpaperEnabled`, `desktopClock.{enabled,scale,position,invertColors,background,shadow}`, `visualiser.{enabled,autoHide,blur,rounding,spacing}` |
 | `border` | Window border decoration | `thickness`, `rounding` |

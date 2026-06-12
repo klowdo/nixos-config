@@ -235,12 +235,13 @@ in {
         {
           appearance = {
             font = {
-              family = {
-                clock = stylixSansFont;
-                material = "Material Symbols Rounded";
-                mono = stylixFont;
-                sans = stylixSansFont;
-              };
+              clock = stylixSansFont;
+              mono.family = stylixFont;
+              icon.family = "Material Symbols Rounded";
+              headline.family = stylixSansFont;
+              title.family = stylixSansFont;
+              body.family = stylixSansFont;
+              label.family = stylixSansFont;
             };
             transparency = {
               enabled = true;
@@ -536,6 +537,7 @@ in {
       bind = [
         "${kbSession}, exec, caelestia shell drawers toggle session"
         "${kbShowPanels}, exec, caelestia shell drawers showall"
+        "Super, n, exec, caelestia shell drawers toggle sidebar"
       ];
 
       bindl = [
