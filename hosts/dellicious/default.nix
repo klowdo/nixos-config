@@ -93,6 +93,13 @@
     ly.enable = false;
     greetd.enable = true;
     strongSwan-swanctl.enable = true;
+    wireguard-unifi = {
+      enable = true;
+      address = ["192.168.4.2/32"]; # [Interface] Address from the UniFi .conf
+      dns = ["192.168.4.1"]; # [Interface] DNS (optional)
+      peerPublicKey = "tvGo3Dl/21tBpQb3WT2qoeR+9aRxn/Ox0HXWAMHPCRM="; # [Peer] PublicKey
+      # endpoint + keys come from SOPS, not here
+    };
     # nss-docker-ng = {
     #   enable = true;
     #   dockerHost = "unix:///run/user/1000/docker.sock";

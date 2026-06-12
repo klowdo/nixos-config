@@ -5,5 +5,6 @@
     ./appimagetools.nix
     ./gnome-keyring.nix
     ./virtualization.nix
+    ./wireguard-unifi.nix
   ];
 }
