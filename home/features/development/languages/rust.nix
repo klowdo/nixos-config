@@ -9,12 +9,14 @@ with lib; let
 in {
   options.features.development.languages.rust.enable = mkEnableOption "enable rust toolchain";
   config = mkIf cfg.enable {
-    home.packages = with pkgs; [
-      rustup
-      gcc
-      pkg-config
-      openssl
-    ];
+    home = {
+      packages = with pkgs; [
+        rustup
+        gcc
+        pkg-config
+        openssl
+      ];
+    };
 
     home.sessionVariables = {
       PKG_CONFIG_PATH = "${pkgs.openssl.dev}/lib/pkgconfig";
