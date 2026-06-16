@@ -20,6 +20,10 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v6
+      - name: Reclaim disk space
+        uses: wimpysworld/nothing-but-nix@main
+        with:
+          hatchet-protocol: "holster"
       - name: Renovate
         uses: renovatebot/github-action@v46.1.10
         with:
