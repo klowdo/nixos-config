@@ -60,7 +60,7 @@
       tailscale-systray.enable = true;
       clipboard.enable = false;
       calculator.enable = true;
-      todo.enable = true;
+      todo.enable = false;
       nautilus.enable = true;
       darkman.enable = true;
       bitwarden.enable = false;
