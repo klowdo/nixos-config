@@ -7,7 +7,7 @@ CodeGraph builds semantic knowledge graphs for faster code exploration.
 
 ### If .codegraph/ exists in the project
 
-**NEVER call codegraph_context directly in main sessions** — returns large source volumes. Spawn Explore agents for investigation.
+**NEVER call codegraph_explore directly in main sessions** — returns large source volumes. Spawn Explore agents for investigation.
 
 **When spawning Explore agents**, include:
 > This project has CodeGraph initialized (.codegraph/ exists). Use codegraph tools as PRIMARY.

@@ -121,6 +121,10 @@ in {
             type = "stdio";
             command = "${pkgs.codegraph}/bin/codegraph";
             args = ["serve" "--mcp"];
+            env = {
+              CODEGRAPH_MCP_TOOLS = "explore,search,node,callers,callees,impact";
+              DO_NOT_TRACK = "1";
+            };
           };
         };
 
@@ -138,14 +142,12 @@ in {
           spinnerTipsEnabled = false;
           permissions = {
             allow = [
+              "mcp__codegraph__codegraph_explore"
               "mcp__codegraph__codegraph_search"
-              "mcp__codegraph__codegraph_context"
+              "mcp__codegraph__codegraph_node"
               "mcp__codegraph__codegraph_callers"
               "mcp__codegraph__codegraph_callees"
               "mcp__codegraph__codegraph_impact"
-              "mcp__codegraph__codegraph_node"
-              "mcp__codegraph__codegraph_status"
-              "mcp__codegraph__codegraph_files"
               "Bash(git status*)"
               "Bash(git diff*)"
               "Bash(git log*)"
