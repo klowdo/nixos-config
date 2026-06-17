@@ -42,6 +42,7 @@ in {
             then [pkgs.passt]
             else [pkgs.slirp4netns];
           daemon.settings = {
+            dns = ["100.100.100.100"];
             default-address-pools = [
               {
                 base = "10.200.0.0/16";
