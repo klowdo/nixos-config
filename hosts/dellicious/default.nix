@@ -92,7 +92,7 @@
     # sddm.enable = true;
     ly.enable = false;
     greetd.enable = true;
-    strongSwan-swanctl.enable = true;
+    strongSwan-swanctl.enable = false;
     wireguard-unifi = {
       enable = true;
       address = ["192.168.4.2/32"]; # [Interface] Address from the UniFi .conf
