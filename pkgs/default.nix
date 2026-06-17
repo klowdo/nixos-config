@@ -26,5 +26,6 @@
   freecad-mcp = pkgs.callPackage ./freecad-mcp {};
   hyprmoncfg = pkgs.callPackage ./hyprmoncfg {};
   tmux-file-picker = pkgs.callPackage ./tmux-file-picker {};
+  fp-clear-storage = pkgs.callPackage ./fp-clear-storage {};
   # zsh-term-title = pkgs.callPackage ./zsh-term-title { };
 }
