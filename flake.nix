@@ -8,6 +8,8 @@
     nixpkgs.url = "https://flakehub.com/f/DeterminateSystems/nixpkgs-26.05-chilled/0.1.tar.gz";
     nixpkgs-stable.url = "https://flakehub.com/f/DeterminateSystems/nixpkgs-26.05-chilled/0.1.tar.gz";
     nixpkgs-unstable.url = "https://flakehub.com/f/DeterminateSystems/nixpkgs-weekly/0.1.tar.gz";
+    # Bleeding-edge, non-cooldown unstable. Exposed as 'pkgs.unsafe.<name>'.
+    nixpkgs-unsafe.url = "github:nixos/nixpkgs/nixos-unstable";
 
     # Home manager
     home-manager = {

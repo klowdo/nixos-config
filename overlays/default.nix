@@ -32,6 +32,13 @@
     };
   };
 
+  unsafe-packages = final: _prev: {
+    unsafe = import inputs.nixpkgs-unsafe {
+      inherit (final.stdenv.hostPlatform) system;
+      config.allowUnfree = true;
+    };
+  };
+
   stable-packages = final: _prev: {
     stable = import inputs.nixpkgs-stable {
       inherit (final.stdenv.hostPlatform) system;
