@@ -173,7 +173,7 @@ in {
           "match:class (jetbrains-rider), workspace 2"
           "match:class (brave-browser), workspace 3, opacity 1.0"
           "match:class (firefox), workspace 3, opacity 1.0"
-          "match:class (spotify), workspace 4"
+          "match:class (Spotify), workspace 4"
           "match:class (Deezer), workspace 4"
           "match:class (com.obsproject.Studio), workspace 4"
           "match:class (slack), workspace 5"
