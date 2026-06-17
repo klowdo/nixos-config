@@ -4,9 +4,10 @@
   inputs = {
     # Nixpkgs
     # Also see the 'unstable-packages' overlay at 'overlays/default.nix'.
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
-    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-26.05";
-    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+    # 7-day cooldown releases from FlakeHub: https://determinate.systems/blog/nixpkgs-cooldown/
+    nixpkgs.url = "https://flakehub.com/f/DeterminateSystems/nixpkgs-26.05-chilled/0.1.tar.gz";
+    nixpkgs-stable.url = "https://flakehub.com/f/DeterminateSystems/nixpkgs-26.05-chilled/0.1.tar.gz";
+    nixpkgs-unstable.url = "https://flakehub.com/f/DeterminateSystems/nixpkgs-weekly/0.1.tar.gz";
 
     # Home manager
     home-manager = {
