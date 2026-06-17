@@ -360,6 +360,11 @@ in {
             };
           };
 
+          lock = {
+            enableFprint = true;
+            maxFprintTries = 5;
+          };
+
           session = {
             enabled = true;
             vimKeybinds = true;
