@@ -14,6 +14,9 @@
     # Used to allow a password login on first login as an alternative to just a fingerprint
     login.fprintAuth = false;
 
+    # tuigreet uses the greetd PAM service; password login here also unlocks the gnome-keyring
+    greetd.fprintAuth = false;
+
     sudo.fprintAuth = false;
 
     # Disable fingerprint for polkit GUI prompts (Tailscale, Nautilus, etc.)
