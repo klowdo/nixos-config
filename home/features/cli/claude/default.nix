@@ -195,7 +195,8 @@ in {
             "superpowers@superpowers-marketplace" = true;
             "code-simplifier@claude-plugins-official" = true;
             "worktrunk@worktrunk" = true;
-            "caveman@caveman" = true;
+            "caveman@caveman" = false;
+            "ponytail@ponytail" = true;
             "claude-mem@thedotmack" = false;
           };
           extraKnownMarketplaces = {
@@ -203,6 +204,12 @@ in {
               source = {
                 source = "github";
                 repo = "JuliusBrussee/caveman";
+              };
+            };
+            ponytail = {
+              source = {
+                source = "github";
+                repo = "DietrichGebert/ponytail";
               };
             };
             claude-plugins-official = {
