@@ -38,6 +38,7 @@
     ../common/optional/audio.nix
     ../common/optional/printing.nix
     ../common/optional/keyboard.nix
+    ../common/optional/kanata.nix
     ../common/optional/ld.nix
     ../common/optional/networking.nix
     ./wifi.nix
