@@ -63,7 +63,7 @@
     ../common/optional/powertop.nix
     ../common/optional/auto-upgrade.nix
     ../common/optional/systemd-notify.nix
-    ../common/optional/sddm.nix
+    ../common/optional/thyx.nix
     ../common/optional/greetd.nix
     ../common/optional/ly.nix
     ../common/optional/stylix.nix
@@ -90,9 +90,9 @@
     power-profiles-daemon.enable = true;
     powertop.enable = true;
     # strongSwan.enable = true;
-    # sddm.enable = true;
     ly.enable = false;
-    greetd.enable = true;
+    greetd.enable = false;
+    thyx.enable = true;
     strongSwan-swanctl.enable = false;
     wireguard-unifi = {
       enable = true;
