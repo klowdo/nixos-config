@@ -2589,6 +2589,7 @@
         "sops-nix": "sops-nix",
         "spicetify-nix": "spicetify-nix",
         "stylix": "stylix",
+        "thyx": "thyx",
         "workmux": "workmux",
         "zig-overlay": "zig-overlay"
       }
@@ -2909,6 +2910,26 @@
       "original": {
         "owner": "nix-systems",
         "repo": "default",
+        "type": "github"
+      }
+    },
+    "thyx": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1782069885,
+        "narHash": "sha256-wnCqRe8b8l6VyFr5lV/1cMZTpuPuCnoMzQ8BS9AFiFw=",
+        "owner": "rccyx",
+        "repo": "thyx",
+        "rev": "64bd8096d2bf2b4c952bbedf0f300db0c8e64364",
+        "type": "github"
+      },
+      "original": {
+        "owner": "rccyx",
+        "repo": "thyx",
         "type": "github"
       }
     },
