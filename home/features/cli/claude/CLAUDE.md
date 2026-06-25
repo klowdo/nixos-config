@@ -22,6 +22,6 @@ CodeGraph builds semantic knowledge graphs for faster code exploration.
 
 ### If .codegraph/ does NOT exist
 
-Fall back to tokennuke MCP tools for code indexing, symbol search, call graph tracing, and codebase exploration. Use grep/glob as last resort
+Use grep/glob for code search and exploration. Consider suggesting the user run `codegraph init` if the project would benefit from semantic indexing.
 
 @RTK.md

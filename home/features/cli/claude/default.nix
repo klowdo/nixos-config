@@ -114,9 +114,6 @@ in {
             command = "nix";
             args = ["run" "github:utensils/mcp-nixos" "--"];
           };
-          tokennuke = {
-            command = "${pkgs.tokennuke}/bin/tokennuke";
-          };
           codegraph = {
             type = "stdio";
             command = "${pkgs.codegraph}/bin/codegraph";
