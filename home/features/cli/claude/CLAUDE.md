@@ -7,7 +7,9 @@ CodeGraph builds semantic knowledge graphs for faster code exploration.
 
 ### If .codegraph/ exists in the project
 
-**NEVER call codegraph_explore directly in main sessions** — returns large source volumes. Spawn Explore agents for investigation.
+**ALWAYS prefer codegraph over grep/glob.** Reach for codegraph tools FIRST for any code search, symbol lookup, or call-flow question. grep/glob are last resort, only when codegraph cannot answer (e.g. non-code text, config values).
+
+**In main sessions, use the lightweight codegraph tools directly** (search/callers/callees/impact/node). **Only `codegraph_explore` is forbidden in main sessions** — it returns large source volumes that blow context; delegate it to an Explore agent.
 
 **When spawning Explore agents**, include:
 > This project has CodeGraph initialized (.codegraph/ exists). Use codegraph tools as PRIMARY.
