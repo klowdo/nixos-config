@@ -23,7 +23,7 @@ in {
   config = mkIf cfg.enable {
     services.displayManager = {
       defaultSession = "hyprland-uwsm";
-      sddm.wayland.enable = true;
+      sddm.wayland.enable = false;
       sddm.thyx = {
         enable = true;
         package = thyxMalachite;
