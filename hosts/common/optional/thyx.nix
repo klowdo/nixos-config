@@ -21,6 +21,8 @@ in {
   options.extraServices.thyx.enable = mkEnableOption "thyx SDDM greeter";
 
   config = mkIf cfg.enable {
+    services.xserver.enable = true;
+
     services.displayManager = {
       defaultSession = "hyprland-uwsm";
       sddm.wayland.enable = false;
