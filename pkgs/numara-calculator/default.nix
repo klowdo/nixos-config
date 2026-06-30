@@ -5,11 +5,11 @@
   appimageTools,
 }: let
   pname = "numara-calculator";
-  version = "7.1.7";
+  version = "7.1.8";
 
   src = fetchurl {
     url = "https://github.com/bornova/numara-calculator/releases/download/v${version}/Numara-${version}-x86_64.AppImage";
-    sha256 = "sha256-LaTDg8+ZIAmhkh28TKh5MLzp1vSVatkg3wUFYyRv6SQ=";
+    sha256 = "sha256-8sc8XHWEUGrQ4EZIe4tgpuAf2r8HbvWV71QRXzgQMSw=";
   };
 
   appimageContents = appimageTools.extractType2 {
