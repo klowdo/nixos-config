@@ -30,15 +30,7 @@ with lib; let
   '';
 
   wtm = pkgs.writeShellScriptBin "wtm" ''
-    git fetch --quiet &
-    MR=$(glab mr list --per-page 50 \
-      | ${lib.getExe pkgs.fzf} --ansi --prompt 'MR> ' --no-sort \
-        --preview 'glab mr view $(echo {1} | tr -d "!") | ${lib.getExe pkgs.rich-cli} --markdown -' \
-        --preview-window 'right:50%:wrap' \
-      | awk '{print $1}' | tr -d '!') \
-      && [ -n "$MR" ] \
-      && BRANCH=$(glab mr view "$MR" --output json | ${lib.getExe pkgs.jq} -r '.source_branch') \
-      && wt-jump "$BRANCH"
+    exec wt switch --prs "$@"
   '';
 
   wtp = pkgs.writeShellScriptBin "wt-purge" ''
