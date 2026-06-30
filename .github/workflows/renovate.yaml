@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
       - name: Reclaim disk space
         uses: wimpysworld/nothing-but-nix@main
         with:
