@@ -7,16 +7,16 @@
 }:
 buildNpmPackage rec {
   pname = "codegraph";
-  version = "1.3.0";
+  version = "1.3.1";
 
   src = fetchFromGitHub {
     owner = "colbymchenry";
     repo = "codegraph";
     tag = "v${version}";
-    hash = "sha256-Ojm53hH7Zd7h05S9LIl9AGKgueUI/FSo+YJRYKp7W2I=";
+    hash = "sha256-Y4xvhPtGKbWd2O4QNOORo2kdulox8TvvyQJLJFS9R+g=";
   };
 
-  npmDepsHash = "sha256-Ruk+0Ka8MfFhQKCo94klkwPoi+RJsCG0JrAyi/bEleI=";
+  npmDepsHash = "sha256-++E5LBDzRtoKJJkPqjtNrfe0jhJgRRiKiKOiYggdE/o=";
 
   nativeBuildInputs = [typescript];
 
