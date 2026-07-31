@@ -8,13 +8,13 @@
   webkitgtk_4_1,
 }: let
   pname = "bambustudio";
-  version = "02.07.01.57";
+  version = "02.07.01.62";
 
-  asset = "BambuStudio_ubuntu-24.04-v02.07.01.57-20260601192128.AppImage";
+  asset = "BambuStudio_ubuntu24.04-v02.07.01.62-20260616195227.AppImage";
 
   src = fetchurl {
     url = "https://github.com/bambulab/BambuStudio/releases/download/v${version}/${asset}";
-    sha256 = "sha256-hbBThT8aI4d1zXri1NGVRONSYFkkKNInbKJ9y9X461M=";
+    sha256 = "sha256-+pi2CFMt+7uysJMUg6rEHlf7GcF1osx719Uo1eD7soc=";
     name = asset;
   };
 
