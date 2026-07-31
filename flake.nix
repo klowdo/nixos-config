@@ -26,7 +26,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    hyprnix.url = "github:hyprwm/hyprnix";
+    # ponytail: pinned — hyprnix HEAD pins aquamarine v0.10.0 against hyprutils v0.14.0, which no longer compiles. Unpin when upstream bumps aquamarine.
+    hyprnix.url = "github:hyprwm/hyprnix/b89b0ca92349c417122f7a72bbc64d603fb17f09";
 
     hyprpanel = {
       url = "github:Jas-SinghFSU/HyprPanel";
