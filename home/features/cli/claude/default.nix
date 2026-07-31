@@ -56,6 +56,24 @@ in {
         ["${pkgs.jq}/bin/jq" "${pkgs.git}/bin/git"]
         (builtins.readFile ./hooks/session-context-hook.sh)
       );
+
+      unifiNetworkMcp = pkgs.writeShellScript "unifi-network-mcp" ''
+        set -a
+        . ${config.sops.secrets."applications/unifi-mcp/env".path}
+        set +a
+        exec ${pkgs.uv}/bin/uvx unifi-network-mcp@latest
+      '';
+
+      unifiMcpConfig = pkgs.writeText "unifi-mcp.json" (builtins.toJSON {
+        mcpServers.unifi-network = {
+          type = "stdio";
+          command = "${unifiNetworkMcp}";
+        };
+      });
+
+      unifiClaude = pkgs.writeShellScriptBin "unifi-claude" ''
+        exec ${claudeCodePackage}/bin/claude --mcp-config ${unifiMcpConfig} "$@"
+      '';
     in {
       programs.zsh = {
         envExtra = ''
@@ -76,9 +94,17 @@ in {
       #   path = ".claude/.credentials.json";
       # };
 
+      # dotenv-format secret sourced by the unifi-network MCP wrapper.
+      # Add the value with: just sops-edit
+      #   applications/unifi-mcp/env: |
+      #     UNIFI_HOST=192.168.1.1
+      #     UNIFI_USERNAME=local-admin
+      #     UNIFI_PASSWORD=...
+      sops.secrets."applications/unifi-mcp/env".mode = "0400";
+
       home = {
         packages =
-          [pkgs.unstable.rtk pkgs.jq pkgs.codegraph]
+          [pkgs.unstable.rtk pkgs.jq pkgs.codegraph unifiClaude]
           ++ (with pkgs;
             optionals cfg.enableNotifications [
               libnotify
