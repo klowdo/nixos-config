@@ -27,7 +27,7 @@
     };
 
     # ponytail: pinned — hyprnix HEAD pins aquamarine v0.10.0 against hyprutils v0.14.0, which no longer compiles. Unpin when upstream bumps aquamarine.
-    hyprnix.url = "github:hyprwm/hyprnix/dcd7cdd105acc7359645d7744589444ec538b520";
+    hyprnix.url = "github:hyprwm/hyprnix/ea474d43a1bc6499a2cc51f1fdf5938765b414fb";
 
     hyprpanel = {
       url = "github:Jas-SinghFSU/HyprPanel";
