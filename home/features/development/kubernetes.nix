@@ -22,7 +22,6 @@ in {
     home.packages = with pkgs; [
       kubectl
       k9s
-      lens
     ];
 
     sops.secrets = mkIf (cfg.kubeconfigSecret != null) {
