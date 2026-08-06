@@ -107,7 +107,7 @@
         rider.enable = false;
         goland.enable = true;
         rustrover.enable = true;
-        libreoffice.enable = true;
+        libreoffice.enable = false;
         junie = {
           enable = true;
           apiKeySecret = "applications/jetbrains-junie/token";
