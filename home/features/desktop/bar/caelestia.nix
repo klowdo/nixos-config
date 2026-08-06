@@ -285,14 +285,36 @@ in {
                 enabled = true;
               }
             ];
-            status = {
-              showAudio = true;
-              showMicrophone = true;
-              showKbLayout = true;
-              showNetwork = true;
-              showBluetooth = true;
-              showBattery = true;
-            };
+            statusIcons = [
+              {
+                id = "lockStatus";
+                enabled = true;
+              }
+              {
+                id = "audio";
+                enabled = true;
+              }
+              {
+                id = "microphone";
+                enabled = true;
+              }
+              {
+                id = "kbLayout";
+                enabled = true;
+              }
+              {
+                id = "network";
+                enabled = true;
+              }
+              {
+                id = "bluetooth";
+                enabled = true;
+              }
+              {
+                id = "battery";
+                enabled = true;
+              }
+            ];
           };
 
           services = {
