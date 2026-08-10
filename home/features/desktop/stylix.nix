@@ -9,6 +9,7 @@ with lib; {
     optional (options ? stylix) {
       stylix = {
         enable = mkOverride 1100 true;
+        polarity = mkOverride 1100 "dark";
         base16Scheme = mkOverride 1100 "${pkgs.base16-schemes}/share/themes/catppuccin-macchiato.yaml";
         image = mkOverride 1100 ../../../lib/Wallpapers/pink-linux.jpg;
         fonts = {
