@@ -102,6 +102,7 @@
       };
     };
     development = {
+      claude-desktop.enable = true;
       wakapi.enable = true;
       tools = {
         rider.enable = false;

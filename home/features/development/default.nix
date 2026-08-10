@@ -8,6 +8,7 @@
     ./super-slicer.nix
     ./bambu-studio.nix
     ./nix-flatpak.nix
+    ./claude-desktop.nix
     ./freecad.nix
     ./mongo-compass.nix
     ./wakapi.nix
