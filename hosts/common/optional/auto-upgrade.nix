@@ -14,6 +14,16 @@
     if cfg.dotfilesPath != ""
     then cfg.dotfilesPath
     else "${effectiveHome}/.dotfiles";
+  repoUrl = "https://github.com/klowdo/nixos-config.git";
+  # ponytail: retry loop instead of network-online.target, which is a no-op here
+  # (NetworkManager-wait-online is masked in networking.nix for boot speed)
+  pullScript = pkgs.writeShellScript "upgrade-pull" ''
+    for _ in $(seq 30); do
+      ${pkgs.git}/bin/git -C ${configDir} pull --ff-only ${repoUrl} main && exit 0
+      sleep 10
+    done
+    exit 1
+  '';
   notifyScript = pkgs.writeShellScript "notify-upgrade" ''
     STATUS="$1"
     MESSAGE="$2"
@@ -27,7 +37,7 @@
         -a "NixOS Upgrade" \
         -i "system-software-update" \
         "NixOS Auto-Upgrade: $STATUS" \
-        "$MESSAGE"
+        "$MESSAGE" || true
   '';
 in {
   system.autoUpgrade = {
@@ -60,7 +70,7 @@ in {
     serviceConfig = {
       ExecStartPre = [
         "${pkgs.git}/bin/git config --global --add safe.directory ${configDir}"
-        "${pkgs.git}/bin/git -C ${configDir} pull --ff-only origin main"
+        "${pullScript}"
         "${notifyScript} Started 'Pulling latest config and upgrading system...'"
       ];
       ExecStartPost = "${notifyScript} Completed 'System upgrade finished successfully'";
