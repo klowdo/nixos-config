@@ -124,14 +124,11 @@ in {
         commandsDir = ./commands;
         skills = ./skills;
 
-        # lspServers requires home-manager newer than current 2026-04-05 pin.
-        # Once HM is bumped, drop gopls-lsp@claude-plugins-official from
-        # enabledPlugins and uncomment this block.
-        # lspServers.go = {
-        #   command = "${pkgs.gopls}/bin/gopls";
-        #   args = ["serve"];
-        #   extensionToLanguage.".go" = "go";
-        # };
+        lspServers.go = {
+          command = "${pkgs.gopls}/bin/gopls";
+          args = ["serve"];
+          extensionToLanguage.".go" = "go";
+        };
 
         hooks."rtk-rewrite.sh" = rtkRewriteHookContent;
 
@@ -214,7 +211,7 @@ in {
             "frontend-design@claude-plugins-official" = true;
             "context7@claude-plugins-official" = true;
             "code-review@claude-plugins-official" = false;
-            "gopls-lsp@claude-plugins-official" = true;
+            "gopls-lsp@claude-plugins-official" = false;
             "superpowers@superpowers-marketplace" = true;
             "code-simplifier@claude-plugins-official" = true;
             "worktrunk@worktrunk" = true;
