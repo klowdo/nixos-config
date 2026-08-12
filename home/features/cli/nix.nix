@@ -12,8 +12,6 @@ in {
   ];
   home.sessionVariables.NIX_PATH = lib.concatStringsSep ":" (lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs);
 
-  programs.direnv-instant.enable = true;
-
   home.packages = with pkgs;
     [
       nixfmt
@@ -27,10 +25,17 @@ in {
     ]
     ++ (with inputs.nsearch.packages.${pkgs.stdenv.hostPlatform.system}; [nsearch nrun nshell])
     ++ [inputs.nixard.packages.${pkgs.stdenv.hostPlatform.system}.default];
-  programs.nix-index = {
-    enable = true;
-    enableZshIntegration = true;
+
+  programs = {
+    direnv-instant = {
+      enable = true;
+    };
+
+    nix-index = {
+      enable = true;
+      enableZshIntegration = true;
+    };
+    nix-index-database.comma.enable = true;
   };
-  programs.nix-index-database.comma.enable = true;
   # programs.nix-your-shell.enable = true;
 }
