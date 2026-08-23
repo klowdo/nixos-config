@@ -29,7 +29,7 @@
     # ponytail: pinned — newer hyprnix bumps hyprutils to 0.14.0 but its
     # hyprpwcenter/hyprshutdown inputs still pull aquamarine 0.10.0, which
     # fails to compile against hyprutils 0.14.0. Unpin once upstream bumps them.
-    hyprnix.url = "github:hyprwm/hyprnix?rev=a03e1d08876c3917b5485276e1751a0a5433f6e8";
+    hyprnix.url = "github:hyprwm/hyprnix?rev=b7c9bd9a593dd704c46a39f89373b6b464a857fc";
 
     hyprpanel = {
       url = "github:Jas-SinghFSU/HyprPanel";
