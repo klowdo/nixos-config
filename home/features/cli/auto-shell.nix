@@ -72,10 +72,9 @@ in {
     xdg.configFile."auto-shell/config.toml".source = configToml;
     xdg.configFile."auto-shell/shells.txt".source = shellsTxt;
 
-    home.packages = [pkgs.dasel pkgs.fzf];
+    home.packages = [pkgs.fzf];
 
     programs.zsh.initContent = let
-      dasel = "${pkgs.dasel}/bin/dasel";
       fzf = "${pkgs.fzf}/bin/fzf";
     in ''
       typeset -gA _AUTOSHELL_MAP
@@ -91,33 +90,40 @@ in {
 
         _autoshell_parse_file "$config_file"
 
-        local includes
-        includes=$(${dasel} -f "$config_file" -r toml -w plain 'includes.all()' 2>/dev/null) || true
-        if [[ -n "$includes" ]]; then
-          while IFS= read -r inc; do
-            inc="''${inc/#\~/$HOME}"
-            [[ -f "$inc" ]] && _autoshell_parse_file "$inc"
-          done <<< "$includes"
-        fi
+        local inc
+        for inc in $(_autoshell_toml_list includes "$config_file"); do
+          inc="''${inc/#\~/$HOME}"
+          [[ -f "$inc" ]] && _autoshell_parse_file "$inc"
+        done
 
         local local_file="${config.xdg.configHome}/auto-shell/local.toml"
         [[ -f "$local_file" ]] && _autoshell_parse_file "$local_file"
       }
 
+      _autoshell_toml_list() {
+        local key="$1" file="$2" line
+        while IFS= read -r line; do
+          [[ "$line" == "$key = "* ]] || continue
+          print -l -r -- ''${(s:,:)''${''${line#*= }//[\[\]\"]/}}
+          return
+        done < "$file"
+      }
+
       _autoshell_parse_file() {
-        local file="$1"
-        local count
-        count=$(${dasel} -f "$file" -r toml 'shells.len()' 2>/dev/null) || return
-        for ((i=0; i<count; i++)); do
-          local name
-          name=$(${dasel} -f "$file" -r toml -w plain "shells.[$i].name" 2>/dev/null) || continue
-          local paths
-          paths=$(${dasel} -f "$file" -r toml -w plain "shells.[$i].paths.all()" 2>/dev/null) || continue
-          while IFS= read -r p; do
-            p="''${p/#\~/$HOME}"
-            _AUTOSHELL_MAP[$p]="$name"
-          done <<< "$paths"
-        done
+        local line name p
+        while IFS= read -r line; do
+          case "$line" in
+            "name = "*) name="''${''${line#*= }//\"/}" ;;
+            "paths = "*)
+              [[ -n "$name" ]] || continue
+              for p in ''${(s:,:)''${''${line#*= }//[\[\]\"]/}}; do
+                p="''${''${p## }%% }"
+                p="''${p/#\~/$HOME}"
+                [[ -n "$p" ]] && _AUTOSHELL_MAP[$p]="$name"
+              done
+              ;;
+          esac
+        done < "$1"
       }
 
       _autoshell_match() {
