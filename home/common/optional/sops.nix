@@ -56,6 +56,9 @@ in {
       "private_keys/klowdo" = {
         path = "${homeDirectory}/.ssh/id_ed25519";
       };
+      "private_keys/klowdo_rsa" = {
+        path = "${homeDirectory}/.ssh/id_rsa";
+      };
       "email/gmail-password" = {
         path = "${homeDirectory}/.config/neomutt/gmail-password";
       };

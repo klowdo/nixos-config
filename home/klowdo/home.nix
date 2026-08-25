@@ -22,6 +22,7 @@
       ".face".source = ../../lib/felix_evolve.jpg;
       ".face.icon".source = ../../lib/felix_evolve.jpg;
       ".ssh/id_ed25519.pub".source = ./keys/id_ed25519.pub;
+      ".ssh/id_rsa.pub".source = ../../hosts/common/users/klowdo/keys/id_rsa.pub;
     };
   };
 

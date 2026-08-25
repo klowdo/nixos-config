@@ -33,6 +33,7 @@ in {
       ];
     openssh.authorizedKeys.keys = [
       (builtins.readFile ./klowdo/keys/id_ed25519.pub)
+      (builtins.readFile ./klowdo/keys/id_rsa.pub)
     ];
     shell = pkgs.zsh;
     packages = [pkgs.home-manager];
