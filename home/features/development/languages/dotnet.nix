@@ -38,6 +38,7 @@ in {
         pkgs.grpc
         pkgs.protobuf
         pkgs.azure-artifacts-credprovider
+        pkgs.azure-cli
         pkgs.nssTools
         pkgs.openssl
       ];
