@@ -47,12 +47,12 @@ in {
     wayland.windowManager.hyprland = {
       enable = true;
       configType = "hyprlang";
+      extraConfig = "source = ~/.config/hypr/hyprmoncfg-monitors.conf";
       settings = {
         monitor = [",preferred,auto,1"];
 
         source = [
           "~/.config/hypr/config.d/*.conf"
-          "~/.config/hypr/monitors.conf"
         ];
 
         xwayland = {
