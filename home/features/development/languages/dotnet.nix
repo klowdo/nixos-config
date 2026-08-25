@@ -37,11 +37,15 @@ in {
         pkgs.dotnet-combined
         pkgs.grpc
         pkgs.protobuf
+        pkgs.azure-artifacts-credprovider
+        pkgs.nssTools
+        pkgs.openssl
       ];
       sessionVariables = {
         DOTNET_ROOT = "${pkgs.dotnet-combined}/share/dotnet";
         PROTOBUF_PROTOC = "${pkgs.protobuf}/bin/protoc";
         GRPC_PROTOC_PLUGIN = "${pkgs.grpc}/bin/grpc_csharp_plugin";
+        SSL_CERT_DIR = "${config.home.homeDirectory}/.aspnet/dev-certs/trust";
       };
       sessionPath = [
         "${config.home.homeDirectory}/.dotnet/tools"

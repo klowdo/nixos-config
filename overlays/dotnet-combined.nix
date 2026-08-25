@@ -1,6 +1,7 @@
 final: prev: {
   dotnet-combined = with final.unstable.dotnetCorePackages;
     (combinePackages [
+      final.unstable.dotnet-sdk_9
       final.unstable.dotnet-sdk_10
     ])
     .overrideAttrs (_finalAttrs: previousAttrs: {
