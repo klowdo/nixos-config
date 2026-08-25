@@ -12,7 +12,6 @@ with lib; let
   riderVersion = concatStringsSep "." (take 2 (splitString "." riderpkg.version));
   pluginList = with inputs.nix-jetbrains-plugins.plugins."${pkgs.stdenv.hostPlatform.system}".rider."${riderVersion}"; [
     IdeaVIM
-    Mermaid
   ];
 in {
   options.features.development.tools.rider.enable = mkEnableOption "enable rider IDE";
