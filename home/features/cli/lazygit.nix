@@ -8,9 +8,9 @@
           colorArg = "always";
           pager = "delta --dark --paging=never --line-numbers";
         };
-        pagers = [
-          {pager = "delta --dark --paging=never --line-numbers";}
-          {pager = "difft --color=always";}
+        diffRenderers = [
+          {command = "delta --dark --paging=never --line-numbers";}
+          {command = "difft --color=always";}
         ];
       };
       customCommands = [
