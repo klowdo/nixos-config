@@ -48,6 +48,10 @@ in {
         GRPC_PROTOC_PLUGIN = "${pkgs.grpc}/bin/grpc_csharp_plugin";
         SSL_CERT_DIR = "${config.home.homeDirectory}/.aspnet/dev-certs/trust";
       };
+      # ponytail: dotnet dev-certs globs `*.default` for firefox profiles; home-manager names it `default`
+      file.".mozilla/firefox/hm.default".source =
+        config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.mozilla/firefox/default";
+
       sessionPath = [
         "${config.home.homeDirectory}/.dotnet/tools"
       ];

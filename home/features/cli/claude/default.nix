@@ -130,6 +130,12 @@ in {
           extensionToLanguage.".go" = "go";
         };
 
+        lspServers.csharp = {
+          command = "${pkgs.csharp-ls}/bin/csharp-ls";
+          args = [];
+          extensionToLanguage.".cs" = "csharp";
+        };
+
         hooks."rtk-rewrite.sh" = rtkRewriteHookContent;
 
         mcpServers = {
