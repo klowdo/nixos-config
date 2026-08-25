@@ -105,9 +105,9 @@
       claude-desktop.enable = true;
       wakapi.enable = true;
       tools = {
-        rider.enable = false;
-        goland.enable = true;
-        rustrover.enable = true;
+        rider.enable = true;
+        goland.enable = false;
+        rustrover.enable = false;
         libreoffice.enable = false;
         junie = {
           enable = true;
@@ -115,7 +115,7 @@
         };
       };
       languages = {
-        dotnet.enable = false;
+        dotnet.enable = true;
         rust.enable = true;
       };
       mcp-gateway.enable = true;
