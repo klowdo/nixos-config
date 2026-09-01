@@ -28,5 +28,6 @@
   hyprmoncfg = pkgs.callPackage ./hyprmoncfg {};
   tmux-file-picker = pkgs.callPackage ./tmux-file-picker {};
   fp-clear-storage = pkgs.callPackage ./fp-clear-storage {};
+  fastpotify = pkgs.callPackage ./fastpotify {};
   # zsh-term-title = pkgs.callPackage ./zsh-term-title { };
 }

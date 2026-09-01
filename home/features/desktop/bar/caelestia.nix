@@ -123,7 +123,15 @@ in {
 
     package = mkOption {
       type = types.package;
-      default = inputs.caelestia-shell.packages.${pkgs.stdenv.hostPlatform.system}.with-cli;
+      default =
+        inputs.caelestia-shell.packages.${pkgs.stdenv.hostPlatform.system}.with-cli.overrideAttrs
+        (_: {
+          postPatch = ''
+            substituteInPlace services/IdleInhibitor.qml \
+              --replace-fail "implicitWidth: 0" "implicitWidth: 1" \
+              --replace-fail "implicitHeight: 0" "implicitHeight: 1"
+          '';
+        });
       description = "The caelestia-shell package to use";
     };
 
