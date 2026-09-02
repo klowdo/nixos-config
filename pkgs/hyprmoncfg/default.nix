@@ -6,13 +6,13 @@
 }:
 buildGoModule rec {
   pname = "hyprmoncfg";
-  version = "1.16.1";
+  version = "1.16.2";
 
   src = fetchFromGitHub {
     owner = "crmne";
     repo = "hyprmoncfg";
     tag = "v${version}";
-    hash = "sha256-7wyghP1S7vauC2yJozaEg8ZfPgUNdgtaI4vq5XcTqGE=";
+    hash = "sha256-WmpsSBEY7ZbBZVcR2paU0Di2pDEzCLFgoBvkObxA1qE=";
   };
 
   vendorHash = "sha256-gQbjvdKtO0hCXrs9RnWo1s0YeHf5W9t+8AgS2ELXlPo=";
