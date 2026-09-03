@@ -1,14 +1,7 @@
-{
-  lib,
-  config,
-  ...
-}: {
-  sops.secrets."applications/tailscale/authkey" = {};
-
+{lib, ...}: {
   services.tailscale = {
     enable = true;
     useRoutingFeatures = lib.mkDefault "client";
-    authKeyFile = config.sops.secrets."applications/tailscale/authkey".path;
     extraUpFlags = [
       "--accept-routes"
       "--accept-dns"
