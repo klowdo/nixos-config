@@ -173,7 +173,6 @@ in {
           "match:class (jetbrains-rider), workspace 2"
           "match:class ^jetbrains-.*, match:title ^win.*, no_focus on"
           "match:class ^jetbrains-.*, match:title ^win.*, no_initial_focus on"
-          "match:class ^jetbrains-.*, match:title ^\\s*$, float on"
           "match:class ^jetbrains-.*, match:title ^\\s*$, stay_focused on"
           "match:class (brave-browser), workspace 3, opacity 1.0"
           "match:class (firefox), workspace 3, opacity 1.0"
