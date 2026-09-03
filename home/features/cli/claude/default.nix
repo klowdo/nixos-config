@@ -160,7 +160,6 @@ in {
           editorMode = "vim";
           theme = "dark-ansi";
           effortLevel = "medium";
-          includeCoAuthoredBy = false;
           skipDangerousModePermissionPrompt = true;
           showThinkingSummaries = true;
           tui = "fullscreen";
@@ -281,6 +280,7 @@ in {
           attribution = {
             commit = "";
             pr = "";
+            sessionUrl = false;
           };
           hooks = {
             SessionStart = [
