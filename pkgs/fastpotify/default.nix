@@ -24,16 +24,20 @@
 in
   rustPlatform.buildRustPackage rec {
     pname = "fastpotify";
-    version = "0.4.1";
+    version = "0.5.0";
 
     src = fetchFromGitHub {
       owner = "crmne";
       repo = "fastpotify";
       tag = "v${version}";
-      hash = "sha256-z/g5T2qR7nyBbxeSDEJ8GVRkyrkX/6F6GOLUa7lvgMM=";
+      hash = "sha256-mXpmzF3GDttcF6d/3vyTyc2kBC1bTFOhnKI6qGBJG2c=";
     };
 
     cargoLock.lockFile = "${src}/Cargo.lock";
+    outputHashes = {
+      "librespot-audio-0.8.0" = "sha256-RtuFuHywWn5sdAMjjAyv8d3n/pEol6F28HGjdTtWixM=";
+      "projectm-sys-1.2.3" = "sha256-sgI6IOCpQUvdc5acQ1wjCM5mhfz2EPZmoeuyNLGB5UI=";
+    };
 
     nativeBuildInputs = [
       pkg-config
