@@ -5,6 +5,8 @@
   fetchFromGitHub,
   pkg-config,
   makeWrapper,
+  cmake,
+  writeShellScript,
   alsa-lib,
   libpulseaudio,
   libxkbcommon,
@@ -21,6 +23,14 @@
     xorg.libXi
     xorg.libXrandr
   ];
+
+  cmakeWithLibdir = writeShellScript "cmake-fastpotify" ''
+    if [[ "$1" == "--build" ]]; then
+      exec ${cmake}/bin/cmake "$@"
+    else
+      exec ${cmake}/bin/cmake "$@" -DCMAKE_INSTALL_LIBDIR=lib
+    fi
+  '';
 in
   rustPlatform.buildRustPackage rec {
     pname = "fastpotify";
@@ -33,20 +43,28 @@ in
       hash = "sha256-mXpmzF3GDttcF6d/3vyTyc2kBC1bTFOhnKI6qGBJG2c=";
     };
 
-    cargoLock.lockFile = "${src}/Cargo.lock";
-    outputHashes = {
-      "librespot-audio-0.8.0" = "sha256-RtuFuHywWn5sdAMjjAyv8d3n/pEol6F28HGjdTtWixM=";
-      "projectm-sys-1.2.3" = "sha256-sgI6IOCpQUvdc5acQ1wjCM5mhfz2EPZmoeuyNLGB5UI=";
+    cargoLock = {
+      lockFile = "${src}/Cargo.lock";
+      outputHashes = {
+        "librespot-audio-0.8.0" = "sha256-RtuFuHywWn5sdAMjjAyv8d3n/pEol6F28HGjdTtWixM=";
+        "projectm-sys-1.2.3" = "sha256-sgI6IOCpQUvdc5acQ1wjCM5mhfz2EPZmoeuyNLGB5UI=";
+      };
     };
 
     nativeBuildInputs = [
       pkg-config
       makeWrapper
+      cmake
+      rustPlatform.bindgenHook
     ];
+
+    env.CMAKE = "${cmakeWithLibdir}";
 
     buildInputs = [
       alsa-lib
       libpulseaudio
+      xorg.libX11
+      libGL
     ];
 
     postInstall = ''
