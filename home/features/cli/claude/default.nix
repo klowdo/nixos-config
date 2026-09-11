@@ -173,6 +173,7 @@ in {
               "mcp__codegraph__codegraph_callers"
               "mcp__codegraph__codegraph_callees"
               "mcp__codegraph__codegraph_impact"
+              "mcp__unifi-network__*"
               "Bash(git status*)"
               "Bash(git diff*)"
               "Bash(git log*)"
@@ -197,6 +198,7 @@ in {
               "Bash(nh os test*)"
             ];
             deny = [
+              "mcp__unifi-network__unifi_delete_*"
               "Bash(sops:*)"
               "Bash(rtk proxy sops:*)"
               "Bash(just sops-get:*)"
