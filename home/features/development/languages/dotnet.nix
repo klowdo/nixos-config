@@ -46,7 +46,10 @@ in {
         DOTNET_ROOT = "${pkgs.dotnet-combined}/share/dotnet";
         PROTOBUF_PROTOC = "${pkgs.protobuf}/bin/protoc";
         GRPC_PROTOC_PLUGIN = "${pkgs.grpc}/bin/grpc_csharp_plugin";
+        # SSL_CERT_DIR replaces the default CA search path; without the system
+        # bundle alongside it, every tool honouring it loses all public CAs.
         SSL_CERT_DIR = "${config.home.homeDirectory}/.aspnet/dev-certs/trust";
+        SSL_CERT_FILE = "/etc/ssl/certs/ca-certificates.crt";
       };
       # ponytail: dotnet dev-certs globs `*.default` for firefox profiles; home-manager names it `default`
       file.".mozilla/firefox/hm.default".source =
