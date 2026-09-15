@@ -61,7 +61,8 @@
       clipboard.enable = false;
       calculator.enable = true;
       todo.enable = false;
-      nautilus.enable = true;
+      nautilus.enable = false;
+      omafiles.enable = true;
       darkman.enable = true;
       bitwarden.enable = false;
       which-key.enable = true;
