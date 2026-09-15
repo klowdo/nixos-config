@@ -24,26 +24,18 @@ in {
   };
 
   config = mkIf cfg.enable {
-    home.packages = with pkgs; [
-      gnupg
-      git
-      # pass
-      # # Pass extensions for enhanced functionality
-      # (pass.withExtensions (exts:
-      #   with exts; [
-      #     pass-otp # OTP/2FA support
-      #     pass-tomb # Tomb integration
-      #     pass-update # Password updating
-      #     # pass-audit    # Security auditing
-      #     pass-genphrase # Passphrase generation
-      #   ]))
-      #
-      # Mobile sync utilities
-      pinentry-gtk2 # GUI pinentry for GPG
-      qrencode # Generate QR codes for mobile import
+    # GPG configuration is handled by features.cli.gpg module
+    # Enable it alongside password-store for full functionality
+    assertions = [
+      {
+        assertion = config.features.cli.gpg.enable;
+        message = "features.cli.gpg must be enabled when using password-store (GPG is required for encryption)";
+      }
+    ];
 
-      # Additional utilities
-      xclip # Clipboard integration
+    home.packages = with pkgs; [
+      # Clipboard integration
+      xclip
       wl-clipboard # Wayland clipboard
     ];
 
@@ -80,49 +72,6 @@ in {
           # Git repository for syncing
           PASSWORD_STORE_GIT = cfg.gitRepo;
         };
-    };
-
-    programs.gpg = {
-      enable = true;
-      settings = {
-        # Use GPG agent for key management
-        use-agent = true;
-
-        # Strong cipher preferences
-        personal-cipher-preferences = "AES256 AES192 AES";
-        personal-digest-preferences = "SHA512 SHA384 SHA256";
-        personal-compress-preferences = "ZLIB BZIP2 ZIP Uncompressed";
-
-        # Disable weak algorithms
-        weak-digest = "SHA1";
-
-        # Key server options
-        keyserver = "hkps://keys.openpgp.org";
-        keyserver-options = "auto-key-retrieve";
-
-        # Display settings
-        with-fingerprint = true;
-        keyid-format = "0xlong";
-      };
-    };
-
-    services.gpg-agent = {
-      enable = true;
-      enableSshSupport = true;
-      defaultCacheTtl = 28800; # 8 hours
-      maxCacheTtl = 86400; # 24 hours
-
-      # Use GUI pinentry for password prompts
-      pinentryPackage = pkgs.pinentry-gtk2;
-
-      extraConfig = ''
-        # Allow preset passphrase
-        allow-preset-passphrase
-
-        # Enable logging for debugging
-        log-file ~/.gnupg/gpg-agent.log
-        debug-level basic
-      '';
     };
 
     # Shell aliases for convenience
