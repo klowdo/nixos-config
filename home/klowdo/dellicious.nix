@@ -39,7 +39,7 @@
       circumflex.enable = true;
       cool-retro-term.enable = true;
       worktrunk.enable = true;
-      workmux.enable = true;
+      workmux.enable = false;
       gitlab-cli.enable = true;
       tools.enable = true;
       auto-shell = {
@@ -136,7 +136,7 @@
       spicetify.enable = true;
       spotify-player.enable = true;
       zathura.enable = true;
-      deezer.enable = true;
+      deezer.enable = false;
       music-assistant = {
         enable = false;
         url = "https://music.home.flixen.se";
@@ -149,8 +149,8 @@
       vesktop.enable = true;
       neomutt.enable = false;
       slack.enable = true;
-      ferdium.enable = true;
-      teams.enable = true;
+      ferdium.enable = false;
+      teams.enable = false;
     };
     hardware = {
       zsa-moonlander.enable = true;
