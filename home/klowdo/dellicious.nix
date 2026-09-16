@@ -66,6 +66,7 @@
       bitwarden.enable = false;
       which-key.enable = true;
       kando.enable = false;
+      munder-difflin.enable = true;
       vicinae = {
         enable = true;
         enableHyprlandSupport = true;

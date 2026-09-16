@@ -18,6 +18,7 @@
     ./solaar.nix
     ./kando.nix
     ./auto-claude.nix
+    ./munder-difflin.nix
     ./stylix.nix
     ./login-manager.nix
     ./icons.nix
