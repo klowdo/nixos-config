@@ -1,6 +1,6 @@
-# renovate: jetbrains-rider code=RD
+# renovate: jetbrains.rider code=RD
 final: prev: {
-  jetbrains-rider = (final.unstable.jetbrains.rider.override {forceWayland = true;})
+  jetbrains-rider = final.unstable.jetbrains.rider
     .overrideAttrs (_old: rec {
     version = "2026.1.2";
     src = prev.fetchurl {

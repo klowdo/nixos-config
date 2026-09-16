@@ -13,9 +13,9 @@
 
   lens = import ./lens.nix;
 
-  jetbrains-goland = import ./jetbrains-goland.nix;
-  jetbrains-rider = import ./jetbrains-rider.nix;
-  jetbrains-datagrip = import ./jetbrains-datagrip.nix;
+  # jetbrains.goland = import ./jetbrains-goland.nix;
+  # jetbrains.rider = import ./jetbrains-rider.nix;
+  # jetbrains.datagrip = import ./jetbrains-datagrip.nix;
 
   unstable-packages = final: _prev: {
     unstable = import inputs.nixpkgs-unstable {

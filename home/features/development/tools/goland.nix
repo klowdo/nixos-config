@@ -7,7 +7,7 @@
 }:
 with lib; let
   cfg = config.features.development.tools.goland;
-  golandPkg = pkgs.jetbrains-goland;
+  golandPkg = pkgs.jetbrains.goland;
   golandVersion = concatStringsSep "." (take 2 (splitString "." golandPkg.version));
   pluginList = with inputs.nix-jetbrains-plugins.plugins."${pkgs.stdenv.hostPlatform.system}".goland."${golandVersion}"; [
     IdeaVIM

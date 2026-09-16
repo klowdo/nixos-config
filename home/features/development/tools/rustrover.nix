@@ -7,7 +7,7 @@
 }:
 with lib; let
   cfg = config.features.development.tools.rustrover;
-  rustroverPkg = pkgs.jetbrains.rust-rover.override {forceWayland = true;};
+  rustroverPkg = pkgs.jetbrains.rust-rover;
   rustroverVersion = concatStringsSep "." (take 2 (splitString "." rustroverPkg.version));
   pluginList = with inputs.nix-jetbrains-plugins.plugins."${pkgs.stdenv.hostPlatform.system}".rust-rover."${rustroverVersion}"; [
     IdeaVIM

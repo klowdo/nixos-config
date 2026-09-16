@@ -1,6 +1,6 @@
-# renovate: jetbrains-goland code=GO
+# renovate: jetbrains.goland code=GO
 final: prev: {
-  jetbrains-goland = (final.unstable.jetbrains.goland.override {forceWayland = true;})
+  jetbrains.goland = final.unstable.jetbrains.goland
     .overrideAttrs (_old: rec {
     version = "2026.1.3";
     src = prev.fetchurl {
