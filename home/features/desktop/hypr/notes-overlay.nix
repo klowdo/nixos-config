@@ -1,7 +1,10 @@
-{config, ...}: {
+{config, ...}: let
+  terminal = config.features.defaults.terminal.command;
+  notesDir = "${config.home.homeDirectory}/notes";
+in {
   wayland.windowManager.hyprland.settings = {
     workspace = [
-      "special:notes, on-created-empty:${config.features.defaults.terminal.command} -d ${config.home.homeDirectory}/notes nvim index.md"
+      "special:notes, on-created-empty:${terminal} -d ${notesDir} nvim index.md"
     ];
 
     windowrule = [
@@ -11,7 +14,31 @@
     ];
 
     bind = [
-      "SUPER, N, togglespecialworkspace, notes"
+      "SUPERSHIFT, N, togglespecialworkspace, notes"
     ];
   };
+
+  features.desktop.which-key.extraMenu = [
+    {
+      key = "n";
+      desc = "Notes";
+      submenu = [
+        {
+          key = "n";
+          desc = "Scratchpad (index)";
+          cmd = "hyprctl dispatch togglespecialworkspace notes";
+        }
+        {
+          key = "d";
+          desc = "Daily note";
+          cmd = "${terminal} -d ${notesDir} nvim index.md +'Obsidian today'";
+        }
+        {
+          key = "s";
+          desc = "Search notes";
+          cmd = "${terminal} -d ${notesDir} nvim index.md +'Obsidian search'";
+        }
+      ];
+    }
+  ];
 }
