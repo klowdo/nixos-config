@@ -6,6 +6,13 @@
 }:
 with lib; let
   cfg = config.features.cli.claude-code;
+  stop-slop = pkgs.fetchFromGitHub {
+    owner = "hardikpandya";
+    repo = "stop-slop";
+    rev = "8da1f030185bdfe8471220585162991eaeb970e9";
+    hash = "sha256-JMqlCRVEAfwG1TLMDpnamznkBfkmX6e2XyETTTH/TSE=";
+  };
+  localSkills = genAttrs (attrNames (builtins.readDir ./skills)) (name: ./skills + "/${name}");
 in {
   options.features.cli.claude-code = {
     enable = mkEnableOption "Claude Code CLI tool";
@@ -122,7 +129,7 @@ in {
         context = ./CLAUDE.md;
         agentsDir = ./agents;
         commandsDir = ./commands;
-        skills = ./skills;
+        skills = localSkills // {inherit stop-slop;};
 
         lspServers.go = {
           command = "${pkgs.gopls}/bin/gopls";
