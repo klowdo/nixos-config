@@ -5,6 +5,7 @@
     ./hypridle.nix
     ./hyprland-binds.nix
     ./terminal-overlay.nix
+    ./notes-overlay.nix
     ./wofi.nix
     ./hyprlock.nix
     ./hyprlock-music-script.nix

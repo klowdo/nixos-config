@@ -70,6 +70,16 @@ in {
               params.keep = "5";
             };
           };
+          "Notes" = {
+            id = "notes";
+            path = "~/notes";
+            devices = ["pve-server"];
+            enable = true;
+            versioning = {
+              type = "simple";
+              params.keep = "5";
+            };
+          };
           "Keyrings" = {
             id = "keyrings";
             path = "~/.local/share/keyrings";
