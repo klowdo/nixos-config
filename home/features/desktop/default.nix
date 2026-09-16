@@ -19,6 +19,7 @@
     ./kando.nix
     ./auto-claude.nix
     ./munder-difflin.nix
+    ./wayscriber.nix
     ./stylix.nix
     ./login-manager.nix
     ./icons.nix

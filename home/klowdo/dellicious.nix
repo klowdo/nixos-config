@@ -67,6 +67,7 @@
       which-key.enable = true;
       kando.enable = false;
       munder-difflin.enable = true;
+      wayscriber.enable = true;
       vicinae = {
         enable = true;
         enableHyprlandSupport = true;
