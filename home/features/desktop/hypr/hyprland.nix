@@ -69,7 +69,6 @@ in {
           ];
 
         env = [
-          "XCURSOR_SIZE,32"
           "WLR_NO_HARDWARE_CURSORS,1"
           "AQ_DRM_DEVICES,/dev/dri/card1"
         ];
