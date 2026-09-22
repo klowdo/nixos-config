@@ -1,13 +1,13 @@
 # nix-update: sesh
 final: prev: {
   sesh = prev.sesh.overrideAttrs (oldAttrs: rec {
-    version = "2.28.0";
+    version = "2.31.0";
 
     src = prev.fetchFromGitHub {
       owner = "joshmedeski";
       repo = "sesh";
       rev = "v${version}";
-      hash = "sha256-e9OZ5EX3YVT2TMMh9cb4wNAbXezU0PWqQx7A9x9rxKo=";
+      hash = "sha256-SV7BSrBS3NDVFACG5vShCECJlQ4+9rIdOxmINR8J3ms=";
     };
 
     ldflags = [
@@ -16,6 +16,6 @@ final: prev: {
       "-X main.version=${version}"
     ];
 
-    vendorHash = "sha256-9IiDp/HaxXQAyNzuVBLiO+oIijBbdKBjssCmj8WV9V4=";
+    vendorHash = "sha256-81PNc4Gt3wzGyihRWOtJFlIiA7HieZyGh/4gpFHVlYA=";
   });
 }
