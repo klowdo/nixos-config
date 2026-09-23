@@ -6,6 +6,28 @@
 }:
 with lib; let
   cfg = config.features.defaults;
+
+  # Command, package and desktop entry of every supported file manager. Only the
+  # selected one is ever forced, so the others cost nothing.
+  fileManagers = {
+    thunar = {
+      command = "thunar";
+      package = pkgs.thunar;
+      desktopEntry = "thunar.desktop";
+    };
+    nautilus = {
+      command = "nautilus";
+      package = pkgs.nautilus;
+      desktopEntry = "nautilus.desktop";
+    };
+    omafiles = {
+      command = "omafiles";
+      package = pkgs.omafiles;
+      # Reverse-DNS entry, required for D-Bus activation (see the omafiles module)
+      desktopEntry = "io.github.percius04.omafiles.desktop";
+    };
+  };
+  selectedFileManager = fileManagers.${cfg.fileManager.type};
 in {
   options.features.defaults = {
     enable = mkEnableOption "Enable default applications configuration";
@@ -67,29 +89,30 @@ in {
 
     fileManager = {
       type = mkOption {
-        type = types.enum ["thunar" "nautilus"];
+        type = types.enum (attrNames fileManagers);
         default = "thunar";
         description = "Which file manager to use as default";
       };
 
       command = mkOption {
         type = types.str;
-        default =
-          if cfg.fileManager.type == "nautilus"
-          then "nautilus"
-          else "thunar";
+        default = selectedFileManager.command;
         example = "dolphin";
         description = "Command for file manager";
       };
 
       package = mkOption {
         type = types.package;
-        default =
-          if cfg.fileManager.type == "nautilus"
-          then pkgs.nautilus
-          else pkgs.thunar;
+        default = selectedFileManager.package;
         example = "pkgs.dolphin";
         description = "Package for the file manager";
+      };
+
+      desktopEntry = mkOption {
+        type = types.str;
+        default = selectedFileManager.desktopEntry;
+        example = "org.kde.dolphin.desktop";
+        description = "Desktop entry for the file manager";
       };
     };
 
@@ -262,7 +285,7 @@ in {
         "application/x-7z-compressed" = ["org.gnome.FileRoller.desktop"];
         "application/x-rar" = ["org.gnome.FileRoller.desktop"];
 
-        "inode/directory" = ["${cfg.fileManager.command}.desktop"];
+        "inode/directory" = ["${cfg.fileManager.desktopEntry}"];
       };
     };
 

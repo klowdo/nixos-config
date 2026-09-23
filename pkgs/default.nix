@@ -16,6 +16,7 @@
   # claudia = pkgs.callPackage ./claudia {};
   deezer-linux = pkgs.callPackage ./deezer-linux {};
   numara-calculator = pkgs.callPackage ./numara-calculator {};
+  omafiles = pkgs.callPackage ./omafiles {};
   nss-docker-ng = pkgs.callPackage ./nss-docker-ng {};
   mcp-gateway = pkgs.callPackage ./mcp-gateway {};
   hyprland-preview-share-picker = pkgs.callPackage ./hyprland-preview-share-picker {};
