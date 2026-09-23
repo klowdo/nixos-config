@@ -1,8 +1,12 @@
 {
   pkgs,
   config,
+  lib,
   ...
-}: {
+}: let
+  gpgEnabled = config.features.cli.gpg.enable;
+  gpgCfg = config.features.cli.gpg;
+in {
   sops.secrets.".git-credentials" = {
     sopsFile = ../../../secrets.yaml;
     mode = "0600";
@@ -16,10 +20,14 @@
     enable = true;
     package = pkgs.gitFull;
     settings = {
-      user = {
-        name = config.userConfig.fullName;
-        inherit (config.userConfig) email;
-      };
+      user =
+        {
+          name = config.userConfig.fullName;
+          inherit (config.userConfig) email;
+        }
+        // lib.optionalAttrs (gpgEnabled && gpgCfg.keyId != "") {
+          signingkey = gpgCfg.keyId;
+        };
       alias = {
         ci = "commit";
         co = "checkout";
@@ -38,6 +46,10 @@
       rebase.updateRefs = true;
       pull.rebase = true;
       credential.helper = "store";
+
+      # GPG commit signing (enabled via features.cli.gpg)
+      commit.gpgsign = gpgEnabled && gpgCfg.enableGitSigning;
+      tag.gpgsign = gpgEnabled && gpgCfg.enableGitSigning;
     };
     includes = [
       {

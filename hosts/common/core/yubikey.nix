@@ -24,7 +24,9 @@
     yubikey-manager
     yubioath-flutter
     yubikey-manager # ykman CLI
-    yubico-piv-tool
+    yubico-piv-tool # PIV operations
     age-plugin-yubikey # YubiKey support for age/sops
+    pcsctools # PC/SC diagnostic tools (pcsc_scan)
+    ccid # Smart card CCID driver
   ];
 }
