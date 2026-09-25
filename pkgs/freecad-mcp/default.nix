@@ -6,7 +6,7 @@
 }:
 python3Packages.buildPythonApplication rec {
   pname = "freecad-mcp";
-  version = "0.1.24";
+  version = "0.1.25";
   pyproject = true;
 
   src = fetchFromGitHub {
