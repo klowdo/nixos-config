@@ -1,23 +1,23 @@
 # nix-update: teams-for-linux
 final: prev: {
   teams-for-linux = prev.teams-for-linux.overrideAttrs (old: {
-    version = "2.22.0";
+    version = "2.23.0";
 
     src = prev.fetchFromGitHub {
       owner = "IsmaelMartinez";
       repo = "teams-for-linux";
-      rev = "v2.22.0";
-      hash = "sha256-FcAYtEX6SjXeJfxwCq9uSD2dOJt+WkBTQnP+SmSy5bY=";
+      rev = "v2.23.0";
+      hash = "sha256-m6Dvy+nVzwhjag89hrn6MOu1rRhVuFch/hYdKDBaP+w=";
     };
 
     npmDeps = prev.fetchNpmDeps {
       src = prev.fetchFromGitHub {
         owner = "IsmaelMartinez";
         repo = "teams-for-linux";
-        rev = "v2.22.0";
-        hash = "sha256-FcAYtEX6SjXeJfxwCq9uSD2dOJt+WkBTQnP+SmSy5bY=";
+        rev = "v2.23.0";
+        hash = "sha256-m6Dvy+nVzwhjag89hrn6MOu1rRhVuFch/hYdKDBaP+w=";
       };
-      hash = "sha256-t5Mz3X/VnMmEuy/dGJC17/Wk8WwLdmF0rVQ445T5YP4=";
+      hash = "sha256-MHGi5Vs8N+BKAu8hJtJG8RQuIcMh59ucJt2XR1HBvkc=";
     };
   });
 }
