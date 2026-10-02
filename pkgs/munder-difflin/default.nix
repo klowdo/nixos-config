@@ -5,11 +5,11 @@
   lib,
 }: let
   pname = "munder-difflin";
-  version = "0.5.3";
+  version = "0.5.5";
 
   src = fetchurl {
     url = "https://github.com/chaitanyagiri/munder-difflin/releases/download/v${version}/Munder-Difflin-${version}-linux-x86_64.AppImage";
-    hash = "sha256-/8aeGCefYJiDVQGYGqY/ASQLXbR0zcG+cqF0a2/+6u8=";
+    hash = "sha256-FUc0X+/R+tglejsfPJTQrSLVaoATC/pypPEaqE24ZCs=";
     name = "Munder-Difflin-${version}-linux-x86_64.AppImage";
   };
 
