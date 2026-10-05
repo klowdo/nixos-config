@@ -20,6 +20,8 @@ buildNpmPackage rec {
 
   nativeBuildInputs = [typescript];
 
+  dontNpmBuild = true;
+
   postBuild = ''
     tsc
     mkdir -p dist/db dist/extraction/wasm
@@ -28,6 +30,10 @@ buildNpmPackage rec {
       [ -f "$f" ] && cp "$f" dist/extraction/wasm/
     done
     chmod +x dist/bin/codegraph.js
+  '';
+
+  postInstall = ''
+    rm -f "$out/lib/node_modules/@colbymchenry/codegraph/node_modules/@colbymchenry/codegraph-ui"
   '';
 
   meta = {
