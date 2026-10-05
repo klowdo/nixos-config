@@ -35,7 +35,7 @@ with lib; {
         cursor = {
           package = pkgs.banana-cursor;
           name = "Banana";
-          size = 16;
+          size = 32;
         };
         targets = {
           bat.enable = false;
