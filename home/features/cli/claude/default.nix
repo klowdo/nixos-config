@@ -231,6 +231,7 @@ in {
             "worktrunk@worktrunk" = true;
             "caveman@caveman" = false;
             "ponytail@ponytail" = true;
+            "i-have-adhd@i-have-adhd" = true;
             "claude-mem@thedotmack" = false;
           };
           extraKnownMarketplaces = {
@@ -238,6 +239,12 @@ in {
               source = {
                 source = "github";
                 repo = "JuliusBrussee/caveman";
+              };
+            };
+            i-have-adhd = {
+              source = {
+                source = "github";
+                repo = "ayghri/i-have-adhd";
               };
             };
             ponytail = {
