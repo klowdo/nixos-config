@@ -30,6 +30,11 @@ in {
             (pkgs.wrapFirefox pkgs.firefox-unwrapped {
               extraPolicies = {
                 ExtensionSettings = {
+                  # ponytail: inline instead of programs.firefox.languagePacks, which replaces this whole ExtensionSettings set
+                  "langpack-sv-SE@firefox.mozilla.org" = {
+                    installation_mode = "force_installed";
+                    install_url = "https://releases.mozilla.org/pub/firefox/releases/${pkgs.firefox-unwrapped.version}/linux-x86_64/xpi/sv-SE.xpi";
+                  };
                   "uBlock0@raymondhill.net" = {
                     installation_mode = "force_installed";
                     install_url = "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi";
@@ -81,6 +86,7 @@ in {
               "signon.rememberSignons" = false;
               "signon.autofillForms" = false;
               "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
+              "spellchecker.dictionary_path" = "${pkgs.hunspellDicts.sv_SE}/share/hunspell";
             };
             # userChrome = ''
             #   .titlebar-buttonbox-container {
