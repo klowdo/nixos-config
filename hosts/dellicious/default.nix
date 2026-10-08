@@ -110,7 +110,7 @@
 
   # Kernel Bootloader.
   boot = {
-    kernelPackages = pkgs.linuxPackages_latest;
+    kernelPackages = pkgs.unstable.linuxPackages_latest;
     kernelModules = ["kvm-intel"];
     # aes_generic is built-in on linux 7.0+, remove from initrd module list
     # https://github.com/NixOS/nixpkgs/issues/511100
