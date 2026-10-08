@@ -24,7 +24,7 @@ in {
       wishlist
       unstable.witr
       unstable.isd
-      unstable.herdr
+      # unstable.herdr
     ];
   };
 }
