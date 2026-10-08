@@ -1,6 +1,6 @@
 {
-  config,
   lib,
+  pkgs,
   inputs,
   ...
 }: {
@@ -16,12 +16,16 @@
       # Override base blacklist to allow nvidia modules
       boot.blacklistedKernelModules = lib.mkForce ["nouveau"];
 
+      # ponytail: kernel 7.2 dropped strncpy and nvidia-open 595 still calls it;
+      # drop this override once driver 596 lands.
+      boot.kernelPackages = lib.mkForce pkgs.linuxPackages;
+
       hardware = {
         graphics.enable = true;
 
         nvidia = {
           # Optionally, you may need to select the appropriate driver version for your specific GPU.
-          package = config.boot.kernelPackages.nvidiaPackages.stable;
+          package = pkgs.linuxPackages.nvidiaPackages.stable;
 
           # nvidia-drm.modeset=1 is required for some wayland compositors, e.g. sway
           modesetting.enable = true;

@@ -110,10 +110,7 @@
 
   # Kernel Bootloader.
   boot = {
-    # ponytail: pinned off _latest because kernel 7.2 dropped strncpy and
-    # nvidia-open 595 still calls it; back to _latest once 596 lands.
-    # 7.1 reached EOL, so use the default LTS kernel in the meantime.
-    kernelPackages = pkgs.linuxPackages;
+    kernelPackages = pkgs.linuxPackages_latest;
     kernelModules = ["kvm-intel"];
     # aes_generic is built-in on linux 7.0+, remove from initrd module list
     # https://github.com/NixOS/nixpkgs/issues/511100
