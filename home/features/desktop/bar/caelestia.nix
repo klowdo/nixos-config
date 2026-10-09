@@ -128,6 +128,9 @@ in {
         (_: {
           postPatch = ''
             substituteInPlace services/IdleInhibitor.qml \
+              --replace-fail "window: PanelWindow {" "window: PanelWindow {
+            screen: Quickshell.screens[0] ?? null
+            WlrLayershell.namespace: \"caelestia-idle-inhibitor\"" \
               --replace-fail "implicitWidth: 0" "implicitWidth: 1" \
               --replace-fail "implicitHeight: 0" "implicitHeight: 1"
           '';
@@ -189,6 +192,45 @@ in {
       "QT_QPA_PLATFORM=wayland"
       "QT_FALLBACK_ICON_THEME=Papirus-Dark"
     ];
+
+    systemd.user.services.caelestia-idle-inhibitor-watchdog = {
+      Unit.Description = "Restart Caelestia when its idle inhibitor surface is lost";
+      Service = {
+        Type = "oneshot";
+        ExecStart = getExe (pkgs.writeShellApplication {
+          name = "caelestia-idle-inhibitor-watchdog";
+          runtimeInputs = [
+            config.programs.caelestia.cli.package
+            config.wayland.windowManager.hyprland.finalPackage
+            pkgs.jq
+            pkgs.systemd
+          ];
+          text = ''
+            [[ "$(caelestia shell idleInhibitor isEnabled)" == "true" ]] || exit 0
+            hyprctl layers -j \
+              | jq -e '[.. | objects | select(.namespace? == "caelestia-idle-inhibitor")] | length > 0' >/dev/null \
+              && exit 0
+
+            echo "Idle inhibitor surface missing, restarting caelestia"
+            systemctl --user restart caelestia
+            for _ in $(seq 30); do
+              caelestia shell idleInhibitor enable 2>/dev/null && exit 0
+              sleep 1
+            done
+            exit 1
+          '';
+        });
+      };
+    };
+
+    systemd.user.timers.caelestia-idle-inhibitor-watchdog = {
+      Unit.Description = "Check Caelestia idle inhibitor surface every minute";
+      Timer = {
+        OnActiveSec = "1min";
+        OnUnitActiveSec = "1min";
+      };
+      Install.WantedBy = ["timers.target"];
+    };
 
     xdg.stateFile."caelestia/scheme-temp.json".text = builtins.toJSON {
       name = "stylix";
