@@ -40,10 +40,9 @@
     #   '';
   };
 
-  # Prevent systemd from handling lid switch (let Hyprland do it)
   services.logind.settings.Login = {
-    HandleLidSwitch = "ignore";
+    HandleLidSwitch = "suspend";
+    HandleLidSwitchExternalPower = "suspend";
     HandleLidSwitchDocked = "ignore";
-    HandleLidSwitchExternalPower = "ignore";
   };
 }
