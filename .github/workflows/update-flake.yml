@@ -2,8 +2,8 @@ name: update-flake-lock
 on:
   workflow_dispatch:
   schedule:
-    # Run daily at 6:00 UTC (1:00 AM EST / 2:00 AM EDT)
-    - cron: "0 6 * * *"
+    # Run weekly on Monday at 6:00 UTC
+    - cron: "0 6 * * 1"
 
 jobs:
   update-flake-lock:
