@@ -1,0 +1,79 @@
+{
+  flake.modules.nixos.auto-upgrade = {
+    config,
+    pkgs,
+    ...
+  }: let
+    cfg = config.hostConfig;
+    effectiveHome =
+      if cfg.home != ""
+      then cfg.home
+      else if pkgs.stdenv.isLinux
+      then "/home/${cfg.mainUser}"
+      else "/Users/${cfg.mainUser}";
+    configDir =
+      if cfg.dotfilesPath != ""
+      then cfg.dotfilesPath
+      else "${effectiveHome}/.dotfiles";
+    repoUrl = "https://github.com/klowdo/nixos-config.git";
+    # ponytail: retry loop instead of network-online.target, which is a no-op here
+    # (NetworkManager-wait-online is masked in networking.nix for boot speed)
+    pullScript = pkgs.writeShellScript "upgrade-pull" ''
+      for _ in $(seq 30); do
+        ${pkgs.git}/bin/git -C ${configDir} pull --ff-only ${repoUrl} main && exit 0
+        sleep 10
+      done
+      exit 1
+    '';
+    notifyScript = pkgs.writeShellScript "notify-upgrade" ''
+      STATUS="$1"
+      MESSAGE="$2"
+      URGENCY="''${3:-normal}"
+
+      export DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$(id -u ${cfg.mainUser})/bus"
+      ${pkgs.sudo}/bin/sudo -u ${cfg.mainUser} \
+        DBUS_SESSION_BUS_ADDRESS="$DBUS_SESSION_BUS_ADDRESS" \
+        ${pkgs.libnotify}/bin/notify-send \
+          -u "$URGENCY" \
+          -a "NixOS Upgrade" \
+          -i "system-software-update" \
+          "NixOS Auto-Upgrade: $STATUS" \
+          "$MESSAGE" || true
+    '';
+  in {
+    system.autoUpgrade = {
+      enable = true;
+      flake = "${configDir}";
+      flags = [
+        "-L"
+      ];
+      dates = "06:00";
+      operation = "boot";
+      runGarbageCollection = true;
+    };
+
+    systemd.services.nixos-upgrade = {
+      after = ["network-online.target"];
+      wants = ["network-online.target"];
+      unitConfig = {
+        OnFailure = ["notify-upgrade-failure.service"];
+      };
+      serviceConfig = {
+        ExecStartPre = [
+          "${pkgs.git}/bin/git config --global --add safe.directory ${configDir}"
+          "${pullScript}"
+          "${notifyScript} Started 'Pulling latest config and upgrading system...'"
+        ];
+        ExecStartPost = "${notifyScript} Completed 'System upgrade finished successfully'";
+      };
+    };
+
+    systemd.services.notify-upgrade-failure = {
+      description = "Notify on NixOS upgrade failure";
+      serviceConfig = {
+        Type = "oneshot";
+        ExecStart = "${notifyScript} Failed 'System upgrade failed! Check journalctl -u nixos-upgrade' critical";
+      };
+    };
+  };
+}

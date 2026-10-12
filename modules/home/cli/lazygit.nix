@@ -1,0 +1,39 @@
+{...}: {
+  flake.modules.homeManager.lazygit = {pkgs, ...}: {
+    programs.lazygit = {
+      enable = true;
+      package = pkgs.unstable.lazygit;
+      settings = {
+        git = {
+          paging = {
+            colorArg = "always";
+            pager = "delta --dark --paging=never --line-numbers";
+          };
+          diffRenderers = [
+            {command = "delta --dark --paging=never --line-numbers";}
+            {command = "difft --color=always";}
+          ];
+        };
+        customCommands = [
+          {
+            key = "o";
+            command = "sesh connect '{{.SelectedWorktree.Path}}'";
+            context = "worktrees";
+            description = "Open worktree in sesh session";
+          }
+          {
+            key = "s";
+            command = "sesh connect '{{.SelectedWorktree.Path}}'";
+            context = "worktrees";
+            description = "Connect to worktree session";
+          }
+        ];
+      };
+    };
+
+    home.packages = with pkgs; [
+      delta
+      difftastic
+    ];
+  };
+}

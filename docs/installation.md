@@ -84,69 +84,50 @@ lsblk
 
 1. Create a new host directory:
 ```bash
-mkdir -p hosts/myhost
+mkdir -p modules/hosts/myhost
 ```
 
-2. Create the host configuration (`hosts/myhost/default.nix`):
+2. Create the host configuration (`modules/hosts/myhost/default.nix`, a flake-parts module):
 ```nix
 {
   inputs,
-  outputs,
+  config,
   ...
-}: {
-  imports = [
-    # Hardware
-    inputs.hardware.nixosModules.common-cpu-intel  # or common-cpu-amd
-    inputs.hardware.nixosModules.common-pc-laptop-ssd
-    ./hardware-configuration.nix
+}: let
+  inherit (config) flake;
+in {
+  flake.modules.nixos.host-myhost = {
+    imports =
+      [
+        inputs.hardware.nixosModules.common-cpu-intel  # or common-cpu-amd
+        inputs.hardware.nixosModules.common-pc-laptop-ssd
+        ./_hardware-configuration.nix
+        inputs.disko.nixosModules.disko
+        ../../nixos/_disko/uefi-btrfs.nix  # or uefi-ext4.nix
+      ]
+      ++ (with flake.modules.nixos; [audio bluetooth]);  # add aspects as needed
 
-    # Disko disk configuration
-    ../common/optional/disko/uefi-btrfs.nix  # or uefi-ext4.nix
+    # Enable disko with your disk device
+    disko-btrfs = {
+      enable = true;
+      device = "/dev/nvme0n1";  # Change to your disk!
+      swapSize = "8G";
+      enableEncryption = false;  # Set to true for LUKS
+    };
 
-    # Common configs
-    ../common/core
-    ../common/users
-    ../common/optional/audio.nix
-    ../common/optional/bluetooth.nix
-    # ... add more as needed
-  ];
+    boot.loader.systemd-boot.enable = true;
+    boot.loader.efi.canTouchEfiVariables = true;
 
-  # Enable disko with your disk device
-  disko-btrfs = {
-    enable = true;
-    device = "/dev/nvme0n1";  # Change to your disk!
-    swapSize = "8G";
-    enableEncryption = false;  # Set to true for LUKS
+    networking.hostName = "myhost";
   };
 
-  # Bootloader
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-
-  networking.hostName = "myhost";
-
-  system.stateVersion = "26.05";
+  flake.nixosConfigurations.myhost = inputs.nixpkgs.lib.nixosSystem {
+    modules = with flake.modules.nixos; [base user-klowdo host-myhost];
+  };
 }
 ```
 
-3. Generate hardware configuration:
-```bash
-nixos-generate-config --root /mnt --show-hardware-config > hosts/myhost/hardware-configuration.nix
-```
-
-4. Add the host to `flake.nix`:
-```nix
-nixosConfigurations = {
-  # ... existing hosts ...
-
-  myhost = nixpkgs.lib.nixosSystem {
-    specialArgs = {inherit inputs outputs;};
-    modules = [
-      ./hosts/myhost
-    ];
-  };
-};
-```
+4. The host is picked up automatically by `import-tree`; nothing to add to `flake.nix`.
 
 #### Option B: Use disko directly (without module)
 
@@ -222,7 +203,7 @@ nix-shell -p sops --run "sops updatekeys secrets.yaml"
 **Alternative: Temporarily use a password instead of SOPS**
 
 If you want to skip SOPS setup during initial install, temporarily edit
-`hosts/common/users/klowdo.nix` and uncomment the password line:
+`modules/users/klowdo/nixos.nix` and uncomment the password line:
 
 ```nix
 users.users.klowdo = {
@@ -307,7 +288,7 @@ git clone https://github.com/klowdo/nixos-config.git /mnt/etc/nixos
 cd /mnt/etc/nixos
 
 # Generate hardware config for new host
-nixos-generate-config --root /mnt --show-hardware-config > hosts/myhost/hardware-configuration.nix
+nixos-generate-config --root /mnt --show-hardware-config > modules/hosts/myhost/_hardware-configuration.nix
 
 # Install (after setting up host in flake.nix)
 sudo nixos-install --flake /mnt/etc/nixos#myhost

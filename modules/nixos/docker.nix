@@ -1,0 +1,124 @@
+{
+  flake.modules.nixos.docker = {
+    config,
+    lib,
+    pkgs,
+    ...
+  }: let
+    inherit (lib) mkOption types mkIf optionalAttrs;
+    cfg = config.extraServices.docker;
+  in {
+    options.extraServices.docker = {
+      usePasta = mkOption {
+        type = types.bool;
+        default = false;
+        description = "Use pasta networking instead of slirp4netns (better performance)";
+      };
+      mtu = mkOption {
+        type = types.nullOr types.int;
+        default = null;
+        description = "MTU for rootless docker networking (null = auto)";
+      };
+      stopContainersOnBoot = mkOption {
+        type = types.bool;
+        default = true;
+        description = "Stop all containers and reset restart policies after Docker starts on boot";
+      };
+    };
+
+    config = {
+      networking.firewall.checkReversePath = "loose";
+      virtualisation = {
+        docker = {
+          rootless = {
+            enable = true;
+            setSocketVariable = true;
+            extraPackages =
+              if cfg.usePasta
+              then [pkgs.passt]
+              else [pkgs.slirp4netns];
+            daemon.settings = {
+              dns = ["100.100.100.100"];
+              default-address-pools = [
+                {
+                  base = "10.200.0.0/16";
+                  size = 24;
+                }
+                {
+                  base = "10.201.0.0/16";
+                  size = 24;
+                }
+                {
+                  base = "10.202.0.0/16";
+                  size = 24;
+                }
+              ];
+            };
+          };
+          autoPrune = {
+            enable = true;
+            dates = "daily";
+            flags = [
+              "--all"
+              "--volumes"
+              "--filter=until=24h"
+              "--filter=label!=important"
+            ];
+          };
+        };
+      };
+
+      boot.kernel.sysctl = {
+        "kernel.unprivileged_userns_clone" = "1";
+      };
+      systemd = {
+        services."user@".serviceConfig.Delegate = "cpu cpuset io memory pids";
+        user = {
+          services = {
+            docker-buildx-prune = {
+              description = "Prune Docker buildx cache";
+              requires = ["docker.service"];
+              after = ["docker.service"];
+              serviceConfig = {
+                Type = "oneshot";
+                ExecStart = "${pkgs.docker}/bin/docker buildx prune -f --filter=until=24h";
+                Environment = "DOCKER_HOST=unix:///run/user/%U/docker.sock";
+              };
+            };
+            docker-stop-on-boot = mkIf cfg.stopContainersOnBoot {
+              description = "Stop auto-started Docker containers on boot";
+              requires = ["docker.service"];
+              after = ["docker.service"];
+              wantedBy = ["docker.service"];
+              serviceConfig = {
+                Type = "oneshot";
+                RemainAfterExit = true;
+                ExecStart = pkgs.writeShellScript "docker-stop-on-boot" ''
+                  containers=$(${pkgs.docker}/bin/docker ps -aq)
+                  if [ -n "$containers" ]; then
+                    ${pkgs.docker}/bin/docker update --restart=no $containers
+                    ${pkgs.docker}/bin/docker stop $containers
+                  fi
+                '';
+                Environment = "DOCKER_HOST=unix:///run/user/%U/docker.sock";
+              };
+            };
+            docker.environment =
+              optionalAttrs cfg.usePasta {
+                DOCKERD_ROOTLESS_ROOTLESSKIT_NET = "pasta";
+              }
+              // optionalAttrs (cfg.mtu != null) {
+                DOCKERD_ROOTLESS_ROOTLESSKIT_MTU = toString cfg.mtu;
+              };
+          };
+        };
+      };
+
+      environment.systemPackages = with pkgs; [
+        lazydocker
+        unstable.dive
+        fuse-overlayfs
+      ];
+    };
+  };
+}
