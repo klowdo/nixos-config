@@ -1,0 +1,41 @@
+{inputs, ...}: {
+  flake.modules.homeManager.nix = {
+    pkgs,
+    lib,
+    ...
+  }: let
+    flakeInputs = lib.filterAttrs (_: lib.isType "flake") inputs;
+  in {
+    imports = [
+      inputs.nix-index-database.homeModules.nix-index
+      inputs.direnv-instant.homeModules.direnv-instant
+    ];
+    home.sessionVariables.NIX_PATH = lib.concatStringsSep ":" (lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs);
+
+    home.packages = with pkgs;
+      [
+        nixfmt
+        nixpkgs-fmt
+        nixd
+        deadnix
+        statix
+        nurl
+        nix-search-cli
+        nix-search-tv
+      ]
+      ++ (with inputs.nsearch.packages.${pkgs.stdenv.hostPlatform.system}; [nsearch nrun nshell])
+      ++ [inputs.nixard.packages.${pkgs.stdenv.hostPlatform.system}.default];
+
+    programs = {
+      direnv-instant = {
+        enable = true;
+      };
+
+      nix-index = {
+        enable = true;
+        enableZshIntegration = true;
+      };
+      nix-index-database.comma.enable = true;
+    };
+  };
+}

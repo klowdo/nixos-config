@@ -1,0 +1,348 @@
+{config, ...}: let
+  inherit (config) flake;
+in {
+  flake.modules.homeManager.claude-code = {
+    lib,
+    config,
+    pkgs,
+    ...
+  }:
+    with lib; let
+      cfg = config.features.cli.claude-code;
+      stop-slop = pkgs.fetchFromGitHub {
+        owner = "hardikpandya";
+        repo = "stop-slop";
+        rev = "8da1f030185bdfe8471220585162991eaeb970e9";
+        hash = "sha256-JMqlCRVEAfwG1TLMDpnamznkBfkmX6e2XyETTTH/TSE=";
+      };
+      localSkills = genAttrs (attrNames (builtins.readDir ./_claude/skills)) (name: ./_claude/skills + "/${name}");
+    in {
+      imports = [flake.modules.homeManager.sops];
+      options.features.cli.claude-code = {
+        enableNotifications = mkOption {
+          type = types.bool;
+          default = true;
+          description = "Enable desktop notifications via notify-send";
+        };
+      };
+      config = let
+        claudeCodePackage = pkgs.symlinkJoin {
+          name = "claude-code-wrapped";
+          paths = [pkgs.claude-code];
+          buildInputs = [pkgs.makeWrapper];
+          postBuild = ''
+            wrapProgram $out/bin/claude \
+              --prefix FORCE_HYPERLINK : 1 \
+              --prefix PATH : ${lib.makeBinPath [pkgs.nodejs_22 pkgs.bun]}
+          '';
+        };
+
+        notificationHookScript = pkgs.writeShellScript "claude-notification-hook" ''
+          exec ${pkgs.bash}/bin/bash ${pkgs.replaceVars ./_claude/hooks/claude-notification-hook.sh {
+            jq = "${pkgs.jq}/bin/jq";
+            notifysend = "${pkgs.libnotify}/bin/notify-send";
+            logo = "${./_claude/logo.png}";
+          }} "$@"
+        '';
+
+        rtkRewriteHookContent =
+          builtins.replaceStrings
+          ["@jq@" "@rtk@"]
+          ["${pkgs.jq}/bin/jq" "${pkgs.unstable.rtk}/bin/rtk"]
+          (builtins.readFile ./_claude/hooks/rtk-rewrite-hook.sh);
+
+        scanSecretsHookScript = pkgs.writeShellScript "scan-secrets-hook" (
+          builtins.replaceStrings
+          ["@jq@" "@grep@"]
+          ["${pkgs.jq}/bin/jq" "${pkgs.gnugrep}/bin/grep"]
+          (builtins.readFile ./_claude/hooks/scan-secrets-hook.sh)
+        );
+
+        sessionContextHookScript = pkgs.writeShellScript "session-context-hook" (
+          builtins.replaceStrings
+          ["@jq@" "@git@"]
+          ["${pkgs.jq}/bin/jq" "${pkgs.git}/bin/git"]
+          (builtins.readFile ./_claude/hooks/session-context-hook.sh)
+        );
+
+        unifiNetworkMcp = pkgs.writeShellScript "unifi-network-mcp" ''
+          set -a
+          . ${config.sops.secrets."applications/unifi-mcp/env".path}
+          set +a
+          exec ${pkgs.uv}/bin/uvx unifi-network-mcp@latest
+        '';
+
+        unifiMcpConfig = pkgs.writeText "unifi-mcp.json" (builtins.toJSON {
+          mcpServers.unifi-network = {
+            type = "stdio";
+            command = "${unifiNetworkMcp}";
+          };
+        });
+
+        unifiClaude = pkgs.writeShellScriptBin "unifi-claude" ''
+          exec ${claudeCodePackage}/bin/claude --mcp-config ${unifiMcpConfig} "$@"
+        '';
+      in {
+        programs.zsh = {
+          envExtra = ''
+            if command -v direnv >/dev/null; then
+              if [[ ! -z "$CLAUDECODE" ]]; then
+                eval "$(direnv hook zsh)"
+                eval "$(DIRENV_LOG_FORMAT= direnv export zsh)"
+
+                direnv status --json | jq -e ".state.foundRC.allowed==0" >/dev/null || direnv allow >/dev/null 2>&1
+              fi
+            fi
+          '';
+        };
+
+        # dotenv-format secret sourced by the unifi-network MCP wrapper.
+        # Add the value with: just sops-edit
+        #   applications/unifi-mcp/env: |
+        #     UNIFI_HOST=192.168.1.1
+        #     UNIFI_USERNAME=local-admin
+        #     UNIFI_PASSWORD=...
+        sops.secrets."applications/unifi-mcp/env".mode = "0400";
+
+        home = {
+          packages =
+            [pkgs.unstable.rtk pkgs.jq pkgs.codegraph unifiClaude]
+            ++ (with pkgs;
+              optionals cfg.enableNotifications [
+                libnotify
+              ]);
+          file.".claude/RTK.md".source = ./_claude/RTK.md;
+          shellAliases = {
+            cl = "claude --permission-mode bypassPermissions ";
+          };
+        };
+
+        programs.claude-code = {
+          enable = true;
+          package = claudeCodePackage;
+
+          context = ./_claude/CLAUDE.md;
+          agentsDir = ./_claude/agents;
+          commandsDir = ./_claude/commands;
+          skills = localSkills // {inherit stop-slop;};
+
+          lspServers.go = {
+            command = "${pkgs.gopls}/bin/gopls";
+            args = ["serve"];
+            extensionToLanguage.".go" = "go";
+          };
+
+          lspServers.csharp = {
+            command = "${pkgs.csharp-ls}/bin/csharp-ls";
+            args = [];
+            extensionToLanguage.".cs" = "csharp";
+          };
+
+          hooks."rtk-rewrite.sh" = rtkRewriteHookContent;
+
+          mcpServers = {
+            nixos = {
+              command = "nix";
+              args = ["run" "github:utensils/mcp-nixos" "--"];
+            };
+            codegraph = {
+              type = "stdio";
+              command = "${pkgs.codegraph}/bin/codegraph";
+              args = ["serve" "--mcp"];
+              env = {
+                CODEGRAPH_MCP_TOOLS = "explore,search,node,callers,callees,impact";
+                DO_NOT_TRACK = "1";
+              };
+            };
+          };
+
+          settings = {
+            editorMode = "vim";
+            theme = "dark-ansi";
+            effortLevel = "medium";
+            skipDangerousModePermissionPrompt = true;
+            showThinkingSummaries = true;
+            tui = "fullscreen";
+            cleanupPeriodDays = 14;
+            spinnerTipsEnabled = false;
+            permissions = {
+              allow = [
+                "mcp__codegraph__codegraph_explore"
+                "mcp__codegraph__codegraph_search"
+                "mcp__codegraph__codegraph_node"
+                "mcp__codegraph__codegraph_callers"
+                "mcp__codegraph__codegraph_callees"
+                "mcp__codegraph__codegraph_impact"
+                "mcp__unifi-network__*"
+                "Bash(git status*)"
+                "Bash(git diff*)"
+                "Bash(git log*)"
+                "Bash(git branch*)"
+                "Bash(git show*)"
+                "Bash(git rev-parse*)"
+                "Bash(git remote*)"
+                "Bash(ls*)"
+                "Bash(find*)"
+                "Bash(grep*)"
+                "Bash(cat*)"
+                "Bash(head*)"
+                "Bash(tail*)"
+                "Bash(wc*)"
+                "Bash(which*)"
+                "Bash(echo*)"
+                "Bash(pwd*)"
+                "Bash(hostname*)"
+                "Bash(nix eval*)"
+                "Bash(nix flake metadata*)"
+                "Bash(nix flake show*)"
+                "Bash(nh os test*)"
+              ];
+              deny = [
+                "mcp__unifi-network__unifi_delete_*"
+                "Bash(sops:*)"
+                "Bash(rtk proxy sops:*)"
+                "Bash(just sops-get:*)"
+                "Bash(just sops-edit:*)"
+                "Bash(just sops-updatekeys:*)"
+                "Bash(age:*)"
+                "Bash(rtk proxy age:*)"
+                "Read(/run/secrets/**)"
+                "Read(/run/secrets.d/**)"
+                "Read(//home/klowdo/.dotfiles/secrets/**)"
+                "Read(//home/klowdo/.config/sops/**)"
+                "Read(//home/klowdo/.config/sops-nix/**)"
+              ];
+            };
+            enabledPlugins = {
+              "claude-code-wakatime@wakatime" = true;
+              "frontend-design@claude-plugins-official" = true;
+              "context7@claude-plugins-official" = true;
+              "code-review@claude-plugins-official" = false;
+              "gopls-lsp@claude-plugins-official" = false;
+              "superpowers@superpowers-marketplace" = true;
+              "code-simplifier@claude-plugins-official" = true;
+              "worktrunk@worktrunk" = true;
+              "caveman@caveman" = false;
+              "ponytail@ponytail" = true;
+              "i-have-adhd@i-have-adhd" = true;
+              "claude-mem@thedotmack" = false;
+            };
+            extraKnownMarketplaces = {
+              caveman = {
+                source = {
+                  source = "github";
+                  repo = "JuliusBrussee/caveman";
+                };
+              };
+              i-have-adhd = {
+                source = {
+                  source = "github";
+                  repo = "ayghri/i-have-adhd";
+                };
+              };
+              ponytail = {
+                source = {
+                  source = "github";
+                  repo = "DietrichGebert/ponytail";
+                };
+              };
+              claude-plugins-official = {
+                source = {
+                  source = "github";
+                  repo = "anthropics/claude-plugins-official";
+                };
+              };
+              wakatime = {
+                source = {
+                  source = "git";
+                  url = "https://github.com/wakatime/claude-code-wakatime.git";
+                };
+              };
+              worktrunk = {
+                source = {
+                  source = "github";
+                  repo = "max-sixty/worktrunk";
+                };
+              };
+              superpowers-marketplace = {
+                source = {
+                  source = "github";
+                  repo = "obra/superpowers-marketplace";
+                };
+              };
+              thedotmack = {
+                source = {
+                  source = "github";
+                  repo = "thedotmack/claude-mem";
+                };
+              };
+            };
+            env = {
+              CLAUDE_BASH_MAINTAIN_PROJECT_WORKING_DIR = "1";
+              ENABLE_LSP_TOOL = "1";
+            };
+            statusLine = {
+              type = "command";
+              command = ./_claude/status-line.sh;
+              padding = 0;
+            };
+            attribution = {
+              commit = "";
+              pr = "";
+              sessionUrl = false;
+            };
+            hooks = {
+              SessionStart = [
+                {
+                  hooks = [
+                    {
+                      type = "command";
+                      command = "${sessionContextHookScript}";
+                      statusMessage = "Loading project context...";
+                    }
+                  ];
+                }
+              ];
+              PreToolUse = [
+                {
+                  matcher = "Bash";
+                  hooks = [
+                    {
+                      type = "command";
+                      command = "${pkgs.bash}/bin/bash ${config.home.homeDirectory}/.claude/hooks/rtk-rewrite.sh";
+                    }
+                  ];
+                }
+              ];
+              PostToolUse =
+                [
+                  {
+                    matcher = "Write|Edit|MultiEdit";
+                    hooks = [
+                      {
+                        type = "command";
+                        command = "${scanSecretsHookScript}";
+                        asyncRewake = true;
+                      }
+                    ];
+                  }
+                ]
+                ++ (
+                  lib.optionals cfg.enableNotifications [
+                    {
+                      matcher = "*";
+                      hooks = [
+                        {
+                          type = "command";
+                          command = "${notificationHookScript}";
+                        }
+                      ];
+                    }
+                  ]
+                );
+            };
+          };
+        };
+      };
+    };
+}

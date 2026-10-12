@@ -139,7 +139,7 @@ select_host() {
 
 	echo "Available hosts:"
 	# shellcheck disable=SC2207,SC2011
-	local hosts=($(ls -d hosts/*/ 2>/dev/null | xargs -n1 basename | grep -v common | grep -v iso))
+	local hosts=($(ls -d modules/hosts/*/ 2>/dev/null | xargs -n1 basename | grep -v iso))
 
 	if [ ${#hosts[@]} -eq 0 ]; then
 		error "No hosts found in repository"
@@ -172,10 +172,10 @@ verify_disk() {
 
 	echo ""
 	echo "Disk configuration for $SELECTED_HOST:"
-	if [ -f "hosts/$SELECTED_HOST/disko.nix" ]; then
-		grep "device = " "hosts/$SELECTED_HOST/disko.nix" || true
+	if [ -f "modules/hosts/$SELECTED_HOST/_disko.nix" ]; then
+		grep "device = " "modules/hosts/$SELECTED_HOST/_disko.nix" || true
 	else
-		warning "No disko.nix found for this host"
+		warning "No _disko.nix found for this host"
 	fi
 
 	echo ""
@@ -217,7 +217,7 @@ install_nixos() {
 	echo "Installing NixOS for host: $SELECTED_HOST"
 	echo ""
 
-	if grep -q "enableEncryption = true" "hosts/$SELECTED_HOST/disko.nix" 2>/dev/null; then
+	if grep -q "enableEncryption = true" "modules/hosts/$SELECTED_HOST/_disko.nix" 2>/dev/null; then
 		warning "This host uses LUKS encryption"
 		echo "You will be prompted to set a LUKS password"
 		echo "Choose a strong password - this is your emergency fallback!"
@@ -246,14 +246,14 @@ show_post_install() {
 	echo ""
 
 	# Check if TPM is enabled
-	if grep -q "enableTpm2 = true" "hosts/$SELECTED_HOST/disko.nix" 2>/dev/null; then
+	if grep -q "enableTpm2 = true" "modules/hosts/$SELECTED_HOST/_disko.nix" 2>/dev/null; then
 		echo "1. ${BLUE}Enroll TPM for auto-unlock:${NC}"
 		echo "   sudo systemd-cryptenroll --tpm2-device=auto /dev/nvme0n1p2"
 		echo ""
 	fi
 
 	# Check if FIDO2 is enabled or suggest it
-	if grep -q "enableEncryption = true" "hosts/$SELECTED_HOST/disko.nix" 2>/dev/null; then
+	if grep -q "enableEncryption = true" "modules/hosts/$SELECTED_HOST/_disko.nix" 2>/dev/null; then
 		echo "2. ${BLUE}(Optional) Enroll YubiKey:${NC}"
 		echo "   sudo systemd-cryptenroll --fido2-device=auto --fido2-with-client-pin=yes /dev/nvme0n1p2"
 		echo ""

@@ -24,15 +24,15 @@ When invoked, you must follow these steps:
 
 3. **Analyze Repository Structure**: Review existing configurations to understand:
 
-   - Current feature organization in `home/features/`
-   - Host-specific configurations in `hosts/`
+   - Home Manager aspects in `modules/home/`
+   - Host compositions in `modules/hosts/`
    - Existing modules and overlays
    - Custom package definitions in `pkgs/`
 
 4. **Follow Architecture Patterns**: Ensure all recommendations align with the modular feature-based architecture:
 
-   - System configurations go in `hosts/common/` or host-specific directories
-   - User configurations go in `home/features/` with appropriate categorization
+   - NixOS aspects go in `modules/nixos/`, host-specific config in `modules/hosts/<host>/`
+   - Home Manager aspects go in `modules/home/<category>/`; a host enables an aspect by importing it
    - Custom packages use overlays in `overlays/`
    - Secrets use SOPS pattern
 

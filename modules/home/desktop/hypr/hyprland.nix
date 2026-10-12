@@ -1,0 +1,212 @@
+{config, ...}: let
+  inherit (config) flake;
+in {
+  flake.modules.homeManager.hyprland = {
+    config,
+    lib,
+    pkgs,
+    ...
+  }:
+    with lib; let
+      cfg = config.features.desktop.hyprland;
+    in {
+      imports = [flake.modules.homeManager.wlogout];
+
+      options.features.desktop.hyprland = {
+        lockCommand = mkOption {
+          type = types.str;
+          default = "${pkgs.hyprlock}/bin/hyprlock";
+          defaultText = literalExpression ''"''${pkgs.hyprlock}/bin/hyprlock"'';
+          description = "Command used to lock the session";
+        };
+
+        manageIdle = mkOption {
+          type = types.bool;
+          default = true;
+          description = "Run hypridle for idle locking and dpms; disable when a shell handles idle itself";
+        };
+
+        mediaKeys = mkOption {
+          type = types.bool;
+          default = true;
+          description = "Bind media and brightness keys directly; disable when a shell binds them itself";
+        };
+      };
+
+      config = {
+        xdg.configFile."uwsm/env".text = ''
+          export XDG_CURRENT_DESKTOP=Hyprland
+          export XDG_SESSION_DESKTOP=Hyprland
+        '';
+
+        home.packages = with pkgs; [
+          pyprland
+          hyprpicker
+          hyprcursor
+          hypridle
+          hyprpaper
+          swappy
+          hyprland-protocols
+          hyprpwcenter
+        ];
+        services.custom-way-displays = {
+          enable = false; # Disabled in favor of hyprdynamicmonitors
+          logThreshold = "WARNING";
+        };
+
+        home.sessionVariables = {
+          MOZ_ENABLE_WAYLAND = "1";
+          NIXOS_OZONE_WL = "1";
+          ELECTRON_OZONE_PLATFORM_HINT = "wayland";
+          T_QPA_PLATFORM = "wayland";
+          GDK_BACKEND = "wayland";
+          WLR_NO_HARDWARE_CURSORS = "1";
+          SSH_AUTH_SOCK = "$XDG_RUNTIME_DIR/keyring/ssh";
+        };
+        wayland.windowManager.hyprland = {
+          enable = true;
+          configType = "hyprlang";
+          extraConfig = "source = ~/.config/hypr/hyprmoncfg-monitors.conf";
+          settings = {
+            monitor = [",preferred,auto,1"];
+
+            source = [
+              "~/.config/hypr/config.d/*.conf"
+            ];
+
+            xwayland = {
+              force_zero_scaling = true;
+            };
+
+            exec-once =
+              [
+                "wl-paste -p -t text --watch clipman store -P --histpath=\"~/.local/share/clipman-primary.json\""
+                "/run/wrappers/bin/gnome-keyring-daemon --start"
+              ]
+              ++ optionals cfg.manageIdle [
+                "hypridle"
+              ];
+
+            env = [
+              "WLR_NO_HARDWARE_CURSORS,1"
+              "AQ_DRM_DEVICES,/dev/dri/card1"
+            ];
+
+            general = {
+              gaps_in = 4;
+              gaps_out = 8;
+              border_size = 1;
+              layout = "dwindle";
+            };
+
+            decoration = {
+              shadow = {
+                enabled = false;
+                range = 60;
+                offset = "1 2";
+                render_power = 3;
+                scale = 0.97;
+              };
+              rounding = 3;
+              blur = {
+                enabled = false;
+                size = 3;
+                passes = 3;
+              };
+              active_opacity = 1.0;
+              inactive_opacity = 0.7;
+            };
+
+            dwindle = {
+              preserve_split = true;
+            };
+
+            misc = {
+              allow_session_lock_restore = true;
+            };
+
+            debug = {
+              vfr = true;
+            };
+
+            master = {};
+
+            gesture = [
+              "3, horizontal, workspace"
+            ];
+
+            # Persistent workspaces keep ordering stable
+            workspace = [
+              "1, persistent:true"
+              "2, persistent:true"
+              "3, persistent:true"
+              "4, persistent:true"
+              "5, persistent:true"
+              "6, persistent:false"
+              "7, persistent:false"
+              "8, persistent:false"
+              "9, persistent:false"
+              "0, persistent:false"
+            ];
+
+            windowrule = [
+              "match:class file_progress, float on"
+              "match:class confirm, float on"
+              "match:class dialog, float on"
+              "match:class download, float on"
+              "match:class notification, float on"
+              "match:class error, float on"
+              "match:class splash, float on"
+              "match:class confirmreset, float on"
+              "match:title Open File, float on"
+              "match:title branchdialog, float on"
+              "match:class Lxappearance, float on"
+              "match:class Wofi, float on"
+              "match:class dunst, float on"
+              "match:class Wofi, no_anim on"
+              "match:class viewnior, float on"
+              "match:class feh, float on"
+              "match:class pavucontrol-qt, float on"
+              "match:class pavucontrol, float on"
+              "match:class file-roller, float on"
+              "match:class wlogout, fullscreen on"
+              "match:title wlogout, float on"
+              "match:title wlogout, fullscreen on"
+              "match:class mpv, idle_inhibit focus"
+              "match:class firefox, idle_inhibit fullscreen"
+              "match:title ^(Media viewer)$, float on"
+              "match:title ^(Volume Control)$, float on"
+              "match:title ^(Picture-in-Picture)$, float on"
+              "match:title ^(Volume Control)$, size 800 600"
+              "match:title ^(Volume Control)$, move 75 (monitor_h*0.44)"
+              "match:class (Emacs), workspace 1"
+              "match:class (jetbrains-rider), workspace 2"
+              "match:class ^jetbrains-.*, match:title ^win.*, no_focus on"
+              "match:class ^jetbrains-.*, match:title ^win.*, no_initial_focus on"
+              "match:class ^jetbrains-.*, match:title ^\\s*$, stay_focused on"
+              "match:class (brave-browser), workspace 3, opacity 1.0"
+              "match:class (firefox), workspace 3, opacity 1.0"
+              "match:class (Spotify), workspace 4"
+              "match:class (Deezer), workspace 4"
+              "match:class (com.obsproject.Studio), workspace 4"
+              "match:class (slack), workspace 5"
+              "match:class (slack), tile on"
+              "match:class (kitty), animation slide top"
+              "match:title .*Bitwarden Password Manager.*, float on"
+              "match:title .*Bitwarden Password Manager.*, size 1266 687"
+              "match:class (jetbrains-rider), no_anim on"
+              "match:initial_class (jetbrains-rider), no_anim on"
+              "match:class (jetbrains-rider), opaque on"
+              "match:title ^Huddle:.*, match:class (slack), opaque on"
+              "match:title ^Huddle:.*, match:class (slack), no_blur on"
+              "match:title (?i).*youtube.*, match:class (firefox), opaque on"
+              "match:title (?i).*svt.*, match:class (firefox), opaque on"
+              "match:title (?i).*teams.*, match:class (firefox), opaque on"
+              "match:class (teams-for-linux), opaque on"
+              "match:class (solaar), workspace special:solaar silent"
+            ];
+          };
+        };
+      };
+    };
+}

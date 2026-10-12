@@ -144,128 +144,14 @@
     };
 
     nixard.url = "github:manelinux/nixard";
+
+    # Dendritic pattern
+    flake-parts = {
+      url = "github:hercules-ci/flake-parts";
+      inputs.nixpkgs-lib.follows = "nixpkgs";
+    };
+    import-tree.url = "github:vic/import-tree";
   };
 
-  outputs = {
-    self,
-    nixpkgs,
-    home-manager,
-    ...
-  } @ inputs: let
-    inherit (self) outputs;
-    systems = ["x86_64-linux"];
-    # Thanks Misterio77
-    lib = (nixpkgs.lib // home-manager.lib).extend (_self: _super: {custom = import ./lib {inherit (nixpkgs) lib;};});
-    forEachSystem = f: lib.genAttrs systems (system: f pkgsFor.${system});
-    overlays = import ./overlays {inherit inputs;};
-    pkgsFor = lib.genAttrs systems (
-      system:
-        import nixpkgs {
-          inherit system;
-          config.allowUnfree = true;
-          overlays = builtins.attrValues overlays;
-        }
-    );
-  in {
-    # Your custom packages
-    # Accessible through 'nix build', 'nix shell', etc
-    packages = forEachSystem (
-      pkgs: let
-        customPkgs = import ./pkgs {inherit pkgs;};
-        overlayPkgs =
-          lib.genAttrs
-          (builtins.filter (n: pkgs ? ${n} && lib.isDerivation pkgs.${n}) (builtins.attrNames overlays))
-          (name: pkgs.${name});
-      in
-        customPkgs // overlayPkgs
-    );
-
-    # Checks - pre-commit hooks for `nix flake check` (fast, local)
-    checks = forEachSystem (pkgs: import ./checks.nix {inherit inputs pkgs;});
-
-    # CI checks - builds all packages and NixOS configs (slow, CI only)
-    ciChecks = forEachSystem (pkgs: import ./ci-checks.nix {inherit inputs pkgs lib self;});
-
-    # Dev shells - inherits pre-commit hooks from checks
-    devShells = forEachSystem (pkgs:
-      (import ./shells.nix {
-        inherit pkgs;
-        inherit (self.checks.${pkgs.stdenv.hostPlatform.system}) pre-commit-check;
-      })
-      // (import ./devshells {inherit pkgs inputs;}));
-
-    # Formatter for your nix files, available through 'nix fmt'
-    formatter = forEachSystem (pkgs: pkgs.alejandra);
-
-    # Your custom packages and modifications, exported as overlays
-    inherit overlays;
-    # Reusable nixos modules you might want to export
-    nixosModules = import ./modules/nixos;
-    # Reusable home-manager modules you might want to export
-    homeModules = import ./modules/home-manager;
-
-    # NixOS configuration entrypoint
-    # Available through 'nixos-rebuild --flake .#your-hostname'
-    nixosConfigurations = {
-      dellicious = nixpkgs.lib.nixosSystem {
-        # inherit specialArgs;
-        specialArgs = {inherit inputs outputs;};
-        modules = [
-          # > Our main nixos configuration file <
-
-          # stylix.nixosModules.stylix
-          # ./nixos/configuration.nix
-          ./hosts/dellicious
-        ];
-      };
-
-      virt-nix = nixpkgs.lib.nixosSystem {
-        # inherit specialArgs;
-        specialArgs = {inherit inputs outputs;};
-        modules = [
-          # > Our main nixos configuration file <
-          ./hosts/virt-nix
-        ];
-      };
-
-      # Installation ISO with disko and tools pre-configured (graphical - default)
-      iso = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = {inherit inputs outputs;};
-        modules = [
-          ./hosts/iso
-        ];
-      };
-
-      # Minimal installation ISO (CLI only)
-      iso-minimal = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = {inherit inputs outputs;};
-        modules = [
-          ./hosts/iso/minimal.nix
-        ];
-      };
-    };
-
-    # Standalone home-manager configuration entrypoint
-    # Available through 'home-manager --flake .#your-username@your-hostname'
-    homeConfigurations = {
-      "klowdo@dellicious" = home-manager.lib.homeManagerConfiguration {
-        pkgs = pkgsFor.x86_64-linux;
-        extraSpecialArgs = {inherit inputs outputs;};
-        modules = [
-          inputs.stylix.homeModules.stylix
-          ./home/klowdo/dellicious.nix
-        ];
-      };
-      "klowdo@virt-nix" = home-manager.lib.homeManagerConfiguration {
-        pkgs = pkgsFor.x86_64-linux;
-        extraSpecialArgs = {inherit inputs outputs;};
-        modules = [
-          inputs.stylix.homeModules.stylix
-          ./home/klowdo/virt-nix.nix
-        ];
-      };
-    };
-  };
+  outputs = inputs: inputs.flake-parts.lib.mkFlake {inherit inputs;} (inputs.import-tree ./modules);
 }

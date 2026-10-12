@@ -28,28 +28,31 @@ For fresh installations, see [docs/installation.md](./docs/installation.md).
 
 ## Directory Structure
 
+Every `.nix` file under `modules/` is a flake-parts module, auto-imported by
+`import-tree` (the Dendritic pattern). Configuration is expressed as named
+aspects; a host enables an aspect by importing it.
+
 ```
 .
-├── flake.nix          # Entry point -- inputs and host definitions
-├── hosts/
-│   ├── common/        # Shared system configuration (core + optional)
-│   ├── dellicious/    # Dell XPS 15 host
-│   ├── virt-nix/      # VM host
-│   └── iso/           # Installer ISO
-├── home/
-│   ├── features/      # Modular feature sets
-│   └── klowdo/        # User-specific config
-├── modules/           # Custom NixOS and Home Manager modules
-├── overlays/          # Package overlays
-├── pkgs/              # Custom package definitions
-├── lib/               # Helper functions
-├── scripts/           # Management scripts
-└── docs/              # Documentation
+├── flake.nix              # Entry point -- inputs + mkFlake (import-tree ./modules)
+├── modules/
+│   ├── flake/             # Flake plumbing (systems, pkgs, overlays, checks, devshells)
+│   ├── nixos/<aspect>.nix # flake.modules.nixos.<aspect>
+│   ├── home/<category>/   # flake.modules.homeManager.<aspect>
+│   ├── options/           # Reusable option modules exported as option-* aspects
+│   ├── users/klowdo/      # user-klowdo (NixOS) and klowdo (Home Manager) aspects
+│   └── hosts/<host>/      # nixosConfigurations.<host>, homeConfigurations."klowdo@<host>",
+│                          #   hardware/disko/sops files (`_`-prefixed, imported by path)
+├── overlays/              # Package overlays
+├── pkgs/                  # Custom package definitions
+├── lib/                   # Helper functions
+├── scripts/               # Management scripts
+└── docs/                  # Documentation
 ```
 
 ## Features
 
-Home Manager configuration is organized into feature modules under `home/features/`:
+Home Manager aspects live under `modules/home/<category>/`:
 
 | Category | Contents |
 |----------|----------|

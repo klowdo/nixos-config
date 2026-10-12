@@ -4,7 +4,7 @@
 
 ### 1. ~~Duplicate Import~~ FIXED
 
-- **File**: `hosts/dellicious/default.nix`
+- **File**: `modules/hosts/dellicious/default.nix`
 - **Fix**: Removed duplicate `../common/optional/default.nix` import
 
 ### 2. ~~Undefined nixpkgs-stable Input~~ FIXED
@@ -49,7 +49,7 @@
 
 ### 10. ~~Inconsistent Module Naming~~ FIXED
 
-- **Files**: `hosts/common/optional/resolved.nix`, `hosts/dellicious/default.nix`
+- **Files**: `hosts/common/optional/resolved.nix`, `modules/hosts/dellicious/default.nix`
 - **Fix**: Standardized on `extraServices.*` pattern, removed `modules.*` pattern
 
 ### 11. ~~lib/default.nix FIXME~~ FIXED
@@ -71,13 +71,13 @@
 
 ### 14. Latest Kernel Usage
 
-- **File**: `hosts/dellicious/default.nix`
+- **File**: `modules/hosts/dellicious/default.nix`
 - **Issue**: `linuxPackages_latest` can be unstable
 - **Fix**: Consider using stable kernel for production
 
 ### 15. way-displays TODOs
 
-- **File**: `modules/home-manager/way-displays.nix`
+- **File**: `modules/options/home/way-displays.nix`
 - **Issue**: Multiple TODOs about wayload systemd target and optional settings
 - **Fix**: Review and implement as needed
 

@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository Overview
 
-This is a sophisticated NixOS dotfiles configuration using Nix flakes that manages both system-level (NixOS) and user-level (Home Manager) configurations. The repository follows a modular, feature-based architecture with two hosts: `dellicious` (Dell XPS 15) and `virt-nix` (VM).
+This is a sophisticated NixOS dotfiles configuration using Nix flakes that manages both system-level (NixOS) and user-level (Home Manager) configurations. The repository follows the Dendritic pattern (flake-parts + import-tree, one aspect per file) with two hosts: `dellicious` (Dell XPS 15) and `virt-nix` (VM).
 
 ## Common Commands
 
@@ -75,30 +75,41 @@ Identity options:
 
 ## Architecture
 
+The flake follows the Dendritic pattern: `flake.nix` holds only inputs and
+`mkFlake {inherit inputs;} (import-tree ./modules)`. Every `.nix` file under
+`modules/` is a flake-parts module and is auto-imported; files and directories
+starting with `_` are skipped and are imported by path from their owner.
+
 ### Directory Structure
 
-- `flake.nix` - Main entry point defining inputs/outputs for hosts
-- `hosts/` - Host-specific NixOS configurations
-  - `common/core/` - Essential system configs
-  - `common/optional/` - Optional system features
-  - `common/optional/disko/` - Disko disk partitioning modules
-  - `dellicious/` - Dell XPS 15 laptop config
-  - `virt-nix/` - Virtual machine config
-  - `iso/` - Custom installer ISO configuration
-- `home/` - Home Manager configurations
-  - `features/` - Modular feature sets (cli, desktop, development, media)
-  - `klowdo/` - User-specific configs
-- `modules/` - Custom NixOS and Home Manager modules
+- `flake.nix` - Inputs + `import-tree ./modules`
+- `modules/flake/` - Flake plumbing (systems, pkgs, overlays, packages, checks, devshells, formatter, lib, compat outputs)
+- `modules/nixos/<aspect>.nix` - `flake.modules.nixos.<aspect>` (system-level aspects, `_disko/` templates)
+- `modules/home/<category>/<aspect>.nix` - `flake.modules.homeManager.<aspect>` (cli, desktop, development, media, communication, gaming, hardware, sync)
+- `modules/options/` - Reusable option modules exported as `option-*` aspects (imported by the `base` aspects)
+- `modules/users/klowdo/` - `flake.modules.nixos.user-klowdo`, `flake.modules.homeManager.klowdo` and `klowdo-dotfiles`
+- `modules/hosts/<host>/` - `flake.nixosConfigurations.<host>`, `flake.homeConfigurations."klowdo@<host>"`, `host-<host>` aspects, `_hardware-configuration.nix`, `_disko.nix`, `_sops.nix`, `_wifi.nix`
 - `overlays/` - Package overlays and modifications
 - `pkgs/` - Custom package definitions
 - `lib/` - Custom library functions and wallpapers
 - `scripts/` - Management and build scripts
 
+### Aspects
+
+- One aspect per file; aspect name = file basename (`modules/nixos/docker.nix` -> `flake.modules.nixos.docker`)
+- An aspect is an ordinary NixOS / Home Manager module closed over `inputs` and the flake-parts `config.flake` (no `specialArgs`)
+- Enabling an aspect = importing it. There are no `features.*.enable` / `extraServices.*.enable` flags
+- Non-boolean settings stay as options under the old path minus `.enable` (`extraServices.docker.usePasta`, `features.cli.auto-shell.*`, `features.defaults.*`, ...) and are set by the host
+- An aspect depends on another by importing it: `imports = [flake.modules.nixos.audio];` (outer `config.flake` bound in a `let`)
+- `flake.modules` gives every aspect a stable module key, so importing the same aspect from several places is safe
+- `nixosModules` / `homeModules` outputs alias `flake.modules.nixos` / `flake.modules.homeManager`
+
 ### Key Technologies
 
 - **NixOS 26.05** stable with unstable overlay
-- **Home Manager** for user environment
-- **Hyprland** Wayland compositor with HyprPanel
+- **Home Manager** for user environment (standalone and integrated with `useGlobalPkgs = false`)
+- **flake-parts + import-tree** for the Dendritic module layout
+- **Hyprland** Wayland compositor with Caelestia shell
 - **SOPS-nix** for secrets management (with YubiKey and TPM 2.0 support via age plugins)
 - **Disko** for declarative disk partitioning
 - **Stylix + Catppuccin** theming
@@ -108,17 +119,12 @@ Identity options:
 
 - `dellicious` - Production Dell XPS 15 with Intel CPU, disabled Nvidia, Hyprland
 - `virt-nix` - Testing virtual machine
-- `iso` - Custom installer ISO with disko, YubiKey support, and installation tools
+- `iso` / `iso-minimal` - Custom installer ISOs with disko, YubiKey support, and installation tools
 
-### Feature System
+### Adding a Feature
 
-Home Manager uses feature flags in `home/features/`:
-
-- `cli/` - Terminal tools (kitty, zsh, tmux, fzf, yazi)
-- `desktop/` - Wayland/Hyprland desktop environment
-- `development/` - Programming tools (.NET, Rider, LibreOffice)
-- `media/` - Spotify (Spicetify), Zathura
-- `communication/` - Discord, Zoom
+1. Create `modules/home/<category>/<name>.nix` (or `modules/nixos/<name>.nix`) defining `flake.modules.homeManager.<name>` (or `.nixos.<name>`)
+2. Add the aspect name to the host's import list in `modules/hosts/<host>/default.nix`
 
 ## Development Workflow
 
