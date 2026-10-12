@@ -1,5 +1,0 @@
-{
-  programs.claudia = {
-    enable = false;
-  };
-}

@@ -13,7 +13,6 @@
   auto-claude-appimage = pkgs.callPackage ./auto-claude-appimage {};
   bambustudio-appimage = pkgs.callPackage ./bambustudio-appimage {};
   claude-desktop = pkgs.callPackage ./claude-desktop {};
-  # claudia = pkgs.callPackage ./claudia {};
   deezer-linux = pkgs.callPackage ./deezer-linux {};
   numara-calculator = pkgs.callPackage ./numara-calculator {};
   nss-docker-ng = pkgs.callPackage ./nss-docker-ng {};
