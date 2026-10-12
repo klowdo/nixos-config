@@ -62,7 +62,6 @@
     ../common/optional/swaylock.nix
     ../common/optional/power-profiles-daemon.nix
     ../common/optional/powertop.nix
-    ../common/optional/auto-upgrade.nix
     ../common/optional/systemd-notify.nix
     ../common/optional/thyx.nix
     ../common/optional/greetd.nix
