@@ -9,8 +9,13 @@ with lib; let
   cfg = config.features.development.tools.rustrover;
   rustroverPkg = pkgs.jetbrains.rust-rover;
   rustroverVersion = concatStringsSep "." (take 2 (splitString "." rustroverPkg.version));
-  pluginList = with inputs.nix-jetbrains-plugins.plugins."${pkgs.stdenv.hostPlatform.system}".rust-rover."${rustroverVersion}"; [
-    IdeaVIM
+  marketplace = inputs.nix-jetbrains-plugins.plugins."${pkgs.stdenv.hostPlatform.system}".rust-rover."${rustroverVersion}";
+  pluginList = map (id: marketplace.${id}) [
+    "IdeaVIM"
+    "AceJump"
+    "com.joshestein.ideavim-quickscope"
+    "dev.ckob.lazygit"
+    "com.wakatime.intellij.plugin"
   ];
 in {
   options.features.development.tools.rustrover.enable = mkEnableOption "enable RustRover IDE";

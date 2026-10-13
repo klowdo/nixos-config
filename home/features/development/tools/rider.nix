@@ -10,8 +10,13 @@ with lib; let
   inherit (pkgs.unstable.jetbrains) plugins;
   riderpkg = pkgs.jetbrains.rider;
   riderVersion = concatStringsSep "." (take 2 (splitString "." riderpkg.version));
-  pluginList = with inputs.nix-jetbrains-plugins.plugins."${pkgs.stdenv.hostPlatform.system}".rider."${riderVersion}"; [
-    IdeaVIM
+  marketplace = inputs.nix-jetbrains-plugins.plugins."${pkgs.stdenv.hostPlatform.system}".rider."${riderVersion}";
+  pluginList = map (id: marketplace.${id}) [
+    "IdeaVIM"
+    "AceJump"
+    "com.joshestein.ideavim-quickscope"
+    "dev.ckob.lazygit"
+    "com.wakatime.intellij.plugin"
   ];
 in {
   options.features.development.tools.rider.enable = mkEnableOption "enable rider IDE";
