@@ -42,6 +42,7 @@
       workmux.enable = false;
       gitlab-cli.enable = true;
       tools.enable = true;
+      herdr.enable = true;
       auto-shell = {
         enable = true;
         availableShells = builtins.attrNames (import ../../devshells {inherit pkgs inputs;});
