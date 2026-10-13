@@ -1,0 +1,145 @@
+" .ideavimrc is a configuration file for IdeaVim plugin. It uses
+    the same commands as the original .vimrc configuration.
+" You can find a list of commands here: https://jb.gg/h38q75
+" Find more examples here: https://jb.gg/share-ideavimrc
+
+
+"" -- Suggested options --
+" Show a few lines of context around the cursor. Note that this makes the
+" text scroll if you mouse-click near the start or end of the window.
+set scrolloff=5
+
+" Do incremental searching.
+set incsearch
+
+" Don't use Ex mode, use Q for formatting.
+map Q gq
+
+" --- Enable IdeaVim plugins https://jb.gg/ideavim-plugins
+
+" Highlight copied text
+Plug 'machakann/vim-highlightedyank'
+" Commentary plugin
+Plug 'tpope/vim-commentary'
+
+
+"" -- Map IDE actions to IdeaVim -- https://jb.gg/abva4t
+"" Map \r to the Reformat Code action
+"map \r <Action>(ReformatCode)
+
+"" Map <leader>d to start debug
+"map <leader>d <Action>(Debug)
+
+"" Map \b to toggle the breakpoint on the current line
+"map \b <Action>(ToggleLineBreakpoint)
+
+"" -- LSP-ish navigation (mirrors kixvim) --
+let mapleader = " "
+set clipboard=unnamedplus,unnamed,ideaput
+set ideajoin
+Plug 'tpope/vim-surround'
+
+map gd <Action>(GotoDeclaration)
+map gD <Action>(GotoTypeDeclaration)
+map gI <Action>(GotoImplementation)
+map gr <Action>(ShowUsages)
+map gs <Action>(GotoSuperMethod)
+map K <Action>(QuickJavaDoc)
+map <leader>rn <Action>(RenameElement)
+map <leader>ca <Action>(ShowIntentionActions)
+map <leader>cf <Action>(ReformatCode)
+map <leader>cd <Action>(ShowErrorDescription)
+map ]d <Action>(GotoNextError)
+map [d <Action>(GotoPreviousError)
+
+"" -- search / files --
+map <leader>sf <Action>(GotoFile)
+map <leader>sg <Action>(FindInPath)
+map <leader>ss <Action>(FileStructurePopup)
+map <leader>sd <Action>(ActivateProblemsViewToolWindow)
+map <leader><leader> <Action>(RecentFiles)
+map <leader>q <Action>(CloseContent)
+
+"" -- debug --
+map <leader>db <Action>(ToggleLineBreakpoint)
+map <leader>dc <Action>(Resume)
+map <leader>di <Action>(StepInto)
+map <leader>do <Action>(StepOver)
+map <leader>dr <Action>(Debug)
+
+"" -- windows --
+map <C-h> <C-w>h
+map <C-j> <C-w>j
+map <C-k> <C-w>k
+map <C-l> <C-w>l
+
+"" -- harpoon (HarpoonIJ) --
+map <leader>a <Action>(AddToHarpoon)
+map <C-e> <Action>(ShowHarpoon)
+map <leader>hj <Action>(GotoHarpoon1)
+map <leader>hk <Action>(GotoHarpoon2)
+map <leader>hl <Action>(GotoHarpoon3)
+map <leader>hm <Action>(GotoHarpoon4)
+
+map <leader>l <Action>(ReformatCode)
+
+map <leader>ff <Action>(GotoFile)
+
+"" -- file tree --
+map <leader>e <Action>(ActivateProjectToolWindow)
+map <leader>fe <Action>(SelectInProjectView)
+
+map <leader>u <Action>(LocalHistory.ShowHistory)
+
+map <leader>gc <Action>(CommentByLineComment)
+vmap <leader>gc <Action>(CommentByLineComment)
+
+"" -- lazygit --
+map <leader>lg <Action>(Lazygit.Toggle)
+
+"" -- breakpoints --
+map <leader>dB <Action>(AddConditionalBreakpoint)
+map <leader>dO <Action>(StepOut)
+map <leader>du <Action>(ActivateDebugToolWindow)
+map <leader>dx <Action>(Stop)
+map <leader>dl <Action>(ViewBreakpoints)
+map <leader>dm <Action>(ToggleMuteBreakpoints)
+
+map <leader>gg <Action>(Lazygit.Toggle)
+
+"" -- tests --
+map <leader>tr <Action>(RunClass)
+map <leader>td <Action>(DebugClass)
+map <leader>tt <Action>(RunContextGroup)
+map <leader>ts <Action>(ActivateUnitTestsToolWindow)
+map <leader>to <Action>(ActivateRunToolWindow)
+map <leader>tS <Action>(Stop)
+map <leader>tl <Action>(Rerun)
+map <leader>tf <Action>(RerunFailedTests)
+
+"" -- per-IDE (build / solution-wide tests) --
+if &ide =~? 'rider'
+  map <leader>tT <Action>(RiderUnitTestRunSolutionAction)
+  map <leader>bb <Action>(BuildSolutionAction)
+  map <leader>br <Action>(Rider.Rebuild)
+  map <leader>bc <Action>(CleanSolution)
+elseif &ide =~? 'rustrover'
+  map <leader>bb <Action>(CompileDirty)
+  map <leader>br <Action>(CompileProject)
+endif
+
+"" -- quickscope --
+set quickscope
+let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
+
+"" -- acejump (flash-style) --
+map s <Action>(AceAction)
+map S <Action>(AceTargetAction)
+map <leader>jl <Action>(AceLineAction)
+
+"" -- function navigation --
+map ]m <Action>(MethodDown)
+map [m <Action>(MethodUp)
+map <leader>fs <Action>(FileStructurePopup)
+map <leader>ws <Action>(GotoSymbol)
+map <leader>o <Action>(ActivateStructureToolWindow)
