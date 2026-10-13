@@ -222,13 +222,13 @@ in {
           };
           enabledPlugins = {
             "claude-code-wakatime@wakatime" = true;
-            "frontend-design@claude-plugins-official" = true;
+            "frontend-design@claude-plugins-official" = false;
             "context7@claude-plugins-official" = true;
             "code-review@claude-plugins-official" = false;
             "gopls-lsp@claude-plugins-official" = false;
-            "superpowers@superpowers-marketplace" = true;
+            "superpowers@superpowers-marketplace" = false;
             "code-simplifier@claude-plugins-official" = true;
-            "worktrunk@worktrunk" = true;
+            "worktrunk@worktrunk" = false;
             "caveman@caveman" = false;
             "ponytail@ponytail" = true;
             "i-have-adhd@i-have-adhd" = true;
