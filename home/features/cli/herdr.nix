@@ -19,6 +19,8 @@ in {
         next_agent = "prefix+)";
         focus_agent = "ctrl+1..9";
         switch_workspace = "prefix+shift+1..9";
+        navigate_workspace_up = "shift+k";
+        navigate_workspace_down = "shift+j";
       };
     };
   };
