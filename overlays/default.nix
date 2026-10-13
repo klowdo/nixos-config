@@ -23,7 +23,7 @@
       config.allowUnfree = true;
       overlays = [
         (import ./worktrunk.nix)
-        (import ./herdr.nix)
+        # (import ./herdr.nix)
       ];
     };
   };
