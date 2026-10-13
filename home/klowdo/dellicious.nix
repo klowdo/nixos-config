@@ -109,7 +109,7 @@
       tools = {
         rider.enable = true;
         goland.enable = false;
-        rustrover.enable = false;
+        rustrover.enable = true;
         libreoffice.enable = false;
         junie = {
           enable = true;
