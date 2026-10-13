@@ -233,6 +233,7 @@ in {
             "ponytail@ponytail" = true;
             "i-have-adhd@i-have-adhd" = true;
             "claude-mem@thedotmack" = false;
+            "flightdeck@claude-flightdeck" = true;
           };
           extraKnownMarketplaces = {
             caveman = {
@@ -281,6 +282,12 @@ in {
               source = {
                 source = "github";
                 repo = "thedotmack/claude-mem";
+              };
+            };
+            claude-flightdeck = {
+              source = {
+                source = "github";
+                repo = "scasella/claude-flightdeck";
               };
             };
           };
