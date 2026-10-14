@@ -21,7 +21,7 @@ in {
     isNormalUser = true;
     description = "Felix Svensson";
     extraGroups =
-      ["wheel" "networkmanager" "audio" "video" "input"]
+      ["wheel" "networkmanager" "audio" "video" "input" "dialout"]
       ++ ifTheyExist [
         "libvirtd" # Virtual machine management
         "flatpak" # Flatpak application management
