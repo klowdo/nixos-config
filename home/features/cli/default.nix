@@ -25,7 +25,7 @@
     ./worktrunk.nix
     ./workmux.nix
     ./glab.nix
-    ./herdr.nix
+    ./herdr
     ./tools.nix
     ./docker.nix
   ];
