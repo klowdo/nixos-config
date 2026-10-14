@@ -6,6 +6,5 @@
   way-displays = import ./way-displays.nix;
   junie = import ./junie.nix;
   vcstool = import ./vcstool.nix;
-  vicinae = import ./vicinae.nix;
   hyprmoncfg = import ./hyprmoncfg.nix;
 }

@@ -39,35 +39,6 @@ in {
     programs.vicinae = {
       enable = true;
 
-      setupExtensionPreferences = true;
-
-      extensionSettings = [
-        {
-          id = "extension.homeassistant";
-          attributes = {
-            camerarefreshinterval = "3000";
-            ignorecerts = false;
-            instance = "https://assistant.home.flixen.se";
-            preferredapp = "browser";
-            showEntityId = false;
-            token = "@TOKEN@";
-            usePing = true;
-          };
-          secrets."@TOKEN@" = config.sops.secrets."applications/homeassistant/token".path;
-        }
-        {
-          id = "extension.hypr-keybinds";
-          attributes.keybindsConfigPath = "${config.xdg.configHome}/hypr/hyprland.conf";
-        }
-        {
-          id = "extension.sesh";
-          attributes = {
-            openWithApp = "kitty";
-            environmentPath = "${lib.makeBinPath [pkgs.sesh pkgs.tmux]}:/run/current-system/sw/bin:/etc/profiles/per-user/${config.home.username}/bin";
-          };
-        }
-      ];
-
       extensions = [
         (config.lib.vicinae.mkExtension {
           name = "hypr-keybinds";
@@ -109,6 +80,22 @@ in {
       ];
 
       settings = {
+        imports = [config.sops.templates."vicinae-secrets.json".path];
+        providers = {
+          "@tonka3000/homeassistant".preferences = {
+            camerarefreshinterval = "3000";
+            ignorecerts = false;
+            instance = "https://assistant.home.flixen.se";
+            preferredapp = "browser";
+            showEntityId = false;
+            usePing = true;
+          };
+          "@sovereign/hypr-keybinds".preferences.keybindsConfigPath = "${config.xdg.configHome}/hypr/hyprland.conf";
+          "@joshmedeski/sesh".preferences = {
+            openWithApp = "kitty";
+            environmentPath = "${lib.makeBinPath [pkgs.sesh pkgs.tmux]}:/run/current-system/sw/bin:/etc/profiles/per-user/${config.home.username}/bin";
+          };
+        };
         faviconService = "twenty";
         font.size = 10;
         poptorootonclose = false;
@@ -120,11 +107,15 @@ in {
       };
     };
 
+    sops.templates."vicinae-secrets.json".content = builtins.toJSON {
+      providers."@tonka3000/homeassistant".preferences.token = config.sops.placeholder."applications/homeassistant/token";
+    };
+
     systemd.user.services.vicinae-server = {
       Unit = {
         Description = "Vicinae Launcher Server";
         Documentation = "https://docs.vicinae.com";
-        After = ["graphical-session.target"];
+        After = ["graphical-session.target" "sops-nix.service"];
         PartOf = ["graphical-session.target"];
         Requires = ["dbus.socket"];
       };
