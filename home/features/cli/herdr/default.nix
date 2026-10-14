@@ -6,15 +6,20 @@
 }:
 with lib; let
   cfg = config.features.cli.herdr;
-  herdrPlugins = pkgs.callPackage ./plugins.nix {};
-
-  plugins = with herdrPlugins; [bar vimNavigation betterWorktrees spreader annotate];
+  plugins = with pkgs; [
+    herdr-bar
+    vim-herdr-navigation
+    herdr-better-worktrees
+    herdr-spreader
+    herdr-annotate
+    terminal-browser
+  ];
 
   registryEntry = plugin: {
-    plugin_id = plugin.pluginId;
-    name = plugin.pluginName;
+    plugin_id = plugin.herdrPlugin.id;
+    inherit (plugin.herdrPlugin) name;
     inherit (plugin) version;
-    min_herdr_version = plugin.minHerdrVersion;
+    min_herdr_version = plugin.herdrPlugin.minHerdrVersion;
     manifest_path = "${plugin}/herdr-plugin.toml";
     plugin_root = "${plugin}";
     enabled = true;
@@ -29,7 +34,10 @@ in {
   options.features.cli.herdr.enable = mkEnableOption "enable herdr agent multiplexer";
 
   config = mkIf cfg.enable {
-    home.packages = [pkgs.unstable.herdr herdrPlugins.spreader];
+    home.packages = [
+      pkgs.unstable.herdr
+      (pkgs.runCommand "herdr-plugin-bins" {} "mkdir -p $out/bin && ln -s ${pkgs.herdr-spreader}/bin/* ${pkgs.terminal-browser}/bin/* $out/bin")
+    ];
 
     xdg.configFile."herdr/plugins.json".text = builtins.toJSON (map registryEntry plugins);
 
@@ -45,6 +53,7 @@ in {
         command = [
           (pluginAction "prefix+space" "herdr-bar.open" "command bar")
           (pluginAction "prefix+t" "herdr-better-worktrees.manage" "manage worktrees")
+          (pluginAction "prefix+alt+b" "zenbu-labs.terminal-browser.open-split" "open browser split")
           (pluginAction "ctrl+h" "vim-herdr-navigation.left" "navigate left (vim/herdr)")
           (pluginAction "ctrl+j" "vim-herdr-navigation.down" "navigate down (vim/herdr)")
           (pluginAction "ctrl+k" "vim-herdr-navigation.up" "navigate up (vim/herdr)")
