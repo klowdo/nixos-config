@@ -28,6 +28,7 @@
   tmux-file-picker = pkgs.callPackage ./tmux-file-picker {};
   munder-difflin = pkgs.callPackage ./munder-difflin {};
   fp-clear-storage = pkgs.callPackage ./fp-clear-storage {};
+  gh-enhance = pkgs.unstable.callPackage ./gh-enhance {buildGoModule = pkgs.unstable.buildGo127Module;};
   herdr-bar = pkgs.callPackage ./herdr/herdr-bar {};
   vim-herdr-navigation = pkgs.callPackage ./herdr/vim-herdr-navigation {};
   herdr-better-worktrees = pkgs.callPackage ./herdr/herdr-better-worktrees {};
