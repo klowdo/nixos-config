@@ -10,7 +10,7 @@ with lib; let
     herdr-bar
     vim-herdr-navigation
     herdr-better-worktrees
-    herdr-spreader
+    herdr-sesh
     herdr-annotate
     terminal-browser
   ];
@@ -26,6 +26,58 @@ with lib; let
     source.kind = "local";
   };
 
+  toml = pkgs.formats.toml {};
+
+  seshConfig = toml.generate "herdr-sesh-config.toml" {
+    version = 1;
+    list.cache = true;
+    tab = [
+      {
+        name = "git";
+        pane = [
+          {
+            name = "lazygit";
+            startup = "lazygit";
+          }
+        ];
+      }
+    ];
+    workspace = [
+      {
+        name = "home";
+        path = "~";
+      }
+      {
+        name = "dotfiles";
+        path = "~/.dotfiles";
+        startup = "nvim";
+        tabs = ["git"];
+      }
+      {
+        name = "todo dotfiles";
+        path = "~/.dotfiles";
+        startup = "nvim docs/todo.md";
+      }
+      {
+        name = "kixvim";
+        path = "~/dev/github/kixvim";
+        startup = "nvim";
+        tabs = ["git"];
+      }
+      {
+        name = "downloads";
+        path = "~/Downloads";
+        startup = "yazi";
+      }
+    ];
+    rule = [
+      {
+        path_glob = "~/dev/**";
+        tabs = ["git"];
+      }
+    ];
+  };
+
   pluginAction = key: command: description: {
     inherit key command description;
     type = "plugin_action";
@@ -36,12 +88,13 @@ in {
   config = mkIf cfg.enable {
     home.packages = [
       pkgs.unstable.herdr
-      (pkgs.runCommand "herdr-plugin-bins" {} "mkdir -p $out/bin && ln -s ${pkgs.herdr-spreader}/bin/* ${pkgs.terminal-browser}/bin/* $out/bin")
+      (pkgs.runCommand "herdr-plugin-bins" {} "mkdir -p $out/bin && ln -s ${pkgs.herdr-sesh}/bin/* ${pkgs.terminal-browser}/bin/* $out/bin")
     ];
 
     xdg.configFile."herdr/plugins.json".text = builtins.toJSON (map registryEntry plugins);
+    xdg.configFile."herdr/plugins/config/fullerzz.sesh/config.toml".source = seshConfig;
 
-    xdg.configFile."herdr/config.toml".source = (pkgs.formats.toml {}).generate "herdr-config.toml" {
+    xdg.configFile."herdr/config.toml".source = toml.generate "herdr-config.toml" {
       onboarding = false;
       keys = {
         previous_agent = "prefix+(";
@@ -52,6 +105,8 @@ in {
         navigate_workspace_down = "shift+j";
         command = [
           (pluginAction "prefix+space" "herdr-bar.open" "command bar")
+          (pluginAction "prefix+shift+s" "fullerzz.sesh.open-picker" "sesh picker")
+          (pluginAction "prefix+backtick" "fullerzz.sesh.last" "previous workspace")
           (pluginAction "prefix+t" "herdr-better-worktrees.manage" "manage worktrees")
           (pluginAction "prefix+alt+b" "zenbu-labs.terminal-browser.open-split" "open browser split")
           (pluginAction "ctrl+h" "vim-herdr-navigation.left" "navigate left (vim/herdr)")

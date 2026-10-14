@@ -31,7 +31,7 @@
   herdr-bar = pkgs.callPackage ./herdr/herdr-bar {};
   vim-herdr-navigation = pkgs.callPackage ./herdr/vim-herdr-navigation {};
   herdr-better-worktrees = pkgs.callPackage ./herdr/herdr-better-worktrees {};
-  herdr-spreader = pkgs.callPackage ./herdr/herdr-spreader {};
+  herdr-sesh = pkgs.callPackage ./herdr/herdr-sesh {};
   herdr-annotate = pkgs.callPackage ./herdr/herdr-annotate {};
   terminal-browser = pkgs.callPackage ./herdr/terminal-browser {};
   # zsh-term-title = pkgs.callPackage ./zsh-term-title { };
