@@ -13,6 +13,7 @@ with lib; let
     herdr-sesh
     herdr-annotate
     terminal-browser
+    herdr-projects
   ];
 
   registryEntry = plugin: {
@@ -88,7 +89,7 @@ in {
   config = mkIf cfg.enable {
     home.packages = [
       pkgs.unstable.herdr
-      (pkgs.runCommand "herdr-plugin-bins" {} "mkdir -p $out/bin && ln -s ${pkgs.herdr-sesh}/bin/* ${pkgs.terminal-browser}/bin/* $out/bin")
+      (pkgs.runCommand "herdr-plugin-bins" {} "mkdir -p $out/bin && ln -s ${pkgs.herdr-sesh}/bin/* ${pkgs.terminal-browser}/bin/* ${pkgs.herdr-projects}/bin/* $out/bin")
     ];
 
     xdg.configFile."herdr/plugins.json".text = builtins.toJSON (map registryEntry plugins);
@@ -108,6 +109,7 @@ in {
           (pluginAction "prefix+shift+s" "fullerzz.sesh.open-picker" "sesh picker")
           (pluginAction "prefix+backtick" "fullerzz.sesh.last" "previous workspace")
           (pluginAction "prefix+t" "herdr-better-worktrees.manage" "manage worktrees")
+          (pluginAction "prefix+p" "herdr-projects.open-popup" "projects")
           (pluginAction "prefix+alt+b" "zenbu-labs.terminal-browser.open-split" "open browser split")
           (pluginAction "ctrl+h" "vim-herdr-navigation.left" "navigate left (vim/herdr)")
           (pluginAction "ctrl+j" "vim-herdr-navigation.down" "navigate down (vim/herdr)")

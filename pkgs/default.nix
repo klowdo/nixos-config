@@ -35,5 +35,6 @@
   herdr-sesh = pkgs.callPackage ./herdr/herdr-sesh {};
   herdr-annotate = pkgs.callPackage ./herdr/herdr-annotate {};
   terminal-browser = pkgs.callPackage ./herdr/terminal-browser {};
+  herdr-projects = pkgs.callPackage ./herdr/herdr-projects {};
   # zsh-term-title = pkgs.callPackage ./zsh-term-title { };
 }
