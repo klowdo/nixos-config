@@ -1,6 +1,10 @@
 No comments in code(functions) functions docs are accepted. use clean code to emphasize intent
 Never add Co-Authored-By or similar attribution lines to commits
 
+## Context Management
+
+Always try to delegate work to subagents to keep the main context small. Use agents for exploration, multi-file reading, research, and independent tasks; keep only their conclusions in the main session. Run independent agents in parallel.
+
 ## CodeGraph
 
 CodeGraph builds semantic knowledge graphs for faster code exploration.
