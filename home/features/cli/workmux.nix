@@ -8,6 +8,7 @@
 with lib; let
   cfg = config.features.cli.workmux;
   yaml = pkgs.formats.yaml {};
+  workmuxSkills = genAttrs ["coordinator" "merge" "open-pr" "rebase" "workmux" "worktree"] (name: "${inputs.workmux}/skills/${name}");
 in {
   options.features.cli.workmux.enable = mkEnableOption "workmux parallel development with git worktrees";
 
@@ -17,6 +18,17 @@ in {
         doCheck = false;
       })
     ];
+
+    programs.claude-code = {
+      skills = workmuxSkills;
+      settings = {
+        enabledPlugins."workmux-status@workmux" = true;
+        extraKnownMarketplaces.workmux.source = {
+          source = "github";
+          repo = "raine/workmux";
+        };
+      };
+    };
 
     xdg.configFile."workmux/config.yaml".source = yaml.generate "config.yaml" {
       worktree_dir = ".worktrees";

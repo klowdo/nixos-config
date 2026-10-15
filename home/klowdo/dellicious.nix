@@ -38,8 +38,8 @@
       archives.enable = true;
       circumflex.enable = true;
       cool-retro-term.enable = true;
-      worktrunk.enable = true;
-      workmux.enable = false;
+      worktrunk.enable = false;
+      workmux.enable = true;
       gitlab-cli.enable = true;
       tools.enable = true;
       herdr.enable = true;
