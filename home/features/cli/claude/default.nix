@@ -146,10 +146,6 @@ in {
         hooks."rtk-rewrite.sh" = rtkRewriteHookContent;
 
         mcpServers = {
-          nixos = {
-            command = "nix";
-            args = ["run" "github:utensils/mcp-nixos" "--"];
-          };
           codegraph = {
             type = "stdio";
             command = "${pkgs.codegraph}/bin/codegraph";
@@ -172,6 +168,11 @@ in {
           tui = "fullscreen";
           cleanupPeriodDays = 14;
           spinnerTipsEnabled = false;
+          deniedMcpServers = map (serverName: {inherit serverName;}) [
+            "claude.ai Gmail"
+            "claude.ai Google Calendar"
+            "claude.ai Google Drive"
+          ];
           permissions = {
             allow = [
               "mcp__codegraph__codegraph_explore"
