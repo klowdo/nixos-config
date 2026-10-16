@@ -35,6 +35,7 @@ in {
       agent = "claude";
       mode = "session";
       merge_strategy = "rebase";
+      nerdfont = true;
       status_icons = {
         working = "🤖";
         waiting = "💬";
