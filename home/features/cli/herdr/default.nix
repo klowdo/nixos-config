@@ -92,6 +92,22 @@ in {
       (pkgs.runCommand "herdr-plugin-bins" {} "mkdir -p $out/bin && ln -s ${pkgs.herdr-sesh}/bin/* ${pkgs.terminal-browser}/bin/* ${pkgs.herdr-projects}/bin/* $out/bin")
     ];
 
+    programs.claude-code = {
+      skills.autoproject = "${pkgs.herdr-projects}/skill/autoproject";
+      settings.hooks = genAttrs ["SessionStart" "UserPromptSubmit" "PostToolUse"] (_: [
+        {
+          matcher = "*";
+          hooks = [
+            {
+              type = "command";
+              command = "${getExe pkgs.herdr-projects} --root ${config.home.homeDirectory}/.herdr-projects hook --agent claude 2>/dev/null || true";
+              timeout = 10;
+            }
+          ];
+        }
+      ]);
+    };
+
     xdg.configFile."herdr/plugins.json".text = builtins.toJSON (map registryEntry plugins);
     xdg.configFile."herdr/plugins/config/fullerzz.sesh/config.toml".source = seshConfig;
 
