@@ -125,7 +125,7 @@ in {
           (pluginAction "prefix+shift+s" "fullerzz.sesh.open-picker" "sesh picker")
           (pluginAction "prefix+backtick" "fullerzz.sesh.last" "previous workspace")
           (pluginAction "prefix+t" "herdr-better-worktrees.manage" "manage worktrees")
-          (pluginAction "prefix+p" "herdr-projects.open-popup" "projects")
+          (pluginAction "prefix+shift+p" "herdr-projects.open-popup" "projects")
           (pluginAction "prefix+alt+b" "zenbu-labs.terminal-browser.open-split" "open browser split")
           (pluginAction "ctrl+h" "vim-herdr-navigation.left" "navigate left (vim/herdr)")
           (pluginAction "ctrl+j" "vim-herdr-navigation.down" "navigate down (vim/herdr)")
