@@ -75,6 +75,7 @@
   networking.hostName = "dellicious";
 
   powerManagement.enable = true;
+  services.speechd.enable = false;
 
   extraServices = {
     docker = {
