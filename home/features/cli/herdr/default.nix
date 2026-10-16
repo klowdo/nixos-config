@@ -130,6 +130,11 @@ in {
 
     xdg.configFile."herdr/plugins.json".text = builtins.toJSON (map registryEntry plugins);
     xdg.configFile."herdr/plugins/config/fullerzz.sesh/config.toml".source = seshConfig;
+    xdg.configFile."herdr/plugins/config/worktrunk/config.toml".source = toml.generate "herdr-worktrunk-config.toml" {
+      picker_placement = "popup";
+      popup_width = "80%";
+      popup_height = "60%";
+    };
 
     xdg.configFile."herdr/config.toml".source = toml.generate "herdr-config.toml" {
       onboarding = false;
