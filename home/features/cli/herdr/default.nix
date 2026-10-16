@@ -29,7 +29,6 @@ with lib; let
   };
 
   toml = pkgs.formats.toml {};
-  herdrProjectsCmd = "${getExe pkgs.herdr-projects} --root ${config.home.homeDirectory}/.herdr-projects";
 
   seshConfig = toml.generate "herdr-sesh-config.toml" {
     version = 1;
@@ -94,40 +93,6 @@ in {
       (pkgs.runCommand "herdr-plugin-bins" {} "mkdir -p $out/bin && ln -s ${pkgs.herdr-sesh}/bin/* ${pkgs.terminal-browser}/bin/* ${pkgs.herdr-projects}/bin/* $out/bin")
     ];
 
-    programs.claude-code = {
-      skills.autoproject = "${pkgs.herdr-projects}/skill/autoproject";
-      settings.permissions.allow = map (sub: "Bash(${herdrProjectsCmd} ${sub}:*)") [
-        "skill"
-        "context"
-        "assignable"
-        "report"
-        "inbox done"
-        "list"
-        "routine list"
-        "thread list"
-        "thread show"
-        "thread prompt"
-        "thread next"
-        "thread read"
-        "thread brief"
-        "thread keys"
-        "thread ack"
-        "thread restart"
-      ];
-      settings.hooks = genAttrs ["SessionStart" "UserPromptSubmit" "PostToolUse"] (_: [
-        {
-          matcher = "*";
-          hooks = [
-            {
-              type = "command";
-              command = "${herdrProjectsCmd} hook --agent claude 2>/dev/null || true";
-              timeout = 10;
-            }
-          ];
-        }
-      ]);
-    };
-
     xdg.configFile."herdr/plugins.json".text = builtins.toJSON (map registryEntry plugins);
     xdg.configFile."herdr/plugins/config/fullerzz.sesh/config.toml".source = seshConfig;
     xdg.configFile."herdr/plugins/config/worktrunk/config.toml".source = toml.generate "herdr-worktrunk-config.toml" {
@@ -154,7 +119,7 @@ in {
           (pluginAction "prefix+shift+w" "worktrunk.open-with-remotes" "worktree switch/create incl. remotes")
           (pluginAction "prefix+alt+w" "worktrunk.merge" "worktree merge")
           (pluginAction "prefix+ctrl+w" "worktrunk.remove" "worktree remove")
-          (pluginAction "prefix+shift+p" "herdr-projects.open-popup" "projects")
+          (pluginAction "prefix+shift+p" "herdr-projects.open" "work board")
           (pluginAction "prefix+alt+b" "zenbu-labs.terminal-browser.open-split" "open browser split")
           (pluginAction "ctrl+h" "vim-herdr-navigation.left" "navigate left (vim/herdr)")
           (pluginAction "ctrl+j" "vim-herdr-navigation.down" "navigate down (vim/herdr)")

@@ -6,16 +6,16 @@
 }:
 rustPlatform.buildRustPackage rec {
   pname = "herdr-projects";
-  version = "1.0.1";
+  version = "1.2.0";
 
   src = fetchFromGitHub {
     owner = "eliasstravik";
     repo = "herdr-projects";
     rev = "v${version}";
-    hash = "sha256-k9YRZaH7GG2EbTjC2f7c3jXlZgOnd0/9eirzIa5+hUo=";
+    hash = "sha256-UPGbpGBJwcTgfYQF06CBrrj6iRFANx7UNceu6yp33mk=";
   };
 
-  cargoHash = "sha256-/fctXfPuGxl/IcF/eBlqo6A0Z6XV5rEBDfuYaj2odUA=";
+  cargoHash = "sha256-twLhYauyfSBoCQtEOtKeMiRrJNgWz33rgLgZPFCR11A=";
 
   doCheck = false;
 
@@ -28,11 +28,11 @@ rustPlatform.buildRustPackage rec {
   passthru.herdrPlugin = {
     id = "herdr-projects";
     name = "Projects";
-    minHerdrVersion = "0.9.1";
+    minHerdrVersion = "0.9.3";
   };
 
   meta = {
-    description = "Coordinator conversation, parallel worker threads and shared memory for herdr";
+    description = "A work board for herdr: one list of tasks, each delegated one an ordinary herdr agent";
     homepage = "https://github.com/eliasstravik/herdr-projects";
     license = lib.licenses.mit;
     mainProgram = "herdr-projects";

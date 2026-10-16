@@ -87,7 +87,7 @@ with lib; let
       echo "Press Enter when ready..."
       read -r
 
-      if ${pkgs.qmk}/bin/qmk flash "$firmware_file"; then
+      if nix run nixpkgs#qmk -- flash "$firmware_file"; then
         notify-send "Moonlander" "Firmware flashed successfully!" -t 3000
         echo "Firmware flashed successfully!"
       else

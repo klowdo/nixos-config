@@ -67,7 +67,7 @@
       bitwarden.enable = false;
       which-key.enable = true;
       kando.enable = false;
-      munder-difflin.enable = true;
+      munder-difflin.enable = false;
       wayscriber.enable = true;
       vicinae = {
         enable = true;
@@ -156,7 +156,10 @@
       teams.enable = false;
     };
     hardware = {
-      zsa-moonlander.enable = true;
+      zsa-moonlander = {
+        enable = true;
+        enableQmkTools = false;
+      };
       bluetooth.enable = true;
     };
     gaming = {
