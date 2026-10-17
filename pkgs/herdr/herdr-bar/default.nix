@@ -7,13 +7,13 @@
 }:
 stdenvNoCC.mkDerivation rec {
   pname = "herdr-bar";
-  version = "0.7.3";
+  version = "0.9.1";
 
   src = fetchFromGitHub {
     owner = "jeffarese";
     repo = "herdr-bar";
     rev = "v${version}";
-    hash = "sha256-LILcta5y5EilQ5B6DKjYyWlwB2k88Kx1rTZXqv/uJhw=";
+    hash = "sha256-jwg5x3GCRAaHNhBmwCkjTTef0/ma9pdwtEC5FHvRewY=";
   };
 
   postPatch = ''
