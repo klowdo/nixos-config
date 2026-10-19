@@ -1,11 +1,10 @@
 # nix-update: herdr-bar
 {
   lib,
-  stdenvNoCC,
+  rustPlatform,
   fetchFromGitHub,
-  python3,
 }:
-stdenvNoCC.mkDerivation rec {
+rustPlatform.buildRustPackage rec {
   pname = "herdr-bar";
   version = "0.9.1";
 
@@ -16,16 +15,12 @@ stdenvNoCC.mkDerivation rec {
     hash = "sha256-jwg5x3GCRAaHNhBmwCkjTTef0/ma9pdwtEC5FHvRewY=";
   };
 
-  postPatch = ''
-    substituteInPlace herdr-plugin.toml --replace-fail '"python3"' '"${lib.getExe python3}"'
-  '';
+  cargoHash = "sha256-9nx8PHmGYKx8+i0+t1Ve40KjZKF036Dv7CWXQ2GiWEI=";
 
-  dontBuild = true;
+  doCheck = false;
 
-  installPhase = ''
-    runHook preInstall
-    cp -r . $out
-    runHook postInstall
+  postInstall = ''
+    cp -r $src/. $out/
   '';
 
   passthru.herdrPlugin = {
@@ -38,5 +33,6 @@ stdenvNoCC.mkDerivation rec {
     description = "Command bar with agent icons and fuzzy search for herdr";
     homepage = "https://github.com/jeffarese/herdr-bar";
     license = lib.licenses.mit;
+    mainProgram = "herdr-bar";
   };
 }
