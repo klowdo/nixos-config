@@ -6,16 +6,16 @@
 }:
 rustPlatform.buildRustPackage rec {
   pname = "herdr-projects";
-  version = "1.2.4";
+  version = "1.2.11";
 
   src = fetchFromGitHub {
     owner = "eliasstravik";
     repo = "herdr-projects";
     rev = "v${version}";
-    hash = "sha256-u9oJtzk1mNsX9CEQDLtFZ4TuDQpfv0/OPkSZiCVjdLY=";
+    hash = "sha256-fcltC0lQAj9BWWWDH03IlG7Niq9MSqv+xAywo5jGjp8=";
   };
 
-  cargoHash = "sha256-0WobVys4dJFffhbl+Hw8mwlPxLkCDRkY/GeV97wzVa8=";
+  cargoHash = "sha256-ise98reHU4izE3QaA4+bepHlJolcGGM0RioNnlHPK0k=";
 
   doCheck = false;
 
