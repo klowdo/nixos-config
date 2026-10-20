@@ -22,7 +22,7 @@ in {
   config = mkIf cfg.enable {
     home.packages = [
       # rustroverPkg
-      (pkgs.jetbrains.plugins.addPlugins rustroverPkg pluginList)
+      (pkgs.unstable.jetbrains.plugins.addPlugins rustroverPkg pluginList)
     ];
 
     home.file.".config/JetBrains/RustRover${rustroverVersion}/rustrover64.vmoptions".text = ''
