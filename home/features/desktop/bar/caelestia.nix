@@ -127,7 +127,7 @@ in {
         inputs.caelestia-shell.packages.${pkgs.stdenv.hostPlatform.system}.with-cli.overrideAttrs
         (_: {
           postPatch = ''
-            substituteInPlace services/IdleInhibitor.qml \
+            substituteInPlace daemons/IdleInhibit.qml \
               --replace-fail "window: PanelWindow {" "window: PanelWindow {
             screen: Quickshell.screens[0] ?? null
             WlrLayershell.namespace: \"caelestia-idle-inhibitor\"" \
