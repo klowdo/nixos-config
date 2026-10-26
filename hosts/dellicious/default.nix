@@ -84,6 +84,7 @@
     };
     virtualization.enable = true;
     resolved.enable = true;
+    onepassword.enable = true;
     # hyprlock.enable = true;
     swaylock.enable = true;
     # tlp.enable = true;
