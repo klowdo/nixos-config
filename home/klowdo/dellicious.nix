@@ -121,7 +121,7 @@
         dotnet.enable = true;
         rust.enable = true;
       };
-      mcp-gateway.enable = true;
+      mcp-gateway.enable = false;
       cura.enable = false;
       orca.enable = false;
       super-slicer.enable = false;
