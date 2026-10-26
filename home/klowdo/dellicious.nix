@@ -106,6 +106,11 @@
     };
     development = {
       claude-desktop.enable = true;
+      opencode = {
+        enable = true;
+        apiKeySecrets = {};
+        model = "github-copilot/claude-sonnet-4.5";
+      };
       wakapi.enable = true;
       tools = {
         rider.enable = false;

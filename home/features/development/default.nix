@@ -9,6 +9,7 @@
     ./bambu-studio.nix
     ./nix-flatpak.nix
     ./claude-desktop.nix
+    ./opencode.nix
     ./freecad.nix
     ./mongo-compass.nix
     ./wakapi.nix
