@@ -103,6 +103,13 @@ in {
           };
           profiles.work = {
             id = 1;
+            extensions.packages = [
+              (pkgs.fetchFirefoxAddon {
+                name = "onepassword";
+                url = "https://addons.mozilla.org/firefox/downloads/file/5097307/1password_x_password_manager-8.12.41.1.xpi";
+                hash = "sha256-awCs/3MlOGUwOvSemTKSRalANISEy9kx6jn5+iFRNPU=";
+              })
+            ];
             settings = {
               "browser.startup.page" = 1;
               "signon.rememberSignons" = false;
