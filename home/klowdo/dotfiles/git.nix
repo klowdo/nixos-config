@@ -46,6 +46,10 @@
           user.email = "felix@flixen.se";
         };
       }
+      {
+        condition = "gitdir:~/dev/work/";
+        path = "~/dev/work/.gitconfig";
+      }
     ];
   };
 
