@@ -19,10 +19,17 @@ in {
   config = mkIf cfg.enable (mkMerge (
     (optional (options ? stylix) {
       stylix.targets.firefox.enable = true;
-      stylix.targets.firefox.profileNames = ["default"];
+      stylix.targets.firefox.profileNames = ["default" "work"];
     })
     ++ [
       {
+        xdg.desktopEntries.firefox-work = {
+          name = "Firefox (Work)";
+          exec = "firefox -P work --no-remote %U";
+          icon = "firefox";
+          categories = ["Network" "WebBrowser"];
+          mimeType = ["text/html" "x-scheme-handler/http" "x-scheme-handler/https"];
+        };
         programs.firefox = {
           enable = true;
           configPath = ".mozilla/firefox";
@@ -93,6 +100,15 @@ in {
             #     display: none !important;
             #   }
             # '';
+          };
+          profiles.work = {
+            id = 1;
+            settings = {
+              "browser.startup.page" = 1;
+              "signon.rememberSignons" = false;
+              "signon.autofillForms" = false;
+              "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
+            };
           };
         };
       }
