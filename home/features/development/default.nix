@@ -13,6 +13,7 @@
     ./freecad.nix
     ./mongo-compass.nix
     ./wakapi.nix
+    ./copilot-cli.nix
     ./kubernetes.nix
   ];
 
