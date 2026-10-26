@@ -153,7 +153,7 @@
       neomutt.enable = false;
       slack.enable = true;
       ferdium.enable = false;
-      teams.enable = false;
+      teams.enable = true;
     };
     hardware = {
       zsa-moonlander = {
