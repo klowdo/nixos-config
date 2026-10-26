@@ -108,7 +108,7 @@
       claude-desktop.enable = true;
       wakapi.enable = true;
       tools = {
-        rider.enable = true;
+        rider.enable = false;
         goland.enable = false;
         rustrover.enable = true;
         libreoffice.enable = false;
