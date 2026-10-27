@@ -5,6 +5,7 @@ default:
 import 'just/sops.just'
 import 'just/home.just'
 import 'just/pass.just'
+import 'just/gpg.just'
 
 # List all recipes
 list:
