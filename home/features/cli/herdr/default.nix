@@ -111,9 +111,9 @@ in {
         navigate_workspace_up = "shift+k";
         navigate_workspace_down = "shift+j";
         command = [
-          (pluginAction "prefix+space" "herdr-bar.open" "command bar")
+          (pluginAction "prefix+k" "herdr-bar.open" "command bar")
           (pluginAction "prefix+shift+s" "fullerzz.sesh.open-picker" "sesh picker")
-          (pluginAction "prefix+backtick" "fullerzz.sesh.last" "previous workspace")
+          (pluginAction "prefix+shift+l" "fullerzz.sesh.last" "previous workspace")
           (pluginAction "prefix+t" "herdr-better-worktrees.manage" "manage worktrees")
           (pluginAction "prefix+w" "worktrunk.open" "worktree switch/create")
           (pluginAction "prefix+shift+w" "worktrunk.open-with-remotes" "worktree switch/create incl. remotes")
