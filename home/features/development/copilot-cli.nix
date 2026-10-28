@@ -27,12 +27,12 @@ in {
   config = mkIf cfg.enable {
     programs.github-copilot-cli = {
       enable = true;
-      package = pkgs.symlinkJoin {
-        name = "github-copilot-cli";
-        paths = [pkgs.unstable.github-copilot-cli];
-        nativeBuildInputs = [pkgs.makeWrapper];
-        postBuild = "wrapProgram $out/bin/copilot --suffix PATH : ${pkgs.python3}/bin";
-      };
+      package = pkgs.unstable.github-copilot-cli.overrideAttrs (old: {
+        postInstall =
+          replaceStrings ["--add-flag --no-auto-update"]
+          ["--add-flag --no-auto-update --argv0 copilot --suffix PATH : ${pkgs.python3}/bin"]
+          old.postInstall;
+      });
       context = ''
         Never mention Copilot, GitHub Copilot or any AI assistant in commit messages, PR descriptions or code.
       '';
