@@ -68,6 +68,7 @@
     ../common/optional/ly.nix
     ../common/optional/stylix.nix
     ../common/optional/logitech.nix
+    ../common/optional/onepassword.nix
     ../common/optional/localsend.nix
   ];
 
@@ -82,6 +83,7 @@
       usePasta = true;
     };
     virtualization.enable = true;
+    onepassword.enable = true;
     resolved.enable = true;
     # hyprlock.enable = true;
     swaylock.enable = true;

@@ -65,7 +65,6 @@
       nautilus.enable = true;
       darkman.enable = true;
       bitwarden.enable = false;
-      onepassword.enable = true;
       which-key.enable = true;
       kando.enable = false;
       munder-difflin.enable = false;
