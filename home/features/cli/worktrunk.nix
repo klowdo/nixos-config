@@ -73,6 +73,7 @@ in {
       post-switch = {
         tmux = ''[ -n "$TMUX" ] && tmux rename-window {{ branch | sanitize }}'';
         sesh = ''[ -n "$TMUX" ] && sesh connect {{ worktree_path }}'';
+        herdr = ''[ -n "$HERDR_ENV" ] && herdr worktree open --cwd {{ repo_path }} --path {{ worktree_path }} --label {{ branch | sanitize }} --focus'';
       };
       post-merge = {
         prune-merged = ''git branch --merged {{ default_branch }} | grep -vE '^\*|\s+({{ default_branch }})$' | xargs -r git branch -d'';
