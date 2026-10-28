@@ -159,7 +159,7 @@ in {
 
         # Settings reference: https://code.claude.com/docs/en/settings
         settings = {
-          # model = "claude-opus-4-6[1M]";
+          model = "claude-opus-5-5[1M]";
           editorMode = "vim";
           theme = "dark-ansi";
           effortLevel = "medium";

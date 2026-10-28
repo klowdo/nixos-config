@@ -14,6 +14,7 @@
     ./defaults.nix
     ./bar
     ./bitwarden.nix
+    ./onepassword.nix
     ./which-key.nix
     ./solaar.nix
     ./kando.nix
