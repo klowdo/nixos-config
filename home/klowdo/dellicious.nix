@@ -124,6 +124,10 @@
       };
       languages = {
         dotnet.enable = true;
+        go = {
+          enable = true;
+          privateModules = ["github.com/volvo-cars/*"];
+        };
         rust.enable = true;
       };
       mcp-gateway.enable = false;
