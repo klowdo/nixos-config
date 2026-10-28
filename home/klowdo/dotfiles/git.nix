@@ -38,6 +38,7 @@
       rebase.updateRefs = true;
       pull.rebase = true;
       credential.helper = "store";
+      url."git@github.com:".insteadOf = "https://github.com/";
     };
     includes = [
       {
