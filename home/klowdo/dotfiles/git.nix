@@ -15,6 +15,7 @@
   programs.git = {
     enable = true;
     package = pkgs.gitFull;
+    ignores = [".worktrees/"];
     settings = {
       user = {
         name = config.userConfig.fullName;
