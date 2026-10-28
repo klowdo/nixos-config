@@ -106,6 +106,7 @@
     };
     development = {
       claude-desktop.enable = true;
+      copilot-cli.enable = true;
       opencode = {
         enable = true;
         apiKeySecrets = {};
