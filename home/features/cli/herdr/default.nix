@@ -80,6 +80,11 @@ with lib; let
     ];
   };
 
+  copilotIntegration = pkgs.runCommand "herdr-copilot-integration" {} ''
+    mkdir -p $out/.copilot
+    HOME=$out ${pkgs.unstable.herdr}/bin/herdr integration install copilot
+  '';
+
   pluginAction = key: command: description: {
     inherit key command description;
     type = "plugin_action";
@@ -92,6 +97,11 @@ in {
       pkgs.unstable.herdr
       (pkgs.runCommand "herdr-plugin-bins" {} "mkdir -p $out/bin && ln -s ${pkgs.herdr-sesh}/bin/* ${pkgs.terminal-browser}/bin/* ${pkgs.herdr-projects}/bin/* $out/bin")
     ];
+
+    home.file.".copilot/settings.json" = mkIf config.features.development.copilot-cli.enable {
+      source = "${copilotIntegration}/.copilot/settings.json";
+      force = true;
+    };
 
     xdg.configFile."herdr/plugins.json".text = builtins.toJSON (map registryEntry plugins);
     xdg.configFile."herdr/plugins/config/fullerzz.sesh/config.toml".source = seshConfig;
