@@ -14,7 +14,7 @@
 
   userConfig.username = lib.mkForce "FSVENS28";
 
-  home.packages = [pkgs.neovim pkgs.nh pkgs.vicinae];
+  home.packages = [pkgs.neovim pkgs.nh];
 
   features = {
     cli = {
