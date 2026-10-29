@@ -13,7 +13,7 @@ with lib; let
     herdr-sesh
     herdr-annotate
     terminal-browser
-    herdr-projects
+    shepherdr
     herdr-worktrunk
   ];
 
@@ -90,7 +90,7 @@ in {
   config = mkIf cfg.enable {
     home.packages = [
       pkgs.unstable.herdr
-      (pkgs.runCommand "herdr-plugin-bins" {} "mkdir -p $out/bin && ln -s ${pkgs.herdr-sesh}/bin/* ${pkgs.terminal-browser}/bin/* ${pkgs.herdr-projects}/bin/* $out/bin")
+      (pkgs.runCommand "herdr-plugin-bins" {} "mkdir -p $out/bin && ln -s ${pkgs.herdr-sesh}/bin/* ${pkgs.terminal-browser}/bin/* ${pkgs.shepherdr}/bin/* $out/bin")
     ];
 
     xdg.configFile."herdr/plugins.json".text = builtins.toJSON (map registryEntry plugins);
