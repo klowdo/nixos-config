@@ -136,7 +136,7 @@
     ...
   } @ inputs: let
     inherit (self) outputs;
-    systems = ["x86_64-linux"];
+    systems = ["x86_64-linux" "aarch64-darwin"];
     # Thanks Misterio77
     lib = (nixpkgs.lib // home-manager.lib).extend (_self: _super: {custom = import ./lib {inherit (nixpkgs) lib;};});
     forEachSystem = f: lib.genAttrs systems (system: f pkgsFor.${system});
