@@ -7,6 +7,7 @@
     ./home.nix
     ./dotfiles/git.nix
     ../features/cli
+    ../features/desktop/amethyst
     ../common
     ../common/optional/sops.nix
   ];
@@ -15,17 +16,21 @@
 
   home.packages = [pkgs.neovim];
 
-  features.cli = {
-    zsh.enable = true;
-    fzf.enable = true;
-    fastfetch.enable = true;
-    yazi.enable = true;
-    tmux.enable = true;
-    herdr.enable = true;
-    sesh.enable = true;
-    gh.enable = true;
-    ssh.enable = true;
-    tools.enable = true;
-    archives.enable = true;
+  features = {
+    cli = {
+      zsh.enable = true;
+      fzf.enable = true;
+      fastfetch.enable = true;
+      yazi.enable = true;
+      tmux.enable = true;
+      herdr.enable = true;
+      sesh.enable = true;
+      gh.enable = true;
+      ssh.enable = true;
+      tools.enable = true;
+      archives.enable = true;
+    };
+
+    desktop.amethyst.enable = true;
   };
 }

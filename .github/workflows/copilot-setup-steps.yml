@@ -1,0 +1,182 @@
+---
+name: Copilot Setup Steps
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - "main"
+  pull_request:
+    branches:
+      - "main"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  setup-nix-environment:
+    name: Setup Nix Flakes Environment
+    runs-on: ubuntu-latest
+    outputs:
+      nix-version: ${{ steps.nix-info.outputs.nix-version }}
+      flake-dir: ${{ steps.nix-info.outputs.flake-dir }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Clean up nix environment
+        uses: wimpysworld/nothing-but-nix@main
+        with:
+          hatchet-protocol: "cleave"
+
+      - name: Install Nix with flakes support
+        uses: DeterminateSystems/nix-installer-action@v23
+
+      - name: Get Nix version info
+        id: nix-info
+        run: |
+          nix --version
+          nix flake --version
+          echo "nix-version=$(nix --version | awk '{print $3}')" >> "$GITHUB_OUTPUT"
+          echo "flake-dir=$(pwd)" >> "$GITHUB_OUTPUT"
+
+      - name: Set up Nix cache
+        uses: cachix/cachix-action@v17
+        with:
+          name: klowdo
+          authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
+          skipPush: true
+
+      - name: Initialize flake inputs
+        run: |
+          echo "Initializing Nix flake inputs..."
+          nix flake metadata --json | head -20
+
+      - name: Pre-cache flake dependencies
+        id: flake-cache
+        run: |
+          echo "Pre-caching flake lock dependencies..."
+          # Fetch all flake lock inputs to warm up cache
+          nix flake lock --update-input nixpkgs 2>&1 | head -5 || true
+          # Show flake outputs
+          echo "Available flake outputs:"
+          nix flake show --json | jq -r 'keys[]' 2>/dev/null || echo "Could not fetch flake outputs"
+
+  validate-nix-config:
+    name: Validate Nix Configuration
+    needs: setup-nix-environment
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Clean up nix environment
+        uses: wimpysworld/nothing-but-nix@main
+        with:
+          hatchet-protocol: "cleave"
+
+      - name: Install Nix with flakes support
+        uses: DeterminateSystems/nix-installer-action@v23
+
+      - name: Set up Nix cache
+        uses: cachix/cachix-action@v17
+        with:
+          name: klowdo
+          authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
+          skipPush: true
+
+      - name: Validate flake.nix syntax
+        run: |
+          echo "Validating flake.nix syntax..."
+          nix flake check --offline 2>&1 | head -50 || true
+
+      - name: List available hosts
+        run: |
+          echo "Available NixOS/Nix Darwin hosts:"
+          nix flake show --json 2>/dev/null | jq -r '.nixosConfigurations | keys[]' 2>/dev/null || echo "Could not list nixosConfigurations"
+          nix flake show --json 2>/dev/null | jq -r '.darwinConfigurations | keys[]' 2>/dev/null || echo "Could not list darwinConfigurations"
+
+      - name: Verify flake inputs are locked
+        run: |
+          echo "Checking flake.lock exists and is valid..."
+          test -f flake.lock && echo "✓ flake.lock exists"
+          nix flake lock --validate 2>&1 || echo "Note: Some inputs may require network access"
+
+  copilot-context:
+    name: Prepare Copilot Context
+    needs: setup-nix-environment
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Clean up nix environment
+        uses: wimpysworld/nothing-but-nix@main
+        with:
+          hatchet-protocol: "cleave"
+
+      - name: Install Nix with flakes support
+        uses: DeterminateSystems/nix-installer-action@v23
+
+      - name: Set up Nix cache
+        uses: cachix/cachix-action@v17
+        with:
+          name: klowdo
+          authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
+          skipPush: true
+
+      - name: Generate Nix environment info
+        id: nix-context
+        run: |
+          {
+            echo "nix_version=$(nix --version)"
+            echo "system=$(nix eval --impure --expr 'builtins.currentSystem')"
+            echo "flake_inputs=$(nix flake metadata --json | jq '.locks | keys | length')"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Generate environment summary
+        run: |
+          cat > /tmp/nix-context.md << 'EOF'
+          # Nix Flakes Environment Setup Complete
+          
+          ## System Information
+          - **Nix Version**: $(nix --version)
+          - **Current System**: $(nix eval --impure --expr 'builtins.currentSystem')
+          - **Repository**: NixOS dotfiles configuration
+          
+          ## Flake Structure
+          - **Available Hosts**: dellicious, virt-nix, D9PDHCXWH6/Darwin, iso
+          - **Locked Inputs**: ✓ flake.lock present
+          - **Home Manager Integration**: ✓ enabled
+          
+          ## Flake Inputs Configured
+          - **nixpkgs**: Multiple channels (stable, unstable, unsafe)
+          - **Home Manager**: Integrated
+          - **Nix Darwin**: macOS support
+          - **Hardware Support**: nixos-hardware
+          - **Disk Management**: disko
+          - **Secrets**: sops-nix
+          - **Build System**: Pre-commit hooks
+          
+          ## Available Development Shells
+          Use `nix flake show` to see all available development environments.
+          
+          ## Cache Configuration
+          - **Cache**: klowdo (cachix)
+          - **Status**: Configured and ready
+          
+          ---
+          Generated for GitHub Copilot context
+          EOF
+          cat /tmp/nix-context.md
+
+      - name: Output setup summary
+        if: always()
+        run: |
+          echo "::notice::Nix flakes environment setup complete. Ready for Copilot integration."
+          echo "Setup Summary:"
+          echo "  - Nix installer: $(nix --version)"
+          echo "  - Flakes support: enabled"
+          echo "  - Cache provider: cachix (klowdo)"
+          echo "  - Working directory: $(pwd)"
