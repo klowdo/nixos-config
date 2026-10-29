@@ -148,9 +148,6 @@ in {
         # ============================================
         # Lock screen
         alt + shift + ctrl - l : pmset displaysleepnow
-
-        # These require skhd to be run with sudo for system controls
-        # Or configure in System Preferences → Security & Privacy
       '';
     };
   };

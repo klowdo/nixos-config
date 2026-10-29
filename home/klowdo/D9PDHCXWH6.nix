@@ -7,8 +7,7 @@
     ./home.nix
     ./dotfiles/git.nix
     ../features/cli
-    ../features/desktop/amethyst
-    ../features/desktop/yabai
+    ../features/communication
     ../common
     ../common/optional/sops.nix
   ];
@@ -32,6 +31,6 @@
       archives.enable = true;
     };
 
-    desktop.yabai.enable = true;
+    communication.slack.enable = true;
   };
 }
