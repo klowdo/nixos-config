@@ -7,7 +7,10 @@
     ./home.nix
     ./dotfiles/git.nix
     ../features/cli
+    ../features/development
     ../features/communication
+    ../features/desktop/amethyst
+    ../features/desktop/yabai
     ../common
     ../common/optional/sops.nix
   ];
@@ -32,5 +35,9 @@
     };
 
     communication.slack.enable = true;
+
+    development.copilot-cli.enable = true;
+
+    desktop.yabai.enable = true;
   };
 }
