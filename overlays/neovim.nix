@@ -1,3 +1,3 @@
 {inputs}: final: prev: {
-  neovim = inputs.kixvim.packages.${prev.stdenv.hostPlatform.system}.default;
+  neovim = inputs.kixvim.packages.${prev.stdenv.hostPlatform.system}.default or prev.neovim;
 }

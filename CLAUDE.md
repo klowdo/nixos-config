@@ -108,6 +108,7 @@ Identity options:
 
 - `dellicious` - Production Dell XPS 15 with Intel CPU, disabled Nvidia, Hyprland
 - `virt-nix` - Testing virtual machine
+- `D9PDHCXWH6` - Apple Silicon Mac (nix-darwin + Home Manager module, user `FSVENS28`, Homebrew casks); `darwin-rebuild switch --flake .#D9PDHCXWH6`
 - `iso` - Custom installer ISO with disko, YubiKey support, and installation tools
 
 ### Feature System

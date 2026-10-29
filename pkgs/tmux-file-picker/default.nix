@@ -37,7 +37,7 @@ stdenvNoCC.mkDerivation {
     description = "Pop up fzf in tmux to quickly insert file paths";
     homepage = "https://github.com/raine/tmux-file-picker";
     license = lib.licenses.mit;
-    platforms = lib.platforms.linux;
+    platforms = lib.platforms.unix;
     mainProgram = "tmux-file-picker";
   };
 }
