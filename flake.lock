@@ -760,11 +760,11 @@
         "trouble-nvim": "trouble-nvim"
       },
       "locked": {
-        "lastModified": 1793015577,
-        "narHash": "sha256-m5YJ72YujQ94uUOmAobJ57nHPPdW1+V+R4o7P61iMjk=",
+        "lastModified": 1793264289,
+        "narHash": "sha256-SvCznxAbwwgo01UJrJ9ExBMz8x2t4wbwDVsaG5IcfhM=",
         "owner": "klowdo",
         "repo": "kixvim",
-        "rev": "9b964d34322992b0df09ba57ad8f65ebfade407c",
+        "rev": "abeafc57b77a7f880818bb6933357d9410631132",
         "type": "github"
       },
       "original": {
