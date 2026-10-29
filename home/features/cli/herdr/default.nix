@@ -6,7 +6,9 @@
 }:
 with lib; let
   cfg = config.features.cli.herdr;
-  plugins = with pkgs; [
+  available = meta.availableOn pkgs.stdenv.hostPlatform;
+  hasTerminalBrowser = available pkgs.terminal-browser;
+  plugins = filter available (with pkgs; [
     herdr-bar
     vim-herdr-navigation
     herdr-better-worktrees
@@ -15,7 +17,8 @@ with lib; let
     terminal-browser
     herdr-projects
     herdr-worktrunk
-  ];
+  ]);
+  pluginBins = filter available [pkgs.herdr-sesh pkgs.terminal-browser pkgs.herdr-projects];
 
   registryEntry = plugin: {
     plugin_id = plugin.herdrPlugin.id;
@@ -90,7 +93,7 @@ in {
   config = mkIf cfg.enable {
     home.packages = [
       pkgs.unstable.herdr
-      (pkgs.runCommand "herdr-plugin-bins" {} "mkdir -p $out/bin && ln -s ${pkgs.herdr-sesh}/bin/* ${pkgs.terminal-browser}/bin/* ${pkgs.herdr-projects}/bin/* $out/bin")
+      (pkgs.runCommand "herdr-plugin-bins" {} "mkdir -p $out/bin && ln -s ${concatMapStringsSep " " (p: "${p}/bin/*") pluginBins} $out/bin")
     ];
 
     xdg.configFile."herdr/plugins.json".text = builtins.toJSON (map registryEntry plugins);
@@ -110,31 +113,33 @@ in {
         switch_workspace = "prefix+shift+1..9";
         navigate_workspace_up = "shift+k";
         navigate_workspace_down = "shift+j";
-        command = [
-          (pluginAction "prefix+k" "herdr-bar.open" "command bar")
-          (pluginAction "prefix+shift+s" "fullerzz.sesh.open-picker" "sesh picker")
-          (pluginAction "prefix+shift+l" "fullerzz.sesh.last" "previous workspace")
-          (pluginAction "prefix+t" "herdr-better-worktrees.manage" "manage worktrees")
-          (pluginAction "prefix+w" "worktrunk.open" "worktree switch/create")
-          (pluginAction "prefix+shift+w" "worktrunk.open-with-remotes" "worktree switch/create incl. remotes")
-          (pluginAction "prefix+alt+w" "worktrunk.merge" "worktree merge")
-          (pluginAction "prefix+ctrl+w" "worktrunk.remove" "worktree remove")
-          (pluginAction "prefix+shift+p" "herdr-projects.open" "work board")
-          (pluginAction "prefix+alt+b" "zenbu-labs.terminal-browser.open-split" "open browser split")
-          (pluginAction "ctrl+h" "vim-herdr-navigation.left" "navigate left (vim/herdr)")
-          (pluginAction "ctrl+j" "vim-herdr-navigation.down" "navigate down (vim/herdr)")
-          (pluginAction "ctrl+k" "vim-herdr-navigation.up" "navigate up (vim/herdr)")
-          (pluginAction "ctrl+l" "vim-herdr-navigation.right" "navigate right (vim/herdr)")
-          (pluginAction "prefix+a" "annotate.capture" "annotate text")
-          (pluginAction "prefix+shift+a" "annotate.copy-context" "copy annotations as context")
-          (pluginAction "prefix+ctrl+a" "annotate.copy-archive" "copy annotations and archive them")
-          (pluginAction "prefix+ctrl+v" "annotate.paste-archive" "paste annotations into the agent prompt")
-          (pluginAction "prefix+ctrl+s" "annotate.send-archive" "send annotations to the agent")
-          (pluginAction "prefix+m" "annotate.manage" "manage annotations")
-          (pluginAction "prefix+alt+o" "annotate.open" "review documents in this folder")
-          (pluginAction "prefix+shift+o" "annotate.last" "review the agent's last reply")
-          (pluginAction "prefix+ctrl+o" "annotate.last-newest" "review the agent's newest reply")
-        ];
+        command =
+          [
+            (pluginAction "prefix+k" "herdr-bar.open" "command bar")
+            (pluginAction "prefix+shift+s" "fullerzz.sesh.open-picker" "sesh picker")
+            (pluginAction "prefix+shift+l" "fullerzz.sesh.last" "previous workspace")
+            (pluginAction "prefix+t" "herdr-better-worktrees.manage" "manage worktrees")
+            (pluginAction "prefix+w" "worktrunk.open" "worktree switch/create")
+            (pluginAction "prefix+shift+w" "worktrunk.open-with-remotes" "worktree switch/create incl. remotes")
+            (pluginAction "prefix+alt+w" "worktrunk.merge" "worktree merge")
+            (pluginAction "prefix+ctrl+w" "worktrunk.remove" "worktree remove")
+            (pluginAction "prefix+shift+p" "herdr-projects.open" "work board")
+            (pluginAction "ctrl+h" "vim-herdr-navigation.left" "navigate left (vim/herdr)")
+            (pluginAction "ctrl+j" "vim-herdr-navigation.down" "navigate down (vim/herdr)")
+            (pluginAction "ctrl+k" "vim-herdr-navigation.up" "navigate up (vim/herdr)")
+            (pluginAction "ctrl+l" "vim-herdr-navigation.right" "navigate right (vim/herdr)")
+            (pluginAction "prefix+a" "annotate.capture" "annotate text")
+            (pluginAction "prefix+shift+a" "annotate.copy-context" "copy annotations as context")
+            (pluginAction "prefix+ctrl+a" "annotate.copy-archive" "copy annotations and archive them")
+            (pluginAction "prefix+ctrl+v" "annotate.paste-archive" "paste annotations into the agent prompt")
+            (pluginAction "prefix+ctrl+s" "annotate.send-archive" "send annotations to the agent")
+            (pluginAction "prefix+m" "annotate.manage" "manage annotations")
+            (pluginAction "prefix+alt+o" "annotate.open" "review documents in this folder")
+            (pluginAction "prefix+shift+o" "annotate.last" "review the agent's last reply")
+            (pluginAction "prefix+ctrl+o" "annotate.last-newest" "review the agent's newest reply")
+          ]
+          ++ optional hasTerminalBrowser
+          (pluginAction "prefix+alt+b" "zenbu-labs.terminal-browser.open-split" "open browser split");
       };
     };
   };

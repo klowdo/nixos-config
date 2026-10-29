@@ -21,6 +21,7 @@
     fastfetch.enable = true;
     yazi.enable = true;
     tmux.enable = true;
+    herdr.enable = true;
     sesh.enable = true;
     gh.enable = true;
     ssh.enable = true;

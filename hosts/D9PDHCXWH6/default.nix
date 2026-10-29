@@ -6,7 +6,10 @@
 }: let
   username = "FSVENS28";
 in {
-  imports = [inputs.home-manager.darwinModules.home-manager];
+  imports = [
+    inputs.home-manager.darwinModules.home-manager
+    ./kanata.nix
+  ];
 
   nixpkgs = {
     hostPlatform = "aarch64-darwin";
@@ -47,7 +50,9 @@ in {
   homebrew = {
     enable = true;
     onActivation.cleanup = "none";
-    casks = [];
+    casks = [
+      "amethyst"
+    ];
   };
 
   home-manager = {
