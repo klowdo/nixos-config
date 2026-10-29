@@ -8,6 +8,7 @@
     ./dotfiles/git.nix
     ../features/cli
     ../features/desktop/amethyst
+    ../features/desktop/yabai
     ../common
     ../common/optional/sops.nix
   ];
@@ -31,6 +32,6 @@
       archives.enable = true;
     };
 
-    desktop.amethyst.enable = true;
+    desktop.yabai.enable = true;
   };
 }
