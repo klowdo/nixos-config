@@ -148,6 +148,13 @@ in {
         # ============================================
         # Lock screen
         alt + shift + ctrl - l : pmset displaysleepnow
+
+        # ============================================
+        # Keyboard Input Switching (mirrors Hyprland's grp:win_space_toggle)
+        # ============================================
+        # Switch input source/keyboard layout using Cmd+Space (native macOS)
+        # Alternative: Option+Space to match Hyprland's Super+Space
+        alt - space : osascript -e 'tell application "System Events" to key code 49 using command down' &
       '';
     };
   };

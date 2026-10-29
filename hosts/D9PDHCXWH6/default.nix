@@ -53,8 +53,6 @@ in {
     brews = [
       "starship"
       "tailscale"
-      "yabai"
-      "skhd"
     ];
     casks = [
       "amethyst"
@@ -63,6 +61,7 @@ in {
       "firefox"
       "ghostty"
       "raycast"
+      "slack"
     ];
   };
 
