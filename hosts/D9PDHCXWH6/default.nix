@@ -50,13 +50,17 @@ in {
   homebrew = {
     enable = true;
     onActivation.cleanup = "none";
+    taps = [
+      "koekeishiya/formulae"
+    ];
     brews = [
       "starship"
       "tailscale"
       "golang"
+      "koekeishiya/formulae/yabai"
+      "koekeishiya/formulae/skhd"
     ];
     casks = [
-      "amethyst"
       "claude-code"
       "copilot-cli"
       "firefox"

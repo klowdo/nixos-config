@@ -21,10 +21,19 @@
     lib.filterAttrs
     (_: cfg: cfg.pkgs.stdenv.hostPlatform.system == system)
     (self.nixosConfigurations or {});
+
+  darwinHosts =
+    lib.filterAttrs
+    (_: cfg: cfg.pkgs.stdenv.hostPlatform.system == system)
+    (self.darwinConfigurations or {});
 in {
   packages = pkgs.linkFarmFromDrvs "all-packages" (lib.attrValues allPkgs);
 
   nixos-configs =
     pkgs.linkFarmFromDrvs "all-nixos-configs"
     (lib.mapAttrsToList (_: cfg: cfg.config.system.build.toplevel) nixosHosts);
+
+  darwin-configs =
+    pkgs.linkFarmFromDrvs "all-darwin-configs"
+    (lib.mapAttrsToList (_: cfg: cfg.config.system.build.toplevel) darwinHosts);
 }
