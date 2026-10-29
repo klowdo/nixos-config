@@ -50,8 +50,17 @@ in {
   homebrew = {
     enable = true;
     onActivation.cleanup = "none";
+    brews = [
+      "starship"
+      "tailscale"
+    ];
     casks = [
       "amethyst"
+      "claude-code"
+      "copilot-cli"
+      "firefox"
+      "ghostty"
+      "raycast"
     ];
   };
 
