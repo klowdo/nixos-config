@@ -17,6 +17,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    nix-darwin = {
+      url = "github:nix-darwin/nix-darwin/nix-darwin-26.05";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # Hardware helpers
     hardware.url = "github:nixos/nixos-hardware";
 
@@ -222,6 +227,14 @@
         modules = [
           ./hosts/iso/minimal.nix
         ];
+      };
+    };
+
+    # Available through 'darwin-rebuild switch --flake .#D9PDHCXWH6'
+    darwinConfigurations = {
+      D9PDHCXWH6 = inputs.nix-darwin.lib.darwinSystem {
+        specialArgs = {inherit inputs outputs;};
+        modules = [./hosts/D9PDHCXWH6];
       };
     };
 
