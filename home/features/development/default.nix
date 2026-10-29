@@ -14,6 +14,7 @@
     ./mongo-compass.nix
     ./wakapi.nix
     ./copilot-cli.nix
+    ./codex.nix
     ./kubernetes.nix
   ];
 
