@@ -54,13 +54,15 @@ in {
       "koekeishiya/formulae"
     ];
     brews = [
+      "gh"
+      "go"
       "starship"
       "tailscale"
-      "golang"
       "koekeishiya/formulae/yabai"
       "koekeishiya/formulae/skhd"
     ];
     casks = [
+      "amethyst"
       "claude-code"
       "copilot-cli"
       "firefox"
