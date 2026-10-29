@@ -9,7 +9,7 @@
     ../features/cli
     ../features/development
     ../features/communication
-    ../features/desktop/amethyst
+    ../features/desktop
     ../features/desktop/yabai
     ../common
     ../common/optional/sops.nix

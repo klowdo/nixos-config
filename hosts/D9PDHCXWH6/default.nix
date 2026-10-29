@@ -53,6 +53,7 @@ in {
     brews = [
       "starship"
       "tailscale"
+      "golang"
     ];
     casks = [
       "amethyst"

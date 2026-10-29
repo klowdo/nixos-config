@@ -8,10 +8,15 @@ This is a sophisticated NixOS dotfiles configuration using Nix flakes that manag
 
 ## Common Commands
 
-### Primary Build & Deploy (NH Tool)
+### Primary Build & Deploy
 
+**For NixOS (dellicious, virt-nix):**
 - `nh os switch` - Rebuild and switch to new NixOS configuration
 - `nh os test` - Test NixOS configuration without applying changes
+
+**For nix-darwin/macOS (D9PDHCXWH6):**
+- `sudo darwin-rebuild switch --flake .#D9PDHCXWH6` - Rebuild and switch to new Darwin configuration
+- `darwin-rebuild check --flake .#D9PDHCXWH6` - Test configuration without applying changes
 
 ### Legacy Commands (Deprecated)
 

@@ -13,7 +13,7 @@
     ./gh.nix
     ./nix.nix
     ./claude
-    ./bitwarden-wofi.nix
+    # ./bitwarden-wofi.nix  # Linux-only: uses wofi, wl-copy, libnotify
     ./ssh.nix
     ./lazygit.nix
     ./git-repo-manager.nix
