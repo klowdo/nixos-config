@@ -66,33 +66,6 @@ in {
     ];
   };
 
-  launchd.user.agents = {
-    yabai = {
-      enable = true;
-      config = {
-        Label = "com.koekeishiya.yabai";
-        Program = "${pkgs.yabai}/bin/yabai";
-        ProgramArguments = ["${pkgs.yabai}/bin/yabai" "-c" "/Users/${username}/.config/yabai/yabairc"];
-        RunAtLoad = true;
-        KeepAlive = true;
-        StandardOutPath = "/tmp/yabai.out.log";
-        StandardErrorPath = "/tmp/yabai.err.log";
-      };
-    };
-    skhd = {
-      enable = true;
-      config = {
-        Label = "com.koekeishiya.skhd";
-        Program = "${pkgs.skhd}/bin/skhd";
-        ProgramArguments = ["${pkgs.skhd}/bin/skhd" "-c" "/Users/${username}/.config/skhd/skhdrc"];
-        RunAtLoad = true;
-        KeepAlive = true;
-        StandardOutPath = "/tmp/skhd.out.log";
-        StandardErrorPath = "/tmp/skhd.err.log";
-      };
-    };
-  };
-
   home-manager = {
     extraSpecialArgs = {inherit inputs outputs;};
     backupFileExtension = "hm-backup";
