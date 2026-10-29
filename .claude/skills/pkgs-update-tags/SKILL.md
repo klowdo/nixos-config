@@ -12,7 +12,7 @@ Every package under `pkgs/` in this repo needs a marker comment on **line 1** of
 
 ## Decision rule
 
-1. **Default — `# nix-update: <pname>`.** Applies to every new `pkgs/*/default.nix`, including ordinary appimages (see `pkgs/auto-claude-appimage/default.nix`). Single argument = the attr name registered in `pkgs/default.nix`. No flags.
+1. **Default — `# nix-update: <pname>`.** Applies to every new `pkgs/*/default.nix`, including ordinary appimages. Single argument = the attr name registered in `pkgs/default.nix`. No flags.
 
 2. **Exception A — JetBrains overlay** (`overlays/jetbrains-*.nix`):
    ```nix
@@ -50,7 +50,6 @@ The marker must be line 1, above the function signature. Also register the attr 
 ## Canonical examples in this repo
 
 - `pkgs/tmux-file-picker/default.nix` — standard `# nix-update:` on a `fetchFromGitHub` source.
-- `pkgs/auto-claude-appimage/default.nix` — `# nix-update:` on an appimage (appimages do **not** need renovate).
 - `pkgs/bambustudio-appimage/default.nix` — `# renovate:` because a post-upgrade hash rewrite is required.
 - `overlays/jetbrains-rider.nix` — `# renovate: jetbrains-rider code=RD` with matching `customManagers` entry.
 
@@ -91,4 +90,4 @@ After merge, the daily `nix-update` workflow runs at 06:00 UTC; trigger it manua
 - **Using `# renovate:` for a standard `fetchFromGitHub`** — creates dead custom-manager config and splits the update path for no reason. Use `# nix-update:`.
 - **`# renovate:` comment without a matching `customManagers` entry** — Renovate silently does nothing. Always edit `.github/renovate-nix.json5` in the same commit.
 - **Forgetting `pkgs/default.nix`** — the marker alone isn't enough; the attr must exist or `nix-update --flake <pname>` errors out in CI.
-- **Choosing renovate because "it's an appimage"** — appimages work fine with `nix-update`; see `auto-claude-appimage`. Renovate is only for the post-upgrade-script case.
+- **Choosing renovate because "it's an appimage"** — appimages work fine with `nix-update`. Renovate is only for the post-upgrade-script case.

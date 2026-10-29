@@ -17,7 +17,6 @@
     ./which-key.nix
     ./solaar.nix
     ./kando.nix
-    ./auto-claude.nix
     ./munder-difflin.nix
     ./wayscriber.nix
     ./stylix.nix

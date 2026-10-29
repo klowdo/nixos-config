@@ -10,7 +10,6 @@
   # zellij-ps = pkgs.callPackage ./zellij-ps {};
   # ultimaker-cura = pkgs.callPackage ./cura {};
   appimage-tools = pkgs.callPackage ./appimage-tools {};
-  auto-claude-appimage = pkgs.callPackage ./auto-claude-appimage {};
   bambustudio-appimage = pkgs.callPackage ./bambustudio-appimage {};
   claude-desktop = pkgs.callPackage ./claude-desktop {};
   deezer-linux = pkgs.callPackage ./deezer-linux {};
