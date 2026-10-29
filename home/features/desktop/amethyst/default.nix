@@ -9,14 +9,9 @@ let
   cfg = config.features.desktop.amethyst;
 in
 {
+  imports = [ ./amethyst.nix ];
+
   options.features.desktop.amethyst = {
     enable = mkEnableOption "Amethyst tiling window manager for macOS";
   };
-
-  config = mkIf cfg.enable (mkMerge [
-    {
-      # Import Amethyst configuration
-      imports = [ ./amethyst.nix ];
-    }
-  ]);
 }
