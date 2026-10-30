@@ -12,12 +12,12 @@
     ../features/desktop
     ../features/desktop/yabai
     ../common
-    ../common/optional/sops.nix
   ];
 
   userConfig.username = lib.mkForce "FSVENS28";
 
   home.packages = [pkgs.neovim pkgs.nh];
+  home.file.".claude/skills/nix-darwin".source = ../features/cli/claude/skills/nix-darwin;
 
   features = {
     cli = {
@@ -37,6 +37,10 @@
     communication.slack.enable = true;
 
     development.copilot-cli.enable = true;
+    development.opencode = {
+      enable = true;
+      apiKeySecrets = {};
+    };
 
     desktop.yabai.enable = true;
   };

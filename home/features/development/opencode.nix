@@ -2,6 +2,7 @@
   config,
   pkgs,
   lib,
+  options,
   ...
 }:
 with lib; let
@@ -24,16 +25,26 @@ in {
     };
   };
 
-  config = mkIf cfg.enable {
-    sops.secrets = mapAttrs' (_: name: nameValuePair name {mode = "0400";}) cfg.apiKeySecrets;
-
-    programs.opencode = {
-      enable = true;
-      package = pkgs.unsafe.opencode;
-      settings = {
-        provider = mapAttrs (_: name: {options.apiKey = secretFile name;}) cfg.apiKeySecrets;
-        model = mkIf (cfg.model != null) cfg.model;
+  config = mkIf cfg.enable (
+    {
+      assertions = [
+        {
+          assertion = cfg.apiKeySecrets == {} || options ? sops;
+          message = "OpenCode apiKeySecrets requires the SOPS Home Manager module; use an empty mapping for interactive authentication.";
+        }
+      ];
+      programs.opencode = {
+        enable = true;
+        package = pkgs.unsafe.opencode;
+        settings =
+          {
+            provider = mapAttrs (_: name: {options.apiKey = secretFile name;}) cfg.apiKeySecrets;
+          }
+          // optionalAttrs (cfg.model != null) {model = cfg.model;};
       };
-    };
-  };
+    }
+    // optionalAttrs (options ? sops) {
+      sops.secrets = mapAttrs' (_: name: nameValuePair name {mode = "0400";}) cfg.apiKeySecrets;
+    }
+  );
 }
