@@ -26,6 +26,7 @@ in {
 
         # Default layout (mirrors Hyprland's dwindle)
         yabai -m config layout bsp
+        yabai -m space 2 --layout bsp
 
         # Window gaps (mirror Hyprland's 4px inner, 8px outer)
         yabai -m config top_padding    8
@@ -76,13 +77,13 @@ in {
         # Floating for chats and notif apps
         yabai -m rule --add app="^Discord$" manage=off
         yabai -m rule --add app="^Zoom$" manage=off
-        yabai -m rule --add app="^Slack$" manage=off space=3
         yabai -m rule --add app="^Telegram$" manage=off
 
         # Send new app windows to their designated Spaces.
+        yabai -m rule --add app="^Slack$" manage=on space=3
         yabai -m rule --add app="^Microsoft Teams$" space=3
         yabai -m rule --add app="^Spotify$" space=4
-        yabai -m rule --add app="^Firefox$" space=2
+        yabai -m rule --add app="^Firefox$" manage=on space=2
 
         # Signals - refresh on space/window events
         yabai -m signal --add event=dock_did_restart action="sudo yabai --restart-service"
