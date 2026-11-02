@@ -104,6 +104,7 @@ in {
       popup_height = "60%";
     };
 
+    xdg.configFile."herdr/config.toml".force = true;
     xdg.configFile."herdr/config.toml".source = toml.generate "herdr-config.toml" {
       onboarding = false;
       keys = {
@@ -140,6 +141,47 @@ in {
           ]
           ++ optional hasTerminalBrowser
           (pluginAction "prefix+alt+b" "zenbu-labs.terminal-browser.open-split" "open browser split");
+      };
+      ui.sidebar = {
+        agents.rows = [
+          [
+            "state_icon"
+            "machine"
+            "workspace"
+            {
+              token = "tab";
+              rules = [
+                {
+                  equals = "Agent";
+                  hide = true;
+                }
+                {
+                  starts_with = "Reviewer #";
+                  hide = true;
+                }
+              ];
+            }
+          ]
+          ["agent"]
+          [
+            {
+              token = "$summary";
+              dim = true;
+            }
+            "$progress"
+          ]
+        ];
+        spaces.rows = [
+          ["state_icon" "workspace"]
+          ["branch" "git_status"]
+          [
+            {
+              token = "$summary";
+              dim = true;
+            }
+            "$progress"
+          ]
+        ];
       };
     };
   };
