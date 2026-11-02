@@ -6,6 +6,8 @@
 with lib; let
   cfg = config.features.desktop.yabai;
 in {
+  imports = [./skhd.nix];
+
   options.features.desktop.yabai = {
     enable = mkEnableOption "Yabai - macOS tiling window manager";
   };
@@ -15,6 +17,9 @@ in {
       executable = true;
       text = ''
         #!/usr/bin/env bash
+
+        # launchd starts yabai with a minimal PATH; the config must find Homebrew's binary.
+        export PATH="/opt/homebrew/bin:$PATH"
 
         # Yabai Configuration
         # Mirrors Hyprland tiling behavior on macOS
@@ -71,8 +76,13 @@ in {
         # Floating for chats and notif apps
         yabai -m rule --add app="^Discord$" manage=off
         yabai -m rule --add app="^Zoom$" manage=off
-        yabai -m rule --add app="^Slack$" manage=off
+        yabai -m rule --add app="^Slack$" manage=off space=3
         yabai -m rule --add app="^Telegram$" manage=off
+
+        # Send new app windows to their designated Spaces.
+        yabai -m rule --add app="^Microsoft Teams$" space=3
+        yabai -m rule --add app="^Spotify$" space=4
+        yabai -m rule --add app="^Firefox$" space=2
 
         # Signals - refresh on space/window events
         yabai -m signal --add event=dock_did_restart action="sudo yabai --restart-service"
@@ -117,8 +127,8 @@ in {
 
         ### Other
         - Hyprland: Super+Return → Yabai: Option+Return (rotate split)
-        - Hyprland: Super+[ → Yabai: Option+[ (mirror vertical)
-        - Hyprland: Super+] → Yabai: Option+] (mirror horizontal)
+        - Yabai: Option+Control+[ (mirror vertical)
+        - Yabai: Option+Control+] (mirror horizontal)
       '';
     };
   };

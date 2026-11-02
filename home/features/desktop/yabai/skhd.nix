@@ -8,7 +8,9 @@ with lib; let
 in {
   config = mkIf cfg.enable {
     home.file.".config/skhd/skhdrc" = {
-      text = ''
+      force = true;
+      # launchd gives skhd a minimal PATH, so resolve yabai explicitly.
+      text = builtins.replaceStrings ["yabai -m"] ["/opt/homebrew/bin/yabai -m"] ''
         # skhd Configuration
         # Hotkey daemon for yabai (mirrors Hyprland keybindings)
 
@@ -64,7 +66,7 @@ in {
         # Window Management (Hyprland Super+Q/F/etc)
         # ============================================
         alt - q : yabai -m window --close
-        alt - f : yabai -m window --toggle zoom-fullscreen
+        alt - f : yabai -m window --toggle windowed-fullscreen
         alt + shift - f : yabai -m window --toggle native-fullscreen
         alt + shift - space : yabai -m window --toggle float --grid 4:4:1:1:2:2
 
@@ -75,14 +77,13 @@ in {
         alt - return : yabai -m space --rotate 90
 
         # Mirror operations (Hyprland doesn't have these but useful for tiling)
-        alt - bracketleft  : yabai -m space --mirror x-axis
-        alt - bracketright : yabai -m space --mirror y-axis
+        alt + ctrl - 0x21 : yabai -m space --mirror x-axis
+        alt + ctrl - 0x1E : yabai -m space --mirror y-axis
 
         # ============================================
         # Layout Control (Hyprland Super+M, etc)
         # ============================================
         alt - m : yabai -m space --layout "$(yabai -m query --spaces --space | jq -r 'if .type == "bsp" then "float" else "bsp" end')"
-        alt - t : yabai -m space --layout bsp
         alt + shift - t : yabai -m space --layout float
 
         # ============================================
@@ -101,8 +102,8 @@ in {
         # Or use built-in Space switching
 
         # Quick space switching (macOS native)
-        alt - 0x1A : yabai -m space --focus 1   # alt + [
-        alt - 0x1B : yabai -m space --focus 2   # alt + ]
+        alt - 0x21 : yabai -m space --focus 1   # alt + [
+        alt - 0x1E : yabai -m space --focus 2   # alt + ]
         alt - 1 : yabai -m space --focus 1
         alt - 2 : yabai -m space --focus 2
         alt - 3 : yabai -m space --focus 3
@@ -132,7 +133,7 @@ in {
         alt - t : open -a "Ghostty"
         alt - b : open -a "Firefox"
         alt - e : open -a "Finder"
-        alt - r : open -x "com.raycast.macos" 2>/dev/null || open -a "Raycast"
+        alt - r : open -a "Raycast"
         alt - c : open -a "Calculator"
         alt - n : open -a "Notes"
 
@@ -140,8 +141,8 @@ in {
         # Window Resize (manual sizing)
         # ============================================
         # Increase/decrease window size
-        alt - equal : yabai -m window --resize right:20:0; yabai -m window --resize bottom:0:20
-        alt - minus : yabai -m window --resize right:-20:0; yabai -m window --resize bottom:0:-20
+        alt - 0x18 : yabai -m window --resize right:20:0; yabai -m window --resize bottom:0:20
+        alt - 0x1B : yabai -m window --resize right:-20:0; yabai -m window --resize bottom:0:-20
 
         # ============================================
         # System Controls
