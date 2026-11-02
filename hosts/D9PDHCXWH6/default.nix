@@ -72,6 +72,7 @@ in {
       "ghostty"
       "raycast"
       "slack"
+      "visual-studio-code"
     ];
   };
 
