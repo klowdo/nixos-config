@@ -62,9 +62,12 @@ in {
       "koekeishiya/formulae/skhd"
     ];
     casks = [
+      "1password"
+      "1password-cli"
       "amethyst"
       "claude-code"
       "copilot-cli"
+      "docker-desktop"
       "firefox"
       "ghostty"
       "raycast"
