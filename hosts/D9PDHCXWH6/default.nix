@@ -56,6 +56,7 @@ in {
     brews = [
       "gh"
       "go"
+      "resterm"
       "starship"
       "tailscale"
       "koekeishiya/formulae/yabai"
