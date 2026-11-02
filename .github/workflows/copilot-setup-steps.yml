@@ -139,17 +139,17 @@ jobs:
         run: |
           cat > /tmp/nix-context.md << 'EOF'
           # Nix Flakes Environment Setup Complete
-          
+
           ## System Information
           - **Nix Version**: $(nix --version)
           - **Current System**: $(nix eval --impure --expr 'builtins.currentSystem')
           - **Repository**: NixOS dotfiles configuration
-          
+
           ## Flake Structure
           - **Available Hosts**: dellicious, virt-nix, D9PDHCXWH6/Darwin, iso
           - **Locked Inputs**: ✓ flake.lock present
           - **Home Manager Integration**: ✓ enabled
-          
+
           ## Flake Inputs Configured
           - **nixpkgs**: Multiple channels (stable, unstable, unsafe)
           - **Home Manager**: Integrated
@@ -158,14 +158,14 @@ jobs:
           - **Disk Management**: disko
           - **Secrets**: sops-nix
           - **Build System**: Pre-commit hooks
-          
+
           ## Available Development Shells
           Use `nix flake show` to see all available development environments.
-          
+
           ## Cache Configuration
           - **Cache**: klowdo (cachix)
           - **Status**: Configured and ready
-          
+
           ---
           Generated for GitHub Copilot context
           EOF
