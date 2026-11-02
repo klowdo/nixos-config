@@ -760,11 +760,11 @@
         "trouble-nvim": "trouble-nvim"
       },
       "locked": {
-        "lastModified": 1793015577,
-        "narHash": "sha256-m5YJ72YujQ94uUOmAobJ57nHPPdW1+V+R4o7P61iMjk=",
+        "lastModified": 1793264289,
+        "narHash": "sha256-SvCznxAbwwgo01UJrJ9ExBMz8x2t4wbwDVsaG5IcfhM=",
         "owner": "klowdo",
         "repo": "kixvim",
-        "rev": "9b964d34322992b0df09ba57ad8f65ebfade407c",
+        "rev": "abeafc57b77a7f880818bb6933357d9410631132",
         "type": "github"
       },
       "original": {
@@ -816,6 +816,27 @@
         "owner": "soramanew",
         "repo": "m3shapes",
         "rev": "32ad9ce328bb77ed349b40a3be10ee9ea610b8ab",
+        "type": "github"
+      }
+    },
+    "nix-darwin": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1792800221,
+        "narHash": "sha256-53jIZEWNh96irEXhsMZFoNhLJgGSU3nYl1i4wFQHAsU=",
+        "owner": "nix-darwin",
+        "repo": "nix-darwin",
+        "rev": "d31953cf55f9027a56e9be938daf5db8c5655663",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-darwin",
+        "ref": "nix-darwin-26.05",
+        "repo": "nix-darwin",
         "type": "github"
       }
     },
@@ -1285,6 +1306,7 @@
         "hyprpanel": "hyprpanel",
         "kixvim": "kixvim",
         "lanzaboote": "lanzaboote",
+        "nix-darwin": "nix-darwin",
         "nix-flatpak": "nix-flatpak",
         "nix-index-database": "nix-index-database",
         "nix-jetbrains-plugins": "nix-jetbrains-plugins",

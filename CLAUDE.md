@@ -8,10 +8,15 @@ This is a sophisticated NixOS dotfiles configuration using Nix flakes that manag
 
 ## Common Commands
 
-### Primary Build & Deploy (NH Tool)
+### Primary Build & Deploy
 
+**For NixOS (dellicious, virt-nix):**
 - `nh os switch` - Rebuild and switch to new NixOS configuration
 - `nh os test` - Test NixOS configuration without applying changes
+
+**For nix-darwin/macOS (D9PDHCXWH6):**
+- `sudo darwin-rebuild switch --flake .#D9PDHCXWH6` - Rebuild and switch to new Darwin configuration
+- `darwin-rebuild check --flake .#D9PDHCXWH6` - Test configuration without applying changes
 
 ### Legacy Commands (Deprecated)
 
@@ -108,6 +113,7 @@ Identity options:
 
 - `dellicious` - Production Dell XPS 15 with Intel CPU, disabled Nvidia, Hyprland
 - `virt-nix` - Testing virtual machine
+- `D9PDHCXWH6` - Apple Silicon Mac (nix-darwin + Home Manager module, user `FSVENS28`, Homebrew casks); `darwin-rebuild switch --flake .#D9PDHCXWH6`
 - `iso` - Custom installer ISO with disko, YubiKey support, and installation tools
 
 ### Feature System

@@ -25,7 +25,6 @@ in {
         e = "nvim";
         edit = "nvim";
         # dive = "docker run -ti --rm -v /var/run/docker.sock:/var/run/docker.sock wagoodman/dive";
-        dotent = "dotnet"; # because fuck you
 
         # Nvidia specialisation shortcuts
         reboot-nvidia = "sudo bootctl set-oneshot $(bootctl list | grep specialisation-nvidia | head -1 | awk '{print $2}') && reboot";
@@ -63,7 +62,7 @@ in {
       oh-my-zsh = {
         enable = true;
         theme = "robbyrussell";
-        plugins = ["git" "sudo" "dotnet"];
+        plugins = ["git" "sudo"];
       };
     };
   };

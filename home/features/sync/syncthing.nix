@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  options,
   ...
 }:
 with lib; let
@@ -18,93 +19,91 @@ in {
     tray.enable = mkEnableOption "Syncthing tray icon";
   };
 
-  config = mkIf cfg.enable {
-    sops.secrets = {
-      "syncthing/cert" = {
-        mode = "0600";
-      };
-      "syncthing/key" = {
-        mode = "0600";
-      };
-      "syncthing/gui-password" = {
-        mode = "0600";
-      };
-    };
+  config = mkIf cfg.enable ({
+      services.syncthing =
+        {
+          enable = true;
+          inherit (cfg) guiAddress;
+          overrideFolders = true;
+          overrideDevices = true;
 
-    services.syncthing = {
-      enable = true;
-      cert = config.sops.secrets."syncthing/cert".path;
-      key = config.sops.secrets."syncthing/key".path;
-      guiCredentials = {
-        username = "klowdo";
-        passwordFile = config.sops.secrets."syncthing/gui-password".path;
-      };
-      inherit (cfg) guiAddress;
-      overrideFolders = true;
-      overrideDevices = true;
+          settings = {
+            devices = {
+              "pve-server" = {
+                id = "7AQJT3J-3HHVSWQ-XCDTDNM-AU5AEKR-NUILXNJ-JJ3HC32-ZXLL56L-VKISOQP";
+              };
+            };
+            folders = {
+              "Documents" = {
+                id = "documents";
+                path = "~/Documents";
+                devices = ["pve-server"];
+                enable = true;
+                versioning = {
+                  type = "simple";
+                  params.keep = "5";
+                };
+              };
+              "Pictures" = {
+                id = "pictures";
+                path = "~/Pictures";
+                devices = ["pve-server"];
+                enable = true;
+                versioning = {
+                  type = "simple";
+                  params.keep = "5";
+                };
+              };
+              "Notes" = {
+                id = "notes";
+                path = "~/notes";
+                devices = ["pve-server"];
+                enable = true;
+                versioning = {
+                  type = "simple";
+                  params.keep = "5";
+                };
+              };
+              "Keyrings" = {
+                id = "keyrings";
+                path = "~/.local/share/keyrings";
+                devices = ["pve-server"];
+                enable = true;
+                versioning = {
+                  type = "simple";
+                  params.keep = "10";
+                };
+              };
+            };
+            gui = {
+              user = "klowdo";
+              insecureAdminAccess = true;
+            };
+            options = {
+              urAccepted = -1;
+              relaysEnabled = true;
+              localAnnounceEnabled = true;
+            };
+          };
 
-      settings = {
-        devices = {
-          "pve-server" = {
-            id = "7AQJT3J-3HHVSWQ-XCDTDNM-AU5AEKR-NUILXNJ-JJ3HC32-ZXLL56L-VKISOQP";
+          tray = mkIf cfg.tray.enable {
+            enable = true;
+          };
+        }
+        // optionalAttrs (options ? sops) {
+          cert = config.sops.secrets."syncthing/cert".path;
+          key = config.sops.secrets."syncthing/key".path;
+          guiCredentials = {
+            username = "klowdo";
+            passwordFile = config.sops.secrets."syncthing/gui-password".path;
           };
         };
-        folders = {
-          "Documents" = {
-            id = "documents";
-            path = "~/Documents";
-            devices = ["pve-server"];
-            enable = true;
-            versioning = {
-              type = "simple";
-              params.keep = "5";
-            };
-          };
-          "Pictures" = {
-            id = "pictures";
-            path = "~/Pictures";
-            devices = ["pve-server"];
-            enable = true;
-            versioning = {
-              type = "simple";
-              params.keep = "5";
-            };
-          };
-          "Notes" = {
-            id = "notes";
-            path = "~/notes";
-            devices = ["pve-server"];
-            enable = true;
-            versioning = {
-              type = "simple";
-              params.keep = "5";
-            };
-          };
-          "Keyrings" = {
-            id = "keyrings";
-            path = "~/.local/share/keyrings";
-            devices = ["pve-server"];
-            enable = true;
-            versioning = {
-              type = "simple";
-              params.keep = "10";
-            };
-          };
-        };
-        gui = {
-          user = "klowdo";
-          insecureAdminAccess = true;
-        };
-        options = {
-          urAccepted = -1;
-          relaysEnabled = true;
-          localAnnounceEnabled = true;
-        };
+    }
+    // optionalAttrs (options ? sops) {
+      sops.secrets = {
+        "syncthing/cert".mode = "0600";
+        "syncthing/key".mode = "0600";
+        "syncthing/gui-password".mode = "0600";
       };
-
-      tray = mkIf cfg.tray.enable {
-        enable = true;
-      };
-    };
-  };
+    });
 }

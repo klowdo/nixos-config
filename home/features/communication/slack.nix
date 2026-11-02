@@ -14,7 +14,9 @@ in {
       slack
     ];
 
-    systemd.user.services.slack-floating-killer = {
+    # Hyprland integration is Linux/X11 only, so we only configure the systemd service
+    # on Linux systems where Hyprland is available
+    systemd.user.services.slack-floating-killer = mkIf pkgs.stdenv.isLinux {
       Unit = {
         Description = "Kill Slack floating windows on open";
         After = ["graphical-session.target"];

@@ -24,7 +24,7 @@ in {
       nix-search-tv
     ]
     ++ (with inputs.nsearch.packages.${pkgs.stdenv.hostPlatform.system}; [nsearch nrun nshell])
-    ++ [inputs.nixard.packages.${pkgs.stdenv.hostPlatform.system}.default];
+    ++ lib.optional pkgs.stdenv.isLinux inputs.nixard.packages.${pkgs.stdenv.hostPlatform.system}.default;
 
   programs = {
     direnv-instant = {

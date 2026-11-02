@@ -10,20 +10,21 @@ in {
   options.features.cli.tools.enable = mkEnableOption "handy CLI utilities";
 
   config = mkIf cfg.enable {
-    home.packages = with pkgs; [
-      coreutils
-      fd
-      htop
-      httpie
-      jq
-      procs
-      ripgrep
-      tldr
-      zip
-      unp
-      wishlist
-      unstable.witr
-      unstable.isd
-    ];
+    home.packages = with pkgs;
+      [
+        coreutils
+        fd
+        htop
+        httpie
+        jq
+        procs
+        ripgrep
+        tldr
+        zip
+        unp
+        wishlist
+        unstable.witr
+      ]
+      ++ optional pkgs.stdenv.isLinux pkgs.unstable.isd;
   };
 }

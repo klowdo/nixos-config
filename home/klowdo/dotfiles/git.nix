@@ -1,62 +1,69 @@
 {
   pkgs,
   config,
+  lib,
+  options,
   ...
 }: {
-  sops.secrets.".git-credentials" = {
-    sopsFile = ../../../secrets.yaml;
-    mode = "0600";
-    path = ".git-credentials";
-  };
-  home.packages = with pkgs; [
-    git-absorb
-    git-extras
-  ];
-  programs.git = {
-    enable = true;
-    package = pkgs.gitFull;
-    ignores = [".worktrees/"];
-    settings = {
-      user = {
-        name = config.userConfig.fullName;
-        inherit (config.userConfig) email;
-      };
-      alias = {
-        ci = "commit";
-        co = "checkout";
-        st = "status";
-      };
-      init.defaultBranch = "main";
+  config =
+    {
+      home.packages = with pkgs; [
+        git-absorb
+        git-extras
+      ];
+      programs.git = {
+        enable = true;
+        package = pkgs.gitFull;
+        ignores = [".worktrees/"];
+        settings = {
+          user = {
+            name = config.userConfig.fullName;
+            inherit (config.userConfig) email;
+          };
+          alias = {
+            ci = "commit";
+            co = "checkout";
+            st = "status";
+          };
+          init.defaultBranch = "main";
 
-      merge.conflictStyle = "zdiff3";
-      commit.verbose = true;
-      diff.algorithm = "histogram";
-      log.date = "iso";
-      column.ui = "auto";
-      branch.sort = "committerdate";
-      push.autoSetupRemote = true;
-      rerere.enabled = true;
-      rebase.updateRefs = true;
-      pull.rebase = true;
-      credential.helper = "store";
-      url."git@github.com:".insteadOf = "https://github.com/";
-    };
-    includes = [
-      {
-        condition = "gitdir:~/dev/work/";
-        contents = {
-          user.email = "felix@flixen.se";
+          merge.conflictStyle = "zdiff3";
+          commit.verbose = true;
+          diff.algorithm = "histogram";
+          log.date = "iso";
+          column.ui = "auto";
+          branch.sort = "committerdate";
+          push.autoSetupRemote = true;
+          rerere.enabled = true;
+          rebase.updateRefs = true;
+          pull.rebase = true;
+          credential.helper = "store";
+          url."git@github.com:volvo-cars/".insteadOf = "https://github.com/volvo-cars/";
         };
-      }
-      {
-        condition = "gitdir:~/dev/work/";
-        path = "~/dev/work/.gitconfig";
-      }
-    ];
-  };
+        includes = [
+          {
+            condition = "gitdir:~/dev/work/";
+            contents = {
+              user.email = "felix@flixen.se";
+            };
+          }
+          {
+            condition = "gitdir:~/dev/work/";
+            path = "~/dev/work/.gitconfig";
+          }
+        ];
+      };
 
-  programs.difftastic = {
-    enable = true;
-    git.enable = true;
-  };
+      programs.difftastic = {
+        enable = true;
+        git.enable = true;
+      };
+    }
+    // lib.optionalAttrs (options ? sops) {
+      sops.secrets.".git-credentials" = {
+        sopsFile = ../../../secrets.yaml;
+        mode = "0600";
+        path = ".git-credentials";
+      };
+    };
 }
