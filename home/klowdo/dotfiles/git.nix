@@ -38,7 +38,7 @@
           rebase.updateRefs = true;
           pull.rebase = true;
           credential.helper = "store";
-          url."git@github.com:".insteadOf = "https://github.com/";
+          url."git@github.com:volvo-cars/".insteadOf = "https://github.com/volvo-cars/";
         };
         includes = [
           {
