@@ -97,22 +97,14 @@ in {
         # ============================================
         # Workspace Navigation (Hyprland Super+[0-9])
         # ============================================
-        # macOS uses Spaces (Mission Control)
-        # These require System Preferences → Keyboard → Shortcuts to be configured
-        # Or use built-in Space switching
+        # macOS uses Spaces (Mission Control). Configure native Option+1–9
+        # in System Settings → Keyboard → Keyboard Shortcuts → Mission Control.
 
-        # Quick space switching (macOS native)
+        # Quick space switching via yabai (may fail on newer macOS releases)
         alt - 0x21 : yabai -m space --focus 1   # alt + [
         alt - 0x1E : yabai -m space --focus 2   # alt + ]
-        alt - 1 : yabai -m space --focus 1
-        alt - 2 : yabai -m space --focus 2
-        alt - 3 : yabai -m space --focus 3
-        alt - 4 : yabai -m space --focus 4
-        alt - 5 : yabai -m space --focus 5
-        alt - 6 : yabai -m space --focus 6
-        alt - 7 : yabai -m space --focus 7
-        alt - 8 : yabai -m space --focus 8
-        alt - 9 : yabai -m space --focus 9
+        # Option+1–9 are handled by macOS Mission Control shortcuts instead.
+        # Do not intercept them here: yabai's space --focus can silently fail.
 
         # ============================================
         # Move Window to Workspace

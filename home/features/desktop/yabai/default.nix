@@ -113,7 +113,8 @@ in {
         - Hyprland: Super+F → Yabai: Option+F (toggle fullscreen)
 
         ### Workspace Controls
-        - Hyprland: Super+[0-9] → Yabai: Option+[1-9] (switch workspace/space)
+        - Hyprland: Super+[0-9] → macOS Mission Control: Option+[1-9] (switch desktop)
+        - Set these in System Settings → Keyboard → Keyboard Shortcuts → Mission Control → Switch to Desktop 1–9. They are native macOS shortcuts, not skhd/yabai bindings. The entry for a desktop may appear only after that desktop exists.
         - Hyprland: Super+Shift+Alt+[0-9] → Yabai: Option+Shift+Cmd+[1-9] (move to workspace)
 
         ### Layout Controls
