@@ -13,6 +13,7 @@ with lib; let
       "*" = {
         header = "Host *";
         AddKeysToAgent = "yes";
+        UseKeychain = "yes";
         ForwardAgent = "yes";
         UserKnownHostsFile = "~/.ssh/known_hosts";
         KnownHostsCommand = "${pkgs.bash}/bin/bash -c '${pkgs.coreutils}/bin/cat ~/.ssh/known_hosts.d/* 2>/dev/null || true'";
