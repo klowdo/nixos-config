@@ -62,6 +62,7 @@
     ../common/optional/swaylock.nix
     ../common/optional/power-profiles-daemon.nix
     ../common/optional/powertop.nix
+    ../common/optional/battery-charge-limit.nix
     ../common/optional/systemd-notify.nix
     ../common/optional/thyx.nix
     ../common/optional/greetd.nix
@@ -91,6 +92,7 @@
     # auto-cpufreq.enable = true;
     power-profiles-daemon.enable = true;
     powertop.enable = true;
+    battery-charge-limit.enable = true;
     # strongSwan.enable = true;
     ly.enable = false;
     greetd.enable = false;
