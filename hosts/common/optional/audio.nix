@@ -159,28 +159,28 @@ in {
         };
 
         # Disable HDMI outputs on onboard audio
-        "52-alsa-disable" = {
-          "monitor.alsa.rules" = [
-            {
-              matches = [
-                {
-                  "node.name" = "alsa_output.pci-0000_00_1f.3-platform-skl_hda_dsp_generic.HiFi__HDMI1__sink";
-                }
-                {
-                  "node.name" = "alsa_output.pci-0000_00_1f.3-platform-skl_hda_dsp_generic.HiFi__HDMI2__sink";
-                }
-                {
-                  "node.name" = "alsa_output.pci-0000_00_1f.3-platform-skl_hda_dsp_generic.HiFi__HDMI3__sink";
-                }
-              ];
-              actions = {
-                "update-props" = {
-                  "node.disabled" = true;
-                };
-              };
-            }
-          ];
-        };
+        # "52-alsa-disable" = {
+        # "monitor.alsa.rules" = [
+        # {
+        # matches = [
+        # {
+        # "node.name" = "alsa_output.pci-0000_00_1f.3-platform-skl_hda_dsp_generic.HiFi__HDMI1__sink";
+        # }
+        # {
+        # "node.name" = "alsa_output.pci-0000_00_1f.3-platform-skl_hda_dsp_generic.HiFi__HDMI2__sink";
+        # }
+        # {
+        # "node.name" = "alsa_output.pci-0000_00_1f.3-platform-skl_hda_dsp_generic.HiFi__HDMI3__sink";
+        # }
+        # ];
+        # actions = {
+        # "update-props" = {
+        # "node.disabled" = true;
+        # };
+        # };
+        # }
+        # ];
+        # };
 
         # Onboard audio and HP monitor configuration
         "52-onboard-rename" = {
