@@ -31,6 +31,7 @@ in {
 
     # Environment variables for SSH agent integration
     programs.ssh.startAgent = false; # Disable default SSH agent to use GNOME Keyring
+    programs.ssh.askPassword = "${pkgs.seahorse}/libexec/seahorse/ssh-askpass";
     environment.variables = {
       SSH_AUTH_SOCK = "$XDG_RUNTIME_DIR/keyring/ssh";
     };
