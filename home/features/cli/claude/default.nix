@@ -111,7 +111,7 @@ in {
 
       home = {
         packages =
-          [pkgs.unstable.rtk pkgs.jq pkgs.codegraph unifiClaude]
+          [pkgs.unstable.rtk pkgs.jq pkgs.codegraph pkgs.kanzo unifiClaude]
           ++ (with pkgs;
             optionals cfg.enableNotifications [
               libnotify
@@ -155,6 +155,11 @@ in {
               DO_NOT_TRACK = "1";
             };
           };
+          kanzo = {
+            type = "stdio";
+            command = "${pkgs.kanzo}/bin/kanzo";
+            args = ["mcp"];
+          };
         };
 
         # Settings reference: https://code.claude.com/docs/en/settings
@@ -182,6 +187,7 @@ in {
               "mcp__codegraph__codegraph_callees"
               "mcp__codegraph__codegraph_impact"
               "mcp__unifi-network__*"
+              "mcp__kanzo__*"
               "Bash(git status*)"
               "Bash(git diff*)"
               "Bash(git log*)"

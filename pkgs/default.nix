@@ -25,6 +25,7 @@
   hyprmoncfg = pkgs.callPackage ./hyprmoncfg {};
   tmux-file-picker = pkgs.callPackage ./tmux-file-picker {};
   munder-difflin = pkgs.callPackage ./munder-difflin {};
+  kanzo = pkgs.callPackage ./kanzo {};
   fp-clear-storage = pkgs.callPackage ./fp-clear-storage {};
   gh-enhance = pkgs.unstable.callPackage ./gh-enhance {buildGoModule = pkgs.unstable.buildGo127Module;};
   herdr-bar = pkgs.callPackage ./herdr/herdr-bar {};
