@@ -251,8 +251,15 @@ in {
             "i-have-adhd@i-have-adhd" = true;
             "claude-mem@thedotmack" = false;
             "flightdeck@claude-flightdeck" = true;
+            "mattpocock-skills@mattpocock" = true;
           };
           extraKnownMarketplaces = {
+            mattpocock = {
+              source = {
+                source = "github";
+                repo = "mattpocock/skills";
+              };
+            };
             caveman = {
               source = {
                 source = "github";
