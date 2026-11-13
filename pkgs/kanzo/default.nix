@@ -6,11 +6,11 @@
 }:
 stdenvNoCC.mkDerivation (finalAttrs: {
   pname = "kanzo";
-  version = "0.4.1";
+  version = "0.4.2";
 
   src = fetchurl {
     url = "https://github.com/emanuele-em/kanzo/releases/download/v${finalAttrs.version}/kanzo-x86_64-unknown-linux-musl.tar.xz";
-    hash = "sha256-ZgYi+bNm1aRZtbhQsXc3D3bhjZgZmT0PD6vOAK4HbEE=";
+    hash = "sha256-FGwk6TyUMVj66P418HD0lBSh9HVIMjEjYduoldPL7+o=";
   };
 
   installPhase = ''
