@@ -249,6 +249,7 @@ in {
             "caveman@caveman" = false;
             "ponytail@ponytail" = true;
             "i-have-adhd@i-have-adhd" = true;
+            "tokeneconomizer@tokeneconomizer" = true;
             "claude-mem@thedotmack" = false;
             "flightdeck@claude-flightdeck" = true;
             "mattpocock-skills@mattpocock" = true;
@@ -264,6 +265,12 @@ in {
               source = {
                 source = "github";
                 repo = "JuliusBrussee/caveman";
+              };
+            };
+            tokeneconomizer = {
+              source = {
+                source = "github";
+                repo = "microsoft/TokenEconomizer";
               };
             };
             i-have-adhd = {
@@ -318,6 +325,7 @@ in {
           env = {
             CLAUDE_BASH_MAINTAIN_PROJECT_WORKING_DIR = "1";
             ENABLE_LSP_TOOL = "1";
+            TE_PYTHON = "${pkgs.python3}/bin/python3";
           };
           statusLine = {
             type = "command";
