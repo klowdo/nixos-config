@@ -8,13 +8,13 @@
 }:
 stdenvNoCC.mkDerivation (finalAttrs: {
   pname = "shepherdr";
-  version = "3.1.44";
+  version = "3.1.45";
 
   src = fetchFromGitHub {
     owner = "eliasstravik";
     repo = "shepherdr";
     rev = "v${finalAttrs.version}";
-    hash = "sha256-x6/nO0wuVBVUg+oa3If9LJafdTzTASykjZ8GQxw/lM0=";
+    hash = "sha256-U3pVQi/+41FhQlBrNup3MKGVAF/vNc/C+pX8zszBR+s=";
   };
 
   node_modules = stdenvNoCC.mkDerivation {
