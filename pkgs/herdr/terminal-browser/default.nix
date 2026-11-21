@@ -30,11 +30,11 @@
 }:
 stdenv.mkDerivation (finalAttrs: {
   pname = "terminal-browser";
-  version = "0.15.7";
+  version = "0.15.9";
 
   src = fetchzip {
     url = "https://github.com/zenbu-labs/terminal-browser/releases/download/v${finalAttrs.version}/terminal-browser-linux-x64.tar.gz";
-    hash = "sha256-Y3X/VBuw+z83OABpWxqg5TB/ZJFB+C9TBNPuzeeEn1o=";
+    hash = "sha256-7TesNu25PuRXpi2+WTO+8S3a3e7HBqRYCTwmOQbqfF0=";
   };
 
   nativeBuildInputs = [autoPatchelfHook];
