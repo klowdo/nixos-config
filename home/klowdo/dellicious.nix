@@ -154,7 +154,6 @@
         url = "https://music.home.flixen.se";
       };
       pinta.enable = true;
-      brave.enable = true;
     };
     communication = {
       zoom.enable = false;

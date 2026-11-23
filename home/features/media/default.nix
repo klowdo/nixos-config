@@ -7,6 +7,5 @@
     ./firefox.nix
     ./pinta.nix
     ./music-assistant.nix
-    ./brave.nix
   ];
 }
